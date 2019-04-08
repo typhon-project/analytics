@@ -2,11 +2,10 @@ package ac.uk.york.typhon.query.generator.helper;
 
 public interface GeneratorConstants {
 
-	public interface CSV {
-		String FILE_NAME = "non_fnc_events.csv";
+	public interface FileNames {
+		String RAW_CSV_FIELDS_FILE_NAME = "non_fnc_events.csv";
+		String SQL_LOG_FILE_NAME = "sky.csv";
+		
 	}
 
-	public interface Queue {
-		String NAME = "wiki-result";
-	}
 }

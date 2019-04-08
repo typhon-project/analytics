@@ -1,0 +1,58 @@
+yy,mm,dd,hh,mi,ss,seq,theTime,logID,clientIP,requestor,server,dbname,access,elapsed,busy,rows,statement,error,errorMessage,isvisible
+2019,4,8,11,4,54,2311470389,4/8/2019 11:04:55 AM,2079,172.23.250.206,skyserver.sdss.org,SDSS3S,BestDR6,public,0.03,1E-3,1,"SELECT  top 1 '<a target=INFO href=http://skyserver.sdss.org/dr6/en/tools/explore/obj.asp?id=' + cast(p.objId as varchar(20)) + '>' + cast(p.objId as varchar(20)) + '</a>' as objID,
+   p.run, p.rerun, p.camcol, p.field, p.obj,
+   p.type, p.ra, p.dec, p.u,p.g,p.r,p.i,p.z,
+   p.Err_u, p.Err_g, p.Err_r,p.Err_i,p.Err_z
+   FROM fGetNearbyObjEq(195,2.5,0.5) n, PhotoPrimary p
+   WHERE n.objID=p.objID   ",0,,1
+2019,4,8,11,4,54,2311470388,4/8/2019 11:04:55 AM,2079,172.23.250.207,cas.sdss.org,SDSS3S,BestDR4,public,0.033,1E-3,1,"SELECT  top 1 '<a target=INFO href=http://cas.sdss.org/dr4/en/tools/explore/obj.asp?id=' + cast(p.objId as varchar(20)) + '>' + cast(p.objId as varchar(20)) + '</a>' as objID,
+   p.run, p.rerun, p.camcol, p.field, p.obj,
+   p.type, p.ra, p.dec, p.u,p.g,p.r,p.i,p.z,
+   p.Err_u, p.Err_g, p.Err_r,p.Err_i,p.Err_z
+   FROM fGetNearbyObjEq(195,2.5,0.5) n, PhotoPrimary p
+   WHERE n.objID=p.objID   ",0,,1
+2019,4,8,11,4,54,2311470387,4/8/2019 11:04:55 AM,2079,128.220.146.112,skyserver.sdss.org,SDSS3S,BestDR6,public,0.016,1E-3,1,"SELECT  top 1 '<a target=INFO href=http://skyserver.sdss.org/dr6/en/tools/explore/obj.asp?id=' + cast(p.objId as varchar(20)) + '>' + cast(p.objId as varchar(20)) + '</a>' as objID,
+   p.run, p.rerun, p.camcol, p.field, p.obj,
+   p.type, p.ra, p.dec, p.u,p.g,p.r,p.i,p.z,
+   p.Err_u, p.Err_g, p.Err_r,p.Err_i,p.Err_z
+   FROM fGetNearbyObjEq(195,2.5,0.5) n, PhotoPrimary p
+   WHERE n.objID=p.objID   ",0,,1
+2019,4,8,11,4,54,2311470386,4/8/2019 11:04:55 AM,2079,172.23.250.207,cas.sdss.org,SDSS3S,BestDR1,public,0.033,1E-3,1,"SELECT  top 1   p.objID, p.run, p.rerun, p.camcol, p.field, p.obj,
+   p.type, p.ra, p.dec, p.u,p.g,p.r,p.i,p.z,
+   p.Err_u, p.Err_g, p.Err_r,p.Err_i,p.Err_z
+   FROM fGetNearbyObjEq(195,2.5,0.5) n, PhotoPrimary p
+   WHERE n.objID=p.objID   ",0,,1
+2019,4,8,11,4,54,2311470385,4/8/2019 11:04:55 AM,2079,172.23.250.207,cas.sdss.org,SDSS3S,BestDR4,public,0.013,0,1,"SELECT  top 1 '<a target=INFO href=http://cas.sdss.org/dr4/en/tools/explore/obj.asp?id=' + cast(p.objId as varchar(20)) + '>' + cast(p.objId as varchar(20)) + '</a>' as objID,
+   p.run, p.rerun, p.camcol, p.field, p.obj,
+   p.type, p.ra, p.dec, p.u,p.g,p.r,p.i,p.z,
+   p.Err_u, p.Err_g, p.Err_r,p.Err_i,p.Err_z
+   FROM fGetNearbyObjEq(195,2.5,0.5) n, PhotoPrimary p
+   WHERE n.objID=p.objID   ",0,,1
+2019,4,8,11,4,54,2311470384,4/8/2019 11:04:55 AM,2079,172.23.250.207,skyserver.sdss.org,SDSS3S,BestDR5,public,0.046,0,1,"SELECT  top 1 '<a target=INFO href=http://skyserver.sdss.org/dr5/en/tools/explore/obj.asp?id=' + cast(p.objId as varchar(20)) + '>' + cast(p.objId as varchar(20)) + '</a>' as objID,
+   p.run, p.rerun, p.camcol, p.field, p.obj,
+   p.type, p.ra, p.dec, p.u,p.g,p.r,p.i,p.z,
+   p.Err_u, p.Err_g, p.Err_r,p.Err_i,p.Err_z
+   FROM fGetNearbyObjEq(195,2.5,0.5) n, PhotoPrimary p
+   WHERE n.objID=p.objID   ",0,,1
+2019,4,8,11,4,54,2311470383,4/8/2019 11:04:55 AM,2079,172.23.250.207,skyserver.sdss.org,SDSS3S,BestDR1,public,0.033,1E-3,1,"SELECT  top 1   p.objID, p.run, p.rerun, p.camcol, p.field, p.obj,
+   p.type, p.ra, p.dec, p.u,p.g,p.r,p.i,p.z,
+   p.Err_u, p.Err_g, p.Err_r,p.Err_i,p.Err_z
+   FROM fGetNearbyObjEq(195,2.5,0.5) n, PhotoPrimary p
+   WHERE n.objID=p.objID   ",0,,1
+2019,4,8,11,4,54,2311470382,4/8/2019 11:04:55 AM,2079,172.23.250.206,cas.sdss.org,SDSS3S,BestDR1,public,0.013,0,1,"SELECT  top 1   p.objID, p.run, p.rerun, p.camcol, p.field, p.obj,
+   p.type, p.ra, p.dec, p.u,p.g,p.r,p.i,p.z,
+   p.Err_u, p.Err_g, p.Err_r,p.Err_i,p.Err_z
+   FROM fGetNearbyObjEq(195,2.5,0.5) n, PhotoPrimary p
+   WHERE n.objID=p.objID   ",0,,1
+2019,4,8,11,4,48,2311470390,4/8/2019 11:04:48 AM,2079,128.220.146.112,cas.sdss.org,SDSS3S,BestDR3,public,0.11,0,1,"SELECT  top 1 '<a target=INFO href=http://cas.sdss.org/dr3/en/tools/explore/obj.asp?id=' + cast(p.objId as varchar(20)) + '>' + cast(p.objId as varchar(20)) + '</a>' as objID,
+   p.run, p.rerun, p.camcol, p.field, p.obj,
+   p.type, p.ra, p.dec, p.u,p.g,p.r,p.i,p.z,
+   p.Err_u, p.Err_g, p.Err_r,p.Err_i,p.Err_z
+   FROM fGetNearbyObjEq(195,2.5,0.5) n, PhotoPrimary p
+   WHERE n.objID=p.objID   ",0,,1
+2019,4,8,11,4,47,2311470392,4/8/2019 11:04:48 AM,2079,172.23.250.206,cas.sdss.org,SDSS3S,BestDR6,public,0.033,0,1,"SELECT  top 1 '<a target=INFO href=http://cas.sdss.org/dr6/en/tools/explore/obj.asp?id=' + cast(p.objId as varchar(20)) + '>' + cast(p.objId as varchar(20)) + '</a>' as objID,
+   p.run, p.rerun, p.camcol, p.field, p.obj,
+   p.type, p.ra, p.dec, p.u,p.g,p.r,p.i,p.z,
+   p.Err_u, p.Err_g, p.Err_r,p.Err_i,p.Err_z
+   FROM fGetNearbyObjEq(195,2.5,0.5) n, PhotoPrimary p
+   WHERE n.objID=p.objID   ",0,,1

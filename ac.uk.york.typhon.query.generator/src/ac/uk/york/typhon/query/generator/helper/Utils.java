@@ -1,13 +1,46 @@
 package ac.uk.york.typhon.query.generator.helper;
 
 import java.lang.reflect.Field;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
 
 public class Utils {
 
-	public static void prepareStatement() {
+	private static Random random = new Random();
+
+	public static String generateRandomId() {
+
+		return String.valueOf(Math.abs(random.nextLong()));
 	}
+
+	public static Timestamp generateTimeStamp() {
+
+		Date date = new Date();
+		long time = date.getTime();
+		Timestamp ts = new Timestamp(time);
+
+		return ts;
+	}
+	
+	public static Timestamp convertStringToTimeStamp(String dateStr) throws ParseException {
+
+		String pattern = "yyyy-MM-dd hh:mm:ss";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+		Date date = simpleDateFormat.parse(dateStr);
+		
+	
+		long time = date.getTime();
+		Timestamp ts = new Timestamp(time);
+
+		return ts;
+	}
+
 
 	public static boolean isAnyFieldEmpty(Object obj) {
 		boolean isEmptyFieldFlag = false;
