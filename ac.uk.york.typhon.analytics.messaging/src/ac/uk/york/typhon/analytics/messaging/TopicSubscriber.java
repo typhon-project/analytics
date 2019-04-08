@@ -15,7 +15,7 @@ import ac.uk.york.typhon.analytics.commons.serialization.EventSchema;
 
 public class TopicSubscriber {
 
-//	private static Map<ITopicType, Class<?>> topicEventMap;
+	// private static Map<ITopicType, Class<?>> topicEventMap;
 	private static Map<ITopicType, FlinkKafkaConsumer09<Event>> topicStreamConsumerMap;
 
 	static {
@@ -28,17 +28,17 @@ public class TopicSubscriber {
 	private static void initialize() {
 		topicStreamConsumerMap = new HashMap<ITopicType, FlinkKafkaConsumer09<Event>>();
 
-//		topicEventMap = new HashMap<ITopicType, Class<?>>();
-//		topicEventMap.put(AnalyticTopicType.PRE, PreEvent.class);
-//		System.out.println("-------------- Watch OUT I don't have access to the Authorization Topic Type - Topic Subscriber");
-////		topicEventMap.put(ExternalTopicType.AUTHORIZATION, PreEvent.class);
-//		topicEventMap.put(AnalyticTopicType.POST, PostEvent.class);
-		
-		
-//		topicEventMap = new HashMap<Constants.TopicName, Class<?>>();
-//		topicEventMap.put(Constants.TopicName.PRE, PreEvent.class);
-//		topicEventMap.put(Constants.TopicName.AUTHORIZATION, PreEvent.class);
-//		topicEventMap.put(Constants.TopicName.POST, PostEvent.class);
+		// topicEventMap = new HashMap<ITopicType, Class<?>>();
+		// topicEventMap.put(AnalyticTopicType.PRE, PreEvent.class);
+		// System.out.println("-------------- Watch OUT I don't have access to the Authorization Topic Type - Topic Subscriber");
+		// // topicEventMap.put(ExternalTopicType.AUTHORIZATION,
+		// PreEvent.class);
+		// topicEventMap.put(AnalyticTopicType.POST, PostEvent.class);
+
+		// topicEventMap = new HashMap<Constants.TopicName, Class<?>>();
+		// topicEventMap.put(Constants.TopicName.PRE, PreEvent.class);
+		// topicEventMap.put(Constants.TopicName.AUTHORIZATION, PreEvent.class);
+		// topicEventMap.put(Constants.TopicName.POST, PostEvent.class);
 	}
 
 	/**
@@ -71,9 +71,9 @@ public class TopicSubscriber {
 					AppConfiguration.getString(Constants.Properties.Topic
 							.name(topic.getLabel()).AUTO_OFFSET_RESET));
 
-//			topicConsumer = new FlinkKafkaConsumer09<Event>(topic.getLabel(),
-//					new EventSchema(topicEventMap.get(topic)), properties);
-			
+			// topicConsumer = new FlinkKafkaConsumer09<Event>(topic.getLabel(),
+			// new EventSchema(topicEventMap.get(topic)), properties);
+
 			topicConsumer = new FlinkKafkaConsumer09<Event>(topic.getLabel(),
 					new EventSchema(eventClass), properties);
 
