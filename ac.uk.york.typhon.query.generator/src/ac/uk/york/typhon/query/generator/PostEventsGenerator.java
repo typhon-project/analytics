@@ -7,7 +7,6 @@ import java.util.Random;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.streaming.api.datastream.DataStream;
 
-import ac.uk.york.typhon.analytics.commons.Constants;
 import ac.uk.york.typhon.analytics.commons.datatypes.commands.DMLCommand;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.PostEvent;

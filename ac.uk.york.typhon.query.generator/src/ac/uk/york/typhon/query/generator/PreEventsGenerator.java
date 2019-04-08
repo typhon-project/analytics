@@ -15,10 +15,10 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import ac.uk.york.typhon.analytics.messaging.TopicPublisher;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.PreEvent;
 import ac.uk.york.typhon.analytics.commons.enums.AnalyticTopicType;
+import ac.uk.york.typhon.analytics.messaging.TopicPublisher;
 import ac.uk.york.typhon.query.generator.helper.GeneratorConstants;
 import ac.uk.york.typhon.query.generator.sqlbuilder.StatementFactory;
 

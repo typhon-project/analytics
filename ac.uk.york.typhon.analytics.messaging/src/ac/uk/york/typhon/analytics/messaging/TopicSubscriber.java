@@ -4,16 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.camel.language.Constant;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer09;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 
 import ac.uk.york.typhon.analytics.commons.AppConfiguration;
 import ac.uk.york.typhon.analytics.commons.Constants;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
-import ac.uk.york.typhon.analytics.commons.datatypes.events.PostEvent;
-import ac.uk.york.typhon.analytics.commons.datatypes.events.PreEvent;
-import ac.uk.york.typhon.analytics.commons.enums.AnalyticTopicType;
 import ac.uk.york.typhon.analytics.commons.enums.ITopicType;
 import ac.uk.york.typhon.analytics.commons.serialization.EventSchema;
 
