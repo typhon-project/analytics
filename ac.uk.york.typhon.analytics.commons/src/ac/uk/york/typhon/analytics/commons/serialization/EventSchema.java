@@ -10,7 +10,7 @@ import org.apache.flink.api.java.typeutils.TypeExtractor;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.Serializer;
 
-import ac.uk.york.typhon.analytics.commons.datatypes.Event;
+import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

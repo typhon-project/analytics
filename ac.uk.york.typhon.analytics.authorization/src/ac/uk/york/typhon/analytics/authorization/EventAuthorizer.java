@@ -5,10 +5,10 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 
 import ac.uk.york.typhon.analytics.authorization.commons.enums.ExternalTopicType;
 import ac.uk.york.typhon.analytics.commons.Constants;
-import ac.uk.york.typhon.analytics.commons.datatypes.Event;
-import ac.uk.york.typhon.analytics.commons.datatypes.PreEvent;
+import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
+import ac.uk.york.typhon.analytics.commons.datatypes.events.PreEvent;
 import ac.uk.york.typhon.analytics.commons.enums.AnalyticTopicType;
-import ac.uk.york.typhon.analytics.topic.StreamManager;
+import ac.uk.york.typhon.analytics.messaging.StreamManager;
 
 public class EventAuthorizer {
 
