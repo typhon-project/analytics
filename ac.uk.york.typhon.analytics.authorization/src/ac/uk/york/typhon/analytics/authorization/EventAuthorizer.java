@@ -32,13 +32,15 @@ public class EventAuthorizer {
 //			}
 //		}).returns(Event.class);
 		
+		ExampleEventAuthTask1 ex1 = new ExampleEventAuthTask1();
+		
 		SplitStream<Event> split = dataStream.split(new OutputSelector<Event>() {
 			
 			@Override
 			public Iterable<String> select(Event event) {
 				List<String> output = new ArrayList<String>();
-		        if (event.getQuery().toLowerCase().contains("select")) {
-		            output.add("selects");
+		        if (ex1.checkCondition(event)) {
+		            output.add("ex1");
 		        }
 		        else {
 		            output.add("other");
@@ -47,10 +49,9 @@ public class EventAuthorizer {
 			}
 		});
 		
-		DataStream<Event> otherStatements = split.select("other");
+		DataStream<Event> ex1Statements = split.select("ex1");
 
-		StreamManager.initializeSink(ExternalTopicType.AUTHORIZATION,
-				otherStatements);
+		StreamManager.initializeSink(ExternalTopicType.AUTHORIZATION,ex1Statements);
 
 		StreamManager.startExecutionEnvironment(AnalyticTopicType.PRE );
 

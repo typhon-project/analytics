@@ -49,7 +49,7 @@ public class CsvSourceImpl extends SourceImpl implements ISource {
 
 					TopicPublisher.publish(AnalyticTopicType.PRE, preEvent);
 
-					Thread.sleep(RandomUtils.nextLong(0, 2000));
+					Thread.sleep(RandomUtils.nextLong(0, 1000));
 
 				}
 			}
