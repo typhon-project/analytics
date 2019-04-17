@@ -3,7 +3,7 @@ package ac.uk.york.typhon.analytics.authorization.commons.enums;
 import ac.uk.york.typhon.analytics.commons.enums.ITopicType;
 
 public enum ExternalTopicType implements ITopicType {
-	AUTHORIZATION;
+	AUTHORIZATION, RESULTS;
 
 //	@Override
 //	public String getLabel() {

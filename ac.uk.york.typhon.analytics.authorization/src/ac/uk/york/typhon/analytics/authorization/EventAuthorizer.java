@@ -50,8 +50,9 @@ public class EventAuthorizer {
 		});
 		
 		DataStream<Event> ex1Statements = split.select("ex1");
+		DataStream<Event> ex1StatementsAnalysis = ex1.analyse(ex1Statements);
 
-		StreamManager.initializeSink(ExternalTopicType.AUTHORIZATION,ex1Statements);
+		StreamManager.initializeSink(ExternalTopicType.AUTHORIZATION, ex1StatementsAnalysis);
 
 		StreamManager.startExecutionEnvironment(AnalyticTopicType.PRE );
 
