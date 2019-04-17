@@ -2,6 +2,9 @@ package ac.uk.york.typhon.analytics.commons.datatypes.commands;
 
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
+@JsonTypeName("update")
 public class UpdateCommand extends DMLCommand {
 
 	ArrayList<Entity> updatedEntities, oldEntities;
@@ -29,5 +32,13 @@ public class UpdateCommand extends DMLCommand {
 		this.populatePilesFromSqlStatement(sql);
 		System.out.println("Event: Update  " + this.piles);
 
+	}
+
+	@Override
+	public String toString() {
+		return "UpdateCommand [updatedEntities=" + updatedEntities
+				+ ", oldEntities=" + oldEntities + ", piles=" + piles
+				+ ", columns=" + columns + ", clause=" + clause + ", targetDb="
+				+ targetDb + "]";
 	}
 }

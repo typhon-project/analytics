@@ -31,6 +31,7 @@ public class EventAuthorizer {
 //				return event;
 //			}
 //		}).returns(Event.class);
+//		StreamManager.initializeSink(ExternalTopicType.AUTHORIZATION, dataStream);
 		
 		ExampleEventAuthTask1 ex1 = new ExampleEventAuthTask1();
 		
@@ -51,9 +52,8 @@ public class EventAuthorizer {
 		
 		DataStream<Event> ex1Statements = split.select("ex1");
 		DataStream<Event> ex1StatementsAnalysis = ex1.analyse(ex1Statements);
-
 		StreamManager.initializeSink(ExternalTopicType.AUTHORIZATION, ex1StatementsAnalysis);
-
+		
 		StreamManager.startExecutionEnvironment(AnalyticTopicType.PRE );
 
 	}

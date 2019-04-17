@@ -74,7 +74,11 @@ public class EventSchema implements DeserializationSchema<Event>, Deserializer,
 
 		Event event = null;
 		try {
-			event = (Event) objectMapper.readValue(message, this.eventClass);
+
+			if (message != null) {
+				event = (Event) objectMapper
+						.readValue(message, this.eventClass);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

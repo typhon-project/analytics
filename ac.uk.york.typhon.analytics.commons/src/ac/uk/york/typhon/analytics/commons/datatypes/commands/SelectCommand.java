@@ -2,6 +2,9 @@ package ac.uk.york.typhon.analytics.commons.datatypes.commands;
 
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
+@JsonTypeName("select")
 public class SelectCommand extends DMLCommand {
 
 	ArrayList<Entity> returnedEntities;
@@ -20,6 +23,13 @@ public class SelectCommand extends DMLCommand {
 		this.populatePilesFromSqlStatement(sql);
 		System.out.println("Event: Select  " + this.piles);
 
+	}
+
+	@Override
+	public String toString() {
+		return "SelectCommand [returnedEntities=" + returnedEntities
+				+ ", piles=" + piles + ", columns=" + columns + ", clause="
+				+ clause + ", targetDb=" + targetDb + "]";
 	}
 
 }

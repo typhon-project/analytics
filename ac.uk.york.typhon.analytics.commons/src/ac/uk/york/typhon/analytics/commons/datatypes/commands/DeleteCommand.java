@@ -2,6 +2,9 @@ package ac.uk.york.typhon.analytics.commons.datatypes.commands;
 
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
+@JsonTypeName("delete")
 public class DeleteCommand extends DMLCommand {
 
 	ArrayList<Entity> deletedEntities;
@@ -21,6 +24,13 @@ public class DeleteCommand extends DMLCommand {
 		this.populatePilesFromSqlStatement(sql);
 		System.out.println("Event: Delete  " + this.piles);
 
+	}
+
+	@Override
+	public String toString() {
+		return "DeleteCommand [deletedEntities=" + deletedEntities + ", piles="
+				+ piles + ", columns=" + columns + ", clause=" + clause
+				+ ", targetDb=" + targetDb + "]";
 	}
 
 }
