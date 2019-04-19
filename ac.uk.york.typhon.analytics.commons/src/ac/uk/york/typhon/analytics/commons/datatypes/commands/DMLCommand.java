@@ -61,8 +61,6 @@ public abstract class DMLCommand {
 	public void populatePilesFromSqlStatement(String sql) {
 		try {
 			Statement statement = CCJSqlParserUtil.parse(sql);
-		
-			System.out.println(statement.getClass().getSimpleName());
 			TablesNamesFinder tablesNamesFinder = new TablesNamesFinder();
 			List<String> tableNamesList = tablesNamesFinder
 					.getTableList(statement);

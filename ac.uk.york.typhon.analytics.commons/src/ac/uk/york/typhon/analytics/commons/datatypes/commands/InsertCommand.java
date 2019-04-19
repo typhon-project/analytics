@@ -22,7 +22,7 @@ public class InsertCommand extends DMLCommand {
 		// Use this function to populate Insert related fields
 
 		this.populatePilesFromSqlStatement(sql);
-		System.out.println("Event: Insert  " + this.piles);
+//		System.out.println("Event: Insert  " + this.piles);
 
 	}
 

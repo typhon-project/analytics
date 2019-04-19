@@ -30,7 +30,7 @@ public class UpdateCommand extends DMLCommand {
 		// Use this function to populate Update related fields
 
 		this.populatePilesFromSqlStatement(sql);
-		System.out.println("Event: Update  " + this.piles);
+//		System.out.println("Event: Update  " + this.piles);
 
 	}
 

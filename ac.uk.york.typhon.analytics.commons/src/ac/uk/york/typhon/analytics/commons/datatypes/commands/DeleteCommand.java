@@ -22,7 +22,7 @@ public class DeleteCommand extends DMLCommand {
 		// Use this function to populate Delete related fields
 
 		this.populatePilesFromSqlStatement(sql);
-		System.out.println("Event: Delete  " + this.piles);
+//		System.out.println("Event: Delete  " + this.piles);
 
 	}
 

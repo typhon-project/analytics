@@ -33,10 +33,13 @@ public class AlphaBankMariaDBImpl extends SourceImpl implements ISource {
 			while (results.next()) {
 				id = Utils.generateRandomId();
 				
-				FNC_EV fnc = new FNC_EV(results.getLong("fNC_EV_ID"), results.getLong("fNC_EV_AC_ID"), results.getDate("fNC_EV_DT"), 
-						results.getString("fNC_EV_SIGN_CODE"), results.getString("fNC_EV_SIGN_CODE_DSC"), results.getBigDecimal("fNC_EV_AMT"), 
-						results.getString("fNC_EV_AC_SRC_STM_CODE"), results.getString("mRCH_NAME"), results.getString("mCG_DSC"), 
-						results.getDate("eFF_DT"), results.getDate("eND_DT"));
+				FNC_EV fnc = new FNC_EV(results.getLong("fNC_EV_ID"), results.getLong("fNC_EV_AC_ID"), results.getDate("fNC_EV_DT"), results.getString("fNC_EV_SIGN_CODE_DSC"), 
+						results.getString("fNC_EV_SIGN_CODE"), results.getBigDecimal("fNC_EV_AMT"), results.getString("fNC_EV_TUN_CODE"), 
+						results.getDate("eFF_DT"), results.getDate("eND_DT"), results.getString("mRCH_ID"), results.getString("mRCH_NAME"),
+						results.getLong("mCG_ID"), results.getString("mCG"), results.getString("mCG_DSC"), 
+						results.getString("fNC_EV_TP_CODE"), results.getString("fNC_EV_TP_DSC"), results.getTimestamp("iSRT_TMS"),
+						results.getString("fNC_EV_SRC_STM_CODE"));
+						
 				
 				
 				String query = fnc.toInsertSQLString();

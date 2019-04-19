@@ -21,7 +21,7 @@ public class SelectCommand extends DMLCommand {
 		// Use this function to populate Select related fields
 
 		this.populatePilesFromSqlStatement(sql);
-		System.out.println("Event: Select  " + this.piles);
+//		System.out.println("Event: Select  " + this.piles);
 
 	}
 
