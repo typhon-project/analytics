@@ -102,4 +102,10 @@ public class NON_FNC_EV {
 		END_DT = eND_DT;
 	}
 	
+	public String toInsertSQLString() {
+		String sql = "INSERT INTO TABLE NON_FNC_EV VALUES('" + this.NON_FNC_EV_ID + "','" + this.NON_FNC_EV_TUN_CODE + "','" + this.NON_FNC_EV_TP_CODE + "','" + this.NON_FNC_EV_AC_ID 
+				+ "','" + this.NON_FNC_EV_AC_CODE + "','" + this.NON_FNC_EV_ACTN_CODE + "','" + this.NON_FNC_EV_ACTN_DSC + "','" + this.NON_FNC_EV_DT_TM + "','" + this.NON_FNC_EV_CDI_CODE
+				+ "','" + this.EFF_DT + "','" + this.END_DT + "')";
+		return sql;
+	}
 }
