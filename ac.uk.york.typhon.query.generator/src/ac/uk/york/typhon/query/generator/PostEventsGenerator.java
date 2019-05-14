@@ -39,8 +39,8 @@ public class PostEventsGenerator {
 
 	public static void main(String[] args) throws Exception {
 
-		DataStream<Event> dataStream = StreamManager
-				.initializeSource(QueryLanguageTopicType.AUTHORIZATION, PreEvent.class);
+		DataStream<Event> dataStream = StreamManager.initializeSource(
+				QueryLanguageTopicType.AUTHORIZATION, PreEvent.class);
 
 		// dataStream.print(); //print the data stream as received
 
@@ -57,8 +57,7 @@ public class PostEventsGenerator {
 
 					postEvent = new PostEvent(event.getId(), event.getQuery(),
 							new Boolean(true), preEvent.getQueryTime(),
-							PostEventsGenerator.generateTimeStamp(), preEvent,
-							dmlCommand);
+							PostEventsGenerator.generateTimeStamp(), preEvent);
 
 				}
 

@@ -8,8 +8,8 @@ import ac.uk.york.typhon.query.generator.sqlbuilder.ISqlString;
 
 public class SelectSqlStringImpl extends SqlStringImpl implements ISqlString {
 
-	public SelectSqlStringImpl(CSVRecord record) {
-		super(record);
+	public SelectSqlStringImpl(String tableName, CSVRecord record) {
+		super(tableName, record);
 	}
 
 	public String build() {
@@ -18,11 +18,11 @@ public class SelectSqlStringImpl extends SqlStringImpl implements ISqlString {
 
 			String columnsStr = Utils.removeSquareBrackets(columnsList
 					.toString());
-//			String valuesStr = Utils
-//					.removeSquareBrackets(valuesList.toString());
+			// String valuesStr = Utils
+			// .removeSquareBrackets(valuesList.toString());
 
-			this.sqlStatement = "select " + columnsStr
-					+ " from TABLE_NAME where " + columnsList.get(0) + " = "
+			this.sqlStatement = "select " + columnsStr + " from "
+					+ this.tableName + " where " + columnsList.get(0) + " = "
 					+ valuesList.get(0);
 
 		}

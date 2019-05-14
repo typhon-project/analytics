@@ -7,8 +7,8 @@ import ac.uk.york.typhon.query.generator.sqlbuilder.ISqlString;
 
 public class DeleteSqlStringImpl extends SqlStringImpl implements ISqlString {
 
-	public DeleteSqlStringImpl(CSVRecord record) {
-		super(record);
+	public DeleteSqlStringImpl(String tableName, CSVRecord record) {
+		super(tableName, record);
 	}
 
 	public String build() {
@@ -17,7 +17,7 @@ public class DeleteSqlStringImpl extends SqlStringImpl implements ISqlString {
 
 			// DELETE FROM table_name WHERE condition;
 
-			this.sqlStatement = "delete from TABLE_NAME where "
+			this.sqlStatement = "delete from "+ tableName +" where "
 					+ columnsList.get(0) + " = " + valuesList.get(0);
 
 		}

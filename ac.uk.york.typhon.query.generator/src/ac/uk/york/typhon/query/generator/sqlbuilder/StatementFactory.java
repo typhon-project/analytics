@@ -19,6 +19,7 @@ import ac.uk.york.typhon.query.generator.sqlbuilder.impl.UpdateSqlStringImpl;
 
 public class StatementFactory {
 
+	private static String tableName;
 	// private static String statmentString = null;
 	// private static DMLCommand dmlCommand = null;
 
@@ -29,22 +30,22 @@ public class StatementFactory {
 		ISqlString sqlString = null;
 		switch (randomEventEnum) {
 		case INSERT:
-			sqlString = new InsertSqlStringImpl(record);
+			sqlString = new InsertSqlStringImpl(tableName,record);
 			// dmlCommand = new Insert();
 
 			break;
 		case SELECT:
-			sqlString = new SelectSqlStringImpl(record);
+			sqlString = new SelectSqlStringImpl(tableName, record);
 			// dmlCommand = new Select();
 
 			break;
 		case UPDATE:
-			sqlString = new UpdateSqlStringImpl(record);
+			sqlString = new UpdateSqlStringImpl(tableName, record);
 			// dmlCommand = new Update();
 
 			break;
 		case DELETE:
-			sqlString = new DeleteSqlStringImpl(record);
+			sqlString = new DeleteSqlStringImpl(tableName, record);
 			// dmlCommand = new Delete();
 
 			break;
@@ -94,12 +95,17 @@ public class StatementFactory {
 			}
 
 			// statmentString = sqlString.build();
-			dmlCommand.populateFromSqlStatement(sql);
+//			dmlCommand.populateFromSqlStatement(sql);
 		} catch (JSQLParserException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return dmlCommand;
+	}
+
+	public static void setTableName(String csvFileName) {
+		tableName = csvFileName;
+		
 	}
 
 	// public static String getStatmentString() {

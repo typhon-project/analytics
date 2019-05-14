@@ -9,8 +9,8 @@ import ac.uk.york.typhon.query.generator.sqlbuilder.ISqlString;
 
 public class UpdateSqlStringImpl extends SqlStringImpl implements ISqlString {
 
-	public UpdateSqlStringImpl(CSVRecord record) {
-		super(record);
+	public UpdateSqlStringImpl(String tableName, CSVRecord record) {
+		super(tableName, record);
 	}
 
 	public String build() {
@@ -41,8 +41,8 @@ public class UpdateSqlStringImpl extends SqlStringImpl implements ISqlString {
 
 			}
 
-			this.sqlStatement = "update TABLE_NAME set " + updateClause
-					+ " where " + columnsList.get(0) + " = "
+			this.sqlStatement = "update " + this.tableName + " set "
+					+ updateClause + " where " + columnsList.get(0) + " = "
 					+ valuesList.get(0);
 
 		}

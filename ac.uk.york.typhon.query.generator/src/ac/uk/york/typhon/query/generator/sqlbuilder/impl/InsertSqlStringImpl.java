@@ -8,8 +8,8 @@ import ac.uk.york.typhon.query.generator.sqlbuilder.ISqlString;
 
 public class InsertSqlStringImpl extends SqlStringImpl implements ISqlString {
 
-	public InsertSqlStringImpl(CSVRecord record) {
-		super(record);
+	public InsertSqlStringImpl(String tableName, CSVRecord record) {
+		super(tableName, record);
 	}
 
 	public String build() {
@@ -21,8 +21,8 @@ public class InsertSqlStringImpl extends SqlStringImpl implements ISqlString {
 			String valuesStr = Utils
 					.removeSquareBrackets(valuesList.toString());
 
-			this.sqlStatement = "insert into TABLE_NAME (" + columnsStr
-					+ ") values (" + valuesStr + ")";
+			this.sqlStatement = "insert into " + this.tableName + " ("
+					+ columnsStr + ") values (" + valuesStr + ")";
 
 		}
 

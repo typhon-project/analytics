@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.io.Resources;
 
+import ac.uk.york.typhon.analytics.commons.datatypes.commands.DMLCommand;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.PreEvent;
 import ac.uk.york.typhon.analytics.commons.enums.AnalyticTopicType;
@@ -25,13 +26,19 @@ import ac.uk.york.typhon.query.generator.sqlbuilder.StatementFactory;
 
 public class CsvSourceImpl extends SourceImpl implements ISource {
 
+	private String csvFileName;
+
+	public CsvSourceImpl(String csvFileName) {
+		this.csvFileName = csvFileName;
+	}
+
 	@Override
 	public void generate() throws Exception {
 		try {
 
 			// load events from the CSV files
-			Iterable<CSVRecord> records = retrieveRecordsIterator(GeneratorConstants.FileNames.RAW_CSV_FIELDS_FILE_NAME);
-
+			Iterable<CSVRecord> records = retrieveRecordsIterator(this.csvFileName);
+			StatementFactory.setTableName(this.csvFileName.split("\\.")[0]);
 			String id = null;
 
 			for (CSVRecord record : records) {
@@ -52,6 +59,8 @@ public class CsvSourceImpl extends SourceImpl implements ISource {
 					Thread.sleep(RandomUtils.nextLong(0, 1000));
 
 				}
+				
+				
 			}
 		} catch (FileNotFoundException e1) {
 

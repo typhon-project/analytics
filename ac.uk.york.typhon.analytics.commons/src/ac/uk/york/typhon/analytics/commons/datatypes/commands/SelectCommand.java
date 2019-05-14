@@ -2,10 +2,42 @@ package ac.uk.york.typhon.analytics.commons.datatypes.commands;
 
 import java.util.ArrayList;
 
+import net.sf.jsqlparser.JSQLParserException;
+import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
+import net.sf.jsqlparser.parser.CCJSqlParserUtil;
+import net.sf.jsqlparser.parser.SimpleNode;
+import net.sf.jsqlparser.statement.Statement;
+import net.sf.jsqlparser.statement.select.PlainSelect;
+import net.sf.jsqlparser.statement.select.Select;
+import net.sf.jsqlparser.statement.select.SelectItem;
+
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @JsonTypeName("select")
 public class SelectCommand extends DMLCommand {
+
+	// private Select statement;
+	//
+	// public SelectCommand() {
+	// }
+	//
+	// public SelectCommand(String sql) {
+	// statement = (Select) super.parseSqlStatement(sql);
+	// }
+	//
+	// public Select getStatement() {
+	// return statement;
+	// }
+	//
+	// public void setStatement(Statement statement) {
+	// this.statement = (Select) statement;
+	// }
+	//
+	// @Override
+	// public String toString() {
+	// return "SelectCommand [statement=" + statement + "]";
+	// }
 
 	ArrayList<Entity> returnedEntities;
 
@@ -20,10 +52,40 @@ public class SelectCommand extends DMLCommand {
 	public void populateFromSqlStatement(String sql) {
 		// Use this function to populate Select related fields
 
-		this.populatePilesFromSqlStatement(sql);
-//		System.out.println("Event: Select  " + this.piles);
+		Select statement = (Select) this.populatePilesFromSqlStatement(sql);
+		PlainSelect ps = (PlainSelect) statement.getSelectBody();
+		this.clause = ps.getWhere().toString();
+
+		// Select statement =null;
+		// try {
+		// statement = (Select)CCJSqlParserUtil.parse(sql);
+		// } catch (JSQLParserException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+
+		// System.out.println(ps.getWhere().toString());
+		// System.out.println(ps.getSelectItems().get(1).toString());
+
+		// AndExpression e = (Eq AndExpression) ps.getWhere();
+		// System.out.println(e.getLeftExpression());
+
+		// statement.get
+		// PlainSelect pl = (PlainSelect)statement.getSelectBody();
+		// SimpleNode exp = pl.getWhere().getASTNode();
+		//
+		// for (SelectItem item : pl.getSelectItems()) {
+		// System.out.println(item.toString());
+		// }
 
 	}
+
+	//
+	// @Override
+	// void parseStatement(String sql) {
+	// statement = (Select) super.parseSqlStatement(sql);
+	//
+	// }
 
 	@Override
 	public String toString() {

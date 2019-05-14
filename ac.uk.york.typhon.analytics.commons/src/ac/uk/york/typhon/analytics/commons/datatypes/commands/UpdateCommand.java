@@ -2,10 +2,37 @@ package ac.uk.york.typhon.analytics.commons.datatypes.commands;
 
 import java.util.ArrayList;
 
+import net.sf.jsqlparser.statement.Statement;
+import net.sf.jsqlparser.statement.select.Select;
+import net.sf.jsqlparser.statement.update.Update;
+
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @JsonTypeName("update")
 public class UpdateCommand extends DMLCommand {
+
+	// private Update statement;
+	//
+	// public UpdateCommand() {
+	//
+	// }
+	//
+	// public UpdateCommand(String sql) {
+	// statement = (Update) super.parseSqlStatement(sql);
+	// }
+	//
+	// public Update getStatement() {
+	// return statement;
+	// }
+	//
+	// public void setStatement(Statement statement) {
+	// this.statement = (Update) statement;
+	// }
+	//
+	// @Override
+	// public String toString() {
+	// return "UpdateCommand [statement=" + statement + "]";
+	// }
 
 	ArrayList<Entity> updatedEntities, oldEntities;
 
@@ -29,8 +56,10 @@ public class UpdateCommand extends DMLCommand {
 	public void populateFromSqlStatement(String sql) {
 		// Use this function to populate Update related fields
 
-		this.populatePilesFromSqlStatement(sql);
-//		System.out.println("Event: Update  " + this.piles);
+		Update statement = (Update) this.populatePilesFromSqlStatement(sql);
+		// System.out.println("Event: Update  " + this.piles);
+
+		this.clause = statement.getWhere().toString();
 
 	}
 

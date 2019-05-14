@@ -13,9 +13,10 @@ public abstract class SqlStringImpl {
 	protected String sqlStatement;
 	protected List<String> columnsList;
 	protected List<String> valuesList;
+	protected String tableName;
 
-	public SqlStringImpl(CSVRecord record) {
-
+	public SqlStringImpl(String tableName, CSVRecord record) {
+		this.tableName = tableName;
 		// SELECT column1, column2, ... FROM table_name;
 
 		// String recorStr = record.toString();
