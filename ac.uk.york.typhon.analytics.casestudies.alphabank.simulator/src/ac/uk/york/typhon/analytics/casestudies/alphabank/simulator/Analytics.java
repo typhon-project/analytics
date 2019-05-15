@@ -8,7 +8,7 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.SplitStream;
 
 import ac.uk.york.typhon.analytics.authorization.commons.enums.ExternalTopicType;
-import ac.uk.york.typhon.analytics.casestudies.alphabank.analyticsTasks.TopCategories;
+import ac.uk.york.typhon.analytics.casestudies.alphabank.analyticsTasks.TopMerchants;
 import ac.uk.york.typhon.analytics.casestudies.alphabank.authorizationTasks.AuthorizationTask1;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.PostEvent;
@@ -19,14 +19,14 @@ import ac.uk.york.typhon.analytics.messaging.StreamManager;
 public class Analytics {
 	
 	public static void main(String[] args) throws Exception {
-		TopCategories top = new TopCategories();
+		TopMerchants top = new TopMerchants();
 
 		DataStream<Event> dataStream = StreamManager
 				.initializeSource(AnalyticTopicType.POST, PostEvent.class);
 		
 
 		DataStream<Event> topCategoriesStream = top.analyse(dataStream);
-		topCategoriesStream.print();
+		//topCategoriesStream.print();
 
 		StreamManager.initializeSink(ExternalTopicType.RESULTS, topCategoriesStream);
 

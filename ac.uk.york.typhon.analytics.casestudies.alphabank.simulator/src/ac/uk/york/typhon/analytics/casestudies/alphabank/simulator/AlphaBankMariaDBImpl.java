@@ -49,8 +49,8 @@ public class AlphaBankMariaDBImpl extends SourceImpl implements ISource {
 						String query = nonFnc.toInsertSQLString();
 						Event preEvent = new PreEvent(id, query, "user",
 								Utils.generateTimeStamp(), "dbUser");
+//						System.out.println("NON FNC: " + preEvent.getQuery());
 						TopicPublisher.publish(AnalyticTopicType.PRE, preEvent);
-						System.out.println("NON FNC Date: " + nonFncEvResults.getTimestamp("NON_FNC_EV_DT_TM"));
 		
 					} else {
 						FNC_EV fnc = new FNC_EV(fncEvResults.getLong("fNC_EV_ID"), fncEvResults.getLong("fNC_EV_AC_ID"), fncEvResults.getDate("fNC_EV_DT"), fncEvResults.getString("fNC_EV_SIGN_CODE_DSC"), 
@@ -63,10 +63,11 @@ public class AlphaBankMariaDBImpl extends SourceImpl implements ISource {
 						Event preEvent = new PreEvent(id, query, "user",
 								Utils.generateTimeStamp(), "dbUser");
 						TopicPublisher.publish(AnalyticTopicType.PRE, preEvent);
+
 						// Go one step back in non fnc so when the NON FNC while loop condition will be called again, the cursor will be moved to the current one
 						nonFncEvResults.previous();
 						// Go back to the 1st loop
-						System.out.println("FNC Date: " + fncEvResults.getDate("FNC_EV_DT"));
+//						System.out.println("FNC: " + preEvent.getQuery());
 						break;
 					}
 				}

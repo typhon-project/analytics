@@ -6,6 +6,10 @@ import java.sql.Timestamp;
 
 public class FNC_EV {
 	
+	public FNC_EV() {
+		super();
+	}
+
 	public FNC_EV(long fNC_EV_ID, long fNC_EV_AC_ID, Date fNC_EV_DT, String fNC_EV_SIGN_CODE_DSC,
 			String fNC_EV_SIGN_CODE, BigDecimal fNC_EV_AMT, String fNC_EV_TUN_CODE, Date eFF_DT, Date eND_DT,
 			String mRCH_ID, String mRCH_NAME, long mCG_ID, String mCG, String mCG_DSC, String fNC_EV_TP_CODE,
@@ -41,7 +45,7 @@ public class FNC_EV {
 	Date EFF_DT;
 	Date END_DT;
 	String MRCH_ID;
-	String MRCH_NAME;//
+	String MRCH_NAME;
 	long MCG_ID;
 	String MCG;
 	String MCG_DSC;
@@ -198,7 +202,7 @@ public class FNC_EV {
 		String sql = "INSERT INTO TABLE FNC_EV VALUES('" + this.FNC_EV_ID + "','" + this.FNC_EV_AC_ID + "','" + this.FNC_EV_DT + "','" + this.FNC_EV_SIGN_CODE_DSC 
 				+ "','" + this.FNC_EV_SIGN_CODE + "','" + this.FNC_EV_AMT + "','" + this.FNC_EV_TUN_CODE + "','" + this.EFF_DT + "','" + this.END_DT
 				+ "','" + this.MRCH_ID + "','" + this.MRCH_NAME + "','" + this.MCG_ID + "','" + this.MCG + "','" + this.MCG_DSC + "','" + this.FNC_EV_TP_CODE 
-				+ "','" + this.FNC_EV_TP_DSC + "','" + this.ISRT_TMS + this.FNC_EV_SRC_STM_CODE + "','" + "')";
+				+ "','" + this.FNC_EV_TP_DSC + "','" + this.ISRT_TMS + "','" + this.FNC_EV_SRC_STM_CODE  + "')";
 		return sql;
 	}
 	

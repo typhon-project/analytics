@@ -9,6 +9,7 @@ import org.apache.flink.streaming.api.datastream.SplitStream;
 
 import ac.uk.york.typhon.analytics.authorization.commons.enums.ExternalTopicType;
 import ac.uk.york.typhon.analytics.casestudies.alphabank.authorizationTasks.AuthorizationTask1;
+import ac.uk.york.typhon.analytics.casestudies.alphabank.authorizationTasks.AuthorizeAllTask;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.PreEvent;
 import ac.uk.york.typhon.analytics.commons.enums.AnalyticTopicType;
@@ -17,30 +18,51 @@ import ac.uk.york.typhon.analytics.messaging.StreamManager;
 public class Authorizer {
 	
 	public static void main(String[] args) throws Exception {
-		AuthorizationTask1 ae1 = new AuthorizationTask1();
 
 		DataStream<Event> dataStream = StreamManager
 				.initializeSource(AnalyticTopicType.PRE, PreEvent.class);
-		
+		AuthorizeAllTask authAllTask = new AuthorizeAllTask();
 		SplitStream<Event> split = dataStream.split(new OutputSelector<Event>() {
 
 			@Override
 			public Iterable<String> select(Event event) {
 				List<String> output = new ArrayList<String>();
-				if (ae1.checkCondition(event)) {
-					output.add("ae1");
+				if (authAllTask.checkCondition(event)) {
+					output.add("all");
 				} else {
 					output.add("other");
 				}
 				return output;
 			}
 		});
-		split.print();
+		//split.print();
 
-		DataStream<Event> ae1Statements = split.select("ae1");
-		DataStream<Event> ae1StatementsAnalysis = ae1.analyse(ae1Statements);
+		DataStream<Event> authAllStatements = split.select("all");
+		DataStream<Event> authAllStatementsAnalysis = authAllTask.analyse(authAllStatements);
 		
-		StreamManager.initializeSink(ExternalTopicType.AUTHORIZATION, ae1StatementsAnalysis);
+		StreamManager.initializeSink(ExternalTopicType.AUTHORIZATION, authAllStatementsAnalysis);
+		
+//		AuthorizationTask1 ae1 = new AuthorizationTask1();
+
+//		SplitStream<Event> split = dataStream.split(new OutputSelector<Event>() {
+//
+//			@Override
+//			public Iterable<String> select(Event event) {
+//				List<String> output = new ArrayList<String>();
+//				if (ae1.checkCondition(event)) {
+//					output.add("ae1");
+//				} else {
+//					output.add("other");
+//				}
+//				return output;
+//			}
+//		});
+//		split.print();
+//
+//		DataStream<Event> ae1Statements = split.select("ae1");
+//		DataStream<Event> ae1StatementsAnalysis = ae1.analyse(ae1Statements);
+//		
+//		StreamManager.initializeSink(ExternalTopicType.AUTHORIZATION, ae1StatementsAnalysis);
 
 		StreamManager.startExecutionEnvironment(AnalyticTopicType.PRE);
 	}
