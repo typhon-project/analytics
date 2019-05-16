@@ -38,6 +38,7 @@ public class AlphaBankMariaDBImpl extends SourceImpl implements ISource {
 			ResultSet nonFncEvResults = nonFncEvStmt.getResultSet();
 			String id = null;
 			while (fncEvResults.next()) {
+				// FIXME: What happens if nonFncFinish? We never get into the loop thus we miss fncEvents.
 				while (nonFncEvResults.next()) {
 					id = Utils.generateRandomId();
 					Thread.sleep(RandomUtils.nextLong(0, 1000));
@@ -49,12 +50,12 @@ public class AlphaBankMariaDBImpl extends SourceImpl implements ISource {
 						String query = nonFnc.toInsertSQLString();
 						Event preEvent = new PreEvent(id, query, "user",
 								Utils.generateTimeStamp(), "dbUser");
-//						System.out.println("NON FNC: " + preEvent.getQuery());
+//						System.out.println("NON FNC: " + preEvent);
 						TopicPublisher.publish(AnalyticTopicType.PRE, preEvent);
 		
 					} else {
 						FNC_EV fnc = new FNC_EV(fncEvResults.getLong("fNC_EV_ID"), fncEvResults.getLong("fNC_EV_AC_ID"), fncEvResults.getDate("fNC_EV_DT"), fncEvResults.getString("fNC_EV_SIGN_CODE_DSC"), 
-								fncEvResults.getString("fNC_EV_SIGN_CODE"), fncEvResults.getBigDecimal("fNC_EV_AMT"), fncEvResults.getString("fNC_EV_TUN_CODE"), 
+								fncEvResults.getString("fNC_EV_SIGN_CODE"), fncEvResults.getBigDecimal("fNC_EV_AMT").doubleValue(), fncEvResults.getString("fNC_EV_TUN_CODE"), 
 								fncEvResults.getDate("eFF_DT"), fncEvResults.getDate("eND_DT"), fncEvResults.getString("mRCH_ID"), fncEvResults.getString("mRCH_NAME"),
 								fncEvResults.getLong("mCG_ID"), fncEvResults.getString("mCG"), fncEvResults.getString("mCG_DSC"), 
 								fncEvResults.getString("fNC_EV_TP_CODE"), fncEvResults.getString("fNC_EV_TP_DSC"), fncEvResults.getTimestamp("iSRT_TMS"),
@@ -67,7 +68,7 @@ public class AlphaBankMariaDBImpl extends SourceImpl implements ISource {
 						// Go one step back in non fnc so when the NON FNC while loop condition will be called again, the cursor will be moved to the current one
 						nonFncEvResults.previous();
 						// Go back to the 1st loop
-//						System.out.println("FNC: " + preEvent.getQuery());
+//						System.out.println("FNC: " + preEvent);
 						break;
 					}
 				}

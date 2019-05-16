@@ -10,8 +10,10 @@ import java.util.List;
 
 import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.MapFunction;
+import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSink;
+import org.apache.flink.streaming.api.windowing.time.Time;
 
 import ac.uk.york.typhon.analytics.casestudies.alphabank.simulator.datatypes.FNC_EV;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
@@ -29,14 +31,12 @@ public class TopMerchants extends PostEventAnalyticsTask {
 	
 	@Override
 	public DataStream<Event> analyse(DataStream<Event> postEvents) throws Exception {
-		DataStreamSink<FNC_EV> results = postEvents
+		DataStreamSink<Tuple3<String, String, Double>> results = postEvents
 		.filter(new FilterFunction<Event>() {
 			
 			@Override
 			public boolean filter(Event arg0) throws Exception {
-				System.out.println(arg0);
 				if (arg0.getQuery().toLowerCase().contains("insert into table fnc_ev")) {
-					System.out.println("Correct");
 					return true;
 				}
 				return false;
@@ -53,7 +53,23 @@ public class TopMerchants extends PostEventAnalyticsTask {
 				
 			}
 		})
-		//.keyBy("MRCH_ID")
+		.assignTimestampsAndWatermarks(new BoundedOutOfOrdernessGenerator())
+		.keyBy("MRCH_NAME")
+		.timeWindow(Time.days(30))
+		.sum("FNC_EV_AMT")
+		.map(new MapFunction<FNC_EV, Tuple3<String, String, Double>>() {
+
+			@Override
+			public Tuple3<String, String, Double> map(FNC_EV arg0) throws Exception {
+				Tuple3<String, String, Double> result = new Tuple3<String, String, Double>();
+				String month = arg0.getFNC_EV_DT().toLocalDate().getMonth().toString();
+				result.f0 = arg0.getMRCH_NAME();
+				result.f1 = month;
+				result.f2 = arg0.getFNC_EV_AMT();
+				System.out.println(arg0.getMRCH_NAME() + " " + month + " " + arg0.getFNC_EV_AMT());
+				return result;
+			}
+		})
 		//.sum("FNC_EV_AMT")
 		.print();
 		
@@ -75,7 +91,7 @@ public class TopMerchants extends PostEventAnalyticsTask {
 		Date FNC_EV_DT = new java.sql.Date(FNC_EV_DT_java.getTime());
 		String FNC_EV_SIGN_CODE_DSC = valueList.get(3).toString().replaceAll("'", "");
 		String FNC_EV_SIGN_CODE = valueList.get(4).toString().replaceAll("'", "");
-		BigDecimal FNC_EV_AMT = new BigDecimal(valueList.get(5).toString().replaceAll("'", ""));
+		double FNC_EV_AMT = new BigDecimal(valueList.get(5).toString().replaceAll("'", "")).doubleValue();
 		String FNC_EV_TUN_CODE = valueList.get(6).toString().replaceAll("'", "");
 		java.util.Date EFF_DT_java = sdf1.parse(valueList.get(7).toString().replaceAll("'", ""));
 		Date EFF_DT = new java.sql.Date(EFF_DT_java.getTime());

@@ -11,7 +11,7 @@ public class FNC_EV {
 	}
 
 	public FNC_EV(long fNC_EV_ID, long fNC_EV_AC_ID, Date fNC_EV_DT, String fNC_EV_SIGN_CODE_DSC,
-			String fNC_EV_SIGN_CODE, BigDecimal fNC_EV_AMT, String fNC_EV_TUN_CODE, Date eFF_DT, Date eND_DT,
+			String fNC_EV_SIGN_CODE, double fNC_EV_AMT, String fNC_EV_TUN_CODE, Date eFF_DT, Date eND_DT,
 			String mRCH_ID, String mRCH_NAME, long mCG_ID, String mCG, String mCG_DSC, String fNC_EV_TP_CODE,
 			String fNC_EV_TP_DSC, Timestamp iSRT_TMS, String fNC_EV_SRC_STM_CODE) {
 		super();
@@ -40,7 +40,7 @@ public class FNC_EV {
 	Date FNC_EV_DT;
 	String FNC_EV_SIGN_CODE_DSC;
 	String FNC_EV_SIGN_CODE;
-	BigDecimal FNC_EV_AMT;
+	double FNC_EV_AMT;
 	String FNC_EV_TUN_CODE;
 	Date EFF_DT;
 	Date END_DT;
@@ -94,11 +94,11 @@ public class FNC_EV {
 		FNC_EV_SIGN_CODE = fNC_EV_SIGN_CODE;
 	}
 
-	public BigDecimal getFNC_EV_AMT() {
+	public double getFNC_EV_AMT() {
 		return FNC_EV_AMT;
 	}
 
-	public void setFNC_EV_AMT(BigDecimal fNC_EV_AMT) {
+	public void setFNC_EV_AMT(double fNC_EV_AMT) {
 		FNC_EV_AMT = fNC_EV_AMT;
 	}
 
