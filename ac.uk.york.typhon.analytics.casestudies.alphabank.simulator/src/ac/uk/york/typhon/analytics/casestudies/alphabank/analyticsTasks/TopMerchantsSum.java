@@ -27,7 +27,7 @@ import net.sf.jsqlparser.parser.CCJSqlParserManager;
 import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.insert.Insert;
 
-public class TopMerchants extends PostEventAnalyticsTask {
+public class TopMerchantsSum extends PostEventAnalyticsTask {
 	
 	@Override
 	public DataStream<Event> analyse(DataStream<Event> postEvents) throws Exception {
@@ -51,6 +51,13 @@ public class TopMerchants extends PostEventAnalyticsTask {
 				String query = event.getQuery();
 				return createFncEvFromSQLInsertStatement(pm.parse(new StringReader(query)));
 				
+			}
+		})
+		.filter(new FilterFunction<FNC_EV>() {
+
+			@Override
+			public boolean filter(FNC_EV arg0) throws Exception {
+				return arg0.getFNC_EV_SIGN_CODE().equals("CREDIT");
 			}
 		})
 		.assignTimestampsAndWatermarks(new BoundedOutOfOrdernessGenerator())
