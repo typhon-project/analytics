@@ -70,4 +70,10 @@ public class NonFinancialEventInsertExtractor extends InsertExtractor {
 	public String getEndDateTime() {
 		return fieldValueMap.get(AlphaConstants.Table.NonFinancialEvent.END_DT);
 	}
+
+	@Override
+	public String toString() {
+		return "NonFinancialEventInsertExtractor [fieldValueMap="
+				+ fieldValueMap + ", parsedStatement=" + parsedStatement + "]";
+	}
 }

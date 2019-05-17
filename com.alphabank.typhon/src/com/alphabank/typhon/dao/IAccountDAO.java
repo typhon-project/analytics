@@ -4,7 +4,7 @@ import com.alphabank.typhon.entity.AccountEntity;
 
 public interface IAccountDAO {
 
-	AccountEntity retrieveAccountByAccountNumber(String accountNumber);
+	AccountEntity selectAccountByAccountCode(String accountCode);
 
 
 

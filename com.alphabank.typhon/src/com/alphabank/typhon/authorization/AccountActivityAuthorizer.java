@@ -1,42 +1,16 @@
 package com.alphabank.typhon.authorization;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import net.sf.jsqlparser.parser.CCJSqlParserUtil;
-import net.sf.jsqlparser.statement.Statement;
-import net.sf.jsqlparser.statement.delete.Delete;
-
 import org.apache.flink.api.common.functions.MapFunction;
-import org.apache.flink.streaming.api.collector.selector.OutputSelector;
 import org.apache.flink.streaming.api.datastream.DataStream;
-import org.apache.flink.streaming.api.datastream.SplitStream;
 
-import com.alphabank.typhon.commons.AlphaEnum;
-import com.alphabank.typhon.dao.ITransactionDAO;
-import com.alphabank.typhon.dao.impl.TransactionDAOImpl;
-import com.alphabank.typhon.dataaccess.IAccountActivityAccess;
-import com.alphabank.typhon.dataaccess.impl.AccountActivityAccessImpl;
-import com.alphabank.typhon.entity.TransactionEntity;
-import com.alphabank.typhon.extractor.delete.DeleteExtractor;
-import com.alphabank.typhon.extractor.delete.DeleteExtractorNonFinancialEvent;
-import com.alphabank.typhon.extractor.insert.InsertExtractor;
-import com.alphabank.typhon.extractor.insert.NonFinancialEventInsertExtractor;
-import com.alphabank.typhon.extractor.select.SelectExtractor;
-import com.alphabank.typhon.extractor.select.SelectExtractorNonFinancialEvent;
-import com.alphabank.typhon.extractor.update.UpdateExtractor;
-import com.alphabank.typhon.extractor.update.UpdateExtractorNonFinancialEvent;
-
-import ac.uk.york.typhon.analytics.commons.datatypes.commands.DMLCommand;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.PreEvent;
-import ac.uk.york.typhon.analytics.commons.datatypes.wrapper.ParsedStatementFactory;
-import ac.uk.york.typhon.analytics.commons.datatypes.wrapper.parsedstatement.IParsedStatement;
-import ac.uk.york.typhon.analytics.commons.datatypes.wrapper.parsedstatement.InsertParsedStatement;
 import ac.uk.york.typhon.analytics.commons.enums.AnalyticTopicType;
 import ac.uk.york.typhon.analytics.commons.enums.StatementType;
 import ac.uk.york.typhon.analytics.messaging.StreamManager;
+
+import com.alphabank.typhon.commons.AlphaEnum;
+import com.alphabank.typhon.extractor.insert.NonFinancialEventInsertExtractor;
 
 /**
  * Checks for dormant account activity
@@ -65,7 +39,7 @@ public class AccountActivityAuthorizer {
 			public Event map(Event event) throws Exception {
 
 				String query = event.getQuery();
-				StatementType statmemtType = event.getStatementType();
+				StatementType statmemtType = event.retrieveStatementType();
 				switch (statmemtType) {
 
 				case SELECT:

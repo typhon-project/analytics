@@ -4,9 +4,9 @@ import ac.uk.york.typhon.analytics.commons.datatypes.wrapper.parsedstatement.Sel
 import ac.uk.york.typhon.analytics.commons.datatypes.wrapper.parsedstatement.UpdateParsedStatement;
 import net.sf.jsqlparser.JSQLParserException;
 
-public class UpdateExtractorFinancialEvent extends UpdateExtractor {
+public class FinancialEventUpdateExtractor extends UpdateExtractor {
 
-	public UpdateExtractorFinancialEvent(String query)
+	public FinancialEventUpdateExtractor(String query)
 			throws JSQLParserException {
 		super(query);
 

@@ -1,4 +1,4 @@
-package ac.uk.york.typhon.analytics.casestudies.alphabank.simulator.datatypes;
+package ac.uk.york.typhon.query.generator.entity;
 
 import java.sql.Date;
 import java.sql.Timestamp;

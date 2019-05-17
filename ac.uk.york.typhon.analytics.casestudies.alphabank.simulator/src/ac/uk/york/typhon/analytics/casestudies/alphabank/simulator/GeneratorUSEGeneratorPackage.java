@@ -15,14 +15,15 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.SplitStream;
 
 import ac.uk.york.typhon.analytics.authorization.commons.enums.ExternalTopicType;
-import ac.uk.york.typhon.analytics.casestudies.alphabank.authorizationTasks.AuthorizationTask1;
-import ac.uk.york.typhon.analytics.casestudies.alphabank.simulator.datatypes.FNC_EV;
+import ac.uk.york.typhon.analytics.casestudies.alphabank.authorizationfilters.FinancialEventAuthorization;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.PreEvent;
 import ac.uk.york.typhon.analytics.commons.enums.AnalyticTopicType;
 import ac.uk.york.typhon.analytics.messaging.StreamManager;
+import ac.uk.york.typhon.query.generator.entity.FNC_EV;
+import ac.uk.york.typhon.query.generator.source.impl.AlphaBankMariaDBImpl;
 
-public class Generator {
+public class GeneratorUSEGeneratorPackage {
 
 	public static void main(String[] args) throws Exception {
 

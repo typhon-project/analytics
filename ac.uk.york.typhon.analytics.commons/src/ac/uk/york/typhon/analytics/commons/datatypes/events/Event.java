@@ -26,10 +26,11 @@ public abstract class Event {
 		this.query = query;
 	}
 
-	public StatementType getStatementType() {
+	public StatementType retrieveStatementType() {
 
 		// TODO use Regex instead of split
-		return StatementType.valueOf(query.split(" ")[0].toUpperCase());
+//		System.out.println("getStatementType ############################ got called ");
+		return StatementType.valueOf(query.split(" ")[0].toUpperCase().trim());
 
 	}
 

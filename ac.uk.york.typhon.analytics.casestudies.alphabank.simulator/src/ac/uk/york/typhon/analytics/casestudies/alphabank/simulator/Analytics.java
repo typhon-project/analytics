@@ -9,7 +9,7 @@ import org.apache.flink.streaming.api.datastream.SplitStream;
 
 import ac.uk.york.typhon.analytics.authorization.commons.enums.ExternalTopicType;
 import ac.uk.york.typhon.analytics.casestudies.alphabank.analyticsTasks.TopCategories;
-import ac.uk.york.typhon.analytics.casestudies.alphabank.authorizationTasks.AuthorizationTask1;
+import ac.uk.york.typhon.analytics.casestudies.alphabank.authorizationfilters.FinancialEventAuthorization;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.PostEvent;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.PreEvent;

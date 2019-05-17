@@ -23,11 +23,11 @@ public class TransactionDAOImpl implements ITransactionDAO {
 
 	@Override
 	public TransactionEntity selectTransactionById(String transactionId) {
-
-		StringBuilder sql = new StringBuilder("select * from "
-				+ AlphaConstants.Table.Transactions.getName() + "  where "
-				+ AlphaConstants.Table.Transactions.FNC_EV_ID + " = '"
-				+ transactionId + "'");
+		StringBuilder sql = null;
+//		StringBuilder sql = new StringBuilder("select * from "
+//				+ AlphaConstants.Table.Transactions.getName() + "  where "
+//				+ AlphaConstants.Table.Transactions.FNC_EV_ID + " = '"
+//				+ transactionId + "'");
 
 		PreparedStatement ptmt = null;
 		ResultSet resultSet = null;
@@ -41,14 +41,14 @@ public class TransactionDAOImpl implements ITransactionDAO {
 				entity = new TransactionEntity();
 				// while (resultSet.next()) {
 
-				entity.setId(resultSet
-						.getString(AlphaConstants.Table.Transactions.FNC_EV_ID));
-
-				entity.setAccountId(resultSet
-						.getString(AlphaConstants.Table.Transactions.FNC_EV_AC_ID));
-
-				entity.setAmount(resultSet
-						.getString(AlphaConstants.Table.Transactions.FNC_EV_AMT));
+//				entity.setId(resultSet
+//						.getString(AlphaConstants.Table.Transactions.FNC_EV_ID));
+//
+//				entity.setAccountId(resultSet
+//						.getString(AlphaConstants.Table.Transactions.FNC_EV_AC_ID));
+//
+//				entity.setAmount(resultSet
+//						.getString(AlphaConstants.Table.Transactions.FNC_EV_AMT));
 
 				System.out.println(entity);
 

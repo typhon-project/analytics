@@ -17,22 +17,23 @@ public class FinancialEventInsertExtractor extends InsertExtractor {
 	}
 
 	public String getId() {
-		
+
 		return fieldValueMap.get(AlphaConstants.Table.FinancialEvent.ID);
 	};
 
 	public String getAccountId() {
-		
+
 		return fieldValueMap.get(AlphaConstants.Table.FinancialEvent.AC_ID);
 	};
 
 	public String getDateTime() {
-		
+
 		return fieldValueMap.get(AlphaConstants.Table.FinancialEvent.DT);
 	};
 
 	public String getSignCodeDesc() {
-		return fieldValueMap.get(AlphaConstants.Table.FinancialEvent.SIGN_CODE_DSC);
+		return fieldValueMap
+				.get(AlphaConstants.Table.FinancialEvent.SIGN_CODE_DSC);
 	};
 
 	public String getSignCode() {
@@ -44,17 +45,17 @@ public class FinancialEventInsertExtractor extends InsertExtractor {
 	};
 
 	public String getTUNCode() {
-		
+
 		return fieldValueMap.get(AlphaConstants.Table.FinancialEvent.TUN_CODE);
 	};
 
 	public String getEeffectiveDateTime() {
-		
+
 		return fieldValueMap.get(AlphaConstants.Table.FinancialEvent.EFF_DT);
 	};
 
 	public String getEndDateTime() {
-		
+
 		return fieldValueMap.get(AlphaConstants.Table.FinancialEvent.END_DT);
 	};
 
@@ -91,7 +92,8 @@ public class FinancialEventInsertExtractor extends InsertExtractor {
 	};
 
 	public String getSourceSTMCode() {
-		return fieldValueMap.get(AlphaConstants.Table.FinancialEvent.SRC_STM_CODE);
+		return fieldValueMap
+				.get(AlphaConstants.Table.FinancialEvent.SRC_STM_CODE);
 	};
 
 }

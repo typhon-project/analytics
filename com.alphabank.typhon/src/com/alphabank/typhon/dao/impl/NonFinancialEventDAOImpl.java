@@ -76,13 +76,13 @@ public class NonFinancialEventDAOImpl implements INonFinancialEventDAO {
 	// }
 
 	@Override
-	public NonFinancialEventEntity selectNonFinancialEventByAccountNumber(
-			String accountNumber) {
+	public NonFinancialEventEntity selectNonFinancialEventByAccountCode(
+			String accountCode) {
 
 		StringBuilder sql = new StringBuilder("select * from "
 				+ AlphaConstants.Table.NonFinancialEvent.getName() + "  where "
-				+ AlphaConstants.Table.NonFinancialEvent.ACCOUNT_CODE + " = '"
-				+ accountNumber + "'");
+				+ AlphaConstants.Table.NonFinancialEvent.AC_CODE + " = '"
+				+ accountCode + "'");
 
 		PreparedStatement ptmt = null;
 		ResultSet resultSet = null;
@@ -98,20 +98,20 @@ public class NonFinancialEventDAOImpl implements INonFinancialEventDAO {
 
 				nonFinancialEventEntity
 						.setId(resultSet
-								.getString(AlphaConstants.Table.NonFinancialEvent.EVENT_ID));
+								.getString(AlphaConstants.Table.NonFinancialEvent.ID));
 
 				nonFinancialEventEntity
 						.setAccountCode(resultSet
-								.getString(AlphaConstants.Table.NonFinancialEvent.ACCOUNT_CODE));
+								.getString(AlphaConstants.Table.NonFinancialEvent.AC_CODE));
 		
 
 				nonFinancialEventEntity
 						.setActionCode(resultSet
-								.getString(AlphaConstants.Table.NonFinancialEvent.ACTION_CODE));
+								.getString(AlphaConstants.Table.NonFinancialEvent.ACTN_CODE));
 
 				nonFinancialEventEntity
 						.setEventTypeCode(resultSet
-								.getString(AlphaConstants.Table.NonFinancialEvent.EVENT_TYPE_CODE));
+								.getString(AlphaConstants.Table.NonFinancialEvent.TP_CODE));
 
 				System.out.println(nonFinancialEventEntity);
 
