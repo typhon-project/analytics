@@ -1,5 +1,7 @@
 package com.alphabank.typhon.extractor.insert;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashMap;
 
 import com.alphabank.typhon.commons.AlphaConstants;
@@ -16,19 +18,22 @@ public class FinancialEventInsertExtractor extends InsertExtractor {
 		this.fieldValueMap = populateFieldValueMap();
 	}
 
-	public String getId() {
+	public long getId() {
 
-		return fieldValueMap.get(AlphaConstants.Table.FinancialEvent.ID);
+		return Long.parseLong(fieldValueMap
+				.get(AlphaConstants.Table.FinancialEvent.ID));
 	};
 
-	public String getAccountId() {
+	public long getAccountId() {
 
-		return fieldValueMap.get(AlphaConstants.Table.FinancialEvent.AC_ID);
+		return Long.parseLong(fieldValueMap
+				.get(AlphaConstants.Table.FinancialEvent.AC_ID));
 	};
 
-	public String getDateTime() {
+	public Date getDateTime() {
 
-		return fieldValueMap.get(AlphaConstants.Table.FinancialEvent.DT);
+		return Date.valueOf(fieldValueMap
+				.get(AlphaConstants.Table.FinancialEvent.DT));
 	};
 
 	public String getSignCodeDesc() {
@@ -40,8 +45,9 @@ public class FinancialEventInsertExtractor extends InsertExtractor {
 		return fieldValueMap.get(AlphaConstants.Table.FinancialEvent.SIGN_CODE);
 	};
 
-	public String getAmount() {
-		return fieldValueMap.get(AlphaConstants.Table.FinancialEvent.AMT);
+	public double getAmount() {
+		return Double.parseDouble(fieldValueMap
+				.get(AlphaConstants.Table.FinancialEvent.AMT));
 	};
 
 	public String getTUNCode() {
@@ -49,14 +55,16 @@ public class FinancialEventInsertExtractor extends InsertExtractor {
 		return fieldValueMap.get(AlphaConstants.Table.FinancialEvent.TUN_CODE);
 	};
 
-	public String getEeffectiveDateTime() {
+	public Date getEffectiveDateTime() {
 
-		return fieldValueMap.get(AlphaConstants.Table.FinancialEvent.EFF_DT);
+		return Date.valueOf(fieldValueMap
+				.get(AlphaConstants.Table.FinancialEvent.EFF_DT));
 	};
 
-	public String getEndDateTime() {
+	public Date getEndDateTime() {
 
-		return fieldValueMap.get(AlphaConstants.Table.FinancialEvent.END_DT);
+		return Date.valueOf(fieldValueMap
+				.get(AlphaConstants.Table.FinancialEvent.END_DT));
 	};
 
 	public String getMarchentId() {
@@ -67,8 +75,9 @@ public class FinancialEventInsertExtractor extends InsertExtractor {
 		return fieldValueMap.get(AlphaConstants.Table.FinancialEvent.MRCH_NAME);
 	};
 
-	public String getMcgId() {
-		return fieldValueMap.get(AlphaConstants.Table.FinancialEvent.MCG_ID);
+	public long getMcgId() {
+		return Long.parseLong(fieldValueMap
+				.get(AlphaConstants.Table.FinancialEvent.MCG_ID));
 	};
 
 	public String getMcg() {
@@ -87,8 +96,9 @@ public class FinancialEventInsertExtractor extends InsertExtractor {
 		return fieldValueMap.get(AlphaConstants.Table.FinancialEvent.TP_DSC);
 	};
 
-	public String getISRTTimeStamp() {
-		return fieldValueMap.get(AlphaConstants.Table.FinancialEvent.ISRT_TMS);
+	public Timestamp getISRTTimeStamp() {
+		return Timestamp.valueOf(fieldValueMap
+				.get(AlphaConstants.Table.FinancialEvent.ISRT_TMS));
 	};
 
 	public String getSourceSTMCode() {

@@ -1,4 +1,4 @@
-package com.alphabank.typhon;
+package com.alphabank.typhon.analytics;
 
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.streaming.api.datastream.DataStream;
@@ -13,7 +13,7 @@ import ac.uk.york.typhon.analytics.commons.datatypes.events.PreEvent;
 import ac.uk.york.typhon.analytics.commons.enums.AnalyticTopicType;
 import ac.uk.york.typhon.analytics.messaging.StreamManager;
 
-public class AlphaAnalytics {
+public class DormantAccountActivity {
 
 	public static void main(String[] args) throws Exception {
 

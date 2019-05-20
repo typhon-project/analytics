@@ -1,4 +1,4 @@
-package com.alphabank.typhon;
+package ac.uk.york.typhon.query.generator.helper;
 
 public class UniCodeString {
 

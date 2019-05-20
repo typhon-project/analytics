@@ -29,9 +29,9 @@ public abstract class EventFilter implements Serializable {
 					private static final long serialVersionUID = 1L;
 
 					@Override
-					public Event map(Event arg0) throws Exception {
-						((PreEvent) arg0).setAuthenticated(true);
-						return arg0;
+					public Event map(Event event) throws Exception {
+						((PreEvent) event).setAuthenticated(true);
+						return event;
 					}
 				}).returns(Event.class);
 		return results;
