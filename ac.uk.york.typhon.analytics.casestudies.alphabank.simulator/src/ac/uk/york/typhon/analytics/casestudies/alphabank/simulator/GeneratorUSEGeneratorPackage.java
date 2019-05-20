@@ -20,7 +20,7 @@ import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.PreEvent;
 import ac.uk.york.typhon.analytics.commons.enums.AnalyticTopicType;
 import ac.uk.york.typhon.analytics.messaging.StreamManager;
-import ac.uk.york.typhon.query.generator.entity.FNC_EV;
+import ac.uk.york.typhon.query.generator.pojo.FinancialEvent;
 import ac.uk.york.typhon.query.generator.source.impl.AlphaBankMariaDBImpl;
 
 public class GeneratorUSEGeneratorPackage {

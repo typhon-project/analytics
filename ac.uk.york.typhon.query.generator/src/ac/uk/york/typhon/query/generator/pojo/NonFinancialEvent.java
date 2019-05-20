@@ -1,11 +1,13 @@
-package ac.uk.york.typhon.query.generator.entity;
+package ac.uk.york.typhon.query.generator.pojo;
 
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import com.alphabank.typhon.commons.AlphaConstants;
 
-public class NON_FNC_EV {
+public class NonFinancialEvent {
 
 	long NON_FNC_EV_ID;
 	String NON_FNC_EV_TUN_CODE;
@@ -19,24 +21,56 @@ public class NON_FNC_EV {
 	Date EFF_DT;
 	Date END_DT;
 
-	public NON_FNC_EV(long nON_FNC_EV_ID, String nON_FNC_EV_TUN_CODE,
-			String nON_FNC_EV_TP_CODE, long nON_FNC_EV_AC_ID,
-			String nON_FNC_EV_AC_CODE, String nON_FNC_EV_ACTN_CODE,
-			String nON_FNC_EV_ACTN_DSC, Timestamp nON_FNC_EV_DT_TM,
-			String nON_FNC_EV_CDI_CODE, Date eFF_DT, Date eND_DT) {
-		super();
-		NON_FNC_EV_ID = nON_FNC_EV_ID;
-		NON_FNC_EV_TUN_CODE = nON_FNC_EV_TUN_CODE;
-		NON_FNC_EV_TP_CODE = nON_FNC_EV_TP_CODE;
-		NON_FNC_EV_AC_ID = nON_FNC_EV_AC_ID;
-		NON_FNC_EV_AC_CODE = nON_FNC_EV_AC_CODE;
-		NON_FNC_EV_ACTN_CODE = nON_FNC_EV_ACTN_CODE;
-		NON_FNC_EV_ACTN_DSC = nON_FNC_EV_ACTN_DSC;
-		NON_FNC_EV_DT_TM = nON_FNC_EV_DT_TM;
-		NON_FNC_EV_CDI_CODE = nON_FNC_EV_CDI_CODE;
-		EFF_DT = eFF_DT;
-		END_DT = eND_DT;
+	public NonFinancialEvent(ResultSet resultSet) {
+
+		try {
+			NON_FNC_EV_ID = resultSet
+					.getLong(AlphaConstants.Table.NonFinancialEvent.ID);
+			NON_FNC_EV_TUN_CODE = resultSet
+					.getString(AlphaConstants.Table.NonFinancialEvent.TUN_CODE);
+			NON_FNC_EV_TP_CODE = resultSet
+					.getString(AlphaConstants.Table.NonFinancialEvent.TP_CODE);
+			NON_FNC_EV_AC_ID = resultSet
+					.getLong(AlphaConstants.Table.NonFinancialEvent.AC_ID);
+			NON_FNC_EV_AC_CODE = resultSet
+					.getString(AlphaConstants.Table.NonFinancialEvent.AC_CODE);
+			NON_FNC_EV_ACTN_CODE = resultSet
+					.getString(AlphaConstants.Table.NonFinancialEvent.ACTN_CODE);
+			NON_FNC_EV_ACTN_DSC = resultSet
+					.getString(AlphaConstants.Table.NonFinancialEvent.ACTN_DSC);
+			NON_FNC_EV_DT_TM = resultSet
+					.getTimestamp(AlphaConstants.Table.NonFinancialEvent.DT_TM);
+			NON_FNC_EV_CDI_CODE = resultSet
+					.getString(AlphaConstants.Table.NonFinancialEvent.CDI_CODE);
+			EFF_DT = resultSet
+					.getDate(AlphaConstants.Table.NonFinancialEvent.EFF_DT);
+			END_DT = resultSet
+					.getDate(AlphaConstants.Table.NonFinancialEvent.END_DT);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
+
+//	public NonFinancialEvent(long nON_FNC_EV_ID, String nON_FNC_EV_TUN_CODE,
+//			String nON_FNC_EV_TP_CODE, long nON_FNC_EV_AC_ID,
+//			String nON_FNC_EV_AC_CODE, String nON_FNC_EV_ACTN_CODE,
+//			String nON_FNC_EV_ACTN_DSC, Timestamp nON_FNC_EV_DT_TM,
+//			String nON_FNC_EV_CDI_CODE, Date eFF_DT, Date eND_DT) {
+//		super();
+//		NON_FNC_EV_ID = nON_FNC_EV_ID;
+//		NON_FNC_EV_TUN_CODE = nON_FNC_EV_TUN_CODE;
+//		NON_FNC_EV_TP_CODE = nON_FNC_EV_TP_CODE;
+//		NON_FNC_EV_AC_ID = nON_FNC_EV_AC_ID;
+//		NON_FNC_EV_AC_CODE = nON_FNC_EV_AC_CODE;
+//		NON_FNC_EV_ACTN_CODE = nON_FNC_EV_ACTN_CODE;
+//		NON_FNC_EV_ACTN_DSC = nON_FNC_EV_ACTN_DSC;
+//		NON_FNC_EV_DT_TM = nON_FNC_EV_DT_TM;
+//		NON_FNC_EV_CDI_CODE = nON_FNC_EV_CDI_CODE;
+//		EFF_DT = eFF_DT;
+//		END_DT = eND_DT;
+//	}
 
 	public long getNON_FNC_EV_ID() {
 		return NON_FNC_EV_ID;
@@ -128,20 +162,22 @@ public class NON_FNC_EV {
 
 	public String rertieveColumnNameString() {
 
-		 String columnString = AlphaConstants.Table.NonFinancialEvent.AC_CODE
-		 + "," + AlphaConstants.Table.NonFinancialEvent.AC_ID + ","
-		 + AlphaConstants.Table.NonFinancialEvent.ACTN_CODE + ","
-		 + AlphaConstants.Table.NonFinancialEvent.ACTN_DSC + ","
-		 + AlphaConstants.Table.NonFinancialEvent.CDI_CODE + ","
-		 + AlphaConstants.Table.NonFinancialEvent.DT_TM + ","
-		 + AlphaConstants.Table.NonFinancialEvent.EFF_DT + ","
-		 + AlphaConstants.Table.NonFinancialEvent.END_DT + ","
-		 + AlphaConstants.Table.NonFinancialEvent.ID + ","
-		 + AlphaConstants.Table.NonFinancialEvent.TP_CODE + ","
-		 + AlphaConstants.Table.NonFinancialEvent.TUN_CODE;
+		String columnString = AlphaConstants.Table.NonFinancialEvent.AC_CODE
+				+ "," + AlphaConstants.Table.NonFinancialEvent.AC_ID + ","
+				+ AlphaConstants.Table.NonFinancialEvent.ACTN_CODE + ","
+				+ AlphaConstants.Table.NonFinancialEvent.ACTN_DSC + ","
+				+ AlphaConstants.Table.NonFinancialEvent.CDI_CODE + ","
+				+ AlphaConstants.Table.NonFinancialEvent.DT_TM + ","
+				+ AlphaConstants.Table.NonFinancialEvent.EFF_DT + ","
+				+ AlphaConstants.Table.NonFinancialEvent.END_DT + ","
+				+ AlphaConstants.Table.NonFinancialEvent.ID + ","
+				+ AlphaConstants.Table.NonFinancialEvent.TP_CODE + ","
+				+ AlphaConstants.Table.NonFinancialEvent.TUN_CODE;
 
-//		String columnString = "NON_FNC_EV_AC_CODE, NON_FNC_EV_AC_ID , NON_FNC_EV_ACTN_CODE,NON_FNC_EV_ACTN_DSC,"
-//				+ "NON_FNC_EV_CDI_CODE,NON_FNC_EV_DT_TM,EFF_DT,END_DT,NON_FNC_EV_ID,NON_FNC_EV_TP_CODE,NON_FNC_EV_TUN_CODE";
+		// String columnString =
+		// "NON_FNC_EV_AC_CODE, NON_FNC_EV_AC_ID , NON_FNC_EV_ACTN_CODE,NON_FNC_EV_ACTN_DSC,"
+		// +
+		// "NON_FNC_EV_CDI_CODE,NON_FNC_EV_DT_TM,EFF_DT,END_DT,NON_FNC_EV_ID,NON_FNC_EV_TP_CODE,NON_FNC_EV_TUN_CODE";
 
 		return columnString;
 	}
@@ -158,9 +194,7 @@ public class NON_FNC_EV {
 
 		return valuesString;
 	}
-	
-	
-	
+
 	public String retriveValuesStringWithoutSingleQuotesForNumbers() {
 
 		String valuesString = "'" + this.NON_FNC_EV_AC_CODE + "',"

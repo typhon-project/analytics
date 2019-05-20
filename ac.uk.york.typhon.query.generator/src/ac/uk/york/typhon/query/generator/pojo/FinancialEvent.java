@@ -1,12 +1,14 @@
-package ac.uk.york.typhon.query.generator.entity;
+package ac.uk.york.typhon.query.generator.pojo;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import com.alphabank.typhon.commons.AlphaConstants;
 
-public class FNC_EV {
+public class FinancialEvent {
 
 	long FNC_EV_ID;
 	long FNC_EV_AC_ID;
@@ -27,36 +29,64 @@ public class FNC_EV {
 	Timestamp ISRT_TMS;
 	String FNC_EV_SRC_STM_CODE;
 
-	public FNC_EV() {
+	public FinancialEvent() {
 		super();
 	}
 
-	public FNC_EV(long fNC_EV_ID, long fNC_EV_AC_ID, Date fNC_EV_DT,
-			String fNC_EV_SIGN_CODE_DSC, String fNC_EV_SIGN_CODE,
-			double fNC_EV_AMT, String fNC_EV_TUN_CODE, Date eFF_DT,
-			Date eND_DT, String mRCH_ID, String mRCH_NAME, long mCG_ID,
-			String mCG, String mCG_DSC, String fNC_EV_TP_CODE,
-			String fNC_EV_TP_DSC, Timestamp iSRT_TMS, String fNC_EV_SRC_STM_CODE) {
-		super();
-		FNC_EV_ID = fNC_EV_ID;
-		FNC_EV_AC_ID = fNC_EV_AC_ID;
-		FNC_EV_DT = fNC_EV_DT;
-		FNC_EV_SIGN_CODE_DSC = fNC_EV_SIGN_CODE_DSC;
-		FNC_EV_SIGN_CODE = fNC_EV_SIGN_CODE;
-		FNC_EV_AMT = fNC_EV_AMT;
-		FNC_EV_TUN_CODE = fNC_EV_TUN_CODE;
-		EFF_DT = eFF_DT;
-		END_DT = eND_DT;
-		MRCH_ID = mRCH_ID;
-		MRCH_NAME = mRCH_NAME;
-		MCG_ID = mCG_ID;
-		MCG = mCG;
-		MCG_DSC = mCG_DSC;
-		FNC_EV_TP_CODE = fNC_EV_TP_CODE;
-		FNC_EV_TP_DSC = fNC_EV_TP_DSC;
-		ISRT_TMS = iSRT_TMS;
-		FNC_EV_SRC_STM_CODE = fNC_EV_SRC_STM_CODE;
+	public FinancialEvent(ResultSet resultSet) {
+
+		try {
+			FNC_EV_ID = resultSet.getLong(AlphaConstants.Table.FinancialEvent.ID );
+			FNC_EV_AC_ID = resultSet.getLong(AlphaConstants.Table.FinancialEvent.AC_ID);
+			FNC_EV_DT = resultSet.getDate(AlphaConstants.Table.FinancialEvent.DT);
+			FNC_EV_SIGN_CODE_DSC = resultSet.getString(AlphaConstants.Table.FinancialEvent.SIGN_CODE_DSC);
+			FNC_EV_SIGN_CODE = resultSet.getString(AlphaConstants.Table.FinancialEvent.SIGN_CODE);
+			FNC_EV_AMT = resultSet.getDouble(AlphaConstants.Table.FinancialEvent.AMT);
+			FNC_EV_TUN_CODE = resultSet.getString(AlphaConstants.Table.FinancialEvent.TUN_CODE);
+			EFF_DT = resultSet.getDate(AlphaConstants.Table.FinancialEvent.EFF_DT);
+			END_DT = resultSet.getDate(AlphaConstants.Table.FinancialEvent.END_DT);
+			MRCH_ID = resultSet.getString(AlphaConstants.Table.FinancialEvent.MRCH_ID);
+			MRCH_NAME = resultSet.getString(AlphaConstants.Table.FinancialEvent.MRCH_NAME);
+			MCG_ID = resultSet.getLong(AlphaConstants.Table.FinancialEvent.MCG_ID);
+			MCG = resultSet.getString(AlphaConstants.Table.FinancialEvent.MCG);
+			MCG_DSC = resultSet.getString(AlphaConstants.Table.FinancialEvent.MCG_DSC);
+			FNC_EV_TP_CODE = resultSet.getString(AlphaConstants.Table.FinancialEvent.TP_CODE);
+			FNC_EV_TP_DSC = resultSet.getString(AlphaConstants.Table.FinancialEvent.TP_DSC);
+			ISRT_TMS = resultSet.getTimestamp(AlphaConstants.Table.FinancialEvent.ISRT_TMS);
+			FNC_EV_SRC_STM_CODE = resultSet.getString(AlphaConstants.Table.FinancialEvent.SRC_STM_CODE);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
+
+//	public FinancialEvent(long fNC_EV_ID, long fNC_EV_AC_ID, Date fNC_EV_DT,
+//			String fNC_EV_SIGN_CODE_DSC, String fNC_EV_SIGN_CODE,
+//			double fNC_EV_AMT, String fNC_EV_TUN_CODE, Date eFF_DT,
+//			Date eND_DT, String mRCH_ID, String mRCH_NAME, long mCG_ID,
+//			String mCG, String mCG_DSC, String fNC_EV_TP_CODE,
+//			String fNC_EV_TP_DSC, Timestamp iSRT_TMS, String fNC_EV_SRC_STM_CODE) {
+//		super();
+//		FNC_EV_ID = fNC_EV_ID;
+//		FNC_EV_AC_ID = fNC_EV_AC_ID;
+//		FNC_EV_DT = fNC_EV_DT;
+//		FNC_EV_SIGN_CODE_DSC = fNC_EV_SIGN_CODE_DSC;
+//		FNC_EV_SIGN_CODE = fNC_EV_SIGN_CODE;
+//		FNC_EV_AMT = fNC_EV_AMT;
+//		FNC_EV_TUN_CODE = fNC_EV_TUN_CODE;
+//		EFF_DT = eFF_DT;
+//		END_DT = eND_DT;
+//		MRCH_ID = mRCH_ID;
+//		MRCH_NAME = mRCH_NAME;
+//		MCG_ID = mCG_ID;
+//		MCG = mCG;
+//		MCG_DSC = mCG_DSC;
+//		FNC_EV_TP_CODE = fNC_EV_TP_CODE;
+//		FNC_EV_TP_DSC = fNC_EV_TP_DSC;
+//		ISRT_TMS = iSRT_TMS;
+//		FNC_EV_SRC_STM_CODE = fNC_EV_SRC_STM_CODE;
+//	}
 
 	public long getFNC_EV_ID() {
 		return FNC_EV_ID;

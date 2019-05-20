@@ -1,11 +1,11 @@
-package ac.uk.york.typhon.query.generator.entity;
+package ac.uk.york.typhon.query.generator.pojo;
 
 import java.sql.Date;
 import java.sql.Timestamp;
 
-public class AC_GNL {
+public class AccountGeneral {
 	
-	public AC_GNL(long aC_ID, String aC_CODE, String aC_SRC_STM_CODE, long aC_FRST_BENF_ID,
+	public AccountGeneral(long aC_ID, String aC_CODE, String aC_SRC_STM_CODE, long aC_FRST_BENF_ID,
 			String aC_FRST_BENF_CDI_CODE, Timestamp iSRT_TMS, Date eFF_DT, Date eND_DT) {
 		super();
 		AC_ID = aC_ID;

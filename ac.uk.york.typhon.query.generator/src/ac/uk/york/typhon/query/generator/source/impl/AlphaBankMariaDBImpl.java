@@ -20,9 +20,9 @@ import org.apache.commons.lang3.RandomUtils;
 
 import com.alphabank.typhon.commons.AlphaConstants;
 
-import ac.uk.york.typhon.query.generator.entity.FNC_EV;
-import ac.uk.york.typhon.query.generator.entity.NON_FNC_EV;
 import ac.uk.york.typhon.query.generator.helper.Utils;
+import ac.uk.york.typhon.query.generator.pojo.FinancialEvent;
+import ac.uk.york.typhon.query.generator.pojo.NonFinancialEvent;
 import ac.uk.york.typhon.query.generator.source.ISource;
 
 public class AlphaBankMariaDBImpl extends SourceImpl implements ISource {
@@ -68,57 +68,28 @@ public class AlphaBankMariaDBImpl extends SourceImpl implements ISource {
 				while (nonFncEvResults.next()) {
 					id = Utils.generateRandomId();
 					Thread.sleep(RandomUtils.nextLong(0, 1000));
-					if (fncIsAfterNonFnc(fncEvResults.getDate("FNC_EV_DT"),
-							nonFncEvResults.getTimestamp("NON_FNC_EV_DT_TM"))) {
+					if (fncIsAfterNonFnc(
+							fncEvResults
+									.getDate(AlphaConstants.Table.FinancialEvent.DT),
+							nonFncEvResults
+									.getTimestamp(AlphaConstants.Table.NonFinancialEvent.DT_TM))) {
 
-						NON_FNC_EV nonFnc = new NON_FNC_EV(
-								nonFncEvResults.getLong("NON_FNC_EV_ID"),
-								nonFncEvResults
-										.getString("NON_FNC_EV_TUN_CODE"),
-								nonFncEvResults.getString("NON_FNC_EV_TP_CODE"),
-								nonFncEvResults.getLong("NON_FNC_EV_AC_ID"),
-								nonFncEvResults.getString("NON_FNC_EV_AC_CODE"),
-								nonFncEvResults
-										.getString("NON_FNC_EV_ACTN_CODE"),
-								nonFncEvResults
-										.getString("NON_FNC_EV_ACTN_DSC"),
-								nonFncEvResults
-										.getTimestamp("NON_FNC_EV_DT_TM"),
-								nonFncEvResults
-										.getString("NON_FNC_EV_CDI_CODE"),
-								nonFncEvResults.getDate("EFF_DT"),
-								nonFncEvResults.getDate("END_DT"));
-//						 String query = nonFnc.toInsertSQLString();
+						NonFinancialEvent nonFnc = new NonFinancialEvent(
+								nonFncEvResults);
 						String query = nonFnc.toInsert();
 						System.out.println(query);
 						Event preEvent = new PreEvent(id, query, "user",
 								Utils.generateTimeStamp(), "dbUser");
 						TopicPublisher.publish(AnalyticTopicType.PRE, preEvent);
-						System.out.println("NON FNC Date: "
-								+ nonFncEvResults
-										.getTimestamp("NON_FNC_EV_DT_TM"));
+						System.out
+								.println("NON FNC Date: "
+										+ nonFncEvResults
+												.getTimestamp(AlphaConstants.Table.NonFinancialEvent.DT_TM));
 
 					} else {
-						FNC_EV fnc = new FNC_EV(
-								fncEvResults.getLong("fNC_EV_ID"),
-								fncEvResults.getLong("fNC_EV_AC_ID"),
-								fncEvResults.getDate("fNC_EV_DT"),
-								fncEvResults.getString("fNC_EV_SIGN_CODE_DSC"),
-								fncEvResults.getString("fNC_EV_SIGN_CODE"),
-								fncEvResults.getDouble("fNC_EV_AMT"),
-								fncEvResults.getString("fNC_EV_TUN_CODE"),
-								fncEvResults.getDate("eFF_DT"),
-								fncEvResults.getDate("eND_DT"),
-								fncEvResults.getString("mRCH_ID"),
-								fncEvResults.getString("mRCH_NAME"),
-								fncEvResults.getLong("mCG_ID"),
-								fncEvResults.getString("mCG"),
-								fncEvResults.getString("mCG_DSC"),
-								fncEvResults.getString("fNC_EV_TP_CODE"),
-								fncEvResults.getString("fNC_EV_TP_DSC"),
-								fncEvResults.getTimestamp("iSRT_TMS"),
-								fncEvResults.getString("fNC_EV_SRC_STM_CODE"));
-//						 String query = fnc.toInsertSQLString();
+						FinancialEvent fnc = new FinancialEvent(fncEvResults);
+
+						// String query = fnc.toInsertSQLString();
 						String query = fnc.toInsert();
 						System.out.println(query);
 						Event preEvent = new PreEvent(id, query, "user",
@@ -129,8 +100,10 @@ public class AlphaBankMariaDBImpl extends SourceImpl implements ISource {
 						// be moved to the current one
 						nonFncEvResults.previous();
 						// Go back to the 1st loop
-						System.out.println("FNC Date: "
-								+ fncEvResults.getDate("FNC_EV_DT"));
+						System.out
+								.println("FNC Date: "
+										+ fncEvResults
+												.getDate(AlphaConstants.Table.FinancialEvent.DT));
 						break;
 					}
 				}
@@ -155,3 +128,41 @@ public class AlphaBankMariaDBImpl extends SourceImpl implements ISource {
 	}
 
 }
+
+// NonFinancialEvent nonFnc = new NonFinancialEvent(
+// nonFncEvResults.getLong("NON_FNC_EV_ID"),
+// nonFncEvResults
+// .getString("NON_FNC_EV_TUN_CODE"),
+// nonFncEvResults.getString("NON_FNC_EV_TP_CODE"),
+// nonFncEvResults.getLong("NON_FNC_EV_AC_ID"),
+// nonFncEvResults.getString("NON_FNC_EV_AC_CODE"),
+// nonFncEvResults
+// .getString("NON_FNC_EV_ACTN_CODE"),
+// nonFncEvResults
+// .getString("NON_FNC_EV_ACTN_DSC"),
+// nonFncEvResults
+// .getTimestamp("NON_FNC_EV_DT_TM"),
+// nonFncEvResults
+// .getString("NON_FNC_EV_CDI_CODE"),
+// nonFncEvResults.getDate("EFF_DT"),
+// nonFncEvResults.getDate("END_DT"));
+
+// FinancialEvent fnc = new FinancialEvent(
+// fncEvResults.getLong("fNC_EV_ID"),
+// fncEvResults.getLong("fNC_EV_AC_ID"),
+// fncEvResults.getDate("fNC_EV_DT"),
+// fncEvResults.getString("fNC_EV_SIGN_CODE_DSC"),
+// fncEvResults.getString("fNC_EV_SIGN_CODE"),
+// fncEvResults.getDouble("fNC_EV_AMT"),
+// fncEvResults.getString("fNC_EV_TUN_CODE"),
+// fncEvResults.getDate("eFF_DT"),
+// fncEvResults.getDate("eND_DT"),
+// fncEvResults.getString("mRCH_ID"),
+// fncEvResults.getString("mRCH_NAME"),
+// fncEvResults.getLong("mCG_ID"),
+// fncEvResults.getString("mCG"),
+// fncEvResults.getString("mCG_DSC"),
+// fncEvResults.getString("fNC_EV_TP_CODE"),
+// fncEvResults.getString("fNC_EV_TP_DSC"),
+// fncEvResults.getTimestamp("iSRT_TMS"),
+// fncEvResults.getString("fNC_EV_SRC_STM_CODE"));
