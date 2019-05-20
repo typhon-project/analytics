@@ -105,7 +105,7 @@ public class AlphaBankMariaDBImpl extends SourceImpl implements ISource {
 								fncEvResults.getDate("fNC_EV_DT"),
 								fncEvResults.getString("fNC_EV_SIGN_CODE_DSC"),
 								fncEvResults.getString("fNC_EV_SIGN_CODE"),
-								fncEvResults.getBigDecimal("fNC_EV_AMT"),
+								fncEvResults.getDouble("fNC_EV_AMT"),
 								fncEvResults.getString("fNC_EV_TUN_CODE"),
 								fncEvResults.getDate("eFF_DT"),
 								fncEvResults.getDate("eND_DT"),

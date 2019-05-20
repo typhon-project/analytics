@@ -13,7 +13,7 @@ public class FNC_EV {
 	Date FNC_EV_DT;
 	String FNC_EV_SIGN_CODE_DSC;
 	String FNC_EV_SIGN_CODE;
-	BigDecimal FNC_EV_AMT;
+	double FNC_EV_AMT;
 	String FNC_EV_TUN_CODE;
 	Date EFF_DT;
 	Date END_DT;
@@ -27,9 +27,13 @@ public class FNC_EV {
 	Timestamp ISRT_TMS;
 	String FNC_EV_SRC_STM_CODE;
 
+	public FNC_EV() {
+		super();
+	}
+
 	public FNC_EV(long fNC_EV_ID, long fNC_EV_AC_ID, Date fNC_EV_DT,
 			String fNC_EV_SIGN_CODE_DSC, String fNC_EV_SIGN_CODE,
-			BigDecimal fNC_EV_AMT, String fNC_EV_TUN_CODE, Date eFF_DT,
+			double fNC_EV_AMT, String fNC_EV_TUN_CODE, Date eFF_DT,
 			Date eND_DT, String mRCH_ID, String mRCH_NAME, long mCG_ID,
 			String mCG, String mCG_DSC, String fNC_EV_TP_CODE,
 			String fNC_EV_TP_DSC, Timestamp iSRT_TMS, String fNC_EV_SRC_STM_CODE) {
@@ -94,11 +98,11 @@ public class FNC_EV {
 		FNC_EV_SIGN_CODE = fNC_EV_SIGN_CODE;
 	}
 
-	public BigDecimal getFNC_EV_AMT() {
+	public double getFNC_EV_AMT() {
 		return FNC_EV_AMT;
 	}
 
-	public void setFNC_EV_AMT(BigDecimal fNC_EV_AMT) {
+	public void setFNC_EV_AMT(double fNC_EV_AMT) {
 		FNC_EV_AMT = fNC_EV_AMT;
 	}
 
@@ -219,9 +223,11 @@ public class FNC_EV {
 				+ AlphaConstants.Table.FinancialEvent.TP_DSC + ","
 				+ AlphaConstants.Table.FinancialEvent.TUN_CODE;
 
-//		 String columnString = "FNC_EV_AC_ID,FNC_EV_AMT,FNC_EV_DT,EFF_DT,END_DT,FNC_EV_ID,ISRT_TMS,MCG,MCG_DSC,"
-//				+ "MCG_ID,MRCH_ID,MRCH_NAME,FNC_EV_SIGN_CODE,FNC_EV_SIGN_CODE_DSC,FNC_EV_SRC_STM_CODE,"
-//				+ "FNC_EV_TP_CODE,FNC_EV_TP_DSC,FNC_EV_TUN_CODE";
+		// String columnString =
+		// "FNC_EV_AC_ID,FNC_EV_AMT,FNC_EV_DT,EFF_DT,END_DT,FNC_EV_ID,ISRT_TMS,MCG,MCG_DSC,"
+		// +
+		// "MCG_ID,MRCH_ID,MRCH_NAME,FNC_EV_SIGN_CODE,FNC_EV_SIGN_CODE_DSC,FNC_EV_SRC_STM_CODE,"
+		// + "FNC_EV_TP_CODE,FNC_EV_TP_DSC,FNC_EV_TUN_CODE";
 
 		return columnString;
 	}
@@ -241,26 +247,24 @@ public class FNC_EV {
 
 		return valuesString;
 	}
-	
-	
-	
+
 	public String retriveValuesStringWithoutSingleQuotesForNumbers() {
 
 		String valuesString = "" + this.FNC_EV_AC_ID + ",'" + this.FNC_EV_AMT
 				+ "','" + this.FNC_EV_DT + "','" + this.EFF_DT + "','"
 				+ this.END_DT + "'," + this.FNC_EV_ID + ",'" + this.EFF_DT
-				+ "','" + this.END_DT + "','" + this.ISRT_TMS + "',"
-				+ this.MCG + ",'" + this.MCG_DSC + "'," + this.MCG_ID
-				+ this.MRCH_ID + ",'" + this.MRCH_NAME + "','"
-				+ this.FNC_EV_SIGN_CODE + "','" + this.FNC_EV_SIGN_CODE_DSC
-				+ "','" + this.FNC_EV_SRC_STM_CODE + "','"
-				+ this.FNC_EV_TP_CODE + "','" + this.FNC_EV_TP_DSC + "','"
-				+ this.FNC_EV_TUN_CODE + "'";
+				+ "','" + this.END_DT + "','" + this.ISRT_TMS + "'," + this.MCG
+				+ ",'" + this.MCG_DSC + "'," + this.MCG_ID + this.MRCH_ID
+				+ ",'" + this.MRCH_NAME + "','" + this.FNC_EV_SIGN_CODE + "','"
+				+ this.FNC_EV_SIGN_CODE_DSC + "','" + this.FNC_EV_SRC_STM_CODE
+				+ "','" + this.FNC_EV_TP_CODE + "','" + this.FNC_EV_TP_DSC
+				+ "','" + this.FNC_EV_TUN_CODE + "'";
 
 		return valuesString;
 	}
 
 	public String toInsertSQLString() {
+
 		String sql = "INSERT INTO TABLE FNC_EV VALUES('" + this.FNC_EV_ID
 				+ "','" + this.FNC_EV_AC_ID + "','" + this.FNC_EV_DT + "','"
 				+ this.FNC_EV_SIGN_CODE_DSC + "','" + this.FNC_EV_SIGN_CODE
