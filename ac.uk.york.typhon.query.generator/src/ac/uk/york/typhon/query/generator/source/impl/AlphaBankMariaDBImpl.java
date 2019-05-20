@@ -68,7 +68,7 @@ public class AlphaBankMariaDBImpl extends SourceImpl implements ISource {
 				while (nonFncEvResults.next()) {
 					id = Utils.generateRandomId();
 					Thread.sleep(RandomUtils.nextLong(0, 1000));
-					if (fncIsAfterNonFnc(
+					if (isFinancialAfterNonFinancial(
 							fncEvResults
 									.getDate(AlphaConstants.Table.FinancialEvent.DT),
 							nonFncEvResults
@@ -118,9 +118,9 @@ public class AlphaBankMariaDBImpl extends SourceImpl implements ISource {
 
 	}
 
-	private Boolean fncIsAfterNonFnc(Date fncEvDate, Timestamp nonFncEvDateTime) {
-		Timestamp fncEvDateTime = new Timestamp(fncEvDate.getTime());
-		if (fncEvDateTime.after(nonFncEvDateTime)) {
+	private Boolean isFinancialAfterNonFinancial(Date financialEventDate, Timestamp nonFinancialEventDateTime) {
+		Timestamp fncEvDateTime = new Timestamp(financialEventDate.getTime());
+		if (fncEvDateTime.after(nonFinancialEventDateTime)) {
 			return true;
 		} else {
 			return false;
