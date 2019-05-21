@@ -30,7 +30,7 @@ public class TopCategoriesSumAnalyzer extends StreamAnalyzer {
 					@Override
 					public boolean filter(Event arg0) throws Exception {
 						if (arg0.getQuery().toLowerCase()
-								.contains("insert into table fnc_ev")) {
+								.contains("insert into fnc_ev")) {
 							return true;
 						}
 						return false;
@@ -67,9 +67,9 @@ public class TopCategoriesSumAnalyzer extends StreamAnalyzer {
 				})
 				.assignTimestampsAndWatermarks(
 						new BoundedOutOfOrdernessGenerator())
-				.keyBy("MCG_DSC")
+				.keyBy("mcgDescription")
 				.timeWindow(Time.days(30))
-				.sum("FNC_EV_AMT")
+				.sum("amount")
 				.map(new MapFunction<FinancialEvent, Tuple3<String, String, Double>>() {
 
 					@Override

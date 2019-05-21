@@ -45,7 +45,7 @@ public class PreEvent extends Event implements Serializable {
 		this.user = user;
 		this.queryTime = queryTime;
 		this.dbUser = dbUser;
-		this.authenticated = false;
+		this.authenticated = true;
 //		try {
 //			this.dmlCommand = CommandFactory.getInstance(query);
 //		} catch (InstantiationException e) {
