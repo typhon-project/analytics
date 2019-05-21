@@ -10,6 +10,6 @@ public abstract class EventAuthorizationTask implements Serializable {
 	
 	public abstract boolean checkCondition(Event preEvent);
 
-	public abstract DataStream<Event> analyse(DataStream<Event> splittedStream) throws Exception;
+	public abstract Event analyse(Event event) throws Exception;
 
 }

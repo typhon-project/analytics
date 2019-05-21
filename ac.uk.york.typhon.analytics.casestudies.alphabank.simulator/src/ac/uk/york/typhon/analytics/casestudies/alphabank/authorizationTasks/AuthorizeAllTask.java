@@ -15,16 +15,9 @@ public class AuthorizeAllTask extends EventAuthorizationTask {
 	}
 
 	@Override
-	public DataStream<Event> analyse(DataStream<Event> splittedStream) throws Exception {
-		DataStream<Event> results = splittedStream.map(new MapFunction<Event, Event>() {
-
-			@Override
-			public Event map(Event arg0) throws Exception {
-				((PreEvent) arg0).setAuthenticated(true);
-				return arg0;
-			}
-		}).returns(Event.class);
-		return results;
+	public Event analyse(Event event) throws Exception {
+		((PreEvent) event).setAuthenticated(true);
+		return event;
 	}
 
 }
