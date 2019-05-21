@@ -8,28 +8,23 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import org.apache.flink.api.common.functions.FilterFunction;
-import org.apache.flink.api.common.functions.MapFunction;
-import org.apache.flink.api.java.tuple.Tuple3;
-import org.apache.flink.streaming.api.datastream.DataStream;
-import org.apache.flink.streaming.api.datastream.DataStreamSink;
-import org.apache.flink.streaming.api.functions.windowing.WindowFunction;
-import org.apache.flink.streaming.api.windowing.time.Time;
-import org.apache.flink.util.Collector;
-
-import ac.uk.york.typhon.analytics.casestudies.alphabank.simulator.datatypes.FNC_EV;
-import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
-import ac.uk.york.typhon.analytics.commons.datatypes.events.PreEvent;
-import ac.uk.york.typhon.analytics.commons.enums.AnalyticTopicType;
-import ac.uk.york.typhon.analytics.messaging.StreamManager;
-import ac.uk.york.typhon.analytics.postEventAnalytics.PostEventAnalyticsTask;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.operators.relational.ExpressionList;
 import net.sf.jsqlparser.parser.CCJSqlParserManager;
 import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.insert.Insert;
 
-public class TopCategoriesCount extends PostEventAnalyticsTask {
+import org.apache.flink.api.common.functions.FilterFunction;
+import org.apache.flink.api.common.functions.MapFunction;
+import org.apache.flink.api.java.tuple.Tuple3;
+import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.datastream.DataStreamSink;
+
+import ac.uk.york.typhon.analytics.casestudies.alphabank.simulator.datatypes.FNC_EV;
+import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
+import ac.uk.york.typhon.analytics.process.StreamAnalyzer;
+
+public class TopCategoriesCount extends StreamAnalyzer {
 	
 	@Override
 	public DataStream<Event> analyse(DataStream<Event> postEvents) throws Exception {

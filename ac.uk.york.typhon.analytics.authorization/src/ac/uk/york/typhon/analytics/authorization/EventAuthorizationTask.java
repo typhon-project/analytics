@@ -12,4 +12,13 @@ public abstract class EventAuthorizationTask implements Serializable {
 
 	public abstract Event analyse(Event event) throws Exception;
 
+	public DataStream<Event> analyse(DataStream<Event> splittedStream) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+
+
+
 }

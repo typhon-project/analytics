@@ -17,15 +17,22 @@ public class ExampleEventAuthTask1 extends EventAuthorizationTask {
 	}
 
 	@Override
-	public DataStream<Event> analyse(DataStream<Event> splittedStream) throws Exception {
-		DataStream<Event> results = splittedStream.map(new MapFunction<Event, Event>() {
+	public DataStream<Event> analyse(DataStream<Event> splittedStream) {
+		DataStream<Event> results = splittedStream
+				.map(new MapFunction<Event, Event>() {
 
-			@Override
-			public Event map(Event arg0) throws Exception {
-				return arg0;
-			}
-		});
+					@Override
+					public Event map(Event arg0) throws Exception {
+						return arg0;
+					}
+				});
 		return results;
+	}
+
+	@Override
+	public Event analyse(Event event) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
