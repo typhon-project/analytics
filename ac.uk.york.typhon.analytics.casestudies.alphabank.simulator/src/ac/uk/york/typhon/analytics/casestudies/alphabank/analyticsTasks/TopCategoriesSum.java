@@ -23,9 +23,10 @@ import org.apache.flink.streaming.api.windowing.time.Time;
 
 import ac.uk.york.typhon.analytics.casestudies.alphabank.simulator.datatypes.FNC_EV;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
-import ac.uk.york.typhon.analytics.process.EventManager;
+import ac.uk.york.typhon.analytics.process.StreamAnalyzer;
+;
 
-public class TopCategoriesSum extends EventManager {
+public class TopCategoriesSum extends StreamAnalyzer {
 	
 	@Override
 	public DataStream<Event> analyse(DataStream<Event> postEvents) throws Exception {

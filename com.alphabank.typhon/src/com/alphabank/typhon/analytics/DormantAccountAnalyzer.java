@@ -12,8 +12,9 @@ import ac.uk.york.typhon.analytics.commons.datatypes.events.PostEvent;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.PreEvent;
 import ac.uk.york.typhon.analytics.commons.enums.AnalyticTopicType;
 import ac.uk.york.typhon.analytics.messaging.StreamManager;
+import ac.uk.york.typhon.analytics.process.StreamAnalyzer;
 
-public class DormantAccountActivity {
+public class DormantAccountAnalyzer extends StreamAnalyzer {
 
 	public static void main(String[] args) throws Exception {
 
@@ -22,7 +23,16 @@ public class DormantAccountActivity {
 
 		// dataStream.print(); //print the data stream as received
 
-		dataStream = dataStream.map(new MapFunction<Event, Event>() {
+		StreamManager.initializeSink(AlphaEnum.ALPHA, dataStream);
+
+		StreamManager.startExecutionEnvironment(AnalyticTopicType.POST);
+
+	}
+
+	@Override
+	public DataStream<Event> analyse(DataStream<Event> eventsStream)
+			throws Exception {
+		eventsStream = eventsStream.map(new MapFunction<Event, Event>() {
 			@Override
 			public Event map(Event event) throws Exception {
 				String query = ((PostEvent) event).getPreEvent().getQuery();
@@ -38,11 +48,7 @@ public class DormantAccountActivity {
 				return event;
 			}
 		}).returns(Event.class);
-
-		StreamManager.initializeSink(AlphaEnum.ALPHA, dataStream);
-
-		StreamManager.startExecutionEnvironment(AnalyticTopicType.POST);
-
+		return eventsStream;
 	}
 
 }

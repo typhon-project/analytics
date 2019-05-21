@@ -8,13 +8,13 @@ import org.apache.flink.streaming.api.datastream.DataStreamSink;
 import org.apache.flink.streaming.api.windowing.time.Time;
 
 import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
-
 import ac.uk.york.typhon.analytics.process.StreamAnalyzer;
 
+import com.alphabank.typhon.analytics.assigner.BoundedOutOfOrdernessGenerator;
 import com.alphabank.typhon.dto.FinancialEvent;
 import com.alphabank.typhon.extractor.insert.FinancialEventInsertExtractor;
 
-public class TopCategoriesSum extends StreamAnalyzer {
+public class TopCategoriesSumAnalyzer extends StreamAnalyzer {
 
 	/**
 	 * 

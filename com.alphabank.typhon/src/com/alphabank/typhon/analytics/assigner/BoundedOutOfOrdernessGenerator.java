@@ -1,4 +1,4 @@
-package com.alphabank.typhon.analytics;
+package com.alphabank.typhon.analytics.assigner;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
