@@ -11,24 +11,13 @@ public class AuthorizationTask1 extends EventAuthorizationTask {
 	
 	@Override
 	public boolean checkCondition(Event preEvent) {
-		if (preEvent.getQuery().toLowerCase().contains("insert into table fnc_ev")) {
-			return true;
-		} else {
-			return false;
-		}
+		return true;
 	}
 
 	@Override
-	public DataStream<Event> analyse(DataStream<Event> splittedStream) throws Exception {
-		DataStream<Event> results = splittedStream.map(new MapFunction<Event, Event>() {
-
-			@Override
-			public Event map(Event arg0) throws Exception {
-				((PreEvent) arg0).setAuthenticated(true);
-				return arg0;
-			}
-		}).returns(Event.class);
-		return results;
+	public Event analyse(Event event) throws Exception {
+		((PreEvent) event).setAuthenticated(Math.random() < 0.5);
+		return event;
 	}
 
 }
