@@ -23,7 +23,7 @@ import org.apache.flink.streaming.api.windowing.time.Time;
 
 import ac.uk.york.typhon.analytics.casestudies.alphabank.simulator.datatypes.FNC_EV;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
-import ac.uk.york.typhon.analytics.management.EventManager;
+import ac.uk.york.typhon.analytics.process.EventManager;
 
 public class TopCategoriesSum extends EventManager {
 	

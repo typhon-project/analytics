@@ -7,6 +7,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ac.uk.york.typhon.analytics.messaging"/>
 	<classpathentry kind="lib" path="/ac.uk.york.typhon.analytics.libs/libs/mysql-connector-java-8.0.12.jar" sourcepath="C:/Users/Admin/.m2/repository/mysql/mysql-connector-java/8.0.12/mysql-connector-java-8.0.12-sources.jar"/>
 	<classpathentry kind="lib" path="/ac.uk.york.typhon.analytics.libs/libs/jsqlparser-1.2.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ac.uk.york.typhon.analytics.management"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ac.uk.york.typhon.analytics.process"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

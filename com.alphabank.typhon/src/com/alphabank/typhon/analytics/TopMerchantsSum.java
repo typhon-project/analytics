@@ -8,12 +8,13 @@ import org.apache.flink.streaming.api.datastream.DataStreamSink;
 import org.apache.flink.streaming.api.windowing.time.Time;
 
 import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
-import ac.uk.york.typhon.analytics.management.EventManager;
+
+import ac.uk.york.typhon.analytics.process.StreamAnalyzer;
 
 import com.alphabank.typhon.dto.FinancialEvent;
 import com.alphabank.typhon.extractor.insert.FinancialEventInsertExtractor;
 
-public class TopMerchantsSum extends EventManager {
+public class TopMerchantsSum extends StreamAnalyzer {
 
 	/**
 	 * 

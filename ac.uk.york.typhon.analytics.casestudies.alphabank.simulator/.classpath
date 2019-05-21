@@ -9,7 +9,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ac.uk.york.typhon.analytics.messaging"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ac.uk.york.typhon.analytics.authorization"/>
 	<classpathentry kind="lib" path="/ac.uk.york.typhon.analytics.libs/libs/flink-dist_2.11-1.5.0.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ac.uk.york.typhon.analytics.management"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ac.uk.york.typhon.analytics.process"/>
 	<classpathentry kind="lib" path="/ac.uk.york.typhon.analytics.libs/libs/jsqlparser-1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
