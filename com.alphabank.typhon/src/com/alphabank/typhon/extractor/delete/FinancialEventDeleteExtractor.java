@@ -2,9 +2,9 @@ package com.alphabank.typhon.extractor.delete;
 
 import net.sf.jsqlparser.JSQLParserException;
 
-public class DeleteExtractorFinancialEvent extends DeleteExtractor {
+public class FinancialEventDeleteExtractor extends DeleteExtractor {
 
-	public DeleteExtractorFinancialEvent(String query)
+	public FinancialEventDeleteExtractor(String query)
 			throws JSQLParserException {
 		super(query);
 		// TODO Auto-generated constructor stub

@@ -2,8 +2,8 @@ package com.alphabank.typhon.extractor.update;
 
 import net.sf.jsqlparser.JSQLParserException;
 
-public class UpdateExtractorNonFinancialEvent extends UpdateExtractor {
-	public UpdateExtractorNonFinancialEvent(String query)
+public class NonFinancialEventUpdateExtractor extends UpdateExtractor {
+	public NonFinancialEventUpdateExtractor(String query)
 			throws JSQLParserException {
 		super(query);
 

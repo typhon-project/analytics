@@ -2,8 +2,8 @@ package com.alphabank.typhon.extractor.select;
 
 import net.sf.jsqlparser.JSQLParserException;
 
-public class SelectExtractorNonFinancialEvent extends SelectExtractor {
-	public SelectExtractorNonFinancialEvent(String query)
+public class NonFinancialEventSelectExtractor extends SelectExtractor {
+	public NonFinancialEventSelectExtractor(String query)
 			throws JSQLParserException {
 		super(query);
 

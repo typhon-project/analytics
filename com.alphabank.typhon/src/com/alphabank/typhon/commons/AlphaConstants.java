@@ -15,6 +15,7 @@ public abstract class AlphaConstants extends Constants {
 
 		String ACTION_CODE = "7";
 		String EVENT_TYPE_CODE = "OAA";
+		int CUSTOMER_AGE_LIMIT = 70;
 	}
 
 	public interface Table {
@@ -75,6 +76,37 @@ public abstract class AlphaConstants extends Constants {
 			// String FNC_EV_ID = "FNC_EV_ID";
 			// String FNC_EV_AC_ID = "FNC_EV_AC_ID";
 			// String FNC_EV_AMT = "FNC_EV_AMT";
+
+		}
+
+		public interface CustomerDetails {
+			public static String getName() {
+				return "oblg_dtl";
+			}
+
+			public static String ID = "OBLG_ID";
+			public static String DTL_OBLG_CDI_CODE = "OBLG_DTL_OBLG_CDI_CODE";
+			public static String BRTH_DT = "OBLG_BRTH_DT";
+			public static String PRIM_EMAIL_ADR = "OBLG_PRIM_EMAIL_ADR";
+			public static String EFF_DT = "EFF_DT";
+			public static String END_DT = "END_DT";
+			public static String ISRT_TMS = "ISRT_TMS";
+
+		}
+
+		public interface Account {
+			public static String getName() {
+				return "ac_gnl";
+			}
+
+			public static String AC_ID = "AC_ID";
+			public static String AC_CODE = "AC_CODE";
+			public static String AC_SRC_STM_CODE = "AC_SRC_STM_CODE";
+			public static String AC_FRST_BENF_ID = "AC_FRST_BENF_ID";
+			public static String AC_FRST_BENF_CDI_CODE = "AC_FRST_BENF_CDI_CODE";
+			public static String ISRT_TMS = "ISRT_TMS";
+			public static String EFF_DT = "EFF_DT";
+			public static String END_DT = "END_DT";
 
 		}
 	}

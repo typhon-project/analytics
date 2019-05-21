@@ -3,9 +3,9 @@ package com.alphabank.typhon.extractor.select;
 import ac.uk.york.typhon.analytics.commons.datatypes.wrapper.parsedstatement.SelectParsedStatement;
 import net.sf.jsqlparser.JSQLParserException;
 
-public class SelectExtractorFinancialEvent extends SelectExtractor {
+public class FinancialEventSelectExtractor extends SelectExtractor {
 
-	public SelectExtractorFinancialEvent(String query)
+	public FinancialEventSelectExtractor(String query)
 			throws JSQLParserException {
 		super(query);
 

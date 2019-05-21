@@ -17,72 +17,14 @@ public class NonFinancialEventDAOImpl implements INonFinancialEventDAO {
 		this.connection = connection;
 	}
 
-//	public String selectCountryIdByCode(String countryCode) {
-//	
-//	 StringBuilder sql = new StringBuilder("select * from "
-//	 + AlphaConstants.Table.NonFinancialEvent.getName() + "  where "
-//	 + AlphaConstants. .COUNTRY_CODE + " = '"
-//	 + countryCode + "'");
-//	
-//	 this.appendMessage(sql.toString());
-//	
-//	 PreparedStatement ptmt = null;
-//	 ResultSet resultSet = null;
-//	 String countryId = null;
-//	 try {
-//	 ptmt = this.connection.prepareStatement(sql.toString());
-//	
-//	 resultSet = ptmt.executeQuery();
-//	 if (resultSet != null) {
-//	 while (resultSet.next()) {
-//	 countryId = resultSet
-//	 .getString(AlphaConstants.DatabaseCountryCodeColumnName.CODE_ID);
-//	 System.out.println(countryId);
-//	
-//	 }
-//	 }
-//	 resultSet.close();
-//	
-//	 } catch (SQLException e) {
-//	 // TODO Auto-generated catch block
-//	 e.printStackTrace();
-//	 }
-//	 return countryId;
-//	 }
-
-	// public void insertCountryCode(String countryCode) {
-	//
-	// try {
-	//
-	// String query = " insert into "
-	// + AlphaConstants.Table.NW_GEO_COUNTRY_CODE + " ("
-	// + AlphaConstants.DatabaseCountryCodeColumnName.COUNTRY_CODE
-	// + ")" + " values ( ? )";
-	//
-	// System.out.println(query);
-	// // create the mysql insert preparedstatement
-	// PreparedStatement preparedStmt = connection.prepareStatement(query);
-	//
-	// preparedStmt.setString(1, countryCode);
-	// preparedStmt.execute();
-	// preparedStmt.close();
-	// // connection.commit();
-	//
-	// } catch (SQLException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	//
-	// }
-
 	@Override
-	public NonFinancialEventEntity selectNonFinancialEventByAccountNumber(
-			String accountNumber) {
+	public NonFinancialEventEntity selectNonFinancialEventByAccountCode(
+			String accountCode) {
 
 		StringBuilder sql = new StringBuilder("select * from "
 				+ AlphaConstants.Table.NonFinancialEvent.getName() + "  where "
-				+ AlphaConstants.Table.NonFinancialEvent.ACCOUNT_CODE + " = '"
-				+ accountNumber + "'");
+				+ AlphaConstants.Table.NonFinancialEvent.AC_CODE + " = '"
+				+ accountCode + "'");
 
 		PreparedStatement ptmt = null;
 		ResultSet resultSet = null;
@@ -97,21 +39,36 @@ public class NonFinancialEventDAOImpl implements INonFinancialEventDAO {
 				// while (resultSet.next()) {
 
 				nonFinancialEventEntity
-						.setId(resultSet
-								.getString(AlphaConstants.Table.NonFinancialEvent.EVENT_ID));
-
-				nonFinancialEventEntity
 						.setAccountCode(resultSet
-								.getString(AlphaConstants.Table.NonFinancialEvent.ACCOUNT_CODE));
-		
-
+								.getString(AlphaConstants.Table.NonFinancialEvent.AC_CODE));
+				nonFinancialEventEntity.setAccountId(resultSet
+						.getLong(AlphaConstants.Table.NonFinancialEvent.AC_ID));
 				nonFinancialEventEntity
 						.setActionCode(resultSet
-								.getString(AlphaConstants.Table.NonFinancialEvent.ACTION_CODE));
-
+								.getString(AlphaConstants.Table.NonFinancialEvent.ACTN_CODE));
 				nonFinancialEventEntity
-						.setEventTypeCode(resultSet
-								.getString(AlphaConstants.Table.NonFinancialEvent.EVENT_TYPE_CODE));
+						.setActionDescription(resultSet
+								.getString(AlphaConstants.Table.NonFinancialEvent.ACTN_DSC));
+				nonFinancialEventEntity
+						.setCdiCode(resultSet
+								.getString(AlphaConstants.Table.NonFinancialEvent.CDI_CODE));
+				nonFinancialEventEntity
+						.setDateTime(resultSet
+								.getTimestamp(AlphaConstants.Table.NonFinancialEvent.DT_TM));
+				nonFinancialEventEntity
+						.setEffectiveDate(resultSet
+								.getDate(AlphaConstants.Table.NonFinancialEvent.EFF_DT));
+				nonFinancialEventEntity
+						.setEndDate(resultSet
+								.getDate(AlphaConstants.Table.NonFinancialEvent.END_DT));
+				nonFinancialEventEntity.setId(resultSet
+						.getLong(AlphaConstants.Table.NonFinancialEvent.ID));
+				nonFinancialEventEntity
+						.setTpCode(resultSet
+								.getString(AlphaConstants.Table.NonFinancialEvent.TP_CODE));
+				nonFinancialEventEntity
+						.setTunCode(resultSet
+								.getString(AlphaConstants.Table.NonFinancialEvent.TUN_CODE));
 
 				System.out.println(nonFinancialEventEntity);
 

@@ -1,6 +1,5 @@
 package com.alphabank.typhon.dataaccess.impl;
 
-import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -8,24 +7,16 @@ import java.sql.SQLException;
 import ac.uk.york.typhon.analytics.commons.AppConfiguration;
 import ac.uk.york.typhon.analytics.commons.datatypes.commands.DMLCommand;
 import ac.uk.york.typhon.analytics.commons.datatypes.commands.InsertCommand;
-import ac.uk.york.typhon.analytics.commons.datatypes.wrapper.parsedstatement.ParsedStatement;
-import ac.uk.york.typhon.analytics.commons.enums.StatementType;
 
 import com.alphabank.typhon.commons.AlphaConstants;
+import com.alphabank.typhon.commons.Utils;
 import com.alphabank.typhon.dao.IAccountDAO;
-import com.alphabank.typhon.dao.INonFinancialEventDAO;
-import com.alphabank.typhon.dao.ITransactionDAO;
+import com.alphabank.typhon.dao.ICustomerDAO;
 import com.alphabank.typhon.dao.impl.AccountDAOImpl;
-import com.alphabank.typhon.dao.impl.NonFinancialEventDAOImpl;
-import com.alphabank.typhon.dao.impl.TransactionDAOImpl;
-import com.alphabank.typhon.dataaccess.IAccountActivityAccess;
+import com.alphabank.typhon.dao.impl.CustomerDetailsDAOImpl;
 import com.alphabank.typhon.entity.AccountEntity;
-import com.alphabank.typhon.entity.NonFinancialEventEntity;
-import com.alphabank.typhon.entity.TransactionEntity;
-import com.alphabank.typhon.extractor.delete.DeleteExtractor;
-import com.alphabank.typhon.extractor.insert.InsertExtractor;
-import com.alphabank.typhon.extractor.select.SelectExtractor;
-import com.alphabank.typhon.extractor.update.UpdateExtractor;
+import com.alphabank.typhon.entity.CustomerDetailsEntity;
+import com.alphabank.typhon.extractor.insert.NonFinancialEventInsertExtractor;
 
 public class AccountActivityAccessImpl {
 
@@ -36,10 +27,10 @@ public class AccountActivityAccessImpl {
 	private static Connection connection;
 
 	static {
-		initializeCOnnection();
+		initializeConnection();
 	}
 
-	private static void initializeCOnnection() {
+	private static void initializeConnection() {
 		String url = AppConfiguration.getString(AlphaConstants.Database.URL);
 		String user = AppConfiguration
 				.getString(AlphaConstants.Database.USERNAME);
@@ -56,6 +47,47 @@ public class AccountActivityAccessImpl {
 
 	public AccountActivityAccessImpl() {
 
+	}
+
+	public static boolean isDormantAccount(
+			NonFinancialEventInsertExtractor nonFinancialEventInsertExtractor) {
+
+		boolean isDormant = false;
+ 		if (nonFinancialEventInsertExtractor.getActionCode().equalsIgnoreCase(
+				AlphaConstants.DormantFlags.EVENT_TYPE_CODE)
+		// && nonFinancialEventInsertExtractor.getActionDesc()
+		// .equalsIgnoreCase(
+		// AlphaConstants.DormantFlags.ACTION_CODE)
+		) {
+			String accountCode = nonFinancialEventInsertExtractor
+					.getAccountCode();
+
+			IAccountDAO accountDAO = new AccountDAOImpl(connection);
+			AccountEntity accountEntity = accountDAO
+					.selectAccountByAccountCode(accountCode);
+			if (accountEntity != null) {
+				ICustomerDAO customerDAO = new CustomerDetailsDAOImpl(
+						connection);
+				CustomerDetailsEntity customerDetailsEntity = customerDAO
+						.selectCustomerDetailsByCDICode(accountEntity
+								.getFirstBeneficiaryId());
+				if (customerDetailsEntity != null) {
+int x = 5;
+					long customerAge = Utils.yearDifference(customerDetailsEntity
+							.getBirthDateTime());
+					if(customerAge>AlphaConstants.DormantFlags.CUSTOMER_AGE_LIMIT){
+						isDormant = true;
+					}
+				}
+//				if (accountEntity.getCode() == accountEntity
+//						.getFirstBeneficiaryCDICode()) {
+//
+//				}
+			}
+
+		}
+
+		return isDormant;
 	}
 
 	public static String retrieveAccountNumberFromDML(DMLCommand dmlCommand) {
@@ -98,27 +130,30 @@ public class AccountActivityAccessImpl {
 		return clause;
 	}
 
-	public static boolean isDormantAccount(String accountNumber) {
-		INonFinancialEventDAO nonFinancialEventDao = new NonFinancialEventDAOImpl(
-				connection);
-
-		NonFinancialEventEntity nonFinancialEvent = nonFinancialEventDao
-				.selectNonFinancialEventByAccountNumber(accountNumber);
-
-		if (nonFinancialEvent.getEventTypeCode() == AlphaConstants.DormantFlags.EVENT_TYPE_CODE
-				&& nonFinancialEvent.getActionCode() == AlphaConstants.DormantFlags.ACTION_CODE) {
-
-			IAccountDAO accountDAO = new AccountDAOImpl();
-			AccountEntity accountEntity = accountDAO
-					.retrieveAccountByAccountNumber(accountNumber);
-
-			if (accountEntity.getCode() == nonFinancialEvent.getAccountCode()) {
-
-			}
-
-		}
-		return false;
-	}
+	// public static boolean isDormantAccount(String accountNumber) {
+	// INonFinancialEventDAO nonFinancialEventDao = new
+	// NonFinancialEventDAOImpl(
+	// connection);
+	//
+	// NonFinancialEventEntity nonFinancialEvent = nonFinancialEventDao
+	// .selectNonFinancialEventByAccountCode(accountNumber);
+	//
+	// if (nonFinancialEvent.getEventTypeCode() ==
+	// AlphaConstants.DormantFlags.EVENT_TYPE_CODE
+	// && nonFinancialEvent.getActionCode() ==
+	// AlphaConstants.DormantFlags.ACTION_CODE) {
+	//
+	// IAccountDAO accountDAO = new AccountDAOImpl(connection);
+	// AccountEntity accountEntity = accountDAO
+	// .selectAccountByAccountCode(accountNumber);
+	//
+	// if (accountEntity.getCode() == nonFinancialEvent.getAccountCode()) {
+	//
+	// }
+	//
+	// }
+	// return false;
+	// }
 
 	// public List<MessageDTO> storeNewsEvent(EventEntity eventEntity) {
 	//
@@ -168,42 +203,44 @@ public class AccountActivityAccessImpl {
 
 	}
 
-	public static String retrieveAccountNumberFromStatement(
-			ParsedStatement queryStatement) {
-		
-		StatementType statementType = StatementType.valueOf(queryStatement
-				.getStatement().getClass().getSimpleName().toUpperCase());
-		String accountNumber = "";
-		switch (statementType) {
-
-		case SELECT:
-			SelectExtractor.retrieveTransactionId(queryStatement.getStatement());
-			SelectExtractor selectExtractor = (SelectExtractor) queryStatement;
-			String transactionId = selectExtractor.retrieveTransactionId();
-			accountNumber = transactionId;
-			// select the account related to this transaction from the transaction table
-			break;
-		case INSERT:
-			InsertExtractor insertExtractor = (InsertExtractor) queryStatement;
-			 accountNumber = insertExtractor.retrieveAccountNumber();
-			break;
-		case UPDATE:
-			UpdateExtractor updateExtractor = (UpdateExtractor) queryStatement;
-			accountNumber = updateExtractor.retrieveAccountNumber();
-			break;
-		case DELETE:
-			DeleteExtractor deleteExtractor = (DeleteExtractor) queryStatement;
-			String financialEventId = deleteExtractor.extractFinancialEventId();
-			ITransactionDAO transactionDAO = new TransactionDAOImpl(connection);
-			TransactionEntity transactionEntity = transactionDAO.selectTransactionById(financialEventId);
-			System.out.println(transactionEntity);
-		
-			accountNumber = deleteExtractor.retrieveAccountNumber();
-			break;
-
-		}
-		
-		return accountNumber;
-	}
+	// public static String retrieveAccountNumberFromStatement(
+	// ParsedStatement queryStatement) {
+	//
+	// StatementType statementType = StatementType.valueOf(queryStatement
+	// .getStatement().getClass().getSimpleName().toUpperCase());
+	// String accountNumber = "";
+	// switch (statementType) {
+	//
+	// case SELECT:
+	// SelectExtractor.retrieveTransactionId(queryStatement.getStatement());
+	// SelectExtractor selectExtractor = (SelectExtractor) queryStatement;
+	// String transactionId = selectExtractor.retrieveTransactionId();
+	// accountNumber = transactionId;
+	// // select the account related to this transaction from the transaction
+	// table
+	// break;
+	// case INSERT:
+	// InsertExtractor insertExtractor = (InsertExtractor) queryStatement;
+	// accountNumber = insertExtractor.retrieveAccountNumber();
+	// break;
+	// case UPDATE:
+	// UpdateExtractor updateExtractor = (UpdateExtractor) queryStatement;
+	// accountNumber = updateExtractor.retrieveAccountNumber();
+	// break;
+	// case DELETE:
+	// DeleteExtractor deleteExtractor = (DeleteExtractor) queryStatement;
+	// String financialEventId = deleteExtractor.extractFinancialEventId();
+	// ITransactionDAO transactionDAO = new TransactionDAOImpl(connection);
+	// TransactionEntity transactionEntity =
+	// transactionDAO.selectTransactionById(financialEventId);
+	// System.out.println(transactionEntity);
+	//
+	// accountNumber = deleteExtractor.retrieveAccountNumber();
+	// break;
+	//
+	// }
+	//
+	// return accountNumber;
+	// }
 
 }

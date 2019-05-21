@@ -8,6 +8,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.expression.operators.relational.ExpressionList;
+import net.sf.jsqlparser.parser.CCJSqlParserManager;
+import net.sf.jsqlparser.statement.Statement;
+import net.sf.jsqlparser.statement.insert.Insert;
+
 import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.tuple.Tuple3;
@@ -17,17 +23,9 @@ import org.apache.flink.streaming.api.windowing.time.Time;
 
 import ac.uk.york.typhon.analytics.casestudies.alphabank.simulator.datatypes.FNC_EV;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
-import ac.uk.york.typhon.analytics.commons.datatypes.events.PreEvent;
-import ac.uk.york.typhon.analytics.commons.enums.AnalyticTopicType;
-import ac.uk.york.typhon.analytics.messaging.StreamManager;
-import ac.uk.york.typhon.analytics.postEventAnalytics.PostEventAnalyticsTask;
-import net.sf.jsqlparser.expression.Expression;
-import net.sf.jsqlparser.expression.operators.relational.ExpressionList;
-import net.sf.jsqlparser.parser.CCJSqlParserManager;
-import net.sf.jsqlparser.statement.Statement;
-import net.sf.jsqlparser.statement.insert.Insert;
+import ac.uk.york.typhon.analytics.process.EventManager;
 
-public class TopCategoriesSum extends PostEventAnalyticsTask {
+public class TopCategoriesSum extends EventManager {
 	
 	@Override
 	public DataStream<Event> analyse(DataStream<Event> postEvents) throws Exception {

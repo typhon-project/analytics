@@ -2,6 +2,7 @@ package ac.uk.york.typhon.query.generator;
 
 import ac.uk.york.typhon.query.generator.helper.GeneratorConstants;
 import ac.uk.york.typhon.query.generator.source.ISource;
+import ac.uk.york.typhon.query.generator.source.impl.AlphaBankMariaDBImpl;
 import ac.uk.york.typhon.query.generator.source.impl.CsvSourceImpl;
 import ac.uk.york.typhon.query.generator.source.impl.SkyServerSourceImpl;
 
@@ -17,8 +18,8 @@ public class PreEventsGenerator {
 		// ISource source = new
 		// CsvSourceImpl(GeneratorConstants.FileNames.NON_FINANCIAL_EVENTS);
 
-		ISource source = new CsvSourceImpl(
-				GeneratorConstants.FileNames.FINANCIAL_TRANSATIONS);
+		// ISource source = new CsvSourceImpl(
+		// GeneratorConstants.FileNames.FINANCIAL_TRANSATIONS);
 
 		// Generate PreEvents from a SQl Log of SkyServer
 		// http://skyserver.sdss.org
@@ -27,9 +28,12 @@ public class PreEventsGenerator {
 
 		// continuous load of events from the CSV and send them to the database
 		// and the message queue.
-		//while (true) {
-			source.generate();
-		//}
+		// while (true) {
+		// source.generate();
+		// }
+
+		ISource source = new AlphaBankMariaDBImpl();
+		source.generate();
 
 	}
 

@@ -6,7 +6,7 @@ public interface INonFinancialEventDAO {
 
 
 
-	NonFinancialEventEntity selectNonFinancialEventByAccountNumber(
+	NonFinancialEventEntity selectNonFinancialEventByAccountCode(
 			String accountNumber);
 
 }

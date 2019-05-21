@@ -48,10 +48,14 @@ public abstract class InsertExtractor {
 
 		HashMap<String, String> fieldValueMap = new HashMap<String, String>();
 		for (int i = 0; i < columnsList.size(); i++) {
-			System.out.println(columnsList.get(i));
-			System.out.println(expressionList.get(i));
-			fieldValueMap.put(columnsList.get(i).getColumnName(), expressionList.get(i).toString());
-			
+//			System.out.println(columnsList.get(i));
+//			System.out.println(expressionList.get(i));
+
+			fieldValueMap.put(
+					columnsList.get(i).getColumnName(),
+					expressionList.get(i).toString().trim()
+							.replaceAll("(^')|('$)", ""));
+
 		}
 
 		return fieldValueMap;
