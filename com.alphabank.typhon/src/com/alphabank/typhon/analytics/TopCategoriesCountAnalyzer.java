@@ -14,12 +14,17 @@ import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.Collector;
 
+import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
+import ac.uk.york.typhon.analytics.process.StreamAnalyzer;
+
 import com.alphabank.typhon.analytics.assigner.BoundedOutOfOrdernessGenerator;
 import com.alphabank.typhon.dto.FinancialEvent;
 import com.alphabank.typhon.extractor.insert.FinancialEventInsertExtractor;
 
+
 import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.uk.york.typhon.analytics.process.StreamAnalyzer;
+
 
 public class TopCategoriesCountAnalyzer extends StreamAnalyzer {
 
