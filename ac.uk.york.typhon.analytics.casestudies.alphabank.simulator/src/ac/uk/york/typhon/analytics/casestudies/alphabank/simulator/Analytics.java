@@ -19,18 +19,21 @@ import ac.uk.york.typhon.analytics.messaging.StreamManager;
 public class Analytics {
 	
 	public static void main(String[] args) throws Exception {
-//		TopCategories top = new TopCategories();
-//
-//		DataStream<Event> dataStream = StreamManager
-//				.initializeSource(AnalyticTopicType.POST, PostEvent.class);
-//		
-//
-//		DataStream<Event> topCategoriesStream = top.analyse(dataStream);
-//		topCategoriesStream.print();
-//
-//		StreamManager.initializeSink(ExternalTopicType.RESULTS, topCategoriesStream);
-//
-//		StreamManager.startExecutionEnvironment(AnalyticTopicType.POST);
+		TopCategories top = new TopCategories();
+		TopProducts prod = new 
+		DataStream<Event> dataStream = StreamManager
+				.initializeSource(AnalyticTopicType.POST, PostEvent.class);
+		
+
+		DataStream<Event> topCategoriesStream = top.analyse(dataStream);
+		topCategoriesStream.print();
+		
+		DataStream<Event> topCategoriesStream = prod.analyse(dataStream);
+		topCategoriesStream.print();
+
+		StreamManager.initializeSink(ExternalTopicType.RESULTS, topCategoriesStream);
+
+		StreamManager.startExecutionEnvironment(AnalyticTopicType.POST);
 	}
 
 }
