@@ -79,10 +79,10 @@ public class TopMerchantsSumAnalyzer extends StreamAnalyzer {
 						Tuple3<String, String, Double> result = new Tuple3<String, String, Double>();
 						String month = financialEvent.getDate().toLocalDate()
 								.getMonth().toString();
-						result.f0 = financialEvent.getMarchentName();
+						result.f0 = financialEvent.getMerchantName();
 						result.f1 = month;
 						result.f2 = financialEvent.getAmount();
-						System.out.println(financialEvent.getMarchentName()
+						System.out.println(financialEvent.getMerchantName()
 								+ " " + month + " "
 								+ financialEvent.getAmount());
 						return result;

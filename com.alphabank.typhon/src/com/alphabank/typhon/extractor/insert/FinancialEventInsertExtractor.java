@@ -69,11 +69,11 @@ public class FinancialEventInsertExtractor extends InsertExtractor {
 				.get(AlphaConstants.Table.FinancialEvent.END_DT));
 	};
 
-	public String getMarchentId() {
+	public String getMerchantId() {
 		return fieldValueMap.get(AlphaConstants.Table.FinancialEvent.MRCH_ID);
 	};
 
-	public String getMarchentName() {
+	public String getMerchantName() {
 		return fieldValueMap.get(AlphaConstants.Table.FinancialEvent.MRCH_NAME);
 	};
 

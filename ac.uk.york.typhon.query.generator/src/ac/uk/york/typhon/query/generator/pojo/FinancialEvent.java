@@ -30,7 +30,6 @@ public class FinancialEvent {
 	String FNC_EV_SRC_STM_CODE;
 
 	public FinancialEvent() {
-		super();
 	}
 
 	public FinancialEvent(ResultSet resultSet) {

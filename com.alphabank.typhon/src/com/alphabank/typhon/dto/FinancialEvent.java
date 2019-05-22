@@ -1,13 +1,9 @@
 package com.alphabank.typhon.dto;
 
-import java.math.BigDecimal;
 import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 
-import com.alphabank.typhon.commons.AlphaConstants;
 import com.alphabank.typhon.extractor.insert.FinancialEventInsertExtractor;
 
 public class FinancialEvent {
@@ -21,8 +17,8 @@ public class FinancialEvent {
 	private String tunCode;
 	private Date effectiveDate;
 	private Date endDate;
-	private String marchentId;
-	private String marchentName;
+	private String merchantId;
+	private String merchantName;
 	private long mcgId;
 	private String mcg;
 	private String mcgDescription;
@@ -43,8 +39,8 @@ public class FinancialEvent {
 		this.endDate = extractor.getEndDateTime();
 		this.id = extractor.getId();
 		this.insertionTimestamp = extractor.getISRTTimeStamp();
-		this.marchentId = extractor.getMarchentId();
-		this.marchentName = extractor.getMarchentName();
+		this.merchantId = extractor.getMerchantId();
+		this.merchantName = extractor.getMerchantName();
 		this.mcg = extractor.getMcg();
 		this.mcgDescription = extractor.getMcgDesc();
 		this.mcgId = extractor.getMcgId();
@@ -93,12 +89,12 @@ public class FinancialEvent {
 		return endDate;
 	}
 
-	public String getMarchentId() {
-		return marchentId;
+	public String getMerchantId() {
+		return merchantId;
 	}
 
-	public String getMarchentName() {
-		return marchentName;
+	public String getMerchantName() {
+		return merchantName;
 	}
 
 	public long getMcgId() {
@@ -165,12 +161,12 @@ public class FinancialEvent {
 		this.endDate = endDate;
 	}
 
-	public void setMarchentId(String marchentId) {
-		this.marchentId = marchentId;
+	public void setMerchantId(String merchantId) {
+		this.merchantId = merchantId;
 	}
 
-	public void setMarchentName(String marchentName) {
-		this.marchentName = marchentName;
+	public void setMerchantName(String merchantName) {
+		this.merchantName = merchantName;
 	}
 
 	public void setMcgId(long mcgId) {
@@ -208,7 +204,7 @@ public class FinancialEvent {
 				+ signCodeDescription + ", signCode=" + signCode + ", amount="
 				+ amount + ", tunCode=" + tunCode + ", effectiveDate="
 				+ effectiveDate + ", endDate=" + endDate + ", marchentId="
-				+ marchentId + ", marchentName=" + marchentName + ", mcgId="
+				+ merchantId + ", marchentName=" + merchantName + ", mcgId="
 				+ mcgId + ", mcg=" + mcg + ", mcgDescription=" + mcgDescription
 				+ ", tpCode=" + tpCode + ", tpDescription=" + tpDescription
 				+ ", insertionTimestamp=" + insertionTimestamp
