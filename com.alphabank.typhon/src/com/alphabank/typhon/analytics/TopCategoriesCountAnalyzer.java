@@ -8,18 +8,16 @@ import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSink;
 import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction;
-import org.apache.flink.streaming.api.functions.windowing.WindowFunction;
-import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction.Context;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.Collector;
 
+import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
+import ac.uk.york.typhon.analytics.process.StreamAnalyzer;
+
 import com.alphabank.typhon.analytics.assigner.BoundedOutOfOrdernessGenerator;
 import com.alphabank.typhon.dto.FinancialEvent;
 import com.alphabank.typhon.extractor.insert.FinancialEventInsertExtractor;
-
-import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
-import ac.uk.york.typhon.analytics.process.StreamAnalyzer;
 
 public class TopCategoriesCountAnalyzer extends StreamAnalyzer {
 
