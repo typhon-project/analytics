@@ -81,14 +81,13 @@ public class AlphaBankMariaDBImpl extends SourceImpl implements ISource {
 						Event preEvent = new PreEvent(id, query, "user",
 								Utils.generateTimeStamp(), "dbUser");
 						TopicPublisher.publish(AnalyticTopicType.PRE, preEvent);
-						System.out
-								.println("NON FNC Date: "
-										+ nonFncEvResults
-												.getTimestamp(AlphaConstants.Table.NonFinancialEvent.DT_TM));
+//						System.out
+//								.println("NON FNC Date: "
+//										+ nonFncEvResults
+//												.getTimestamp(AlphaConstants.Table.NonFinancialEvent.DT_TM));
 
 					} else {
 						FinancialEvent fnc = new FinancialEvent(fncEvResults);
-
 						// String query = fnc.toInsertSQLString();
 						String query = fnc.toInsert();
 						System.out.println(query);
@@ -100,10 +99,10 @@ public class AlphaBankMariaDBImpl extends SourceImpl implements ISource {
 						// be moved to the current one
 						nonFncEvResults.previous();
 						// Go back to the 1st loop
-						System.out
-								.println("FNC Date: "
-										+ fncEvResults
-												.getDate(AlphaConstants.Table.FinancialEvent.DT));
+//						System.out
+//								.println("FNC Timestamp: "
+//										+ fncEvResults
+//												.getDate(AlphaConstants.Table.FinancialEvent.ISRT_TMS));
 						break;
 					}
 				}

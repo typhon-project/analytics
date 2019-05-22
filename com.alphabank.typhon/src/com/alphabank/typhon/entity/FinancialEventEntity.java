@@ -1,16 +1,9 @@
-package com.alphabank.typhon.dto;
+package com.alphabank.typhon.entity;
 
-import java.math.BigDecimal;
 import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.ParseException;
 
-import com.alphabank.typhon.commons.AlphaConstants;
-import com.alphabank.typhon.extractor.insert.FinancialEventInsertExtractor;
-
-public class FinancialEvent {
+public class FinancialEventEntity {
 
 	private long id;
 	private long accountId;
@@ -31,170 +24,146 @@ public class FinancialEvent {
 	private Timestamp insertionTimestamp;
 	private String sourceSTMCode;
 
-	public FinancialEvent() {
-
-	}
-
-	public FinancialEvent(FinancialEventInsertExtractor extractor) throws ParseException {
-		this.accountId = extractor.getAccountId();
-		this.amount = extractor.getAmount();
-		this.date = extractor.getDateTime();
-		this.effectiveDate = extractor.getEffectiveDateTime();
-		this.endDate = extractor.getEndDateTime();
-		this.id = extractor.getId();
-		this.insertionTimestamp = extractor.getISRTTimeStamp();
-		this.marchentId = extractor.getMarchentId();
-		this.marchentName = extractor.getMarchentName();
-		this.mcg = extractor.getMcg();
-		this.mcgDescription = extractor.getMcgDesc();
-		this.mcgId = extractor.getMcgId();
-		this.signCode = extractor.getSignCode();
-		this.signCodeDescription = extractor.getSignCodeDesc();
-		this.sourceSTMCode = extractor.getSourceSTMCode();
-		this.tpCode = extractor.getTPCode();
-		this.tpDescription = extractor.getTPDesc();
-		this.tunCode = extractor.getTUNCode();
-
-	}
+	
 
 	public long getId() {
 		return id;
-	}
-
-	public long getAccountId() {
-		return accountId;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public String getSignCodeDescription() {
-		return signCodeDescription;
-	}
-
-	public String getSignCode() {
-		return signCode;
-	}
-
-	public double getAmount() {
-		return amount;
-	}
-
-	public String getTunCode() {
-		return tunCode;
-	}
-
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public String getMarchentId() {
-		return marchentId;
-	}
-
-	public String getMarchentName() {
-		return marchentName;
-	}
-
-	public long getMcgId() {
-		return mcgId;
-	}
-
-	public String getMcg() {
-		return mcg;
-	}
-
-	public String getMcgDescription() {
-		return mcgDescription;
-	}
-
-	public String getTpCode() {
-		return tpCode;
-	}
-
-	public String getTpDescription() {
-		return tpDescription;
-	}
-
-	public Timestamp getInsertionTimestamp() {
-		return insertionTimestamp;
-	}
-
-	public String getSourceSTMCode() {
-		return sourceSTMCode;
 	}
 
 	public void setId(long id) {
 		this.id = id;
 	}
 
+	public long getAccountId() {
+		return accountId;
+	}
+
 	public void setAccountId(long accountId) {
 		this.accountId = accountId;
+	}
+
+	public Date getDate() {
+		return date;
 	}
 
 	public void setDate(Date date) {
 		this.date = date;
 	}
 
+	public String getSignCodeDescription() {
+		return signCodeDescription;
+	}
+
 	public void setSignCodeDescription(String signCodeDescription) {
 		this.signCodeDescription = signCodeDescription;
+	}
+
+	public String getSignCode() {
+		return signCode;
 	}
 
 	public void setSignCode(String signCode) {
 		this.signCode = signCode;
 	}
 
+	public double getAmount() {
+		return amount;
+	}
+
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+
+	public String getTunCode() {
+		return tunCode;
 	}
 
 	public void setTunCode(String tunCode) {
 		this.tunCode = tunCode;
 	}
 
+	public Date getEffectiveDate() {
+		return effectiveDate;
+	}
+
 	public void setEffectiveDate(Date effectiveDate) {
 		this.effectiveDate = effectiveDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
 	}
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 
+	public String getMarchentId() {
+		return marchentId;
+	}
+
 	public void setMarchentId(String marchentId) {
 		this.marchentId = marchentId;
+	}
+
+	public String getMarchentName() {
+		return marchentName;
 	}
 
 	public void setMarchentName(String marchentName) {
 		this.marchentName = marchentName;
 	}
 
+	public long getMcgId() {
+		return mcgId;
+	}
+
 	public void setMcgId(long mcgId) {
 		this.mcgId = mcgId;
+	}
+
+	public String getMcg() {
+		return mcg;
 	}
 
 	public void setMcg(String mcg) {
 		this.mcg = mcg;
 	}
 
+	public String getMcgDescription() {
+		return mcgDescription;
+	}
+
 	public void setMcgDescription(String mcgDescription) {
 		this.mcgDescription = mcgDescription;
+	}
+
+	public String getTpCode() {
+		return tpCode;
 	}
 
 	public void setTpCode(String tpCode) {
 		this.tpCode = tpCode;
 	}
 
+	public String getTpDescription() {
+		return tpDescription;
+	}
+
 	public void setTpDescription(String tpDescription) {
 		this.tpDescription = tpDescription;
 	}
 
+	public Timestamp getInsertionTimestamp() {
+		return insertionTimestamp;
+	}
+
 	public void setInsertionTimestamp(Timestamp insertionTimestamp) {
 		this.insertionTimestamp = insertionTimestamp;
+	}
+
+	public String getSourceSTMCode() {
+		return sourceSTMCode;
 	}
 
 	public void setSourceSTMCode(String sourceSTMCode) {
@@ -214,5 +183,4 @@ public class FinancialEvent {
 				+ ", insertionTimestamp=" + insertionTimestamp
 				+ ", sourceSTMCode=" + sourceSTMCode + "]";
 	}
-
 }

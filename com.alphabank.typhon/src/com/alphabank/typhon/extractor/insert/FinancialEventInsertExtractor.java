@@ -2,9 +2,11 @@ package com.alphabank.typhon.extractor.insert;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.HashMap;
 
 import com.alphabank.typhon.commons.AlphaConstants;
+import com.alphabank.typhon.commons.Utils;
 
 import net.sf.jsqlparser.JSQLParserException;
 
@@ -96,8 +98,10 @@ public class FinancialEventInsertExtractor extends InsertExtractor {
 		return fieldValueMap.get(AlphaConstants.Table.FinancialEvent.TP_DSC);
 	};
 
-	public Timestamp getISRTTimeStamp() {
-		return Timestamp.valueOf(fieldValueMap
+	public Timestamp getISRTTimeStamp() throws ParseException {
+		System.out.println("FN Timestamp: " +  fieldValueMap
+				.get(AlphaConstants.Table.FinancialEvent.ISRT_TMS));
+		return Utils.parseTimestamp(fieldValueMap
 				.get(AlphaConstants.Table.FinancialEvent.ISRT_TMS));
 	};
 

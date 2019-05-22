@@ -93,5 +93,13 @@ public abstract class Utils {
 		}
 		return years;
 	}
+	
+	public static Timestamp parseTimestamp(String timestamp) throws ParseException {
+		System.out.println("Timestamp: " + timestamp);
+		SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+		java.util.Date ISRT_TMS_java = timeFormat.parse(timestamp);
+		Timestamp ISRT_TMS = new Timestamp(ISRT_TMS_java.getTime());
+		return ISRT_TMS;
+	}
 
 }

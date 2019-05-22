@@ -264,47 +264,26 @@ public class FinancialEvent {
 
 	public String retriveValuesString() {
 
-		String valuesString = "'" + this.FNC_EV_AC_ID + "','" + this.FNC_EV_AMT
-				+ "','" + this.FNC_EV_DT + "','" + this.EFF_DT + "','"
-				+ this.END_DT + "','" + this.FNC_EV_ID + "','" + this.EFF_DT
-				+ "','" + this.END_DT + "','" + this.ISRT_TMS + "','"
-				+ this.MCG + "','" + this.MCG_DSC + "','" + this.MCG_ID
-				+ this.MRCH_ID + "','" + this.MRCH_NAME + "','"
-				+ this.FNC_EV_SIGN_CODE + "','" + this.FNC_EV_SIGN_CODE_DSC
-				+ "','" + this.FNC_EV_SRC_STM_CODE + "','"
-				+ this.FNC_EV_TP_CODE + "','" + this.FNC_EV_TP_DSC + "','"
-				+ this.FNC_EV_TUN_CODE + "'";
+		String valuesString = "'" + this.FNC_EV_AC_ID + "','" + 
+		this.FNC_EV_AMT
+		+ "','" + this.FNC_EV_DT + 
+		"','" + this.EFF_DT + "','"
+		+ this.END_DT + "','" 
+		+ this.FNC_EV_ID + "','" 
+		+ this.ISRT_TMS + "','" 
+		+ this.MCG + "','" 
+		+ this.MCG_DSC + "','" 
+		+ this.MCG_ID + "','" 
+		+ this.MRCH_ID + "','" 
+		+ this.MRCH_NAME + "','"
+		+ this.FNC_EV_SIGN_CODE + "','" 
+		+ this.FNC_EV_SIGN_CODE_DSC + "','" 
+		+ this.FNC_EV_SRC_STM_CODE + "','"
+		+ this.FNC_EV_TP_CODE + "','" 
+		+ this.FNC_EV_TP_DSC + "','"
+		+ this.FNC_EV_TUN_CODE + "'";
 
 		return valuesString;
-	}
-
-	public String retriveValuesStringWithoutSingleQuotesForNumbers() {
-
-		String valuesString = "" + this.FNC_EV_AC_ID + ",'" + this.FNC_EV_AMT
-				+ "','" + this.FNC_EV_DT + "','" + this.EFF_DT + "','"
-				+ this.END_DT + "'," + this.FNC_EV_ID + ",'" + this.EFF_DT
-				+ "','" + this.END_DT + "','" + this.ISRT_TMS + "'," + this.MCG
-				+ ",'" + this.MCG_DSC + "'," + this.MCG_ID + this.MRCH_ID
-				+ ",'" + this.MRCH_NAME + "','" + this.FNC_EV_SIGN_CODE + "','"
-				+ this.FNC_EV_SIGN_CODE_DSC + "','" + this.FNC_EV_SRC_STM_CODE
-				+ "','" + this.FNC_EV_TP_CODE + "','" + this.FNC_EV_TP_DSC
-				+ "','" + this.FNC_EV_TUN_CODE + "'";
-
-		return valuesString;
-	}
-
-	public String toInsertSQLString() {
-
-		String sql = "INSERT INTO TABLE FNC_EV VALUES('" + this.FNC_EV_ID
-				+ "','" + this.FNC_EV_AC_ID + "','" + this.FNC_EV_DT + "','"
-				+ this.FNC_EV_SIGN_CODE_DSC + "','" + this.FNC_EV_SIGN_CODE
-				+ "','" + this.FNC_EV_AMT + "','" + this.FNC_EV_TUN_CODE
-				+ "','" + this.EFF_DT + "','" + this.END_DT + "','"
-				+ this.MRCH_ID + "','" + this.MRCH_NAME + "','" + this.MCG_ID
-				+ "','" + this.MCG + "','" + this.MCG_DSC + "','"
-				+ this.FNC_EV_TP_CODE + "','" + this.FNC_EV_TP_DSC + "','"
-				+ this.ISRT_TMS + this.FNC_EV_SRC_STM_CODE + "','" + "')";
-		return sql;
 	}
 
 	public String toInsert() {
