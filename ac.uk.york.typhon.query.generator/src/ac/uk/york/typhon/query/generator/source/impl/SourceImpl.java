@@ -9,8 +9,6 @@ import java.nio.file.Paths;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
-import ac.uk.york.typhon.query.generator.helper.GeneratorConstants;
-
 import com.google.common.io.Resources;
 
 public abstract class SourceImpl {

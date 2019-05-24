@@ -3,8 +3,6 @@ package ac.uk.york.typhon.analytics.commons.serialization;
 import java.io.IOException;
 import java.util.Map;
 
-import net.sf.jsqlparser.schema.Database;
-import net.sf.jsqlparser.schema.MultiPartName;
 import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.delete.Delete;
 import net.sf.jsqlparser.statement.insert.Insert;
@@ -23,9 +21,7 @@ import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.InjectableValues;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsontype.NamedType;
 import com.fasterxml.jackson.databind.module.SimpleAbstractTypeResolver;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

@@ -1,10 +1,7 @@
 package ac.uk.york.typhon.query.generator;
 
-import ac.uk.york.typhon.query.generator.helper.GeneratorConstants;
 import ac.uk.york.typhon.query.generator.source.ISource;
 import ac.uk.york.typhon.query.generator.source.impl.AlphaBankMariaDBImpl;
-import ac.uk.york.typhon.query.generator.source.impl.CsvSourceImpl;
-import ac.uk.york.typhon.query.generator.source.impl.SkyServerSourceImpl;
 
 /*
  * This class is to simulate TyphonQL generated PRE events

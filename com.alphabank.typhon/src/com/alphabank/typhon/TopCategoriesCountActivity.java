@@ -8,7 +8,6 @@ import ac.uk.york.typhon.analytics.commons.enums.AnalyticTopicType;
 import ac.uk.york.typhon.analytics.messaging.StreamManager;
 
 import com.alphabank.typhon.analytics.TopCategoriesCountAnalyzer;
-import com.alphabank.typhon.analytics.TopCategoriesSumAnalyzer;
 import com.alphabank.typhon.commons.AlphaEnum;
 
 public class TopCategoriesCountActivity {

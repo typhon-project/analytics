@@ -5,9 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.alphabank.typhon.commons.AlphaConstants;
 import com.alphabank.typhon.dao.ITransactionDAO;
-import com.alphabank.typhon.entity.NonFinancialEventEntity;
 import com.alphabank.typhon.entity.TransactionEntity;
 
 public class TransactionDAOImpl implements ITransactionDAO {

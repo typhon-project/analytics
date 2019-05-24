@@ -30,8 +30,8 @@ public class DormantAccountAnalyzer extends StreamAnalyzer {
 			public Event map(Event event) throws Exception {
 				String query = ((PostEvent) event).getPreEvent().getQuery();
 				System.out.println(query);
-				NonFinancialEventInsertExtractor nonFinancialEventInsertExtractor = new NonFinancialEventInsertExtractor(
-						query);
+				NonFinancialEventInsertExtractor nonFinancialEventInsertExtractor 
+					= new NonFinancialEventInsertExtractor(query);
 				if (AccountActivityAccessImpl
 						.isDormantAccount(nonFinancialEventInsertExtractor)) {
 					System.out
@@ -45,3 +45,6 @@ public class DormantAccountAnalyzer extends StreamAnalyzer {
 	}
 
 }
+
+
+

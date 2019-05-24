@@ -5,10 +5,10 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.HashMap;
 
+import net.sf.jsqlparser.JSQLParserException;
+
 import com.alphabank.typhon.commons.AlphaConstants;
 import com.alphabank.typhon.commons.Utils;
-
-import net.sf.jsqlparser.JSQLParserException;
 
 public class FinancialEventInsertExtractor extends InsertExtractor {
 

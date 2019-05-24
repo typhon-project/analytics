@@ -1,7 +1,5 @@
 package com.alphabank.typhon.extractor.update;
 
-import ac.uk.york.typhon.analytics.commons.datatypes.wrapper.parsedstatement.SelectParsedStatement;
-import ac.uk.york.typhon.analytics.commons.datatypes.wrapper.parsedstatement.UpdateParsedStatement;
 import net.sf.jsqlparser.JSQLParserException;
 
 public class FinancialEventUpdateExtractor extends UpdateExtractor {

@@ -13,7 +13,7 @@
 	<classpathentry kind="lib" path="/ac.uk.york.typhon.analytics.libs/libs/guava-23.0.jar"/>
 	<classpathentry kind="lib" path="/ac.uk.york.typhon.analytics.libs/libs/jsqlparser-1.2.jar"/>
 	<classpathentry kind="lib" path="/ac.uk.york.typhon.analytics.libs/libs/kafka-clients-0.9.0.1.jar" sourcepath="C:/Users/Admin/.m2/repository/org/apache/kafka/kafka-clients/0.9.0.1/kafka-clients-0.9.0.1-sources.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/com.alphabank.typhon"/>
 	<classpathentry kind="lib" path="/ac.uk.york.typhon.analytics.libs/libs/mariadb-java-client-2.4.1.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.alphabank.typhon"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

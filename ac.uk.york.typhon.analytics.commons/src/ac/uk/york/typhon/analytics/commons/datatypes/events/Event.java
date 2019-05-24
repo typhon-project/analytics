@@ -1,15 +1,6 @@
 package ac.uk.york.typhon.analytics.commons.datatypes.events;
 
-import ac.uk.york.typhon.analytics.commons.datatypes.commands.DMLCommand;
-import ac.uk.york.typhon.analytics.commons.datatypes.commands.DeleteCommand;
-import ac.uk.york.typhon.analytics.commons.datatypes.commands.InsertCommand;
-import ac.uk.york.typhon.analytics.commons.datatypes.commands.SelectCommand;
-import ac.uk.york.typhon.analytics.commons.datatypes.commands.UpdateCommand;
 import ac.uk.york.typhon.analytics.commons.enums.StatementType;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 public abstract class Event {
 

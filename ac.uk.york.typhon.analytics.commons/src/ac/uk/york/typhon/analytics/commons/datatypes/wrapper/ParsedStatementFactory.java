@@ -1,29 +1,7 @@
 package ac.uk.york.typhon.analytics.commons.datatypes.wrapper;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-
-
-
-
-
 import ac.uk.york.typhon.analytics.commons.datatypes.wrapper.parsedstatement.DeleteGenericParsedStatement;
-import ac.uk.york.typhon.analytics.commons.datatypes.wrapper.parsedstatement.DeleteParsedStatement;
-import ac.uk.york.typhon.analytics.commons.datatypes.wrapper.parsedstatement.GenericParsedStatement;
 import ac.uk.york.typhon.analytics.commons.datatypes.wrapper.parsedstatement.IParsedStatement;
-import ac.uk.york.typhon.analytics.commons.datatypes.wrapper.parsedstatement.InsertParsedStatement;
-import ac.uk.york.typhon.analytics.commons.datatypes.wrapper.parsedstatement.SelectParsedStatement;
-import ac.uk.york.typhon.analytics.commons.datatypes.wrapper.parsedstatement.UpdateParsedStatement;
-import ac.uk.york.typhon.analytics.commons.enums.StatementType;
-import net.sf.jsqlparser.JSQLParserException;
-import net.sf.jsqlparser.parser.CCJSqlParserUtil;
-import net.sf.jsqlparser.statement.Statement;
-import net.sf.jsqlparser.statement.delete.Delete;
-import net.sf.jsqlparser.statement.insert.Insert;
-import net.sf.jsqlparser.statement.select.Select;
-import net.sf.jsqlparser.statement.update.Update;
 
 public class ParsedStatementFactory {
 	

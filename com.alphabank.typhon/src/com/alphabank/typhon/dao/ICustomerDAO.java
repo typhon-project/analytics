@@ -1,6 +1,5 @@
 package com.alphabank.typhon.dao;
 
-import com.alphabank.typhon.entity.AccountEntity;
 import com.alphabank.typhon.entity.CustomerDetailsEntity;
 
 public interface ICustomerDAO {

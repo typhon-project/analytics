@@ -3,7 +3,6 @@ package ac.uk.york.typhon.analytics.commons.datatypes.events;
 import java.io.Serializable;
 import java.util.Date;
 
-import ac.uk.york.typhon.analytics.commons.datatypes.commands.CommandFactory;
 import ac.uk.york.typhon.analytics.commons.datatypes.commands.DMLCommand;
 import ac.uk.york.typhon.analytics.commons.datatypes.commands.DeleteCommand;
 import ac.uk.york.typhon.analytics.commons.datatypes.commands.InsertCommand;

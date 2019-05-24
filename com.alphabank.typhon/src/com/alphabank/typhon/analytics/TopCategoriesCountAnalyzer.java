@@ -22,10 +22,6 @@ import com.alphabank.typhon.dto.FinancialEvent;
 import com.alphabank.typhon.extractor.insert.FinancialEventInsertExtractor;
 
 
-import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
-import ac.uk.york.typhon.analytics.process.StreamAnalyzer;
-
-
 public class TopCategoriesCountAnalyzer extends StreamAnalyzer {
 
 	@Override

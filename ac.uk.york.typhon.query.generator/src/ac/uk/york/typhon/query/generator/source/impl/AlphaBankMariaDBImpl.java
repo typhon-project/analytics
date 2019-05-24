@@ -15,15 +15,12 @@ import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.PreEvent;
 import ac.uk.york.typhon.analytics.commons.enums.AnalyticTopicType;
 import ac.uk.york.typhon.analytics.messaging.TopicPublisher;
-
-import org.apache.commons.lang3.RandomUtils;
-
-import com.alphabank.typhon.commons.AlphaConstants;
-
 import ac.uk.york.typhon.query.generator.helper.Utils;
 import ac.uk.york.typhon.query.generator.pojo.FinancialEvent;
 import ac.uk.york.typhon.query.generator.pojo.NonFinancialEvent;
 import ac.uk.york.typhon.query.generator.source.ISource;
+
+import com.alphabank.typhon.commons.AlphaConstants;
 
 public class AlphaBankMariaDBImpl extends SourceImpl implements ISource {
 

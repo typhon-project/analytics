@@ -7,8 +7,6 @@ import ac.uk.york.typhon.analytics.commons.datatypes.events.PostEvent;
 import ac.uk.york.typhon.analytics.commons.enums.AnalyticTopicType;
 import ac.uk.york.typhon.analytics.messaging.StreamManager;
 
-import com.alphabank.typhon.analytics.TopCategoriesCountAnalyzer;
-import com.alphabank.typhon.analytics.TopCategoriesSumAnalyzer;
 import com.alphabank.typhon.analytics.TopMerchantsCountAnalyzer;
 import com.alphabank.typhon.commons.AlphaEnum;
 

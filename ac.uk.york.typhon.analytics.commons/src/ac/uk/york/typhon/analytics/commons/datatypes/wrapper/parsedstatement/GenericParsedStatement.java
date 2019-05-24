@@ -1,7 +1,5 @@
 package ac.uk.york.typhon.analytics.commons.datatypes.wrapper.parsedstatement;
 
-import net.sf.jsqlparser.statement.Statement;
-import net.sf.jsqlparser.statement.delete.Delete;
 
 public  class GenericParsedStatement<T> implements IParsedStatement<T> {
 

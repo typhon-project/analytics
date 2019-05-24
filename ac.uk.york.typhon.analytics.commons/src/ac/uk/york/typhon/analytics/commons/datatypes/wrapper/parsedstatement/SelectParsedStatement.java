@@ -1,6 +1,5 @@
 package ac.uk.york.typhon.analytics.commons.datatypes.wrapper.parsedstatement;
 
-import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.select.Select;
 
 public final class SelectParsedStatement implements IParsedStatement<Select> {

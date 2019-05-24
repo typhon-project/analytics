@@ -1,8 +1,5 @@
 package com.alphabank.typhon.analytics.assigner;
 
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-
 import org.apache.flink.streaming.api.functions.AssignerWithPeriodicWatermarks;
 import org.apache.flink.streaming.api.watermark.Watermark;
 

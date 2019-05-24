@@ -2,8 +2,6 @@ package ac.uk.york.typhon.analytics.commons.datatypes.commands;
 
 import java.util.ArrayList;
 
-import net.sf.jsqlparser.statement.Statement;
-import net.sf.jsqlparser.statement.select.Select;
 import net.sf.jsqlparser.statement.update.Update;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
