@@ -54,17 +54,18 @@ public class TopCategoriesCountAnalyzer extends StreamAnalyzer {
 		.keyBy("mcgDescription")
 		.timeWindow(Time.days(30))
 		.process(new MyProcessWindowFunction())
-		.addSink(new SinkFunction<Tuple3<String,String,Long>>() {
-			
-			@Override
-			public void invoke(Tuple3<String, String, Long> value) throws Exception {
-				// TODO Auto-generated method stub
-				SinkFunction.super.invoke(value);
-				ArrayList<Tuple3<String,String,Long>> allTuples = new ArrayList<Tuple3<String,String,Long>>();
-				allTuples.add(value);
-				System.out.println("Value: " +  value);
-			}
-		});
+		.print();
+//		.addSink(new SinkFunction<Tuple3<String,String,Long>>() {
+//			
+//			@Override
+//			public void invoke(Tuple3<String, String, Long> value) throws Exception {
+//				// TODO Auto-generated method stub
+//				SinkFunction.super.invoke(value);
+//				ArrayList<Tuple3<String,String,Long>> allTuples = new ArrayList<Tuple3<String,String,Long>>();
+//				allTuples.add(value);
+//				System.out.println("Value: " +  value);
+//			}
+//		});
 		
 //		.map(new RichMapFunction<Tuple3<String,String,Long>, ArrayList<Tuple3<String,String,Long>>>() {
 //
