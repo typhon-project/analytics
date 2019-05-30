@@ -94,15 +94,17 @@ public class TopCategoriesCountAnalyzer extends StreamAnalyzer {
 		public void process(Tuple key, Context context, Iterable<FinancialEvent> input, Collector<Tuple3<String, String, Long>> out) throws Exception {
 			long count = 0;
 			String month = "";
+			String year = "";
 			for (FinancialEvent in : input) {
 				month = in.getDate().toLocalDate().getMonth().toString();
+				year = Integer.toString(in.getDate().toLocalDate().getYear());
 				count++;
 			}
 			Tuple3<String, String, Long> result = new Tuple3<String, String, Long>();
 			result.f0 = (String)((Tuple1)key).f0;;
-			result.f1 = month;
+			result.f1 = month + " " + year;
 			result.f2 = count;
-//			System.out.println(key + " " + month + " " + count);
+//			System.out.println(key + " " + month + " " + year + " " + count);
 			out.collect(result);
 			
 		}
