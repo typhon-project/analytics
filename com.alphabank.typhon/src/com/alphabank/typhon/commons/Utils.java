@@ -12,7 +12,7 @@ import java.util.Date;
 public abstract class Utils {
 
 	public static long yearDifference(String date) {
-		System.out.println(date);// 1920-01-01
+//		System.out.println(date);// 1920-01-01
 //		date = "1920-12-01";
 		long years = 0;
 		try {
@@ -74,13 +74,13 @@ public abstract class Utils {
 //			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 //			Date dateWithoutTime = sdf.parse(sdf.format(date)); //sdf.format(new Date())
 			
-			System.out.println(dateWithoutTime);
+//			System.out.println(dateWithoutTime);
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(dateWithoutTime);
-
-			System.out.println(calendar.get(Calendar.YEAR));
-			System.out.println(calendar.get(Calendar.MONTH)+1);
-			System.out.println(calendar.get(Calendar.DAY_OF_MONTH));
+//
+//			System.out.println(calendar.get(Calendar.YEAR));
+//			System.out.println(calendar.get(Calendar.MONTH)+1);
+//			System.out.println(calendar.get(Calendar.DAY_OF_MONTH));
 			
 			years = ChronoUnit.YEARS.between(
 					LocalDate.of(calendar.get(Calendar.YEAR),
@@ -95,7 +95,7 @@ public abstract class Utils {
 	}
 	
 	public static Timestamp parseTimestamp(String timestamp) throws ParseException {
-		System.out.println("Timestamp: " + timestamp);
+//		System.out.println("Timestamp: " + timestamp);
 		SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
 		java.util.Date ISRT_TMS_java = timeFormat.parse(timestamp);
 		Timestamp ISRT_TMS = new Timestamp(ISRT_TMS_java.getTime());

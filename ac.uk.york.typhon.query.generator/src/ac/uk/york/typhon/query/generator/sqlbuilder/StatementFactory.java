@@ -63,6 +63,7 @@ public class StatementFactory {
 		DMLCommand dmlCommand = null;
 		Statement statement;
 		try {
+			System.out.println(sql);
 			statement = CCJSqlParserUtil.parse(sql);
 
 			String crudEventName = statement.getClass().getSimpleName()

@@ -62,12 +62,10 @@ public class PreEventAuthorizer {
 
 		splitStream.print();
 
-		DataStream<Event> filteredStream = splitStream
-				.select(nonFinancialEventInsertFilter.getLabel());
+		DataStream<Event> filteredStream = splitStream.select(nonFinancialEventInsertFilter.getLabel());
 		DataStream<Event> genericEvents = splitStream.select(genericEventFilter.getLabel());
-
-		DataStream<Event> processedStream = nonFinancialEventInsertFilter
-				.analyse(filteredStream);
+		
+		DataStream<Event> processedStream = nonFinancialEventInsertFilter.analyse(filteredStream);
 
 		StreamManager.initializeSink(AlphaEnum.AUTHORIZATION,
 				processedStream);

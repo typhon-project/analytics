@@ -51,7 +51,7 @@ public class PostEventsGenerator {
 				PreEvent preEvent = (PreEvent) event;
 				Event postEvent = null;
 				if (preEvent.isAuthenticated()) {
-
+					
 					DMLCommand dmlCommand = StatementFactory
 							.initializeDML(preEvent.getQuery());
 
@@ -71,7 +71,7 @@ public class PostEventsGenerator {
 				.startExecutionEnvironment(QueryLanguageTopicType.AUTHORIZATION);
 
 	}
-
+}
 	// public static void loadEventsFromFile(IMessageHandler messageHandler)
 	// throws IOException, URISyntaxException, InterruptedException {
 	// try {
@@ -237,4 +237,4 @@ public class PostEventsGenerator {
 	// newsEventAccess.closeConnection();
 	// messageHandler.closeConnection();
 
-}
+

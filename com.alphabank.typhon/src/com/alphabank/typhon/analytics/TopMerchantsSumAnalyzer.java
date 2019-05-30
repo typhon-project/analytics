@@ -30,7 +30,7 @@ public class TopMerchantsSumAnalyzer extends StreamAnalyzer {
 					@Override
 					public boolean filter(Event event) throws Exception {
 						if (event.getQuery().toLowerCase()
-								.contains("insert into table fnc_ev")) {
+								.contains("insert into fnc_ev")) {
 							return true;
 						}
 						return false;
@@ -40,7 +40,6 @@ public class TopMerchantsSumAnalyzer extends StreamAnalyzer {
 
 					@Override
 					public FinancialEvent map(Event event) throws Exception {
-
 						FinancialEventInsertExtractor financialEventInsertExtractor = new FinancialEventInsertExtractor(
 								event.getQuery());
 
@@ -68,9 +67,9 @@ public class TopMerchantsSumAnalyzer extends StreamAnalyzer {
 				})
 				.assignTimestampsAndWatermarks(
 						new BoundedOutOfOrdernessGenerator())
-				.keyBy("MRCH_NAME")
+				.keyBy("merchantName")
 				.timeWindow(Time.days(30))
-				.sum("FNC_EV_AMT")
+				.sum("amount")
 				.map(new MapFunction<FinancialEvent, Tuple3<String, String, Double>>() {
 
 					@Override

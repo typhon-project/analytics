@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.MapFunction;
+import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.api.java.tuple.Tuple;
 import org.apache.flink.api.java.tuple.Tuple1;
 import org.apache.flink.api.java.tuple.Tuple3;
+import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.functions.sink.SinkFunction;
 import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction;
@@ -34,6 +36,7 @@ public class TopMerchantsCountAnalyzer extends StreamAnalyzer {
 				String query = preEvent.getQuery().toLowerCase();
 				if (preEvent.getQuery().toLowerCase()
 						.contains("insert into fnc_ev")) {
+					
 					return true;
 				}
 				return false;
@@ -53,17 +56,17 @@ public class TopMerchantsCountAnalyzer extends StreamAnalyzer {
 		.keyBy("merchantName")
 		.timeWindow(Time.days(30))
 		.process(new MyProcessWindowFunction())
-		.addSink(new SinkFunction<Tuple3<String,String,Long>>() {
-			
-			@Override
-			public void invoke(Tuple3<String, String, Long> value) throws Exception {
-				// TODO Auto-generated method stub
-				SinkFunction.super.invoke(value);
-				ArrayList<Tuple3<String,String,Long>> allTuples = new ArrayList<Tuple3<String,String,Long>>();
-				allTuples.add(value);
-				System.out.println("Value: " +  value);
-			}
-		});
+//		.addSink(new SinkFunction<Tuple3<String,String,Long>>() {
+//			
+//			@Override
+//			public void invoke(Tuple3<String, String, Long> value) throws Exception {
+//				// TODO Auto-generated method stub
+//				SinkFunction.super.invoke(value);
+//				ArrayList<Tuple3<String,String,Long>> allTuples = new ArrayList<Tuple3<String,String,Long>>();
+//				allTuples.add(value);
+//				System.out.println("Value: " +  value);
+//			}
+//		});
 		
 //		.map(new RichMapFunction<Tuple3<String,String,Long>, ArrayList<Tuple3<String,String,Long>>>() {
 //
@@ -81,7 +84,7 @@ public class TopMerchantsCountAnalyzer extends StreamAnalyzer {
 //				return allTuples;
 //			}
 //		})
-//		.print();
+		.print();
 		
 		return postEvents;
 	}

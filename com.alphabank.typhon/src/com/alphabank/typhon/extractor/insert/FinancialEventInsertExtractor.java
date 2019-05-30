@@ -99,8 +99,8 @@ public class FinancialEventInsertExtractor extends InsertExtractor {
 	};
 
 	public Timestamp getISRTTimeStamp() throws ParseException {
-		System.out.println("FN Timestamp: " +  fieldValueMap
-				.get(AlphaConstants.Table.FinancialEvent.ISRT_TMS));
+//		System.out.println("FN Timestamp: " +  fieldValueMap
+//				.get(AlphaConstants.Table.FinancialEvent.ISRT_TMS));
 		return Utils.parseTimestamp(fieldValueMap
 				.get(AlphaConstants.Table.FinancialEvent.ISRT_TMS));
 	};

@@ -55,7 +55,7 @@ public class AccountDAOImpl implements IAccountDAO {
 				entity.setSourceSTMCode(resultSet
 						.getString(AlphaConstants.Table.Account.AC_SRC_STM_CODE));
 
-				System.out.println(entity);
+//				System.out.println(entity);
 
 				// }
 			}
