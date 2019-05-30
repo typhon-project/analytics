@@ -1,5 +1,10 @@
 package com.alphabank.typhon.analytics;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.tuple.Tuple3;
@@ -7,10 +12,12 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSink;
 import org.apache.flink.streaming.api.windowing.time.Time;
 
+import ac.uk.york.typhon.analytics.commons.AppConfiguration;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.uk.york.typhon.analytics.process.StreamAnalyzer;
 
 import com.alphabank.typhon.analytics.assigner.BoundedOutOfOrdernessGenerator;
+import com.alphabank.typhon.commons.AlphaConstants;
 import com.alphabank.typhon.dto.FinancialEvent;
 import com.alphabank.typhon.extractor.insert.FinancialEventInsertExtractor;
 
@@ -20,6 +27,7 @@ public class TopCategoriesSumAnalyzer extends StreamAnalyzer {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static Connection connection;
 
 	@Override
 	public DataStream<Event> analyse(DataStream<Event> postEvents)
@@ -88,7 +96,39 @@ public class TopCategoriesSumAnalyzer extends StreamAnalyzer {
 								+ financialEvent.getAmount());
 						return result;
 					}
-				}).print();
+				})
+				.map(new MapFunction<Tuple3<String, String, Double>, Tuple3<String, String, Double>>() {
+
+					@Override
+					public Tuple3<String, String, Double> map(Tuple3<String, String, Double> arg0) throws Exception {
+						String url = AppConfiguration.getString(AlphaConstants.Database.URL);
+						String user = AppConfiguration.getString(AlphaConstants.Database.USERNAME);
+						String password = AppConfiguration.getString(AlphaConstants.Database.PASSWORD);
+						try {
+							connection = DriverManager.getConnection(url, user, password);
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						String query = "insert into TopCategoriesSumResults (category_name, month_year, sum)"
+								+ " values (?, ?, ?)";
+
+						System.out.println(query);
+						// create the mysql insert preparedstatement
+						PreparedStatement preparedStmt = connection.prepareStatement(query);
+						preparedStmt.setString(1, arg0.f0);
+						preparedStmt.setString(2, arg0.f1);
+						preparedStmt.setDouble(3, arg0.f2);
+
+						// execute the preparedstatement
+						preparedStmt.execute();
+
+						//connection.close();
+						return arg0;
+					}
+
+				})
+				.print();
 
 		return postEvents;
 	}
