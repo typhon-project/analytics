@@ -1,5 +1,9 @@
 package com.alphabank.typhon.analytics;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.apache.flink.api.common.functions.FilterFunction;
@@ -16,14 +20,18 @@ import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.Collector;
 
+import ac.uk.york.typhon.analytics.commons.AppConfiguration;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.uk.york.typhon.analytics.process.StreamAnalyzer;
 
 import com.alphabank.typhon.analytics.assigner.BoundedOutOfOrdernessGenerator;
+import com.alphabank.typhon.commons.AlphaConstants;
 import com.alphabank.typhon.dto.FinancialEvent;
 import com.alphabank.typhon.extractor.insert.FinancialEventInsertExtractor;
 
 public class TopMerchantsCountAnalyzer extends StreamAnalyzer {
+
+	private static Connection connection;
 
 	@Override
 	public DataStream<Event> analyse(DataStream<Event> postEvents) throws Exception {
@@ -56,6 +64,36 @@ public class TopMerchantsCountAnalyzer extends StreamAnalyzer {
 		.keyBy("merchantName")
 		.timeWindow(Time.days(30))
 		.process(new MyProcessWindowFunction())
+		.map(new MapFunction<Tuple3<String, String, Long>, Tuple3<String, String, Long>>() {
+
+			@Override
+			public Tuple3<String, String, Long> map(Tuple3<String, String, Long> arg0) throws Exception {
+				String url = AppConfiguration.getString(AlphaConstants.Database.URL);
+				String user = AppConfiguration.getString(AlphaConstants.Database.USERNAME);
+				String password = AppConfiguration.getString(AlphaConstants.Database.PASSWORD);
+				try {
+					connection = DriverManager.getConnection(url, user, password);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				String query = "insert into TopMerchantsCountResults (merchant_name, month_year, count)"
+						+ " values (?, ?, ?)";
+
+				System.out.println(query);
+				// create the mysql insert preparedstatement
+				PreparedStatement preparedStmt = connection.prepareStatement(query);
+				preparedStmt.setString(1, arg0.f0);
+				preparedStmt.setString(2, arg0.f1);
+				preparedStmt.setDouble(3, arg0.f2);
+
+				// execute the preparedstatement
+				preparedStmt.execute();
+
+				//connection.close();
+				return arg0;
+			}
+		})
 //		.addSink(new SinkFunction<Tuple3<String,String,Long>>() {
 //			
 //			@Override

@@ -92,7 +92,8 @@ public class TopMerchantsSumAnalyzer extends StreamAnalyzer {
 								+ financialEvent.getAmount());
 						return result;
 					}
-				}).map(new MapFunction<Tuple3<String, String, Double>, Tuple3<String, String, Double>>() {
+				})
+				.map(new MapFunction<Tuple3<String, String, Double>, Tuple3<String, String, Double>>() {
 
 					@Override
 					public Tuple3<String, String, Double> map(Tuple3<String, String, Double> arg0) throws Exception {
