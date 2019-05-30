@@ -30,7 +30,10 @@ public class PreEventsGenerator {
 		// }
 
 		ISource source = new AlphaBankMariaDBImpl();
-		source.generate();
+
+//		while (true) {
+			source.generate();
+//		}
 
 	}
 

@@ -53,11 +53,11 @@ public class AccountActivityAccessImpl {
 			NonFinancialEventInsertExtractor nonFinancialEventInsertExtractor) {
 
 		boolean isDormant = false;
- 		if (nonFinancialEventInsertExtractor.getActionCode().equalsIgnoreCase(
+		if (nonFinancialEventInsertExtractor.getActionCode().equalsIgnoreCase(
 				AlphaConstants.DormantFlags.EVENT_TYPE_CODE)
-		// && nonFinancialEventInsertExtractor.getActionDesc()
-		// .equalsIgnoreCase(
-		// AlphaConstants.DormantFlags.ACTION_CODE)
+				&& nonFinancialEventInsertExtractor.getActionDesc()
+						.equalsIgnoreCase(
+								AlphaConstants.DormantFlags.ACTION_CODE)
 		) {
 			String accountCode = nonFinancialEventInsertExtractor
 					.getAccountCode();
@@ -72,17 +72,15 @@ public class AccountActivityAccessImpl {
 						.selectCustomerDetailsByCDICode(accountEntity
 								.getFirstBeneficiaryId());
 				if (customerDetailsEntity != null) {
-int x = 5;
-					long customerAge = Utils.yearDifference(customerDetailsEntity
-							.getBirthDateTime());
-					if(customerAge>AlphaConstants.DormantFlags.CUSTOMER_AGE_LIMIT){
+
+					long customerAge = Utils
+							.yearDifference(customerDetailsEntity
+									.getBirthDateTime());
+					if (customerAge > AlphaConstants.DormantFlags.CUSTOMER_AGE_LIMIT) {
+						System.out.println("Customer Age :" + customerAge);
 						isDormant = true;
 					}
 				}
-//				if (accountEntity.getCode() == accountEntity
-//						.getFirstBeneficiaryCDICode()) {
-//
-//				}
 			}
 
 		}

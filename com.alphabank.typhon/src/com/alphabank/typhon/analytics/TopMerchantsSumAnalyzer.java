@@ -30,44 +30,54 @@ public class TopMerchantsSumAnalyzer extends StreamAnalyzer {
 	private static Connection connection;
 
 	@Override
-	public DataStream<Event> analyse(DataStream<Event> eventsStream) throws Exception {
-		DataStreamSink<Tuple3<String, String, Double>> results = eventsStream.filter(new FilterFunction<Event>() {
+	public DataStream<Event> analyse(DataStream<Event> eventsStream)
+			throws Exception {
+		DataStreamSink<Tuple3<String, String, Double>> results = eventsStream
+				.filter(new FilterFunction<Event>() {
 
-			@Override
-			public boolean filter(Event event) throws Exception {
-				if (event.getQuery().toLowerCase().contains("insert into fnc_ev")) {
-					return true;
-				}
-				return false;
-			}
-		}).map(new MapFunction<Event, FinancialEvent>() {
+					@Override
+					public boolean filter(Event event) throws Exception {
+						if (event.getQuery().toLowerCase()
+								.contains("insert into fnc_ev")) {
+							return true;
+						}
+						return false;
+					}
+				})
+				.map(new MapFunction<Event, FinancialEvent>() {
 
-			@Override
-			public FinancialEvent map(Event event) throws Exception {
+					@Override
+					public FinancialEvent map(Event event) throws Exception {
+						FinancialEventInsertExtractor financialEventInsertExtractor = new FinancialEventInsertExtractor(
+								event.getQuery());
 
-				FinancialEventInsertExtractor financialEventInsertExtractor = new FinancialEventInsertExtractor(
-						event.getQuery());
+						FinancialEvent financialEvent = new FinancialEvent(
+								financialEventInsertExtractor);
 
-				FinancialEvent financialEvent = new FinancialEvent(financialEventInsertExtractor);
+						//
+						// CCJSqlParserManager pm = new CCJSqlParserManager();
+						//
+						// String query = event.getQuery();
+						// return createFncEvFromSQLInsertStatement(pm.parse(new
+						// StringReader(query)));
 
-				//
-				// CCJSqlParserManager pm = new CCJSqlParserManager();
-				//
-				// String query = event.getQuery();
-				// return createFncEvFromSQLInsertStatement(pm.parse(new
-				// StringReader(query)));
+						return financialEvent;
 
-				return financialEvent;
+					}
+				})
+				.filter(new FilterFunction<FinancialEvent>() {
 
-			}
-		}).filter(new FilterFunction<FinancialEvent>() {
-
-			@Override
-			public boolean filter(FinancialEvent financialEvent) throws Exception {
-				return financialEvent.getSignCode().equals("CREDIT");
-			}
-		}).assignTimestampsAndWatermarks(new BoundedOutOfOrdernessGenerator()).keyBy("merchantName")
-				.timeWindow(Time.days(30)).sum("amount")
+					@Override
+					public boolean filter(FinancialEvent financialEvent)
+							throws Exception {
+						return financialEvent.getSignCode().equals("CREDIT");
+					}
+				})
+				.assignTimestampsAndWatermarks(
+						new BoundedOutOfOrdernessGenerator())
+				.keyBy("merchantName")
+				.timeWindow(Time.days(30))
+				.sum("amount")
 				.map(new MapFunction<FinancialEvent, Tuple3<String, String, Double>>() {
 
 					@Override
@@ -118,20 +128,6 @@ public class TopMerchantsSumAnalyzer extends StreamAnalyzer {
 
 		return eventsStream;
 	}
-
-	private static void initializeConnection() {
-		String url = AppConfiguration.getString(AlphaConstants.Database.URL);
-		String user = AppConfiguration.getString(AlphaConstants.Database.USERNAME);
-		String password = AppConfiguration.getString(AlphaConstants.Database.PASSWORD);
-
-		try {
-			connection = DriverManager.getConnection(url, user, password);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 }
 
 // public static FNC_EV createFncEvFromSQLInsertStatement(Statement stmt) throws

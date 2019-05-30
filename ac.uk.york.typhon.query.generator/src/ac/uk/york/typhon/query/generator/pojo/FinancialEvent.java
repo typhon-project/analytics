@@ -34,24 +34,41 @@ public class FinancialEvent {
 	public FinancialEvent(ResultSet resultSet) {
 
 		try {
-			FNC_EV_ID = resultSet.getLong(AlphaConstants.Table.FinancialEvent.ID );
-			FNC_EV_AC_ID = resultSet.getLong(AlphaConstants.Table.FinancialEvent.AC_ID);
-			FNC_EV_DT = resultSet.getDate(AlphaConstants.Table.FinancialEvent.DT);
-			FNC_EV_SIGN_CODE_DSC = resultSet.getString(AlphaConstants.Table.FinancialEvent.SIGN_CODE_DSC);
-			FNC_EV_SIGN_CODE = resultSet.getString(AlphaConstants.Table.FinancialEvent.SIGN_CODE);
-			FNC_EV_AMT = resultSet.getDouble(AlphaConstants.Table.FinancialEvent.AMT);
-			FNC_EV_TUN_CODE = resultSet.getString(AlphaConstants.Table.FinancialEvent.TUN_CODE);
-			EFF_DT = resultSet.getDate(AlphaConstants.Table.FinancialEvent.EFF_DT);
-			END_DT = resultSet.getDate(AlphaConstants.Table.FinancialEvent.END_DT);
-			MRCH_ID = resultSet.getString(AlphaConstants.Table.FinancialEvent.MRCH_ID);
-			MRCH_NAME = resultSet.getString(AlphaConstants.Table.FinancialEvent.MRCH_NAME);
-			MCG_ID = resultSet.getLong(AlphaConstants.Table.FinancialEvent.MCG_ID);
+			FNC_EV_ID = resultSet
+					.getLong(AlphaConstants.Table.FinancialEvent.ID);
+			FNC_EV_AC_ID = resultSet
+					.getLong(AlphaConstants.Table.FinancialEvent.AC_ID);
+			FNC_EV_DT = resultSet
+					.getDate(AlphaConstants.Table.FinancialEvent.DT);
+			FNC_EV_SIGN_CODE_DSC = resultSet
+					.getString(AlphaConstants.Table.FinancialEvent.SIGN_CODE_DSC);
+			FNC_EV_SIGN_CODE = resultSet
+					.getString(AlphaConstants.Table.FinancialEvent.SIGN_CODE);
+			FNC_EV_AMT = resultSet
+					.getDouble(AlphaConstants.Table.FinancialEvent.AMT);
+			FNC_EV_TUN_CODE = resultSet
+					.getString(AlphaConstants.Table.FinancialEvent.TUN_CODE);
+			EFF_DT = resultSet
+					.getDate(AlphaConstants.Table.FinancialEvent.EFF_DT);
+			END_DT = resultSet
+					.getDate(AlphaConstants.Table.FinancialEvent.END_DT);
+			MRCH_ID = resultSet
+					.getString(AlphaConstants.Table.FinancialEvent.MRCH_ID);
+			MRCH_NAME = resultSet
+					.getString(AlphaConstants.Table.FinancialEvent.MRCH_NAME);
+			MCG_ID = resultSet
+					.getLong(AlphaConstants.Table.FinancialEvent.MCG_ID);
 			MCG = resultSet.getString(AlphaConstants.Table.FinancialEvent.MCG);
-			MCG_DSC = resultSet.getString(AlphaConstants.Table.FinancialEvent.MCG_DSC);
-			FNC_EV_TP_CODE = resultSet.getString(AlphaConstants.Table.FinancialEvent.TP_CODE);
-			FNC_EV_TP_DSC = resultSet.getString(AlphaConstants.Table.FinancialEvent.TP_DSC);
-			ISRT_TMS = resultSet.getTimestamp(AlphaConstants.Table.FinancialEvent.ISRT_TMS);
-			FNC_EV_SRC_STM_CODE = resultSet.getString(AlphaConstants.Table.FinancialEvent.SRC_STM_CODE);
+			MCG_DSC = resultSet
+					.getString(AlphaConstants.Table.FinancialEvent.MCG_DSC);
+			FNC_EV_TP_CODE = resultSet
+					.getString(AlphaConstants.Table.FinancialEvent.TP_CODE);
+			FNC_EV_TP_DSC = resultSet
+					.getString(AlphaConstants.Table.FinancialEvent.TP_DSC);
+			ISRT_TMS = resultSet
+					.getTimestamp(AlphaConstants.Table.FinancialEvent.ISRT_TMS);
+			FNC_EV_SRC_STM_CODE = resultSet
+					.getString(AlphaConstants.Table.FinancialEvent.SRC_STM_CODE);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -59,32 +76,32 @@ public class FinancialEvent {
 
 	}
 
-//	public FinancialEvent(long fNC_EV_ID, long fNC_EV_AC_ID, Date fNC_EV_DT,
-//			String fNC_EV_SIGN_CODE_DSC, String fNC_EV_SIGN_CODE,
-//			double fNC_EV_AMT, String fNC_EV_TUN_CODE, Date eFF_DT,
-//			Date eND_DT, String mRCH_ID, String mRCH_NAME, long mCG_ID,
-//			String mCG, String mCG_DSC, String fNC_EV_TP_CODE,
-//			String fNC_EV_TP_DSC, Timestamp iSRT_TMS, String fNC_EV_SRC_STM_CODE) {
-//		super();
-//		FNC_EV_ID = fNC_EV_ID;
-//		FNC_EV_AC_ID = fNC_EV_AC_ID;
-//		FNC_EV_DT = fNC_EV_DT;
-//		FNC_EV_SIGN_CODE_DSC = fNC_EV_SIGN_CODE_DSC;
-//		FNC_EV_SIGN_CODE = fNC_EV_SIGN_CODE;
-//		FNC_EV_AMT = fNC_EV_AMT;
-//		FNC_EV_TUN_CODE = fNC_EV_TUN_CODE;
-//		EFF_DT = eFF_DT;
-//		END_DT = eND_DT;
-//		MRCH_ID = mRCH_ID;
-//		MRCH_NAME = mRCH_NAME;
-//		MCG_ID = mCG_ID;
-//		MCG = mCG;
-//		MCG_DSC = mCG_DSC;
-//		FNC_EV_TP_CODE = fNC_EV_TP_CODE;
-//		FNC_EV_TP_DSC = fNC_EV_TP_DSC;
-//		ISRT_TMS = iSRT_TMS;
-//		FNC_EV_SRC_STM_CODE = fNC_EV_SRC_STM_CODE;
-//	}
+	// public FinancialEvent(long fNC_EV_ID, long fNC_EV_AC_ID, Date fNC_EV_DT,
+	// String fNC_EV_SIGN_CODE_DSC, String fNC_EV_SIGN_CODE,
+	// double fNC_EV_AMT, String fNC_EV_TUN_CODE, Date eFF_DT,
+	// Date eND_DT, String mRCH_ID, String mRCH_NAME, long mCG_ID,
+	// String mCG, String mCG_DSC, String fNC_EV_TP_CODE,
+	// String fNC_EV_TP_DSC, Timestamp iSRT_TMS, String fNC_EV_SRC_STM_CODE) {
+	// super();
+	// FNC_EV_ID = fNC_EV_ID;
+	// FNC_EV_AC_ID = fNC_EV_AC_ID;
+	// FNC_EV_DT = fNC_EV_DT;
+	// FNC_EV_SIGN_CODE_DSC = fNC_EV_SIGN_CODE_DSC;
+	// FNC_EV_SIGN_CODE = fNC_EV_SIGN_CODE;
+	// FNC_EV_AMT = fNC_EV_AMT;
+	// FNC_EV_TUN_CODE = fNC_EV_TUN_CODE;
+	// EFF_DT = eFF_DT;
+	// END_DT = eND_DT;
+	// MRCH_ID = mRCH_ID;
+	// MRCH_NAME = mRCH_NAME;
+	// MCG_ID = mCG_ID;
+	// MCG = mCG;
+	// MCG_DSC = mCG_DSC;
+	// FNC_EV_TP_CODE = fNC_EV_TP_CODE;
+	// FNC_EV_TP_DSC = fNC_EV_TP_DSC;
+	// ISRT_TMS = iSRT_TMS;
+	// FNC_EV_SRC_STM_CODE = fNC_EV_SRC_STM_CODE;
+	// }
 
 	public long getFNC_EV_ID() {
 		return FNC_EV_ID;
@@ -262,24 +279,19 @@ public class FinancialEvent {
 
 	public String retriveValuesString() {
 
-		String valuesString = "'" + this.FNC_EV_AC_ID + "','" + 
-		this.FNC_EV_AMT
-		+ "','" + this.FNC_EV_DT + 
-		"','" + this.EFF_DT + "','"
-		+ this.END_DT + "','" 
-		+ this.FNC_EV_ID + "','" 
-		+ this.ISRT_TMS + "','" 
-		+ this.MCG + "','" 
-		+ this.MCG_DSC + "','" 
-		+ this.MCG_ID + "','" 
-		+ this.MRCH_ID + "','" 
-		+ this.MRCH_NAME + "','"
-		+ this.FNC_EV_SIGN_CODE + "','" 
-		+ this.FNC_EV_SIGN_CODE_DSC + "','" 
-		+ this.FNC_EV_SRC_STM_CODE + "','"
-		+ this.FNC_EV_TP_CODE + "','" 
-		+ this.FNC_EV_TP_DSC + "','"
-		+ this.FNC_EV_TUN_CODE + "'";
+		String valuesString = "'" + this.FNC_EV_AC_ID + "','" + this.FNC_EV_AMT
+				+ "','" + this.FNC_EV_DT + "','" + this.EFF_DT + "','"
+				+ this.END_DT + "','" + this.FNC_EV_ID + "','" + this.ISRT_TMS
+				+ "','" + this.MCG.replace("'", "''") + "','"
+				+ this.MCG_DSC.replace("'", "''") + "','" + this.MCG_ID + "','"
+				+ this.MRCH_ID.replace("'", "''") + "','"
+				+ this.MRCH_NAME.replace("'", "''") + "','"
+				+ this.FNC_EV_SIGN_CODE.replace("'", "''") + "','"
+				+ this.FNC_EV_SIGN_CODE_DSC.replace("'", "''") + "','"
+				+ this.FNC_EV_SRC_STM_CODE.replace("'", "''") + "','"
+				+ this.FNC_EV_TP_CODE.replace("'", "''") + "','"
+				+ this.FNC_EV_TP_DSC.replace("'", "''") + "','"
+				+ this.FNC_EV_TUN_CODE.replace("'", "''") + "'";
 
 		return valuesString;
 	}

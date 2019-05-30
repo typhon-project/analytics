@@ -33,7 +33,6 @@ public class CustomerDetailsDAOImpl implements ICustomerDAO {
 			resultSet = ptmt.executeQuery();
 			if (resultSet != null && resultSet.isBeforeFirst() ) {
 				resultSet.next();
-				System.out.println("############### CUSTOMER found");
 				
 				entity = new CustomerDetailsEntity();
 				// while (resultSet.next()) {
@@ -53,7 +52,7 @@ public class CustomerDetailsDAOImpl implements ICustomerDAO {
 				entity.setPrimaryEmailAddress(resultSet
 						.getString(AlphaConstants.Table.CustomerDetails.PRIM_EMAIL_ADR));
 
-				System.out.println(entity);
+//				System.out.println(entity);
 
 				// }
 			}
