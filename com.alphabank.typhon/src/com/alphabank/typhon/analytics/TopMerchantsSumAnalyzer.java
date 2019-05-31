@@ -18,6 +18,7 @@ import ac.uk.york.typhon.analytics.process.StreamAnalyzer;
 
 import com.alphabank.typhon.analytics.assigner.BoundedOutOfOrdernessGenerator;
 import com.alphabank.typhon.commons.AlphaConstants;
+import com.alphabank.typhon.dataaccess.impl.AnalyticsResultsAccessImpl;
 import com.alphabank.typhon.dto.FinancialEvent;
 import com.alphabank.typhon.extractor.insert.FinancialEventInsertExtractor;
 
@@ -97,15 +98,8 @@ public class TopMerchantsSumAnalyzer extends StreamAnalyzer {
 
 					@Override
 					public Tuple3<String, String, Double> map(Tuple3<String, String, Double> arg0) throws Exception {
-						String url = AppConfiguration.getString(AlphaConstants.Database.URL);
-						String user = AppConfiguration.getString(AlphaConstants.Database.USERNAME);
-						String password = AppConfiguration.getString(AlphaConstants.Database.PASSWORD);
-						try {
-							connection = DriverManager.getConnection(url, user, password);
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						connection = AnalyticsResultsAccessImpl.getConnection();
+
 						String query = "insert into TopMerchantsSumResults (merchant_name, month_year, sum)"
 								+ " values (?, ?, ?)";
 

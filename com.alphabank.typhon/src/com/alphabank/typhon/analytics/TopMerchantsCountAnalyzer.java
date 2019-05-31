@@ -26,6 +26,7 @@ import ac.uk.york.typhon.analytics.process.StreamAnalyzer;
 
 import com.alphabank.typhon.analytics.assigner.BoundedOutOfOrdernessGenerator;
 import com.alphabank.typhon.commons.AlphaConstants;
+import com.alphabank.typhon.dataaccess.impl.AnalyticsResultsAccessImpl;
 import com.alphabank.typhon.dto.FinancialEvent;
 import com.alphabank.typhon.extractor.insert.FinancialEventInsertExtractor;
 
@@ -36,64 +37,51 @@ public class TopMerchantsCountAnalyzer extends StreamAnalyzer {
 	@Override
 	public DataStream<Event> analyse(DataStream<Event> postEvents) throws Exception {
 //		DataStreamSink<ArrayList<Tuple3<String, String, Long>>> results = 
-		postEvents
-		.filter(new FilterFunction<Event>() {
-			
+		postEvents.filter(new FilterFunction<Event>() {
+
 			@Override
 			public boolean filter(Event preEvent) throws Exception {
 				String query = preEvent.getQuery().toLowerCase();
-				if (preEvent.getQuery().toLowerCase()
-						.contains("insert into fnc_ev")) {
-					
+				if (preEvent.getQuery().toLowerCase().contains("insert into fnc_ev")) {
+
 					return true;
 				}
 				return false;
 			}
-		})
-		.map(new MapFunction<Event, FinancialEvent>() {
+		}).map(new MapFunction<Event, FinancialEvent>() {
 
 			@Override
 			public FinancialEvent map(Event event) throws Exception {
 				FinancialEventInsertExtractor extractor = new FinancialEventInsertExtractor(event.getQuery());
 				FinancialEvent financialEvent = new FinancialEvent(extractor);
 				return financialEvent;
-				
+
 			}
-		})
-		.assignTimestampsAndWatermarks(new BoundedOutOfOrdernessGenerator())
-		.keyBy("merchantName")
-		.timeWindow(Time.days(30))
-		.process(new MyProcessWindowFunction())
-		.map(new MapFunction<Tuple3<String, String, Long>, Tuple3<String, String, Long>>() {
+		}).assignTimestampsAndWatermarks(new BoundedOutOfOrdernessGenerator()).keyBy("merchantName")
+				.timeWindow(Time.days(30)).process(new MyProcessWindowFunction())
+				.map(new MapFunction<Tuple3<String, String, Long>, Tuple3<String, String, Long>>() {
 
-			@Override
-			public Tuple3<String, String, Long> map(Tuple3<String, String, Long> arg0) throws Exception {
-				String url = AppConfiguration.getString(AlphaConstants.Database.URL);
-				String user = AppConfiguration.getString(AlphaConstants.Database.USERNAME);
-				String password = AppConfiguration.getString(AlphaConstants.Database.PASSWORD);
-				try {
-					connection = DriverManager.getConnection(url, user, password);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				String query = "insert into TopMerchantsCountResults (merchant_name, month_year, count)"
-						+ " values (?, ?, ?)";
+					@Override
+					public Tuple3<String, String, Long> map(Tuple3<String, String, Long> arg0) throws Exception {
+						connection = AnalyticsResultsAccessImpl.getConnection();
 
-				System.out.println(query);
-				// create the mysql insert preparedstatement
-				PreparedStatement preparedStmt = connection.prepareStatement(query);
-				preparedStmt.setString(1, arg0.f0);
-				preparedStmt.setString(2, arg0.f1);
-				preparedStmt.setDouble(3, arg0.f2);
+						String query = "insert into TopMerchantsCountResults (merchant_name, month_year, count)"
+								+ " values (?, ?, ?)";
 
-				// execute the preparedstatement
-				preparedStmt.execute();
+						System.out.println(query);
+						// create the mysql insert preparedstatement
+						PreparedStatement preparedStmt = connection.prepareStatement(query);
+						preparedStmt.setString(1, arg0.f0);
+						preparedStmt.setString(2, arg0.f1);
+						preparedStmt.setDouble(3, arg0.f2);
 
-				//connection.close();
-				return arg0;
-			}
-		})
+						// execute the preparedstatement
+						preparedStmt.execute();
+
+						// connection.close();
+						return arg0;
+					}
+				})
 //		.addSink(new SinkFunction<Tuple3<String,String,Long>>() {
 //			
 //			@Override
@@ -105,7 +93,7 @@ public class TopMerchantsCountAnalyzer extends StreamAnalyzer {
 //				System.out.println("Value: " +  value);
 //			}
 //		});
-		
+
 //		.map(new RichMapFunction<Tuple3<String,String,Long>, ArrayList<Tuple3<String,String,Long>>>() {
 //
 //			ArrayList<Tuple3<String,String,Long>> allTuples;
@@ -122,15 +110,17 @@ public class TopMerchantsCountAnalyzer extends StreamAnalyzer {
 //				return allTuples;
 //			}
 //		})
-		.print();
-		
+				.print();
+
 		return postEvents;
 	}
 
-	public class MyProcessWindowFunction extends ProcessWindowFunction<FinancialEvent, Tuple3<String,String,Long>, Tuple, TimeWindow> {
+	public class MyProcessWindowFunction
+			extends ProcessWindowFunction<FinancialEvent, Tuple3<String, String, Long>, Tuple, TimeWindow> {
 
 		@Override
-		public void process(Tuple key, Context context, Iterable<FinancialEvent> input, Collector<Tuple3<String, String, Long>> out) throws Exception {
+		public void process(Tuple key, Context context, Iterable<FinancialEvent> input,
+				Collector<Tuple3<String, String, Long>> out) throws Exception {
 			long count = 0;
 			String month = "";
 			String year = "";
@@ -140,33 +130,42 @@ public class TopMerchantsCountAnalyzer extends StreamAnalyzer {
 				count++;
 			}
 			Tuple3<String, String, Long> result = new Tuple3<String, String, Long>();
-			result.f0 = (String)((Tuple1)key).f0;;
+			result.f0 = (String) ((Tuple1) key).f0;
+			;
 			result.f1 = month + " " + year;
 			result.f2 = count;
 //			System.out.println(key + " " + month + " " + year + " " + count);
 			out.collect(result);
-			
+
 		}
 	}
-	
+
 	public class CategoriesCountTuple implements Comparable<CategoriesCountTuple> {
-	    private final String name;
-	    private final String month;
-	    private final Long count;
+		private final String name;
+		private final String month;
+		private final Long count;
 
-	    public CategoriesCountTuple(String name, String month, long count) {
-	        this.name = name;
-	        this.month = month;
-	        this.count = count;
-	    }
+		public CategoriesCountTuple(String name, String month, long count) {
+			this.name = name;
+			this.month = month;
+			this.count = count;
+		}
 
-	    public String name() { return name;  }
-	    public String month() { return month;  }
-	    public long count()   { return count; }
+		public String name() {
+			return name;
+		}
 
-	    public int compareTo(CategoriesCountTuple o) {
-	        return this.count.compareTo(o.count);
-	    }
+		public String month() {
+			return month;
+		}
+
+		public long count() {
+			return count;
+		}
+
+		public int compareTo(CategoriesCountTuple o) {
+			return this.count.compareTo(o.count);
+		}
 	}
 
 }

@@ -18,6 +18,7 @@ import ac.uk.york.typhon.analytics.process.StreamAnalyzer;
 
 import com.alphabank.typhon.analytics.assigner.BoundedOutOfOrdernessGenerator;
 import com.alphabank.typhon.commons.AlphaConstants;
+import com.alphabank.typhon.dataaccess.impl.AnalyticsResultsAccessImpl;
 import com.alphabank.typhon.dto.FinancialEvent;
 import com.alphabank.typhon.extractor.insert.FinancialEventInsertExtractor;
 
@@ -30,86 +31,63 @@ public class TopCategoriesSumAnalyzer extends StreamAnalyzer {
 	private static Connection connection;
 
 	@Override
-	public DataStream<Event> analyse(DataStream<Event> postEvents)
-			throws Exception {
-		DataStreamSink<Tuple3<String, String, Double>> results = postEvents
-				.filter(new FilterFunction<Event>() {
+	public DataStream<Event> analyse(DataStream<Event> postEvents) throws Exception {
+		DataStreamSink<Tuple3<String, String, Double>> results = postEvents.filter(new FilterFunction<Event>() {
 
-					@Override
-					public boolean filter(Event arg0) throws Exception {
-						if (arg0.getQuery().toLowerCase()
-								.contains("insert into fnc_ev")) {
-							return true;
-						}
-						return false;
-					}
-				})
-				.map(new MapFunction<Event, FinancialEvent>() {
+			@Override
+			public boolean filter(Event arg0) throws Exception {
+				if (arg0.getQuery().toLowerCase().contains("insert into fnc_ev")) {
+					return true;
+				}
+				return false;
+			}
+		}).map(new MapFunction<Event, FinancialEvent>() {
 
-					@Override
-					public FinancialEvent map(Event event) throws Exception {
+			@Override
+			public FinancialEvent map(Event event) throws Exception {
 
-						FinancialEventInsertExtractor financialEventInsertExtractor = new FinancialEventInsertExtractor(
-								event.getQuery());
+				FinancialEventInsertExtractor financialEventInsertExtractor = new FinancialEventInsertExtractor(
+						event.getQuery());
 
-						FinancialEvent financialEvent = new FinancialEvent(
-								financialEventInsertExtractor);
+				FinancialEvent financialEvent = new FinancialEvent(financialEventInsertExtractor);
 
-						// CCJSqlParserManager pm = new CCJSqlParserManager();
-						//
-						// String query = event.getQuery();
-						// return createFncEvFromSQLInsertStatement(pm
-						// .parse(new StringReader(query)));
+				// CCJSqlParserManager pm = new CCJSqlParserManager();
+				//
+				// String query = event.getQuery();
+				// return createFncEvFromSQLInsertStatement(pm
+				// .parse(new StringReader(query)));
 
-						return financialEvent;
+				return financialEvent;
 
-					}
-				})
-				.filter(new FilterFunction<FinancialEvent>() {
+			}
+		}).filter(new FilterFunction<FinancialEvent>() {
 
-					@Override
-					public boolean filter(FinancialEvent financialEvent)
-							throws Exception {
-						return financialEvent.getSignCode().equals("CREDIT");
-					}
-				})
-				.assignTimestampsAndWatermarks(
-						new BoundedOutOfOrdernessGenerator())
-				.keyBy("mcgDescription")
-				.timeWindow(Time.days(30))
-				.sum("amount")
+			@Override
+			public boolean filter(FinancialEvent financialEvent) throws Exception {
+				return financialEvent.getSignCode().equals("CREDIT");
+			}
+		}).assignTimestampsAndWatermarks(new BoundedOutOfOrdernessGenerator()).keyBy("mcgDescription")
+				.timeWindow(Time.days(30)).sum("amount")
 				.map(new MapFunction<FinancialEvent, Tuple3<String, String, Double>>() {
 
 					@Override
-					public Tuple3<String, String, Double> map(
-							FinancialEvent financialEvent) throws Exception {
+					public Tuple3<String, String, Double> map(FinancialEvent financialEvent) throws Exception {
 						Tuple3<String, String, Double> result = new Tuple3<String, String, Double>();
-						String month = financialEvent.getDate().toLocalDate()
-								.getMonth().toString();
-						String year = Integer.toString(financialEvent.getDate().toLocalDate()
-								.getYear());
+						String month = financialEvent.getDate().toLocalDate().getMonth().toString();
+						String year = Integer.toString(financialEvent.getDate().toLocalDate().getYear());
 						result.f0 = financialEvent.getMcgDescription();
 						result.f1 = month + " " + year;
 						result.f2 = financialEvent.getAmount();
-						System.out.println(financialEvent.getMcgDescription()
-								+ " " + month + " " + year + " "
+						System.out.println(financialEvent.getMcgDescription() + " " + month + " " + year + " "
 								+ financialEvent.getAmount());
 						return result;
 					}
-				})
-				.map(new MapFunction<Tuple3<String, String, Double>, Tuple3<String, String, Double>>() {
+				}).map(new MapFunction<Tuple3<String, String, Double>, Tuple3<String, String, Double>>() {
 
 					@Override
 					public Tuple3<String, String, Double> map(Tuple3<String, String, Double> arg0) throws Exception {
-						String url = AppConfiguration.getString(AlphaConstants.Database.URL);
-						String user = AppConfiguration.getString(AlphaConstants.Database.USERNAME);
-						String password = AppConfiguration.getString(AlphaConstants.Database.PASSWORD);
-						try {
-							connection = DriverManager.getConnection(url, user, password);
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						connection = AnalyticsResultsAccessImpl.getConnection();
+
 						String query = "insert into TopCategoriesSumResults (category_name, month_year, sum)"
 								+ " values (?, ?, ?)";
 
@@ -123,12 +101,11 @@ public class TopCategoriesSumAnalyzer extends StreamAnalyzer {
 						// execute the preparedstatement
 						preparedStmt.execute();
 
-						//connection.close();
+						// connection.close();
 						return arg0;
 					}
 
-				})
-				.print();
+				}).print();
 
 		return postEvents;
 	}
