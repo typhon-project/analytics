@@ -16,6 +16,7 @@ import com.alphabank.typhon.authorization.filters.EventFilter;
 import com.alphabank.typhon.authorization.filters.FinancialEventInsertFilter;
 import com.alphabank.typhon.authorization.filters.GenericEventFilter;
 import com.alphabank.typhon.authorization.filters.NonFinancialEventInsertFilter;
+import com.alphabank.typhon.authorization.filters.TestingSerialAuthTask1;
 import com.alphabank.typhon.commons.AlphaEnum;
 
 /**
@@ -32,45 +33,50 @@ public class PreEventAuthorizer {
 
 		DataStream<Event> dataStream = StreamManager.initializeSource(
 				AnalyticTopicType.PRE, PreEvent.class);
-
-		EventFilter financialEventInsertFilter = new FinancialEventInsertFilter();
-		EventFilter nonFinancialEventInsertFilter = new NonFinancialEventInsertFilter();
-		EventFilter genericEventFilter = new GenericEventFilter();
-
-		SplitStream<Event> splitStream = dataStream
-				.split(new OutputSelector<Event>() {
-
-					/**
-					 * 
-					 */
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public Iterable<String> select(Event event) {
-						List<String> output = new ArrayList<String>();
-						if (financialEventInsertFilter.checkCondition(event)) {
-							output.add(financialEventInsertFilter.getLabel());
-						}
-						if (nonFinancialEventInsertFilter.checkCondition(event)) {
-							output.add(nonFinancialEventInsertFilter.getLabel());
-						} else {
-							output.add(genericEventFilter.getLabel());
-						}
-						return output;
-					}
-				});
-
-		splitStream.print();
-
-		DataStream<Event> filteredStream = splitStream.select(nonFinancialEventInsertFilter.getLabel());
-		DataStream<Event> genericEvents = splitStream.select(genericEventFilter.getLabel());
 		
-		DataStream<Event> processedStream = nonFinancialEventInsertFilter.analyse(filteredStream);
+		
+		TestingSerialAuthTask1 auth1 = new TestingSerialAuthTask1();
+		SplitStream<Event> splitStream = auth1.run(dataStream);
+		
 
+//		EventFilter financialEventInsertFilter = new FinancialEventInsertFilter();
+//		EventFilter nonFinancialEventInsertFilter = new NonFinancialEventInsertFilter();
+//		EventFilter genericEventFilter = new GenericEventFilter();
+//
+//		SplitStream<Event> splitStream = dataStream
+//				.split(new OutputSelector<Event>() {
+//
+//					/**
+//					 * 
+//					 */
+//					private static final long serialVersionUID = 1L;
+//
+//					@Override
+//					public Iterable<String> select(Event event) {
+//						List<String> output = new ArrayList<String>();
+//						if (financialEventInsertFilter.checkCondition(event)) {
+//							output.add(financialEventInsertFilter.getLabel());
+//						}
+//						if (nonFinancialEventInsertFilter.checkCondition(event)) {
+//							output.add(nonFinancialEventInsertFilter.getLabel());
+//						} else {
+//							output.add(genericEventFilter.getLabel());
+//						}
+//						return output;
+//					}
+//				});
+//
+//		splitStream.print();
+
+//		DataStream<Event> filteredStream = splitStream.select(nonFinancialEventInsertFilter.getLabel());
+//		DataStream<Event> genericEvents = splitStream.select(genericEventFilter.getLabel());
+//		
+//		DataStream<Event> processedStream = nonFinancialEventInsertFilter.analyse(filteredStream);
+//
+//		StreamManager.initializeSink(AlphaEnum.AUTHORIZATION,
+//				processedStream);
 		StreamManager.initializeSink(AlphaEnum.AUTHORIZATION,
-				processedStream);
-		StreamManager.initializeSink(AlphaEnum.AUTHORIZATION,
-				genericEvents);
+				splitStream);
 
 		StreamManager.startExecutionEnvironment(AnalyticTopicType.PRE);
 
