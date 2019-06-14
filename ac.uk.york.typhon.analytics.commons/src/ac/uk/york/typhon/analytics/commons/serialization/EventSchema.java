@@ -123,8 +123,14 @@ public class EventSchema implements DeserializationSchema<Event>, Deserializer,
 	@Override
 	public Object deserialize(String topic, byte[] data) {
 		// Kafka Deserializer
-		System.out.println("Unimplemented Kafka Deserializer");
-		return null;
+		Event event = null;
+		try {
+			event = deserialize(data);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return event;
 	}
 
 	@Override
