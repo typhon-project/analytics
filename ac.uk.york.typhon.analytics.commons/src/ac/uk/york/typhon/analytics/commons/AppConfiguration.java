@@ -46,6 +46,13 @@ public class AppConfiguration {
 		if (value == null) {
 			throw new InvalidParameterException(MessageFormat.format(
 					"Missing key - {0} - in configuration file ", key));
+		} else if (value.contains("envVar_")) {
+			System.out.println("Value: " + value);
+			// FIXME: Maybe this is not the best approach. Ask Dimitris.
+			String varName = value.replace("envVar_", "");
+			System.out.println("varName: " + varName);
+			value = System.getenv().get(varName);
+			System.out.println("New var value: " + value);
 		}
 		return value;
 

@@ -36,6 +36,7 @@ public class TopCategoriesSumAnalyzer extends StreamAnalyzer {
 
 			@Override
 			public boolean filter(Event arg0) throws Exception {
+				System.out.println("Hi!: " + arg0.getQuery());
 				if (arg0.getQuery().toLowerCase().contains("insert into fnc_ev")) {
 					return true;
 				}
@@ -46,6 +47,7 @@ public class TopCategoriesSumAnalyzer extends StreamAnalyzer {
 			@Override
 			public FinancialEvent map(Event event) throws Exception {
 
+				System.out.println("Hi Map");
 				FinancialEventInsertExtractor financialEventInsertExtractor = new FinancialEventInsertExtractor(
 						event.getQuery());
 
@@ -64,48 +66,53 @@ public class TopCategoriesSumAnalyzer extends StreamAnalyzer {
 
 			@Override
 			public boolean filter(FinancialEvent financialEvent) throws Exception {
+				System.out.println("Hi Filter!");
 				return financialEvent.getSignCode().equals("CREDIT");
 			}
-		}).assignTimestampsAndWatermarks(new BoundedOutOfOrdernessGenerator()).keyBy("mcgDescription")
-				.timeWindow(Time.days(30)).sum("amount")
-				.map(new MapFunction<FinancialEvent, Tuple3<String, String, Double>>() {
+		})
+		.assignTimestampsAndWatermarks(new BoundedOutOfOrdernessGenerator())
+		.keyBy("mcgDescription")
+		.timeWindow(Time.days(30)).sum("amount")
+		.map(new MapFunction<FinancialEvent, Tuple3<String, String, Double>>() {
 
-					@Override
-					public Tuple3<String, String, Double> map(FinancialEvent financialEvent) throws Exception {
-						Tuple3<String, String, Double> result = new Tuple3<String, String, Double>();
-						String month = financialEvent.getDate().toLocalDate().getMonth().toString();
-						String year = Integer.toString(financialEvent.getDate().toLocalDate().getYear());
-						result.f0 = financialEvent.getMcgDescription();
-						result.f1 = month + " " + year;
-						result.f2 = financialEvent.getAmount();
-						System.out.println(financialEvent.getMcgDescription() + " " + month + " " + year + " "
-								+ financialEvent.getAmount());
-						return result;
-					}
-				}).map(new MapFunction<Tuple3<String, String, Double>, Tuple3<String, String, Double>>() {
-
-					@Override
-					public Tuple3<String, String, Double> map(Tuple3<String, String, Double> arg0) throws Exception {
-						connection = AnalyticsResultsAccessImpl.getConnection();
-
-						String query = "insert into TopCategoriesSumResults (category_name, month_year, sum)"
-								+ " values (?, ?, ?)";
-
-						System.out.println(query);
-						// create the mysql insert preparedstatement
-						PreparedStatement preparedStmt = connection.prepareStatement(query);
-						preparedStmt.setString(1, arg0.f0);
-						preparedStmt.setString(2, arg0.f1);
-						preparedStmt.setDouble(3, arg0.f2);
-
-						// execute the preparedstatement
-						preparedStmt.execute();
-
-						// connection.close();
-						return arg0;
-					}
-
-				}).print();
+			@Override
+			public Tuple3<String, String, Double> map(FinancialEvent financialEvent) throws Exception {
+				System.out.println("Another Map");
+				Tuple3<String, String, Double> result = new Tuple3<String, String, Double>();
+				String month = financialEvent.getDate().toLocalDate().getMonth().toString();
+				String year = Integer.toString(financialEvent.getDate().toLocalDate().getYear());
+				result.f0 = financialEvent.getMcgDescription();
+				result.f1 = month + " " + year;
+				result.f2 = financialEvent.getAmount();
+				System.out.println(financialEvent.getMcgDescription() + " " + month + " " + year + " "
+						+ financialEvent.getAmount());
+				return result;
+			}
+		})
+//				.map(new MapFunction<Tuple3<String, String, Double>, Tuple3<String, String, Double>>() {
+//
+//					@Override
+//					public Tuple3<String, String, Double> map(Tuple3<String, String, Double> arg0) throws Exception {
+//						connection = AnalyticsResultsAccessImpl.getConnection();
+//
+//						String query = "insert into TopCategoriesSumResults (category_name, month_year, sum)"
+//								+ " values (?, ?, ?)";
+//
+//						System.out.println(query);
+//						// create the mysql insert preparedstatement
+//						PreparedStatement preparedStmt = connection.prepareStatement(query);
+//						preparedStmt.setString(1, arg0.f0);
+//						preparedStmt.setString(2, arg0.f1);
+//						preparedStmt.setDouble(3, arg0.f2);
+//
+//						// execute the preparedstatement
+//						preparedStmt.execute();
+//
+//						// connection.close();
+//						return arg0;
+//					}
+//				})
+		.print();
 
 		return postEvents;
 	}

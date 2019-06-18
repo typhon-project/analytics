@@ -33,10 +33,35 @@ public class PreEventAuthorizer {
 		DataStream<Event> dataStream = StreamManager.initializeSource(
 				AnalyticTopicType.PRE, PreEvent.class);
 
-		EventFilter financialEventInsertFilter = new FinancialEventInsertFilter();
-		EventFilter nonFinancialEventInsertFilter = new NonFinancialEventInsertFilter();
+		//EventFilter financialEventInsertFilter = new FinancialEventInsertFilter();
+		//EventFilter nonFinancialEventInsertFilter = new NonFinancialEventInsertFilter();
 		EventFilter genericEventFilter = new GenericEventFilter();
 
+//		SplitStream<Event> splitStream = dataStream
+//				.split(new OutputSelector<Event>() {
+//
+//					/**
+//					 * 
+//					 */
+//					private static final long serialVersionUID = 1L;
+//
+//					@Override
+//					public Iterable<String> select(Event event) {
+//						List<String> output = new ArrayList<String>();
+//						if (financialEventInsertFilter.checkCondition(event)) {
+//							output.add(financialEventInsertFilter.getLabel());
+//						}
+//						if (nonFinancialEventInsertFilter.checkCondition(event)) {
+//							output.add(nonFinancialEventInsertFilter.getLabel());
+//						} else {
+//							output.add(genericEventFilter.getLabel());
+//						}
+//						return output;
+//					}
+//				});
+//
+//		splitStream.print();
+		
 		SplitStream<Event> splitStream = dataStream
 				.split(new OutputSelector<Event>() {
 
@@ -48,12 +73,7 @@ public class PreEventAuthorizer {
 					@Override
 					public Iterable<String> select(Event event) {
 						List<String> output = new ArrayList<String>();
-						if (financialEventInsertFilter.checkCondition(event)) {
-							output.add(financialEventInsertFilter.getLabel());
-						}
-						if (nonFinancialEventInsertFilter.checkCondition(event)) {
-							output.add(nonFinancialEventInsertFilter.getLabel());
-						} else {
+						if (genericEventFilter.checkCondition(event)) {
 							output.add(genericEventFilter.getLabel());
 						}
 						return output;
@@ -62,13 +82,12 @@ public class PreEventAuthorizer {
 
 		splitStream.print();
 
-		DataStream<Event> filteredStream = splitStream.select(nonFinancialEventInsertFilter.getLabel());
+		//DataStream<Event> filteredStream = splitStream.select(nonFinancialEventInsertFilter.getLabel());
 		DataStream<Event> genericEvents = splitStream.select(genericEventFilter.getLabel());
 		
-		DataStream<Event> processedStream = nonFinancialEventInsertFilter.analyse(filteredStream);
+		//DataStream<Event> processedStream = nonFinancialEventInsertFilter.analyse(filteredStream);
 
-		StreamManager.initializeSink(AlphaEnum.AUTHORIZATION,
-				processedStream);
+		//StreamManager.initializeSink(AlphaEnum.AUTHORIZATION, processedStream);
 		StreamManager.initializeSink(AlphaEnum.AUTHORIZATION,
 				genericEvents);
 

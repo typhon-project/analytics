@@ -16,7 +16,7 @@ public class TopCategoriesSumActivity {
 
 		DataStream<Event> dataStream = StreamManager.initializeSource(
 				AnalyticTopicType.POST, PostEvent.class);
-
+		System.out.println("Top Categories Sum Analytics is Running");
 		TopCategoriesSumAnalyzer analyzer = new TopCategoriesSumAnalyzer();
 		dataStream = analyzer.analyse(dataStream);
 
