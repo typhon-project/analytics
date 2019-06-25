@@ -13,12 +13,11 @@ import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.PreEvent;
 
 // This example task rejects all the DEBIT FNC_EV
-public class TestingSerialAuthTask1 extends GenericAuthorisationTask {
+public class TestingSerialAuthTask2 extends GenericAuthorisationTask {
 
 	@Override
 	public boolean checkCondition(Event event) {
-		if (event.getQuery().toLowerCase().contains("insert into fnc_ev")) {
-			System.out.println("FNC EVENT");
+		if (event.getQuery().toLowerCase().contains("insert into non_fnc_ev")) {
 			return true;
 		} else {
 			return false;
@@ -27,11 +26,11 @@ public class TestingSerialAuthTask1 extends GenericAuthorisationTask {
 
 	@Override
 	public boolean shouldIReject(Event event) {
-		if (event.getQuery().contains("DEBIT")) {
-			System.out.println("It is DEBIT so I reject");
+		if (!event.getQuery().contains("OOA")) {
+			System.out.println("It is not OOA so I reject");
 			return true;
 		}
-		System.out.println("It is not DEBIT so I approve");
+		System.out.println("It is OAA so I approve");
 		return false;
 	}
 }

@@ -17,6 +17,7 @@ import com.alphabank.typhon.authorization.filters.FinancialEventInsertFilter;
 import com.alphabank.typhon.authorization.filters.GenericEventFilter;
 import com.alphabank.typhon.authorization.filters.NonFinancialEventInsertFilter;
 import com.alphabank.typhon.authorization.filters.TestingSerialAuthTask1;
+import com.alphabank.typhon.authorization.filters.TestingSerialAuthTask2;
 import com.alphabank.typhon.commons.AlphaEnum;
 
 /**
@@ -35,9 +36,17 @@ public class PreEventAuthorizer {
 				AnalyticTopicType.PRE, PreEvent.class);
 		
 		
-		TestingSerialAuthTask1 auth1 = new TestingSerialAuthTask1();
-		SplitStream<Event> splitStream = auth1.run(dataStream);
+		TestingSerialAuthTask1 T1 = new TestingSerialAuthTask1();
+		TestingSerialAuthTask2 T2 = new TestingSerialAuthTask2();
+
+		SplitStream<Event> splitStream1 = T1.run(dataStream, T1);
+		splitStream1.select("AKYRO").print();
 		
+		SplitStream<Event> splitStream2= T2.run(splitStream1.select(T1.getLabel()), T2);
+		
+		
+		DataStream<Event> rejected1 = splitStream1.select("Rejected");
+		DataStream<Event> rejected2 = splitStream2.select("Rejected");
 
 //		EventFilter financialEventInsertFilter = new FinancialEventInsertFilter();
 //		EventFilter nonFinancialEventInsertFilter = new NonFinancialEventInsertFilter();
@@ -76,8 +85,11 @@ public class PreEventAuthorizer {
 //		StreamManager.initializeSink(AlphaEnum.AUTHORIZATION,
 //				processedStream);
 		StreamManager.initializeSink(AlphaEnum.AUTHORIZATION,
-				splitStream);
-
+				splitStream2);
+		StreamManager.initializeSink(AlphaEnum.AUTHORIZATION,
+				rejected1);
+		StreamManager.initializeSink(AlphaEnum.AUTHORIZATION,
+				rejected2);
 		StreamManager.startExecutionEnvironment(AnalyticTopicType.PRE);
 
 	}
