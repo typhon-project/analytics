@@ -1,16 +1,8 @@
-package com.alphabank.analytics.authorization.filters;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.flink.streaming.api.collector.selector.OutputSelector;
-import org.apache.flink.streaming.api.datastream.DataStream;
-import org.apache.flink.streaming.api.datastream.SplitStream;
+package com.alphabank.typhon.authorization.filters;
 
 import com.alphabank.typhon.authorization.GenericAuthorisationTask;
 
-import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
-import ac.uk.york.typhon.analytics.commons.datatypes.events.PreEvent;
+import ac.york.typhon.analytics.commons.datatypes.events.Event;
 
 // This example task rejects all the DEBIT FNC_EV
 public class TestingSerialAuthTask1 extends GenericAuthorisationTask {

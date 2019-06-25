@@ -1,20 +1,15 @@
-package com.alphabank.analytics.authorization;
+package com.alphabank.typhon.authorization;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.apache.flink.streaming.api.collector.selector.OutputSelector;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
-import org.apache.flink.streaming.api.datastream.SplitStream;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
-import org.apache.flink.streaming.api.functions.ProcessFunction.Context;
 import org.apache.flink.util.Collector;
 import org.apache.flink.util.OutputTag;
 
-import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
-import ac.uk.york.typhon.analytics.commons.datatypes.events.PreEvent;
+import ac.york.typhon.analytics.commons.datatypes.events.Event;
+import ac.york.typhon.analytics.commons.datatypes.events.PreEvent;
 
 public abstract class GenericAuthorisationTask implements Serializable {
 
