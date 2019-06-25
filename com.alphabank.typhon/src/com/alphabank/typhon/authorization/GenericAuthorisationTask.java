@@ -6,27 +6,35 @@ import java.util.List;
 
 import org.apache.flink.streaming.api.collector.selector.OutputSelector;
 import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.datastream.SplitStream;
+import org.apache.flink.streaming.api.functions.ProcessFunction;
+import org.apache.flink.streaming.api.functions.ProcessFunction.Context;
+import org.apache.flink.util.Collector;
+import org.apache.flink.util.OutputTag;
 
 import ac.uk.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.uk.york.typhon.analytics.commons.datatypes.events.PreEvent;
 
 public abstract class GenericAuthorisationTask implements Serializable {
 
-	public SplitStream<Event> run(DataStream<Event> preEvents, GenericAuthorisationTask task) {
+	public SingleOutputStreamOperator<Event> run(DataStream<Event> preEvents, GenericAuthorisationTask task) {
 
-		SplitStream<Event> splitStream = preEvents.split(new OutputSelector<Event>() {
+		SingleOutputStreamOperator<Event> sideOutputStream = preEvents.process(new ProcessFunction<Event, Event>() {
 
+			OutputTag<Event> rejectedOutputTag = new OutputTag<Event>("Rejected") {};
+			OutputTag<Event> taskOutputTag = new OutputTag<Event>(task.getLabel()) {};
 
 			@Override
-			public Iterable<String> select(Event event) {
-				List<String> output = new ArrayList<String>();
+			public void processElement(Event event, Context ctx, Collector<Event> out) throws Exception {
+				// emit data to regular output
+				out.collect(event);
 				// If I am not responsible for such event, just put them into the topic named by
 				// my name so the next AuthTask can consume it.
 				if (!task.checkCondition(event)) {
 					System.out.println(task.getLabel() + " is not responsible for this event (" + event.getId() + ") "
 							+ event.getQuery());
-					output.add(task.getLabel());
+					ctx.output(taskOutputTag, event);
 					// Else (if I am responsible for such events) call my shouldIReject method. If
 					// shouldIReject says reject, then put it in the rejected topic.
 					// If it says accept then put it in the same topic as above (named by my name)
@@ -42,18 +50,16 @@ public abstract class GenericAuthorisationTask implements Serializable {
 						System.out.println(
 								task.getLabel() + " rejects this event (" + event.getId() + ") " + event.getQuery());
 						((PreEvent) event).setAuthenticated(false);
-						output.add("Rejected");
+						ctx.output(rejectedOutputTag, event);
 					} else {
 						System.out.println(
 								task.getLabel() + " approves this event (" + event.getId() + ") " + event.getQuery());
-						output.add(task.getLabel());
+						ctx.output(taskOutputTag, event);
 					}
 				}
-				return output;
 			}
 		});
-
-		return splitStream;
+		return sideOutputStream;
 	}
 
 	public abstract boolean checkCondition(Event event);
