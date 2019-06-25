@@ -19,11 +19,11 @@ public class TestingSerialAuthTask1 extends GenericAuthorisationTask {
 
 	@Override
 	public boolean shouldIReject(Event event) {
-		if (event.getQuery().contains("DEBIT")) {
-			System.out.println("It is DEBIT so I reject");
-			return true;
-		}
-		System.out.println("It is not DEBIT so I approve");
+//		if (event.getQuery().contains("DEBIT")) {
+//			System.out.println("It is DEBIT so I reject");
+//			return true;
+//		}
+//		System.out.println("It is not DEBIT so I approve");
 		return false;
 	}
 }

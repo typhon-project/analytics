@@ -18,11 +18,11 @@ public class TestingSerialAuthTask2 extends GenericAuthorisationTask {
 
 	@Override
 	public boolean shouldIReject(Event event) {
-		if (!event.getQuery().contains("OOA")) {
-			System.out.println("It is not OOA so I reject");
-			return true;
-		}
-		System.out.println("It is OAA so I approve");
+//		if (!event.getQuery().contains("OOA")) {
+//			System.out.println("It is not OOA so I reject");
+//			return true;
+//		}
+//		System.out.println("It is OAA so I approve");
 		return false;
 	}
 }
