@@ -1,4 +1,4 @@
-package ac.york.typhon.generator.extractors;
+package com.twicky.extractors;
 
 public class Extractor {
 

@@ -1,4 +1,4 @@
-package ac.york.typhon.generator.extractors.select;
+package com.twicky.extractors.select;
 
 import java.util.HashMap;
 import java.util.List;

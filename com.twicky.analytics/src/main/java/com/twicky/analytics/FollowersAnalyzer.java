@@ -4,12 +4,13 @@ import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.streaming.api.datastream.DataStream;
 
+import com.twicky.extractors.update.extractor.TweetUpdateExtractor;
+
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.york.typhon.analytics.commons.datatypes.events.PostEvent;
 import ac.york.typhon.analytics.process.StreamAnalyzer;
 
-import com.twicky.extractors.insert.TweetInsertExtractor;
-import com.twicky.extractors.update.TweetUpdateExtractor;
+
 
 public class FollowersAnalyzer extends StreamAnalyzer {
 

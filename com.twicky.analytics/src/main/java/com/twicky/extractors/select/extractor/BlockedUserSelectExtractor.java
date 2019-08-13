@@ -1,11 +1,11 @@
-package ac.york.typhon.generator.extractors.select.extractor;
+package com.twicky.extractors.select.extractor;
 
-import ac.york.typhon.generator.extractors.select.SelectExtractor;
+import com.twicky.extractors.select.SelectExtractor;
+
 import net.sf.jsqlparser.JSQLParserException;
 
 public class BlockedUserSelectExtractor extends SelectExtractor {
-	public BlockedUserSelectExtractor(String query)
-			throws JSQLParserException {
+	public BlockedUserSelectExtractor(String query) throws JSQLParserException {
 		super(query);
 
 	}

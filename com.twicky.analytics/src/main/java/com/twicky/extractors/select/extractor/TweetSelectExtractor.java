@@ -1,28 +1,14 @@
-package ac.york.typhon.generator.extractors.select.extractor;
+package com.twicky.extractors.select.extractor;
 
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map.Entry;
 
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
+import net.sf.jsqlparser.JSQLParserException;
+import net.sf.jsqlparser.statement.select.PlainSelect;
+
 import org.apache.commons.lang3.StringUtils;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import ac.york.typhon.generator.commons.TwickyConstants;
-import ac.york.typhon.generator.extractors.select.SelectExtractor;
-import net.sf.jsqlparser.JSQLParserException;
-import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
-import net.sf.jsqlparser.parser.CCJSqlParserUtil;
-import net.sf.jsqlparser.statement.select.PlainSelect;
-import net.sf.jsqlparser.statement.select.Select;
-import net.sf.jsqlparser.statement.select.SelectBody;
-import net.sf.jsqlparser.statement.select.WithItem;
+import com.twicky.extractors.select.SelectExtractor;
 
 public class TweetSelectExtractor extends SelectExtractor {
 

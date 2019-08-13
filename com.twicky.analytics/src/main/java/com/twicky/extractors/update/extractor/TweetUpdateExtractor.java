@@ -1,4 +1,4 @@
-package ac.york.typhon.generator.extractors.update.extractor;
+package com.twicky.extractors.update.extractor;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -10,13 +10,12 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import ac.york.typhon.generator.commons.TwickyConstants;
-import ac.york.typhon.generator.extractors.update.UpdateExtractor;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.twicky.commons.TwickyConstants;
+import com.twicky.extractors.update.UpdateExtractor;
 
 public class TweetUpdateExtractor extends UpdateExtractor {
 

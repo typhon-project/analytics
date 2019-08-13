@@ -1,4 +1,4 @@
-package ac.york.typhon.generator.extractors.insert.extractor;
+package com.twicky.extractors.insert.extractor;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -13,8 +13,10 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ac.york.typhon.generator.commons.TwickyConstants;
-import ac.york.typhon.generator.extractors.insert.InsertExtractor;
+
+import com.twicky.commons.TwickyConstants;
+import com.twicky.extractors.insert.InsertExtractor;
+
 import net.sf.jsqlparser.JSQLParserException;
 
 

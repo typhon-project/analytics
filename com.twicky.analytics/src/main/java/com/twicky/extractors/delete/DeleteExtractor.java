@@ -1,4 +1,4 @@
-package ac.york.typhon.generator.extractors.delete;
+package com.twicky.extractors.delete;
 
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;

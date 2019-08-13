@@ -60,4 +60,18 @@ public abstract class TwickyConstants extends Constants {
 		}
 
 	}
+
+	public interface TwickyJson {
+
+		String CREATED_AT = "created_at";
+		String FAVORITE_COUNT = "favorite_count";
+		String ID = "id";
+		String RETWEET_COUNT = "retweet_count";
+		String FULL_TEXT = "full_text";
+		String USER = "user";
+		String SCREEN_NAME = "screen_name";
+		String QUOTED_STATUS = "quoted_status";
+
+	}
+
 }
