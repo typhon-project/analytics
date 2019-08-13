@@ -60,6 +60,7 @@ public class FollowersAnalyzer extends StreamAnalyzer {
 				System.out.println("Tweet ID : " + extractor.getID()
 						+ "   User Screen Name :"
 						+ extractor.getUserScreenName());
+				System.out.println(extractor);
 
 				// System.out.println((PostEvent) event);
 				return event;
