@@ -38,6 +38,12 @@
 			<version>8.0.12</version>
 		</dependency>
 
+	<dependency>
+			<groupId>typhon</groupId>
+			<artifactId>ac.york.typhon.generator</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>

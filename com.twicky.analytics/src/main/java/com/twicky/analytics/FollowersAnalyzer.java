@@ -37,10 +37,10 @@ public class FollowersAnalyzer extends StreamAnalyzer {
 					System.out.println(query.substring(0, 20));
 				}
 				if (query.contains("update")) {
-					System.out.println(" COntains update");
+					System.out.println(" It is an update");
 					return true;
 				}
-				System.out.println(" Doesn't COntain update");
+				System.out.println(" NOT an update");
 				return false;
 			}
 		}).map(new MapFunction<Event, Event>() {
@@ -51,6 +51,7 @@ public class FollowersAnalyzer extends StreamAnalyzer {
 
 			@Override
 			public Event map(Event event) throws Exception {
+				System.out.println("InMap :"+ event);
 
 				String query = ((PostEvent) event).getPreEvent().getQuery();
 

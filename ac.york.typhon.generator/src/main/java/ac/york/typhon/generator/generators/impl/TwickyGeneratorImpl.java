@@ -99,7 +99,7 @@ public class TwickyGeneratorImpl implements IGenerator {
 				// System.out.println(preEvent);
 				/*************************************************/
 				/*********** Comment Sleep if NOT NEEDED *********/
-				Thread.sleep(RandomUtils.nextLong(0, 100));
+				Thread.sleep(RandomUtils.nextLong(0, 1000));
 				/*************************************************/
 				/*************************************************/
 //				System.out.println(query);
@@ -127,24 +127,24 @@ public class TwickyGeneratorImpl implements IGenerator {
 				// labelIndex++;
 				// }
 
-				if (StringUtils.contains(query, "insert")
-						&& StringUtils.contains(query, "tweet")) {
-					System.out.println("In extractor");
-					System.out.println(labelIndex + " "
-							+ StringEscapeUtils.unescapeJson(query));
-					TweetInsertExtractor extractor = new TweetInsertExtractor(
-							query);
-					System.out.println(labelIndex + " " + extractor);
+//				if (StringUtils.contains(query, "insert")
+//						&& StringUtils.contains(query, "tweet")) {
+//					System.out.println("In extractor");
+//					System.out.println(labelIndex + " "
+//							+ StringEscapeUtils.unescapeJson(query));
+//					TweetInsertExtractor extractor = new TweetInsertExtractor(
+//							query);
+//					System.out.println(labelIndex + " " + extractor);
+//
+//					labelIndex++;
+//				}
 
-					labelIndex++;
-				}
-
-				// TopicPublisher.publish(AnalyticTopicType.PRE, preEvent);
+				 TopicPublisher.publish(AnalyticTopicType.PRE, preEvent);
 
 			}
 			source.closeStream();
 
-		} catch (InterruptedException | JSQLParserException e) {
+		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
