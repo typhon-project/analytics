@@ -4,16 +4,16 @@ import ac.york.typhon.analytics.commons.enums.StatementType;
 
 public abstract class Event {
 
-	protected String id;
+	protected String eventId;
 	protected String query;
 
 	public Event() {
 
 	}
 
-	public Event(String id, String query) {
+	public Event(String eventId, String query) {
 
-		this.id = id;
+		this.eventId = eventId;
 		this.query = query;
 	}
 
@@ -26,7 +26,7 @@ public abstract class Event {
 	}
 
 	public String getId() {
-		return id;
+		return eventId;
 	}
 
 	public String getQuery() {
@@ -34,7 +34,7 @@ public abstract class Event {
 	}
 
 	public void setId(String id) {
-		this.id = id;
+		this.eventId = id;
 	}
 
 	public void setQuery(String query) {
@@ -43,7 +43,7 @@ public abstract class Event {
 
 	@Override
 	public String toString() {
-		return "Event [id=" + id + ", query=" + query + "]";
+		return "Event [id=" + eventId + ", query=" + query + "]";
 	}
 
 }

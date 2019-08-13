@@ -1,7 +1,11 @@
 package ac.york.typhon.generator;
 
-import ac.york.typhon.generator.source.ISource;
-import ac.york.typhon.generator.source.impl.AlphaBankMariaDBImpl;
+import ac.york.typhon.generator.generators.IGenerator;
+import ac.york.typhon.generator.generators.impl.TwickyGeneratorImpl;
+import ac.york.typhon.generator.helper.GeneratorConstants;
+import ac.york.typhon.generator.source.IFileSource;
+import ac.york.typhon.generator.source.impl.LocalFileSouceImpl;
+import ac.york.typhon.generator.source.impl.RemoteFileSourceImpl;
 
 /*
  * This class is to simulate TyphonQL generated PRE events
@@ -12,28 +16,26 @@ public class PreEventsGenerator {
 	public static void main(String[] args) throws Exception {
 
 		// Generate Random CRUD statements using a CSV table extract
+		
+		
+		// ISource source =
+		// new(CsvSourceImpl(GeneratorConstants.FileNames.NON_FINANCIAL_EVENTS);
+		
+//		 IFileSource source =
+//		 new LocalFileSouceImpl(GeneratorConstants.FileNames.TWICKY_CSV_CAUSING_ISSUE_COMPLETE_FILE);
+		
 		// ISource source = new
-		// CsvSourceImpl(GeneratorConstants.FileNames.NON_FINANCIAL_EVENTS);
-
-		// ISource source = new CsvSourceImpl(
-		// GeneratorConstants.FileNames.FINANCIAL_TRANSATIONS);
-
-		// Generate PreEvents from a SQl Log of SkyServer
-		// http://skyserver.sdss.org
-		// http://skyserver.sdss.org/log/en/traffic/sql.asp
+		// CsvSourceImpl(GeneratorConstants.FileNames.FINANCIAL_TRANSATIONS);
+		
 		// ISource source = new SkyServerSourceImpl();
 
-		// continuous load of events from the CSV and send them to the database
-		// and the message queue.
-		// while (true) {
-		// source.generate();
-		// }
+		// ISource source = new AlphaBankMariaDBImpl();
+//		ISource source = new RemoteCSVSourceImpl();
 
-		ISource source = new AlphaBankMariaDBImpl();
-
-//		while (true) {
-			source.generate();
-//		}
+		// load of events from source and send to Kafka topic
+		
+		IGenerator generator = new TwickyGeneratorImpl();
+		generator.generate();
 
 	}
 

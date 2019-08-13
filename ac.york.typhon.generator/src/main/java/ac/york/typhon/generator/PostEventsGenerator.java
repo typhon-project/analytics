@@ -52,8 +52,8 @@ public class PostEventsGenerator {
 				Event postEvent = null;
 				if (preEvent.isAuthenticated()) {
 					
-					DMLCommand dmlCommand = StatementFactory
-							.initializeDML(preEvent.getQuery());
+//					DMLCommand dmlCommand = StatementFactory
+//							.initializeDML(preEvent.getQuery());
 
 					postEvent = new PostEvent(event.getId(), event.getQuery(),
 							new Boolean(true), preEvent.getQueryTime(),
