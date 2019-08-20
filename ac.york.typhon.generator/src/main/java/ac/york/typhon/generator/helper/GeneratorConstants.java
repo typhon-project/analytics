@@ -20,6 +20,10 @@ public interface GeneratorConstants {
 
 	}
 
+	public interface LocalResourceCredentials {
+		String FILE_PATH = "local.file";
+	}
+
 	// public interface RemoteResourceHeader {
 	// int EVENT_TIME_FIELD_INDEX = 0;
 	// int USER_HOST_FIELD_INDEX = 1;
@@ -38,7 +42,7 @@ public interface GeneratorConstants {
 		String ARGUMENT = "ARGUMENT";
 
 		public static int getFieldsCount() {
-	
+
 			return RemoteResourceHeader.class.getDeclaredFields().length;
 
 		}

@@ -27,6 +27,7 @@ import ac.york.typhon.generator.helper.GeneratorConstants.RemoteResourceHeader;
 import ac.york.typhon.generator.helper.GeneratorConstants;
 import ac.york.typhon.generator.helper.Utils;
 import ac.york.typhon.generator.source.IFileSource;
+import ac.york.typhon.generator.source.impl.LocalFileSouceImpl;
 import ac.york.typhon.generator.source.impl.RemoteFileSourceImpl;
 
 public class TwickyGeneratorImpl implements IGenerator {
@@ -38,10 +39,11 @@ public class TwickyGeneratorImpl implements IGenerator {
 	private static String filePath;
 
 	static {
-		loadConfiguration();
+//		loadRemoteConfiguration();
+		loadLocalConfiguration();
 	}
 
-	private static void loadConfiguration() {
+	private static void loadRemoteConfiguration() {
 		user = AppConfiguration
 				.getString(GeneratorConstants.RemoteResourceCredentials.USERNAME);
 		host = AppConfiguration
@@ -55,6 +57,12 @@ public class TwickyGeneratorImpl implements IGenerator {
 
 	}
 
+	private static void loadLocalConfiguration() {
+		filePath = AppConfiguration
+				.getString(GeneratorConstants.LocalResourceCredentials.FILE_PATH);
+
+	}
+
 	public static void main(String[] args) {
 		TwickyGeneratorImpl generator = new TwickyGeneratorImpl();
 		generator.generate();
@@ -64,10 +72,12 @@ public class TwickyGeneratorImpl implements IGenerator {
 	public void generate() {
 
 		try {
-			IFileSource source = new RemoteFileSourceImpl(
-					TwickyGeneratorImpl.host, TwickyGeneratorImpl.port,
-					TwickyGeneratorImpl.user, TwickyGeneratorImpl.password,
-					TwickyGeneratorImpl.filePath);
+//			IFileSource source = new RemoteFileSourceImpl(
+//					TwickyGeneratorImpl.host, TwickyGeneratorImpl.port,
+//					TwickyGeneratorImpl.user, TwickyGeneratorImpl.password,
+//					TwickyGeneratorImpl.filePath);
+
+			IFileSource source = new LocalFileSouceImpl(TwickyGeneratorImpl.filePath);
 
 			CSVFormat csvFormat = CSVFormat.ORACLE.withHeader(
 					RemoteResourceHeader.EVENT_TIME,
@@ -96,13 +106,13 @@ public class TwickyGeneratorImpl implements IGenerator {
 				Event preEvent = new PreEvent(id, query, user, timestamp,
 						"dbUser");
 
-				// System.out.println(preEvent);
+//				 System.out.println(preEvent);
 				/*************************************************/
 				/*********** Comment Sleep if NOT NEEDED *********/
 				Thread.sleep(RandomUtils.nextLong(0, 1000));
 				/*************************************************/
 				/*************************************************/
-//				System.out.println(query);
+				// System.out.println(query);
 				// if (StringUtils.contains(query, "update")
 				// && StringUtils.contains(query, "Tweet")) {
 				// System.out.println("In extractor");
@@ -127,19 +137,19 @@ public class TwickyGeneratorImpl implements IGenerator {
 				// labelIndex++;
 				// }
 
-//				if (StringUtils.contains(query, "insert")
-//						&& StringUtils.contains(query, "tweet")) {
-//					System.out.println("In extractor");
-//					System.out.println(labelIndex + " "
-//							+ StringEscapeUtils.unescapeJson(query));
-//					TweetInsertExtractor extractor = new TweetInsertExtractor(
-//							query);
-//					System.out.println(labelIndex + " " + extractor);
-//
-//					labelIndex++;
-//				}
+				// if (StringUtils.contains(query, "insert")
+				// && StringUtils.contains(query, "tweet")) {
+				// System.out.println("In extractor");
+				// System.out.println(labelIndex + " "
+				// + StringEscapeUtils.unescapeJson(query));
+				// TweetInsertExtractor extractor = new TweetInsertExtractor(
+				// query);
+				// System.out.println(labelIndex + " " + extractor);
+				//
+				// labelIndex++;
+				// }
 
-				 TopicPublisher.publish(AnalyticTopicType.PRE, preEvent);
+				TopicPublisher.publish(AnalyticTopicType.PRE, preEvent);
 
 			}
 			source.closeStream();

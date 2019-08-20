@@ -1,8 +1,16 @@
 package com.twicky.dto;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.twicky.extractors.update.extractor.TweetUpdateExtractor;
 
 public class TweetDTO {
+
+	private static SimpleDateFormat dateFormat = new SimpleDateFormat(
+			"EEE MMM dd hh:mm:ss +0000 yyyy");
 
 	private String blocked;
 	private String createdAt;
@@ -15,6 +23,11 @@ public class TweetDTO {
 	private String retweetCount;
 	private String text;
 	private String userScreenName;
+
+	public TweetDTO() {
+		super();
+
+	}
 
 	public TweetDTO(TweetUpdateExtractor extractor) {
 		super();
@@ -29,6 +42,7 @@ public class TweetDTO {
 		this.retweetCount = extractor.getRetweetCount();
 		this.text = extractor.getText();
 		this.userScreenName = extractor.getUserScreenName();
+
 	}
 
 	public String getBlocked() {
@@ -117,6 +131,21 @@ public class TweetDTO {
 
 	public void setUserScreenName(String userScreenName) {
 		this.userScreenName = userScreenName;
+	}
+
+	public Long retrieveCreatedAtTimestamp() {
+		Long time = null;
+		try {
+			if (StringUtils.isNoneBlank(createdAt)) {
+
+				time = new Long(dateFormat.parse(createdAt).getTime());
+
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return time;
 	}
 
 	@Override

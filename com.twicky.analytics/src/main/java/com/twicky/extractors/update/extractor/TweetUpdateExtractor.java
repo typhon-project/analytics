@@ -128,7 +128,8 @@ public class TweetUpdateExtractor extends UpdateExtractor {
 	}
 
 	public String getJSON() {
-		return fieldValueMap.get(TwickyConstants.Table.Tweet.JSON);
+		return StringUtils.replace(StringEscapeUtils.unescapeJson(fieldValueMap
+				.get(TwickyConstants.Table.Tweet.JSON)), "\n", " ");
 	}
 
 	public String getRetweetCount() {
@@ -151,7 +152,7 @@ public class TweetUpdateExtractor extends UpdateExtractor {
 			field = jsonNode.findValue(TwickyConstants.TwickyJson.FULL_TEXT)
 					.asText();
 		}
-		return field;
+		return StringUtils.replace(field, "\n", " ");
 	}
 
 	public String getUserScreenName() {
@@ -177,8 +178,8 @@ public class TweetUpdateExtractor extends UpdateExtractor {
 				+ " DiscovererScreenName=" + getDiscovererScreenName()
 				+ " FavoriteCount=" + getFavoriteCount() + " Greek="
 				+ getGreek() + " ID=" + getID() + " RetweetCount="
-				+ getRetweetCount() + " Text=" + getText() + " UserScreenName="
-				+ getUserScreenName() + "]";
+				+ getRetweetCount() + " Text=" + StringUtils.chomp(getText())
+				+ " UserScreenName=" + getUserScreenName() + "]";
 
 	}
 }

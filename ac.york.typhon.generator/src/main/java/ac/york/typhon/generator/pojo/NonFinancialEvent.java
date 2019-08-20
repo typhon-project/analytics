@@ -5,7 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-import com.alphabank.typhon.commons.AlphaConstants;
+import ac.york.typhon.generator.commons.AlphaConstants;
+
+
 
 public class NonFinancialEvent {
 

@@ -8,7 +8,7 @@ import com.alphabank.typhon.extractor.insert.FinancialEventInsertExtractor;
 
 public class FinancialEvent {
 
-	private long id;
+	private long id; 
 	private long accountId;
 	private Date date;
 	private String signCodeDescription;

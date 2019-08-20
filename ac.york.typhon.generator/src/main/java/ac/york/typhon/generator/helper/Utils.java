@@ -72,4 +72,10 @@ public class Utils {
 	public static String replaceSquareBracketsWithBrackets(String str) {
 		return str.replace("[", "(").replace("]", ")");
 	}
+	
+	
+	public static long milliSeconds(int seconds) {
+		return seconds * 1000;
+	}
+
 }

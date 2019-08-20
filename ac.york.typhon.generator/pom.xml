@@ -11,11 +11,7 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
-		<dependency>
-			<groupId>alphabank</groupId>
-			<artifactId>com.alphabank.analytics</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+
 
 		<dependency>
 			<groupId>org.apache.commons</groupId>
