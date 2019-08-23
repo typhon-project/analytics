@@ -5,7 +5,7 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.york.typhon.analytics.commons.datatypes.events.PostEvent;
 import ac.york.typhon.analytics.commons.enums.AnalyticTopicType;
-import ac.york.typhon.analytics.messaging.StreamManager;
+import ac.york.typhon.analytics.streaming.StreamManager;
 
 import com.alphabank.typhon.analytics.DormantAccountAnalyzer;
 import com.alphabank.typhon.commons.AlphaEnum;
@@ -18,7 +18,7 @@ public class DormantAccountActivity {
 				AnalyticTopicType.POST, PostEvent.class);
 
 		DormantAccountAnalyzer analyzer = new DormantAccountAnalyzer();
-		dataStream = analyzer.analyse(dataStream);
+		dataStream = analyzer.analyze(dataStream);
 
 		StreamManager.initializeSink(AlphaEnum.ALPHA, dataStream);
 

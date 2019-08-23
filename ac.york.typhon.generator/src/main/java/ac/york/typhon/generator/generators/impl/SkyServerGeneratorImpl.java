@@ -10,10 +10,11 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import ac.york.typhon.analytics.commons.AppConfiguration;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.york.typhon.analytics.commons.datatypes.events.PreEvent;
 import ac.york.typhon.analytics.commons.enums.AnalyticTopicType;
-import ac.york.typhon.analytics.messaging.TopicPublisher;
+import ac.york.typhon.analytics.streaming.TopicPublisher;
 import ac.york.typhon.generator.generators.IGenerator;
 import ac.york.typhon.generator.helper.GeneratorConstants;
 import ac.york.typhon.generator.helper.Utils;
@@ -21,6 +22,13 @@ import ac.york.typhon.generator.source.IFileSource;
 import ac.york.typhon.generator.source.impl.LocalFileSouceImpl;
 
 public class SkyServerGeneratorImpl implements IGenerator {
+
+	private IFileSource loadLocalResource() {
+		String filePath = AppConfiguration
+				.getString(GeneratorConstants.LocalResourceCredentials.FILE_PATH);
+		IFileSource source = new LocalFileSouceImpl(filePath);
+		return source;
+	}
 
 	@Override
 	public void generate() {
@@ -32,8 +40,10 @@ public class SkyServerGeneratorImpl implements IGenerator {
 		 */
 		try {
 			// Iterable<CSVRecord> records = retrieveRecordsIterator);
-			IFileSource source = new LocalFileSouceImpl(
-					GeneratorConstants.FileNames.SQL_LOG_FILE_NAME);
+//			IFileSource source = new LocalFileSouceImpl(
+//					GeneratorConstants.FileNames.SQL_LOG_FILE_NAME);
+			
+			IFileSource source = loadLocalResource();
 
 			CSVFormat csvFormat = CSVFormat.EXCEL.withHeader();
 

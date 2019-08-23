@@ -4,14 +4,14 @@ import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.streaming.api.datastream.DataStream;
 
+import ac.york.typhon.analytics.analyzer.IAnalyzer;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.york.typhon.analytics.commons.datatypes.events.PostEvent;
-import ac.york.typhon.analytics.process.StreamAnalyzer;
 
 import com.alphabank.typhon.dataaccess.impl.AccountActivityAccessImpl;
 import com.alphabank.typhon.extractor.insert.NonFinancialEventInsertExtractor;
 
-public class DormantAccountAnalyzer extends StreamAnalyzer {
+public class DormantAccountAnalyzer implements IAnalyzer {
 
 	/**
 	 * 
@@ -19,7 +19,7 @@ public class DormantAccountAnalyzer extends StreamAnalyzer {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public DataStream<Event> analyse(DataStream<Event> eventsStream)
+	public DataStream<Event> analyze(DataStream<Event> eventsStream)
 			throws Exception {
 
 		eventsStream.filter(new FilterFunction<Event>() {

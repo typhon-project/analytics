@@ -19,9 +19,9 @@ import com.google.common.io.Resources;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.york.typhon.analytics.commons.datatypes.events.PreEvent;
 import ac.york.typhon.analytics.commons.enums.AnalyticTopicType;
-import ac.york.typhon.analytics.messaging.TopicPublisher;
+import ac.york.typhon.analytics.streaming.TopicPublisher;
 import ac.york.typhon.generator.helper.Utils;
-import ac.york.typhon.generator.helper.GeneratorConstants.RemoteResourceHeader;
+import ac.york.typhon.generator.helper.GeneratorConstants.ResourceHeader;
 import ac.york.typhon.generator.source.IFileSource;
 import ac.york.typhon.generator.sqlbuilder.StatementFactory;
 

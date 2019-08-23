@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashSet;
 
+import ac.york.typhon.analytics.commons.datatypes.events.PreEvent;
 import ac.york.typhon.generator.source.IDatabaseSource;
 
 public class DatabaseSourceImpl implements IDatabaseSource{
@@ -65,6 +66,7 @@ public class DatabaseSourceImpl implements IDatabaseSource{
 			e.printStackTrace();
 		}
 	}
+
 
 	// private static void initializeConnection() {
 	// String url = AppConfiguration.getString(AlphaConstants.Database.URL);

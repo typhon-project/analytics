@@ -3,7 +3,6 @@ package com.twicky.analytics;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.FlatMapFunction;
@@ -16,24 +15,19 @@ import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindo
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.util.Collector;
 
+import ac.york.typhon.analytics.analyzer.IAnalyzer;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
-import ac.york.typhon.analytics.process.StreamAnalyzer;
 import ac.york.typhon.generator.helper.Utils;
 
 import com.twicky.dto.TweetDTO;
 import com.twicky.extractors.update.extractor.TweetUpdateExtractor;
 
-public class RetweetsPerTweetAnalyzer extends StreamAnalyzer {
+public class RetweetsPerTweetAnalyzer implements IAnalyzer {
 
 	// private static Connection connection;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	@Override
-	public DataStream<Event> analyse(DataStream<Event> eventsStream)
+	public DataStream<Event> analyze(DataStream<Event> eventsStream)
 			throws Exception {
 
 		eventsStream

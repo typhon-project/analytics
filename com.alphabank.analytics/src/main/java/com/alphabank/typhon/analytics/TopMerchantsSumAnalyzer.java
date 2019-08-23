@@ -10,15 +10,15 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSink;
 import org.apache.flink.streaming.api.windowing.time.Time;
 
+import ac.york.typhon.analytics.analyzer.IAnalyzer;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
-import ac.york.typhon.analytics.process.StreamAnalyzer;
 
 import com.alphabank.typhon.analytics.assigner.BoundedOutOfOrdernessGenerator;
 import com.alphabank.typhon.dataaccess.impl.AnalyticsResultsAccessImpl;
 import com.alphabank.typhon.dto.FinancialEvent;
 import com.alphabank.typhon.extractor.insert.FinancialEventInsertExtractor;
 
-public class TopMerchantsSumAnalyzer extends StreamAnalyzer {
+public class TopMerchantsSumAnalyzer implements IAnalyzer {
 
 	/**
 	 * 
@@ -27,7 +27,7 @@ public class TopMerchantsSumAnalyzer extends StreamAnalyzer {
 	private static Connection connection;
 
 	@Override
-	public DataStream<Event> analyse(DataStream<Event> eventsStream)
+	public DataStream<Event> analyze(DataStream<Event> eventsStream)
 			throws Exception {
 		DataStreamSink<Tuple3<String, String, Double>> results = eventsStream
 				.filter(new FilterFunction<Event>() {

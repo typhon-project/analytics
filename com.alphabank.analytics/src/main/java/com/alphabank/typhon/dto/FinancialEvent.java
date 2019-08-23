@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 
 import com.alphabank.typhon.extractor.insert.FinancialEventInsertExtractor;
+import com.alphabank.typhon.generator.pojo.IPOJO;
 
 public class FinancialEvent {
 
@@ -52,6 +53,8 @@ public class FinancialEvent {
 		this.tunCode = extractor.getTUNCode();
 
 	}
+	
+	
 
 	public long getId() {
 		return id;

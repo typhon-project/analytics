@@ -14,20 +14,20 @@ import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.Collector;
 
+import ac.york.typhon.analytics.analyzer.IAnalyzer;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
-import ac.york.typhon.analytics.process.StreamAnalyzer;
 
 import com.alphabank.typhon.analytics.assigner.BoundedOutOfOrdernessGenerator;
 import com.alphabank.typhon.dataaccess.impl.AnalyticsResultsAccessImpl;
 import com.alphabank.typhon.dto.FinancialEvent;
 import com.alphabank.typhon.extractor.insert.FinancialEventInsertExtractor;
 
-public class TopMerchantsCountAnalyzer extends StreamAnalyzer {
+public class TopMerchantsCountAnalyzer implements IAnalyzer {
 
 	private static Connection connection;
 
 	@Override
-	public DataStream<Event> analyse(DataStream<Event> postEvents)
+	public DataStream<Event> analyze(DataStream<Event> postEvents)
 			throws Exception {
 		// DataStreamSink<ArrayList<Tuple3<String, String, Long>>> results =
 		postEvents

@@ -14,16 +14,18 @@ public class D_AnalyzerCaller {
 	public static void main(String[] args) throws Exception {
 
 		// Number of tweets over time
-		// ChannelBuilder.build(new TweetsPerWindowAnalyzer(),
-		// AnalyticTopicType.POST, PostEvent.class, TwickyTopics.TWICKY);
+		ChannelBuilder.build(new TweetsPerWindowAnalyzer(),
+				AnalyticTopicType.POST, TwickyTopics.TWICKY);
 
 		// Number of retweets over time for each user
 		// ChannelBuilder.build(new RetweetsPerUserAnalyzer(),
 		// AnalyticTopicType.POST, PostEvent.class, TwickyTopics.TWICKY);
 
 		// Number of retweets per tweet
-		ChannelBuilder.build(new RetweetsPerTweetAnalyzer(),
-				AnalyticTopicType.POST, PostEvent.class, TwickyTopics.TWICKY);
+		// ChannelBuilder.build(new RetweetsPerTweetAnalyzer(),
+		// AnalyticTopicType.POST,
+		// // PostEvent.class,
+		// TwickyTopics.TWICKY);
 
 		// TweetsOverTimeActivity.main(null);
 		// RetweetsPerUserActivity.main(null);

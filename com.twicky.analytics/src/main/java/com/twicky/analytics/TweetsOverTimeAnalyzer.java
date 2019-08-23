@@ -13,15 +13,15 @@ import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.streaming.util.keys.KeySelectorUtil;
 import org.apache.flink.util.Collector;
 
+import ac.york.typhon.analytics.analyzer.IAnalyzer;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.york.typhon.analytics.commons.datatypes.events.PostEvent;
-import ac.york.typhon.analytics.process.StreamAnalyzer;
 
 import com.twicky.analytics.watermark.BoundedOutOfOrdernessWatermark;
 import com.twicky.dto.TweetDTO;
 import com.twicky.extractors.update.extractor.TweetUpdateExtractor;
 
-public class TweetsOverTimeAnalyzer extends StreamAnalyzer {
+public class TweetsOverTimeAnalyzer implements IAnalyzer {
 
 	/**
 	 * 
@@ -29,7 +29,7 @@ public class TweetsOverTimeAnalyzer extends StreamAnalyzer {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public DataStream<Event> analyse(DataStream<Event> eventsStream)
+	public DataStream<Event> analyze(DataStream<Event> eventsStream)
 			throws Exception {
 
 		DataStream<Event> updateStatementsStream = eventsStream

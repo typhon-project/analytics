@@ -8,7 +8,7 @@ import com.twicky.authorization.PreEventAuthorizer;
 import ac.york.typhon.generator.PostEventsGenerator;
 import ac.york.typhon.generator.PreEventsGenerator;
 
-public class ProcessesCallerManualKillRequired {
+public class DELETE_ProcessesCallerManualKillRequired {
 
 	public static void exec(Class klass) throws IOException,
 			InterruptedException {
@@ -30,10 +30,10 @@ public class ProcessesCallerManualKillRequired {
 	public static void main(String[] args) throws Exception {
 
 		
-		ProcessesCallerManualKillRequired.exec(PreEventsGenerator.class);
-		ProcessesCallerManualKillRequired.exec(PreEventAuthorizer.class);
-		ProcessesCallerManualKillRequired.exec(PostEventsGenerator.class);
-		ProcessesCallerManualKillRequired.exec(FollowersActivity.class);
+		DELETE_ProcessesCallerManualKillRequired.exec(PreEventsGenerator.class);
+		DELETE_ProcessesCallerManualKillRequired.exec(PreEventAuthorizer.class);
+		DELETE_ProcessesCallerManualKillRequired.exec(PostEventsGenerator.class);
+		DELETE_ProcessesCallerManualKillRequired.exec(DELETE_FollowersActivity.class);
 		
 
 //		try {

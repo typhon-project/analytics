@@ -14,7 +14,7 @@ import ac.york.typhon.analytics.commons.AppConfiguration;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.york.typhon.analytics.commons.datatypes.events.PreEvent;
 import ac.york.typhon.analytics.commons.enums.AnalyticTopicType;
-import ac.york.typhon.analytics.messaging.TopicPublisher;
+import ac.york.typhon.analytics.streaming.TopicPublisher;
 import ac.york.typhon.generator.commons.AlphaConstants;
 import ac.york.typhon.generator.generators.IGenerator;
 import ac.york.typhon.generator.helper.Utils;

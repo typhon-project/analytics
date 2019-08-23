@@ -1,4 +1,4 @@
-package ac.york.typhon.analytics.messaging;
+package ac.york.typhon.analytics.streaming;
 
 import java.util.HashMap;
 import java.util.Map;

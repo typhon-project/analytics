@@ -5,9 +5,9 @@ public interface GeneratorConstants {
 	public interface FileNames {
 		String NON_FINANCIAL_EVENTS = "non_fnc_events.csv";
 		String FINANCIAL_TRANSATIONS = "transactions.csv";
-		String SQL_LOG_FILE_NAME = "sky.csv";
-		String TWICKY_CSV_CAUSING_ISSUE = "sample_csv_causing_problem.csv";
-		String TWICKY_CSV_CAUSING_ISSUE_COMPLETE_FILE = "F:\\general_log.CSV";
+//		String SQL_LOG_FILE_NAME = "sky.csv";
+//		String TWICKY_CSV_CAUSING_ISSUE = "sample_csv_causing_problem.csv";
+//		String TWICKY_CSV_CAUSING_ISSUE_COMPLETE_FILE = "F:\\general_log.CSV";
 
 	}
 
@@ -33,7 +33,7 @@ public interface GeneratorConstants {
 	// int ARGUMENT_FIELD_INDEX = 5;
 	// }
 
-	public interface RemoteResourceHeader {
+	public interface ResourceHeader {
 		String EVENT_TIME = "EVENT_TIME";
 		String USER_HOST = "USER_HOST";
 		String THREAD_ID = "THREAD_ID";
@@ -43,7 +43,7 @@ public interface GeneratorConstants {
 
 		public static int getFieldsCount() {
 
-			return RemoteResourceHeader.class.getDeclaredFields().length;
+			return ResourceHeader.class.getDeclaredFields().length;
 
 		}
 

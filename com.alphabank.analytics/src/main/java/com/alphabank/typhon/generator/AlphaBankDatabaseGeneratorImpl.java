@@ -1,4 +1,4 @@
-package ac.york.typhon.generator.generators.impl;
+package com.alphabank.typhon.generator;
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -7,73 +7,47 @@ import java.sql.Timestamp;
 
 import org.apache.commons.lang3.RandomUtils;
 
-import ac.york.typhon.analytics.commons.AppConfiguration;
-import ac.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.york.typhon.analytics.commons.datatypes.events.PreEvent;
 import ac.york.typhon.analytics.commons.enums.AnalyticTopicType;
 import ac.york.typhon.analytics.streaming.TopicPublisher;
 import ac.york.typhon.generator.commons.AlphaConstants;
-import ac.york.typhon.generator.generators.IGenerator;
+import ac.york.typhon.generator.generators.impl.DatabaseGeneratorImpl;
 import ac.york.typhon.generator.helper.Utils;
-import ac.york.typhon.generator.pojo.FinancialEvent;
-import ac.york.typhon.generator.pojo.NonFinancialEvent;
-import ac.york.typhon.generator.source.IDatabaseSource;
-import ac.york.typhon.generator.source.impl.DatabaseSourceImpl;
 
+import com.alphabank.typhon.generator.pojo.FinancialEvent;
+import com.alphabank.typhon.generator.pojo.IPOJO;
+import com.alphabank.typhon.generator.pojo.NonFinancialEvent;
 
+public class AlphaBankDatabaseGeneratorImpl extends DatabaseGeneratorImpl {
 
-public class AlphaBankGenerator implements IGenerator {
-	private static String url;
-	private static String username;
-	private static String password;
-
-	static {
-		loadConfiguration();
-	}
-
-	private static void loadConfiguration() {
-		url = AppConfiguration.getString(AlphaConstants.Database.URL);
-		username = AppConfiguration.getString(AlphaConstants.Database.USERNAME);
-		password = AppConfiguration.getString(AlphaConstants.Database.PASSWORD);
-
-	}
-
-	public static void main(String[] args) {
-		AlphaBankGenerator generator = new AlphaBankGenerator();
-		generator.generate();
-
-	}
+	private Class<? extends IPOJO> pojoClass;
 
 	@Override
 	public void generate() {
 
 		try {
 
-			IDatabaseSource source = new DatabaseSourceImpl(url, username,
-					password);
-
 			ResultSet fncEvResults = source
 					.executeStatement("SELECT * FROM FNC_EV ORDER BY FNC_EV_DT ASC");
 			ResultSet nonFncEvResults = source
 					.executeStatement("SELECT * FROM NON_FNC_EV ORDER BY NON_FNC_EV_DT_TM ASC");
 
-			String id = null;
 			while (fncEvResults.next()) {
 				while (nonFncEvResults.next()) {
-					id = Utils.generateRandomId();
-					Thread.sleep(RandomUtils.nextLong(0, 1000));
-					if (isFinancialAfterNonFinancial(
-							fncEvResults
-									.getDate(AlphaConstants.Table.FinancialEvent.DT),
-							nonFncEvResults
-									.getTimestamp(AlphaConstants.Table.NonFinancialEvent.DT_TM))) {
 
-						NonFinancialEvent nonFnc = new NonFinancialEvent(
-								nonFncEvResults);
-						String query = nonFnc.toInsert();
-						System.out.println(query);
-						Event preEvent = new PreEvent(id, query, "user",
-								Utils.generateTimeStamp(), "dbUser");
+					Thread.sleep(RandomUtils.nextLong(0, 1000));
+
+					Date financialDate = fncEvResults
+							.getDate(AlphaConstants.Table.FinancialEvent.DT);
+					Timestamp nonFinancialDate = nonFncEvResults
+							.getTimestamp(AlphaConstants.Table.NonFinancialEvent.DT_TM);
+
+					if (isFinancialAfterNonFinancial(financialDate,
+							nonFinancialDate)) {
+
+						pojoClass = NonFinancialEvent.class;
+						PreEvent preEvent = populatePreEvent(nonFncEvResults);
+						// System.out.println(preEvent);
 						TopicPublisher.publish(AnalyticTopicType.PRE, preEvent);
 						// System.out
 						// .println("NON FNC Date: "
@@ -81,12 +55,13 @@ public class AlphaBankGenerator implements IGenerator {
 						// .getTimestamp(AlphaConstants.Table.NonFinancialEvent.DT_TM));
 
 					} else {
-						FinancialEvent fnc = new FinancialEvent(fncEvResults);
-						// String query = fnc.toInsertSQLString();
-						String query = fnc.toInsert();
-						System.out.println(query);
-						Event preEvent = new PreEvent(id, query, "user",
-								Utils.generateTimeStamp(), "dbUser");
+
+						// FinancialEvent fnc = new
+						// FinancialEvent(fncEvResults);
+						// PreEvent preEvent = populatePreEvent(fnc.toInsert());
+						pojoClass = FinancialEvent.class;
+						PreEvent preEvent = populatePreEvent(fncEvResults);
+						// System.out.println(preEvent);
 						TopicPublisher.publish(AnalyticTopicType.PRE, preEvent);
 						// Go one step back in non fnc so when the NON FNC while
 						// loop condition will be called again, the cursor will
@@ -118,6 +93,24 @@ public class AlphaBankGenerator implements IGenerator {
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public PreEvent populatePreEvent(ResultSet resultSet) {
+		PreEvent preEvent = null;
+
+		try {
+			String id = Utils.generateRandomId();
+			IPOJO pojo = pojoClass.newInstance();
+			pojo.populate(resultSet);
+			String query = pojo.toInsert();
+			preEvent = new PreEvent(id, query, "user",
+					Utils.generateTimeStamp(), "dbUser");
+		} catch (InstantiationException | IllegalAccessException e) {
+
+			e.printStackTrace();
+		}
+		return preEvent;
 	}
 
 }

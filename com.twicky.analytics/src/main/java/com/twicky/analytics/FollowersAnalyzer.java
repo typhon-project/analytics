@@ -4,23 +4,16 @@ import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.streaming.api.datastream.DataStream;
 
-import com.twicky.extractors.update.extractor.TweetUpdateExtractor;
-
+import ac.york.typhon.analytics.analyzer.IAnalyzer;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.york.typhon.analytics.commons.datatypes.events.PostEvent;
-import ac.york.typhon.analytics.process.StreamAnalyzer;
 
+import com.twicky.extractors.update.extractor.TweetUpdateExtractor;
 
-
-public class FollowersAnalyzer extends StreamAnalyzer {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class FollowersAnalyzer implements IAnalyzer {
 
 	@Override
-	public DataStream<Event> analyse(DataStream<Event> eventsStream)
+	public DataStream<Event> analyze(DataStream<Event> eventsStream)
 			throws Exception {
 
 		eventsStream.filter(new FilterFunction<Event>() {
@@ -51,12 +44,11 @@ public class FollowersAnalyzer extends StreamAnalyzer {
 
 			@Override
 			public Event map(Event event) throws Exception {
-				System.out.println("InMap :"+ event);
+				System.out.println("InMap :" + event);
 
 				String query = ((PostEvent) event).getPreEvent().getQuery();
 
-				TweetUpdateExtractor extractor = new TweetUpdateExtractor(
-						query);
+				TweetUpdateExtractor extractor = new TweetUpdateExtractor(query);
 				System.out.println("Tweet ID : " + extractor.getID()
 						+ "   User Screen Name :"
 						+ extractor.getUserScreenName());

@@ -1,34 +1,22 @@
 package ac.york.typhon.generator.generators.impl;
 
-import java.io.IOException;
-import java.io.Reader;
 import java.sql.Timestamp;
-import java.util.Map;
-
-import net.sf.jsqlparser.JSQLParserException;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.RandomUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import ac.york.typhon.analytics.commons.AppConfiguration;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.york.typhon.analytics.commons.datatypes.events.PreEvent;
 import ac.york.typhon.analytics.commons.enums.AnalyticTopicType;
-import ac.york.typhon.analytics.messaging.TopicPublisher;
-import ac.york.typhon.generator.extractors.insert.extractor.TweetInsertExtractor;
-import ac.york.typhon.generator.extractors.select.extractor.TweetSelectExtractor;
-import ac.york.typhon.generator.extractors.update.UpdateExtractor;
-import ac.york.typhon.generator.extractors.update.extractor.TweetUpdateExtractor;
+import ac.york.typhon.analytics.streaming.TopicPublisher;
 import ac.york.typhon.generator.generators.IGenerator;
-import ac.york.typhon.generator.helper.GeneratorConstants.RemoteResourceHeader;
 import ac.york.typhon.generator.helper.GeneratorConstants;
+import ac.york.typhon.generator.helper.GeneratorConstants.ResourceHeader;
 import ac.york.typhon.generator.helper.Utils;
 import ac.york.typhon.generator.source.IFileSource;
 import ac.york.typhon.generator.source.impl.LocalFileSouceImpl;
-import ac.york.typhon.generator.source.impl.RemoteFileSourceImpl;
 
 public class TwickyGeneratorImpl implements IGenerator {
 
@@ -80,12 +68,12 @@ public class TwickyGeneratorImpl implements IGenerator {
 			IFileSource source = new LocalFileSouceImpl(TwickyGeneratorImpl.filePath);
 
 			CSVFormat csvFormat = CSVFormat.ORACLE.withHeader(
-					RemoteResourceHeader.EVENT_TIME,
-					RemoteResourceHeader.USER_HOST,
-					RemoteResourceHeader.THREAD_ID,
-					RemoteResourceHeader.SERVER_ID,
-					RemoteResourceHeader.COMMAND_TYPE,
-					RemoteResourceHeader.ARGUMENT);
+					ResourceHeader.EVENT_TIME,
+					ResourceHeader.USER_HOST,
+					ResourceHeader.THREAD_ID,
+					ResourceHeader.SERVER_ID,
+					ResourceHeader.COMMAND_TYPE,
+					ResourceHeader.ARGUMENT);
 
 			Iterable<CSVRecord> records = source.getRecordsIterator(csvFormat);
 			int labelIndex = 0;
@@ -98,11 +86,11 @@ public class TwickyGeneratorImpl implements IGenerator {
 				// }
 
 				String id = Utils.generateRandomId();
-				String query = record.get(RemoteResourceHeader.ARGUMENT);
+				String query = record.get(ResourceHeader.ARGUMENT);
 				Timestamp timestamp = Timestamp.valueOf(record
-						.get(RemoteResourceHeader.EVENT_TIME));
+						.get(ResourceHeader.EVENT_TIME));
 				// Timestamp timestamp = Utils.generateTimeStamp();
-				String user = record.get(RemoteResourceHeader.USER_HOST);
+				String user = record.get(ResourceHeader.USER_HOST);
 				Event preEvent = new PreEvent(id, query, user, timestamp,
 						"dbUser");
 
@@ -161,4 +149,5 @@ public class TwickyGeneratorImpl implements IGenerator {
 
 	}
 
+	
 }
