@@ -105,6 +105,29 @@ public class TweetUpdateExtractor extends UpdateExtractor {
 		return field;
 
 	}
+	
+	public String getUserId() {
+		String field = "";
+		if (ObjectUtils.notEqual(jsonNode, null)) {
+			System.out.println(jsonNode);
+			field = jsonNode
+					.path(TwickyConstants.TwickyJson.USER)
+					.path(TwickyConstants.TwickyJson.USER_ID)
+					.asText();
+		}
+		return field;
+	}
+	
+	public String getFollowersCount() {
+		String field = "";
+		if (ObjectUtils.notEqual(jsonNode, null)) {
+			field = jsonNode
+					.path(TwickyConstants.TwickyJson.USER)
+					.path(TwickyConstants.TwickyJson.FOLLOWERS_COUNT)
+					.asText();
+		}
+		return field;
+	}
 
 	public String getFavoriteCount() {
 

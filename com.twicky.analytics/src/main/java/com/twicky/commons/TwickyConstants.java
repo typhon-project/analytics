@@ -69,6 +69,8 @@ public abstract class TwickyConstants extends Constants {
 		String RETWEET_COUNT = "retweet_count";
 		String FULL_TEXT = "full_text";
 		String USER = "user";
+		String USER_ID = "id";
+		String FOLLOWERS_COUNT = "followers_count";
 		String SCREEN_NAME = "screen_name";
 		String QUOTED_STATUS = "quoted_status";
 

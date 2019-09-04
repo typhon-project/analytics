@@ -2,6 +2,7 @@ package ac.york.typhon.generator.generators.impl;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.lang3.RandomUtils;
 
 import ac.york.typhon.analytics.commons.AppConfiguration;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
@@ -64,6 +65,17 @@ public abstract class CSVGeneratorImpl implements IGenerator {
 		for (CSVRecord record : records) {
 
 			Event preEvent = populatePreEvent(record);
+			System.out.println(preEvent);
+			/*************************************************/
+			/*********** Comment Sleep if NOT NEEDED *********/
+			try {
+				Thread.sleep(RandomUtils.nextLong(0, 10));
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			/*************************************************/
+			/*************************************************/
 
 			TopicPublisher.publish(AnalyticTopicType.PRE, preEvent);
 

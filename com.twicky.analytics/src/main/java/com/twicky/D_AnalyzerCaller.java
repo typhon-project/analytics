@@ -1,5 +1,7 @@
 package com.twicky;
 
+import com.twicky.analytics.FollowersOverTimeAnalyzer;
+import com.twicky.analytics.MostPopularTimeAnalyzer;
 import com.twicky.analytics.RetweetsPerTweetAnalyzer;
 import com.twicky.analytics.RetweetsPerUserAnalyzer;
 import com.twicky.analytics.TweetsPerWindowAnalyzer;
@@ -14,8 +16,8 @@ public class D_AnalyzerCaller {
 	public static void main(String[] args) throws Exception {
 
 		// Number of tweets over time
-		ChannelBuilder.build(new TweetsPerWindowAnalyzer(),
-				AnalyticTopicType.POST, TwickyTopics.TWICKY);
+		//ChannelBuilder.build(new TweetsPerWindowAnalyzer(),
+		//		AnalyticTopicType.POST, TwickyTopics.TWICKY);
 
 		// Number of retweets over time for each user
 		// ChannelBuilder.build(new RetweetsPerUserAnalyzer(),
@@ -29,6 +31,14 @@ public class D_AnalyzerCaller {
 
 		// TweetsOverTimeActivity.main(null);
 		// RetweetsPerUserActivity.main(null);
+		
+		//Number of followers over time
+//		ChannelBuilder.build(new FollowersOverTimeAnalyzer(),
+//				AnalyticTopicType.POST, TwickyTopics.TWICKY);
+		
+		//Most popular time
+				ChannelBuilder.build(new MostPopularTimeAnalyzer(),
+						AnalyticTopicType.POST, TwickyTopics.TWICKY);
 
 	}
 

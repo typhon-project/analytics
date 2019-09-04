@@ -2,6 +2,7 @@ package com.twicky.dto;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -146,6 +147,21 @@ public class TweetDTO {
 			e.printStackTrace();
 		}
 		return time;
+	}
+	
+	public Date convertCreatedAtToDate() {
+		Date date = null;
+		try {
+			if (StringUtils.isNoneBlank(createdAt)) {
+
+				date = dateFormat.parse(createdAt);
+
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return date;
 	}
 
 	@Override
