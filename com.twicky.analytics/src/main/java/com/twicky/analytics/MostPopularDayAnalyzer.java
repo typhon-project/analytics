@@ -20,12 +20,13 @@ import ac.york.typhon.analytics.commons.datatypes.events.PreEvent;
 import ac.york.typhon.generator.helper.Utils;
 
 import com.twicky.analytics.assigner.BoundedOutOfOrdernessGeneratorForTwickyQueryTimestamp;
+import com.twicky.analytics.utilities.DaySlot;
 import com.twicky.analytics.utilities.FollowersOverTimeObject;
 import com.twicky.analytics.utilities.HourSlot;
 import com.twicky.dto.TweetDTO;
 import com.twicky.extractors.update.extractor.TweetUpdateExtractor;
 
-public class MostPopularTimeAnalyzer implements IAnalyzer {
+public class MostPopularDayAnalyzer implements IAnalyzer {
 
 	private final long maxOutOfOrderness = 3600;
 	private long currentMaxTimestamp;
@@ -64,25 +65,25 @@ public class MostPopularTimeAnalyzer implements IAnalyzer {
 				return new TweetDTO(extractor);
 			}
 		})
-		.map(new MapFunction<TweetDTO, HourSlot>() {
+		.map(new MapFunction<TweetDTO, DaySlot>() {
 			/**
 			 * 
 			 */
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public HourSlot map(TweetDTO tweet) throws Exception {
+			public DaySlot map(TweetDTO tweet) throws Exception {
 
-				HourSlot hourSlot = new HourSlot();
+				DaySlot daySlot = new DaySlot();
 				Date date = tweet.convertCreatedAtToDate();
 				if (date != null) {
-					hourSlot.setHourSlot(date.getHours());
+					daySlot.setDaySlot(date.getDay());
 					// hourSlot.setHourSlot(hour);
 				}
-				return hourSlot;
+				return daySlot;
 			}
 		})
-		.flatMap(new FlatMapFunction<HourSlot, Tuple2<Integer, Integer>>() {
+		.flatMap(new FlatMapFunction<DaySlot, Tuple2<Integer, Integer>>() {
 
 			/**
 			 * 
@@ -90,8 +91,9 @@ public class MostPopularTimeAnalyzer implements IAnalyzer {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void flatMap(HourSlot value, Collector<Tuple2<Integer, Integer>> out) throws Exception {
-				out.collect(new Tuple2<Integer, Integer>(value.getHourSlot(), 1));
+			public void flatMap(DaySlot value, Collector<Tuple2<Integer, Integer>> out) throws Exception {
+				System.out.println(value.getDaySlot());
+				out.collect(new Tuple2<Integer, Integer>(value.getDaySlot(), 1));
 			}
 
 		})

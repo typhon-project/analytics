@@ -1,6 +1,7 @@
 package com.twicky;
 
 import com.twicky.analytics.FollowersOverTimeAnalyzer;
+import com.twicky.analytics.MostPopularDayAnalyzer;
 import com.twicky.analytics.MostPopularTimeAnalyzer;
 import com.twicky.analytics.RetweetsPerTweetAnalyzer;
 import com.twicky.analytics.RetweetsPerUserAnalyzer;
@@ -37,8 +38,12 @@ public class D_AnalyzerCaller {
 //				AnalyticTopicType.POST, TwickyTopics.TWICKY);
 		
 		//Most popular time
-				ChannelBuilder.build(new MostPopularTimeAnalyzer(),
-						AnalyticTopicType.POST, TwickyTopics.TWICKY);
+//				ChannelBuilder.build(new MostPopularTimeAnalyzer(),
+//						AnalyticTopicType.POST, TwickyTopics.TWICKY);
+				
+		//Most popular time
+		ChannelBuilder.build(new MostPopularDayAnalyzer(),
+				AnalyticTopicType.POST, TwickyTopics.TWICKY);
 
 	}
 
