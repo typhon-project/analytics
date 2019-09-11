@@ -96,12 +96,13 @@ public class TweetUpdateExtractor extends UpdateExtractor {
 
 		String field = fieldValueMap
 				.get(TwickyConstants.Table.Tweet.DISCOVERER_SCREEN_NAME);
-		if (StringUtils.isBlank(field) && ObjectUtils.notEqual(jsonNode, null)) {
-
-			field = jsonNode.path(TwickyConstants.TwickyJson.QUOTED_STATUS)
-					.path(TwickyConstants.TwickyJson.USER)
-					.path(TwickyConstants.TwickyJson.SCREEN_NAME).asText();
-		}
+		// FIXME: I believe that this is wrong. The json file does not contain any information regarding the person who discovered it in Twicky
+//		if (StringUtils.isBlank(field) && ObjectUtils.notEqual(jsonNode, null)) {
+//
+//			field = jsonNode.path(TwickyConstants.TwickyJson.QUOTED_STATUS)
+//					.path(TwickyConstants.TwickyJson.USER)
+//					.path(TwickyConstants.TwickyJson.SCREEN_NAME).asText();
+//		}
 		return field;
 
 	}

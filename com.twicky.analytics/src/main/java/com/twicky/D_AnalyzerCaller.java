@@ -1,5 +1,6 @@
 package com.twicky;
 
+import com.twicky.analytics.CommonAccountsAnalyzer;
 import com.twicky.analytics.FollowersOverTimeAnalyzer;
 import com.twicky.analytics.MostPopularDayAnalyzer;
 import com.twicky.analytics.MostPopularTimeAnalyzer;
@@ -41,8 +42,12 @@ public class D_AnalyzerCaller {
 //				ChannelBuilder.build(new MostPopularTimeAnalyzer(),
 //						AnalyticTopicType.POST, TwickyTopics.TWICKY);
 				
-		//Most popular time
-		ChannelBuilder.build(new MostPopularDayAnalyzer(),
+//		//Most popular time
+//		ChannelBuilder.build(new MostPopularDayAnalyzer(),
+//				AnalyticTopicType.POST, TwickyTopics.TWICKY);
+		
+		//Similar Accounts
+		ChannelBuilder.build(new CommonAccountsAnalyzer(),
 				AnalyticTopicType.POST, TwickyTopics.TWICKY);
 
 	}

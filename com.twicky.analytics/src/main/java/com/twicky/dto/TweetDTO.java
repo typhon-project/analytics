@@ -6,6 +6,7 @@ import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.twicky.extractors.insert.extractor.TweetInsertExtractor;
 import com.twicky.extractors.update.extractor.TweetUpdateExtractor;
 
 public class TweetDTO {
@@ -30,7 +31,24 @@ public class TweetDTO {
 
 	}
 
+	//FIXME: This extractor is wrong. Update statements do not include all the information like discover_screen_name and may others. Having them taken from json (for some of them) is not correct as these are wrong information. Json does not contain this info.
 	public TweetDTO(TweetUpdateExtractor extractor) {
+		super();
+		this.blocked = extractor.getBlocked();
+		this.createdAt = extractor.getCreatedAt();
+		this.discoveredAt = extractor.getDiscoveredAt();
+		this.discovererScreenName = extractor.getDiscovererScreenName();
+		this.favoriteCount = extractor.getFavoriteCount();
+		this.greek = extractor.getGreek();
+		this.id = extractor.getID();
+		this.json = extractor.getJSON();
+		this.retweetCount = extractor.getRetweetCount();
+		this.text = extractor.getText();
+		this.userScreenName = extractor.getUserScreenName();
+
+	}
+	
+	public TweetDTO(TweetInsertExtractor extractor) {
 		super();
 		this.blocked = extractor.getBlocked();
 		this.createdAt = extractor.getCreatedAt();
