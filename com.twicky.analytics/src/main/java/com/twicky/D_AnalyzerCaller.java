@@ -4,6 +4,7 @@ import com.twicky.analytics.CommonAccountsAnalyzer;
 import com.twicky.analytics.FollowersOverTimeAnalyzer;
 import com.twicky.analytics.MostPopularDayAnalyzer;
 import com.twicky.analytics.MostPopularTimeAnalyzer;
+import com.twicky.analytics.NonMonitoredWithSubstantialActivityAnalyzer;
 import com.twicky.analytics.RetweetsPerTweetAnalyzer;
 import com.twicky.analytics.RetweetsPerUserAnalyzer;
 import com.twicky.analytics.TweetsPerWindowAnalyzer;
@@ -46,9 +47,13 @@ public class D_AnalyzerCaller {
 //		ChannelBuilder.build(new MostPopularDayAnalyzer(),
 //				AnalyticTopicType.POST, TwickyTopics.TWICKY);
 		
+//		//Similar Accounts
+//		ChannelBuilder.build(new CommonAccountsAnalyzer(),
+//				AnalyticTopicType.POST, TwickyTopics.TWICKY);
+		
 		//Similar Accounts
-		ChannelBuilder.build(new CommonAccountsAnalyzer(),
-				AnalyticTopicType.POST, TwickyTopics.TWICKY);
+				ChannelBuilder.build(new NonMonitoredWithSubstantialActivityAnalyzer(),
+						AnalyticTopicType.POST, TwickyTopics.TWICKY);
 
 	}
 

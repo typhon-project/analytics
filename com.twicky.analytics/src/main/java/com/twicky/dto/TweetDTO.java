@@ -28,7 +28,6 @@ public class TweetDTO {
 
 	public TweetDTO() {
 		super();
-
 	}
 
 	//FIXME: This extractor is wrong. Update statements do not include all the information like discover_screen_name and may others. Having them taken from json (for some of them) is not correct as these are wrong information. Json does not contain this info.
