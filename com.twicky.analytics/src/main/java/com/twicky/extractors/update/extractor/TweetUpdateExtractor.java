@@ -110,7 +110,6 @@ public class TweetUpdateExtractor extends UpdateExtractor {
 	public String getUserId() {
 		String field = "";
 		if (ObjectUtils.notEqual(jsonNode, null)) {
-			System.out.println(jsonNode);
 			field = jsonNode
 					.path(TwickyConstants.TwickyJson.USER)
 					.path(TwickyConstants.TwickyJson.USER_ID)

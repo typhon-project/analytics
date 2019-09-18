@@ -36,8 +36,8 @@ public class D_AnalyzerCaller {
 		// RetweetsPerUserActivity.main(null);
 		
 		//Number of followers over time
-//		ChannelBuilder.build(new FollowersOverTimeAnalyzer(),
-//				AnalyticTopicType.POST, TwickyTopics.TWICKY);
+		ChannelBuilder.build(new FollowersOverTimeAnalyzer(),
+				AnalyticTopicType.POST, TwickyTopics.TWICKY);
 		
 		//Most popular time
 //				ChannelBuilder.build(new MostPopularTimeAnalyzer(),
@@ -52,8 +52,8 @@ public class D_AnalyzerCaller {
 //				AnalyticTopicType.POST, TwickyTopics.TWICKY);
 		
 		//Similar Accounts
-				ChannelBuilder.build(new NonMonitoredWithSubstantialActivityAnalyzer(),
-						AnalyticTopicType.POST, TwickyTopics.TWICKY);
+//				ChannelBuilder.build(new NonMonitoredWithSubstantialActivityAnalyzer(),
+//						AnalyticTopicType.POST, TwickyTopics.TWICKY);
 
 	}
 

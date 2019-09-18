@@ -5,7 +5,14 @@ public class FollowersOverTimeObject {
 	String createdAt;
 	String userId;
 	String followersCount;
+	String userScreenName;
 	
+	public String getUserScreenName() {
+		return userScreenName;
+	}
+	public void setUserScreenName(String userScreenName) {
+		this.userScreenName = userScreenName;
+	}
 	public String getCreatedAt() {
 		return createdAt;
 	}
@@ -23,6 +30,11 @@ public class FollowersOverTimeObject {
 	}
 	public void setFollowersCount(String followersCount) {
 		this.followersCount = followersCount;
+	}
+	
+	public String toString() {
+		return "User " + this.getUserScreenName() + " had " + this.getFollowersCount() + " followers at " + this.getCreatedAt();
+		
 	}
 
 }

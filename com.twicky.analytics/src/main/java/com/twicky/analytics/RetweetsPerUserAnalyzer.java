@@ -80,7 +80,7 @@ public class RetweetsPerUserAnalyzer implements IAnalyzer {
 							@Override
 							public long extractTimestamp(TweetDTO element,
 									long previousElementTimestamp) {
-
+								// TODO: I think that we should window based on the twicky timestamp, which is when the RT was picked up. Windowing based on the created_at is wrong, we have no clue when tweets were done.
 								// - Here we should extract the timestamp from
 								// the tweet event iself e.g. created_At
 								// - Using the system timestamp is another

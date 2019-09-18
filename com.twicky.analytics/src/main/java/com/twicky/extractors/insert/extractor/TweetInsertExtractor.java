@@ -169,6 +169,28 @@ public class TweetInsertExtractor extends InsertExtractor {
 		return field;
 	}
 
+	public String getUserId() {
+		String field = "";
+		if (ObjectUtils.notEqual(jsonNode, null)) {
+			field = jsonNode
+					.path(TwickyConstants.TwickyJson.USER)
+					.path(TwickyConstants.TwickyJson.USER_ID)
+					.asText();
+		}
+		return field;
+	}
+	
+	public String getFollowersCount() {
+		String field = "";
+		if (ObjectUtils.notEqual(jsonNode, null)) {
+			field = jsonNode
+					.path(TwickyConstants.TwickyJson.USER)
+					.path(TwickyConstants.TwickyJson.FOLLOWERS_COUNT)
+					.asText();
+		}
+		return field;
+	}
+	
 	@Override
 	public String toString() {
 		// return "TweetUpdateExtractor [fieldValueMap=" + fieldValueMap
