@@ -7,6 +7,7 @@ import com.twicky.analytics.MostPopularTimeAnalyzer;
 import com.twicky.analytics.NonMonitoredWithSubstantialActivityAnalyzer;
 import com.twicky.analytics.RetweetsPerTweetAnalyzer;
 import com.twicky.analytics.RetweetsPerUserAnalyzer;
+import com.twicky.analytics.TweetsOverTimeAnalyzer;
 import com.twicky.analytics.TweetsPerWindowAnalyzer;
 import com.twicky.commons.TwickyTopics;
 
@@ -36,14 +37,14 @@ public class D_AnalyzerCaller {
 		// RetweetsPerUserActivity.main(null);
 		
 		//Number of followers over time
-		ChannelBuilder.build(new FollowersOverTimeAnalyzer(),
-				AnalyticTopicType.POST, TwickyTopics.TWICKY);
-		
-		//Most popular time
-//				ChannelBuilder.build(new MostPopularTimeAnalyzer(),
-//						AnalyticTopicType.POST, TwickyTopics.TWICKY);
+//		ChannelBuilder.build(new FollowersOverTimeAnalyzer(),
+//				AnalyticTopicType.POST, TwickyTopics.TWICKY);
+//		
+		//Most popular hour
+				ChannelBuilder.build(new MostPopularTimeAnalyzer(),
+						AnalyticTopicType.POST, TwickyTopics.TWICKY);
 				
-//		//Most popular time
+//		//Most popular day
 //		ChannelBuilder.build(new MostPopularDayAnalyzer(),
 //				AnalyticTopicType.POST, TwickyTopics.TWICKY);
 		
@@ -55,6 +56,9 @@ public class D_AnalyzerCaller {
 //				ChannelBuilder.build(new NonMonitoredWithSubstantialActivityAnalyzer(),
 //						AnalyticTopicType.POST, TwickyTopics.TWICKY);
 
+		//Tweets Over Time (Thanos)
+//		ChannelBuilder.build(new TweetsOverTimeAnalyzer(),
+//				AnalyticTopicType.POST, TwickyTopics.TWICKY);
 	}
 
 }

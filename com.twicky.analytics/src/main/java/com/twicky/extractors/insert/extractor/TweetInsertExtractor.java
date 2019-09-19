@@ -70,8 +70,9 @@ public class TweetInsertExtractor extends InsertExtractor {
 	}
 
 	public String getCreatedAt() {
-		String field = fieldValueMap
-				.get(TwickyConstants.Table.Tweet.CREATED_AT);
+//		String field = fieldValueMap
+//				.get(TwickyConstants.Table.Tweet.CREATED_AT);
+		String field = "";
 		if (StringUtils.isBlank(field) && ObjectUtils.notEqual(jsonNode, null)) {
 			field = jsonNode.path(TwickyConstants.TwickyJson.CREATED_AT)
 					.asText();

@@ -2,7 +2,6 @@ package com.twicky.analytics;
 
 import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.MapFunction;
-import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.api.java.tuple.Tuple;
 import org.apache.flink.api.java.tuple.Tuple1;
 import org.apache.flink.api.java.tuple.Tuple3;
@@ -10,16 +9,16 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
-import org.apache.flink.streaming.util.keys.KeySelectorUtil;
 import org.apache.flink.util.Collector;
+
+import com.twicky.analytics.utilities.sinks.PopularHourMySQLSink;
+import com.twicky.analytics.watermark.BoundedOutOfOrdernessWatermark;
+import com.twicky.dto.TweetDTO;
+import com.twicky.extractors.insert.extractor.TweetInsertExtractor;
 
 import ac.york.typhon.analytics.analyzer.IAnalyzer;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.york.typhon.analytics.commons.datatypes.events.PostEvent;
-
-import com.twicky.analytics.watermark.BoundedOutOfOrdernessWatermark;
-import com.twicky.dto.TweetDTO;
-import com.twicky.extractors.update.extractor.TweetUpdateExtractor;
 
 public class TweetsOverTimeAnalyzer implements IAnalyzer {
 
@@ -28,77 +27,54 @@ public class TweetsOverTimeAnalyzer implements IAnalyzer {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	//FIXME: This is wrong. I don't think that it can be implemented with the current info we have or it needs workarounds that I am not sure if they worth the pain.
 	@Override
-	public DataStream<Event> analyze(DataStream<Event> eventsStream)
-			throws Exception {
+	public DataStream<Event> analyze(DataStream<Event> eventsStream) throws Exception {
 
-		DataStream<Event> updateStatementsStream = eventsStream
-				.filter(new FilterFunction<Event>() {
+		eventsStream.filter(new FilterFunction<Event>() {
+			private static final long serialVersionUID = 1L;
 
-					/**
-			 * 
-			 */
-					private static final long serialVersionUID = 1L;
+			@Override
+			public boolean filter(Event preEvent) throws Exception {
+				String query = preEvent.getQuery().toLowerCase();
+				if (query.length() > 20) {
+				}
+				if (query.contains("insert")) {
+					System.out.println("hi");
+					return true;
+				}
+				return false;
+			}
+		}).map(new MapFunction<Event, TweetDTO>() {
+			/**
+			* 
+			*/
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public boolean filter(Event preEvent) throws Exception {
-						String query = preEvent.getQuery().toLowerCase();
-						if (query.length() > 20) {
-							System.out.println(query.substring(0, 20));
-						}
-						if (query.contains("update")) {
-							System.out.println(" It is an update");
-							return true;
-						}
-						System.out.println(" NOT an update");
-						return false;
-					}
-				});
+			@Override
+			public TweetDTO map(Event event) throws Exception {
+				// System.out.println("InMap :" + event);
 
-		DataStream<TweetDTO> updateStatementsMappedStream = updateStatementsStream
-				.map(new MapFunction<Event, TweetDTO>() {
-					/**
-			 * 
-			 */
-					private static final long serialVersionUID = 1L;
+				String query = ((PostEvent) event).getPreEvent().getQuery();
 
-					@Override
-					public TweetDTO map(Event event) throws Exception {
-						// System.out.println("InMap :" + event);
+				TweetInsertExtractor extractor = new TweetInsertExtractor(query);
+				TweetDTO tweet = new TweetDTO(extractor);
+				return tweet;
+			}
+		})
+		.print();
+		
 
-						String query = ((PostEvent) event).getPreEvent()
-								.getQuery();
-
-						TweetUpdateExtractor extractor = new TweetUpdateExtractor(
-								query);
-						TweetDTO dto = new TweetDTO(extractor);
-						// System.out.println("Tweet ID : " + extractor.getID()
-						// + "   User Screen Name :"
-						// + extractor.getUserScreenName());
-						// System.out.println(extractor);
-
-						// System.out.println((PostEvent) event);
-						return dto;
-					}
-				});
-
+		/*
 		// AssignerWithPeriodicWatermarks<TweetDTO>
 		// timestampAndWatermarkAssigner = new AscendingTimeStampWatermark();
-	
 
-	
-		
-		updateStatementsMappedStream
-				.assignTimestampsAndWatermarks(
-						new BoundedOutOfOrdernessWatermark())
-				.keyBy("id")
-				.timeWindow(Time.days(1))
-				.process(new MyProcessWindowFunction())
+		updateStatementsMappedStream.assignTimestampsAndWatermarks(new BoundedOutOfOrdernessWatermark()).keyBy("id")
+				.timeWindow(Time.days(1)).process(new MyProcessWindowFunction())
 				.map(new MapFunction<Tuple3<String, String, Long>, Tuple3<String, String, Long>>() {
 
 					@Override
-					public Tuple3<String, String, Long> map(
-							Tuple3<String, String, Long> arg0) throws Exception {
+					public Tuple3<String, String, Long> map(Tuple3<String, String, Long> arg0) throws Exception {
 						// connection =
 						// AnalyticsResultsAccessImpl.getConnection();
 						//
@@ -147,15 +123,14 @@ public class TweetsOverTimeAnalyzer implements IAnalyzer {
 		// .seconds(1)))
 		// .allowedLateness(Time.seconds(2))
 		// .apply(new GapWindowFunction());
+		 */
 
 		return eventsStream;
 	}
 
 }
 
-class MyProcessWindowFunction
-		extends
-		ProcessWindowFunction<TweetDTO, Tuple3<String, String, Long>, Tuple, TimeWindow> {
+class MyProcessWindowFunction extends ProcessWindowFunction<TweetDTO, Tuple3<String, String, Long>, Tuple, TimeWindow> {
 
 	@Override
 	public void process(Tuple key, Context context, Iterable<TweetDTO> input,

@@ -1,6 +1,5 @@
 package com.twicky.analytics;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 import org.apache.flink.api.common.functions.FilterFunction;
@@ -8,22 +7,18 @@ import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.datastream.DataStream;
-import org.apache.flink.streaming.api.functions.AssignerWithPeriodicWatermarks;
-import org.apache.flink.streaming.api.watermark.Watermark;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.util.Collector;
+
+import com.twicky.analytics.assigner.BoundedOutOfOrdernessGeneratorForTwickyQueryTimestamp;
+import com.twicky.analytics.utilities.HourSlot;
+import com.twicky.analytics.utilities.sinks.PopularHourMySQLSink;
+import com.twicky.dto.TweetDTO;
+import com.twicky.extractors.insert.extractor.TweetInsertExtractor;
 
 import ac.york.typhon.analytics.analyzer.IAnalyzer;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.york.typhon.analytics.commons.datatypes.events.PostEvent;
-import ac.york.typhon.analytics.commons.datatypes.events.PreEvent;
-import ac.york.typhon.generator.helper.Utils;
-
-import com.twicky.analytics.assigner.BoundedOutOfOrdernessGeneratorForTwickyQueryTimestamp;
-import com.twicky.analytics.utilities.FollowersOverTimeObject;
-import com.twicky.analytics.utilities.HourSlot;
-import com.twicky.dto.TweetDTO;
-import com.twicky.extractors.update.extractor.TweetUpdateExtractor;
 
 public class MostPopularTimeAnalyzer implements IAnalyzer {
 
@@ -46,11 +41,9 @@ public class MostPopularTimeAnalyzer implements IAnalyzer {
 				if (query.length() > 20) {
 //					System.out.println(query.substring(0, 20));
 				}
-				if (query.contains("update")) {
-//					System.out.println(" It is an update");
+				if (query.contains("insert")) {
 					return true;
 				}
-//				System.out.println(" NOT an update");
 				return false;
 			}
 		})
@@ -59,7 +52,7 @@ public class MostPopularTimeAnalyzer implements IAnalyzer {
 
 			@Override
 			public TweetDTO map(Event event) throws Exception {
-				TweetUpdateExtractor extractor = new TweetUpdateExtractor(event.getQuery());
+				TweetInsertExtractor extractor = new TweetInsertExtractor(event.getQuery());
 				System.out.println("Collected from Twicky at: " + ((PostEvent) event).getPreEvent().getQueryTime());
 				return new TweetDTO(extractor);
 			}
@@ -91,6 +84,8 @@ public class MostPopularTimeAnalyzer implements IAnalyzer {
 
 			@Override
 			public void flatMap(HourSlot value, Collector<Tuple2<Integer, Integer>> out) throws Exception {
+				System.out.println(value.getHourSlot());
+
 				out.collect(new Tuple2<Integer, Integer>(value.getHourSlot(), 1));
 			}
 
@@ -98,7 +93,8 @@ public class MostPopularTimeAnalyzer implements IAnalyzer {
 		.keyBy(0)
 		.timeWindow(Time.minutes(1))
 		.sum(1)
-		.print();
+		.addSink(new PopularHourMySQLSink());
+		//.print();
 		return eventsStream;
 	}
 }
