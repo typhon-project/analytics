@@ -38,9 +38,6 @@ public class MostPopularTimeAnalyzer implements IAnalyzer {
 			@Override
 			public boolean filter(Event preEvent) throws Exception {
 				String query = preEvent.getQuery().toLowerCase();
-				if (query.length() > 20) {
-//					System.out.println(query.substring(0, 20));
-				}
 				if (query.contains("insert")) {
 					return true;
 				}

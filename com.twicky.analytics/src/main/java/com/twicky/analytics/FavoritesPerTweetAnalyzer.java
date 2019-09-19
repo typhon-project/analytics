@@ -27,7 +27,7 @@ import com.twicky.dto.TweetDTO;
 import com.twicky.extractors.insert.extractor.TweetInsertExtractor;
 import com.twicky.extractors.update.extractor.TweetUpdateExtractor;
 
-public class RetweetsPerTweetAnalyzer implements IAnalyzer {
+public class FavoritesPerTweetAnalyzer implements IAnalyzer {
 
 	// private static Connection connection;
 
@@ -45,10 +45,8 @@ public class RetweetsPerTweetAnalyzer implements IAnalyzer {
 						String query = postEvent.getQuery().toLowerCase();
 					
 						if (query.contains("update") || query.contains("insert")) {
-							// System.out.println(" It is an update");
 							return true;
 						}
-						// System.out.println(" NOT an update");
 						return false;
 					}
 				})
@@ -88,9 +86,8 @@ public class RetweetsPerTweetAnalyzer implements IAnalyzer {
 
 					@Override
 					public void flatMap(Tuple2<TweetDTO, Date> incomingTuple, Collector<Tuple3<String, Integer, Date>> out) throws Exception {
-						// System.out.println(value);
-						Integer retweetCount = NumberUtils.createInteger(incomingTuple.f0.getRetweetCount());
-						out.collect(new Tuple3<String, Integer, Date>(incomingTuple.f0.getId(), Objects.equals(retweetCount, null) ? 0 : retweetCount, incomingTuple.f1));
+						Integer favoritesCount = NumberUtils.createInteger(incomingTuple.f0.getFavoriteCount());
+						out.collect(new Tuple3<String, Integer, Date>(incomingTuple.f0.getId(), Objects.equals(favoritesCount, null) ? 0 : favoritesCount, incomingTuple.f1));
 
 					}
 
