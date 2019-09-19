@@ -45,10 +45,8 @@ public class RetweetsPerTweetAnalyzer implements IAnalyzer {
 						String query = postEvent.getQuery().toLowerCase();
 					
 						if (query.contains("update") || query.contains("insert")) {
-							// System.out.println(" It is an update");
 							return true;
 						}
-						// System.out.println(" NOT an update");
 						return false;
 					}
 				})

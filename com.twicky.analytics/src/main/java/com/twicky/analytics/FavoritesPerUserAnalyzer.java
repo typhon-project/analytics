@@ -28,7 +28,7 @@ import com.twicky.dto.TweetDTO;
 import com.twicky.extractors.insert.extractor.TweetInsertExtractor;
 import com.twicky.extractors.update.extractor.TweetUpdateExtractor;
 
-public class RetweetsPerUserAnalyzer implements IAnalyzer {
+public class FavoritesPerUserAnalyzer implements IAnalyzer {
 
 	// private static Connection connection;
 
@@ -76,8 +76,8 @@ public class RetweetsPerUserAnalyzer implements IAnalyzer {
 
 					@Override
 					public void flatMap(Tuple2<TweetDTO, Date> incomingTuple, Collector<Tuple4<String, String, Integer, Date>> out) throws Exception {
-						Integer retweetCount = NumberUtils.createInteger(incomingTuple.f0.getRetweetCount());
-						out.collect(new Tuple4<String, String, Integer, Date>(incomingTuple.f0.getId(), incomingTuple.f0.getUserScreenName(), Objects.equals(retweetCount, null) ? 0 : retweetCount, incomingTuple.f1));
+						Integer favoritesCount = NumberUtils.createInteger(incomingTuple.f0.getFavoriteCount());
+						out.collect(new Tuple4<String, String, Integer, Date>(incomingTuple.f0.getId(), incomingTuple.f0.getUserScreenName(), Objects.equals(favoritesCount, null) ? 0 : favoritesCount, incomingTuple.f1));
 					}
 
 				})

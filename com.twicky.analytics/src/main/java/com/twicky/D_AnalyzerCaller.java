@@ -23,14 +23,17 @@ public class D_AnalyzerCaller {
 		// Number of tweets over time
 //		ChannelBuilder.build(new TweetsPerWindowAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
 
-		// Number of retweets over time for each user
+		// Number of Retweets over time for each user
 //		ChannelBuilder.build(new RetweetsPerUserAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
 
-		// Number of retweets per tweet
+		// Number of Retweets per tweet
 //		ChannelBuilder.build(new RetweetsPerTweetAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
 		
-		// Number of favorites per tweet
-		ChannelBuilder.build(new FavoritesPerTweetAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
+		// Number of Favorites per tweet
+//		ChannelBuilder.build(new FavoritesPerTweetAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
+		
+		// Number of Retweets per user
+		ChannelBuilder.build(new RetweetsPerUserAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
 		
 		//Number of followers over time
 //		ChannelBuilder.build(new FollowersOverTimeAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
