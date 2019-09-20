@@ -33,7 +33,7 @@ import com.twicky.dto.TweetDTO;
 import com.twicky.extractors.insert.extractor.TweetInsertExtractor;
 import com.twicky.extractors.update.extractor.TweetUpdateExtractor;
 
-public class CommonAccountsAnalyzer implements IAnalyzer {
+public class SimilarAccountsAnalyzer implements IAnalyzer {
 
 	private final long maxOutOfOrderness = 3600;
 	private long currentMaxTimestamp;
@@ -51,14 +51,9 @@ public class CommonAccountsAnalyzer implements IAnalyzer {
 			@Override
 			public boolean filter(Event preEvent) throws Exception {
 				String query = preEvent.getQuery().toLowerCase();
-				if (query.length() > 20) {
-//					System.out.println(query.substring(0, 20));
-				}
 				if (query.contains("insert")) {
-//					System.out.println(" It is an update");
 					return true;
 				}
-//				System.out.println(" NOT an update");
 				return false;
 			}
 		})
@@ -72,7 +67,7 @@ public class CommonAccountsAnalyzer implements IAnalyzer {
 				return new TweetDTO(extractor);
 			}
 		})
-		.map(new RichMapFunction<TweetDTO, RetweetedAccounts>() {
+		.map(new RichMapFunction<TweetDTO, Tuple2<RetweetedAccounts, String>>() {
 			/**
 			 * 
 			 */
@@ -85,10 +80,7 @@ public class CommonAccountsAnalyzer implements IAnalyzer {
 		    }
 
 			@Override
-			public RetweetedAccounts map(TweetDTO tweet) throws Exception {
-
-//				System.out.println("Tweet id: " + tweet.getId() + " Text: " + tweet.getText() + 
-//						 " Original Poster: " + tweet.getUserScreenName() + " collected from Twicky by: " + tweet.getDiscovererScreenName());
+			public Tuple2<RetweetedAccounts, String> map(TweetDTO tweet) throws Exception {
 
 				if (retweetedAccounts.getRetweetedAccounts().containsKey(tweet.getDiscovererScreenName())) {
 					HashSet<String> currentRetweetedAccounts = retweetedAccounts.getRetweetedAccounts().get(tweet.getDiscovererScreenName());
@@ -99,28 +91,29 @@ public class CommonAccountsAnalyzer implements IAnalyzer {
 					currentRetweetedAccounts.add(tweet.getUserScreenName());
 					retweetedAccounts.getRetweetedAccounts().put(tweet.getDiscovererScreenName(), currentRetweetedAccounts);
 				}
-				
-				return retweetedAccounts;
+				Tuple2<RetweetedAccounts, String> result = new Tuple2<RetweetedAccounts, String>(retweetedAccounts, tweet.getDiscovererScreenName());
+				return result;
 			}
 		})
-		.map(new MapFunction<RetweetedAccounts, String>() {
+		.map(new MapFunction<Tuple2<RetweetedAccounts, String>, String>() {
 
 			@Override
-			public String map(RetweetedAccounts value) throws Exception {
-//				System.out.println(value.getRetweetedAccounts());
-				for(String discoverer : value.getRetweetedAccounts().keySet()) {
-					for(String otherDiscoverer : value.getRetweetedAccounts().keySet()) {
-						if (discoverer.equals(otherDiscoverer)) {
-//							System.out.println("I went into if for " + discoverer + " and " + otherDiscoverer);
-						} else {
-							HashSet<String> tempRetweetedAccountsForDiscoverer = new HashSet<String>(value.getRetweetedAccounts().get(discoverer));
-							HashSet<String> retweetedAccountsForOtherDiscoverer = value.getRetweetedAccounts().get(otherDiscoverer);
-							tempRetweetedAccountsForDiscoverer.retainAll(retweetedAccountsForOtherDiscoverer);
-							if (tempRetweetedAccountsForDiscoverer.size() >= 1) {
-								System.out.println(discoverer + " and " + otherDiscoverer + " have " + tempRetweetedAccountsForDiscoverer.size() + " retweeters in common" + System.lineSeparator() 
-									+ discoverer + " retweeted accounts: " + value.getRetweetedAccounts().get(discoverer) + System.lineSeparator()
-									+ otherDiscoverer + " retweeted accounts: " + retweetedAccountsForOtherDiscoverer);
-							}
+			public String map(Tuple2<RetweetedAccounts, String> value) throws Exception {
+				// We only need to check for similarity for the discoverer of the tweet we are currently assessing. He is the only person who has his retweetedAccount changed.
+				String discoverer = value.f1;
+				// We check him against all the other discoverers we have in our list so far...
+				for(String otherDiscoverer : value.f0.getRetweetedAccounts().keySet()) {
+					// ...well, except himself
+					if (discoverer.equals(otherDiscoverer)) {
+						continue;
+					} else {
+						HashSet<String> tempRetweetedAccountsForDiscoverer = new HashSet<String>(value.f0.getRetweetedAccounts().get(discoverer));
+						HashSet<String> retweetedAccountsForOtherDiscoverer = value.f0.getRetweetedAccounts().get(otherDiscoverer);
+						tempRetweetedAccountsForDiscoverer.retainAll(retweetedAccountsForOtherDiscoverer);
+						if (tempRetweetedAccountsForDiscoverer.size() >= 1) {
+							System.out.println(discoverer + " and " + otherDiscoverer + " have " + tempRetweetedAccountsForDiscoverer.size() + " retweeters in common" + System.lineSeparator() 
+								+ discoverer + " retweeted accounts: " + value.f0.getRetweetedAccounts().get(discoverer) + System.lineSeparator()
+								+ otherDiscoverer + " retweeted accounts: " + retweetedAccountsForOtherDiscoverer);
 						}
 					}
 				}

@@ -1,6 +1,6 @@
 package com.twicky;
 
-import com.twicky.analytics.CommonAccountsAnalyzer;
+import com.twicky.analytics.SimilarAccountsAnalyzer;
 import com.twicky.analytics.FavoritesPerTweetAnalyzer;
 import com.twicky.analytics.FollowersOverTimeAnalyzer;
 import com.twicky.analytics.MostPopularDayAnalyzer;
@@ -20,34 +20,34 @@ public class D_AnalyzerCaller {
 
 	public static void main(String[] args) throws Exception {
 
-		// Number of tweets over time
+		// Number of tweets over Time
 //		ChannelBuilder.build(new TweetsPerWindowAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
 
-		// Number of Retweets over time for each user
+		// Number of Retweets over Time for each User
 //		ChannelBuilder.build(new RetweetsPerUserAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
 
-		// Number of Retweets per tweet
+		// Number of Retweets per Tweet
 //		ChannelBuilder.build(new RetweetsPerTweetAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
 		
-		// Number of Favorites per tweet
+		// Number of Favorites per Tweet
 //		ChannelBuilder.build(new FavoritesPerTweetAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
 		
-		// Number of Retweets per user
-		ChannelBuilder.build(new RetweetsPerUserAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
+		// Number of Retweets per User
+//		ChannelBuilder.build(new RetweetsPerUserAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
 		
-		//Number of followers over time
+		//Number of Followers over Time
 //		ChannelBuilder.build(new FollowersOverTimeAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
 
-		//Most popular hour
+		//Most Popular Hour
 //		ChannelBuilder.build(new MostPopularTimeAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
 				
-		//Most popular day
+		//Most Popular Day
 //		ChannelBuilder.build(new MostPopularDayAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
 		
 		//Similar Accounts
-//		ChannelBuilder.build(new CommonAccountsAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
+		ChannelBuilder.build(new SimilarAccountsAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
 		
-		//Similar Accounts
+		//Non Monitored Accounts
 //		ChannelBuilder.build(new NonMonitoredWithSubstantialActivityAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
 
 		//Tweets Over Time (Thanos)
