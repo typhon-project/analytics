@@ -1,12 +1,21 @@
 package com.twicky.analytics.utilities;
 
+import java.util.Date;
+
 public class FollowersOverTimeObject {
 	
 	String createdAt;
 	String userId;
 	String followersCount;
 	String userScreenName;
+	Date queryTime;
 	
+	public Date getQueryTime() {
+		return queryTime;
+	}
+	public void setQueryTime(Date fetchTime) {
+		this.queryTime = fetchTime;
+	}
 	public String getUserScreenName() {
 		return userScreenName;
 	}
@@ -33,7 +42,7 @@ public class FollowersOverTimeObject {
 	}
 	
 	public String toString() {
-		return "User " + this.getUserScreenName() + " had " + this.getFollowersCount() + " followers at " + this.getCreatedAt();
+		return "User " + this.getUserScreenName() + " had " + this.getFollowersCount() + " followers at " + this.getQueryTime();
 		
 	}
 

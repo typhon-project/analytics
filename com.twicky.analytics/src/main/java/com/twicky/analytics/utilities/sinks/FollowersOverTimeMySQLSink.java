@@ -15,7 +15,7 @@ import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
 
 import com.twicky.dto.TweetDTO;
 
-public class PopularHourMySQLSink extends RichSinkFunction<Tuple3<Integer, Integer, Date>>{
+public class FollowersOverTimeMySQLSink extends RichSinkFunction<Tuple3<String, Integer, Date>>{
     private PreparedStatement state ;
     private Connection conn ;
 
@@ -24,7 +24,7 @@ public class PopularHourMySQLSink extends RichSinkFunction<Tuple3<Integer, Integ
         super.open(parameters);
         conn = getConnection();
         //System.out.println("conn=" + conn);
-        String sql = "insert into PopularHourResults(hour,value, timestamp) values(?, ?, ?);";
+        String sql = "insert into FollowersOverTimeResults(userScreenName,followers,timestamp) values(?, ?, ?);";
         state = this.conn.prepareStatement(sql);
         //System.out.println("state=" + state);
     }
@@ -41,11 +41,11 @@ public class PopularHourMySQLSink extends RichSinkFunction<Tuple3<Integer, Integ
     }
 
     @Override
-    public void invoke(Tuple3<Integer, Integer, Date> sums, Context context) throws Exception {
-    	System.out.println(sums.f0 + " " + sums.f1);
-        state.setString(1,sums.f0.toString() + ":00");
-        state.setInt(2,sums.f1);
-        state.setTimestamp(3, new java.sql.Timestamp(sums.f2.getTime()));
+    public void invoke(Tuple3<String, Integer, Date> results, Context context) throws Exception {
+    	System.out.println(results.f0 + " " + results.f1 + " " + results.f2);
+        state.setString(1,results.f0);
+        state.setInt(2,results.f1);
+        state.setTimestamp(3,new java.sql.Timestamp(results.f2.getTime()));
         state.executeUpdate();
     }
 
