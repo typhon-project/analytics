@@ -68,12 +68,12 @@ public abstract class CSVGeneratorImpl implements IGenerator {
 			System.out.println(preEvent);
 			/*************************************************/
 			/*********** Comment Sleep if NOT NEEDED *********/
-			try {
-				Thread.sleep(RandomUtils.nextLong(0, 10));
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			try {
+//				Thread.sleep(RandomUtils.nextLong(0, 10));
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 			/*************************************************/
 			/*************************************************/
 

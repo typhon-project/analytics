@@ -39,13 +39,13 @@ public class D_AnalyzerCaller {
 //		ChannelBuilder.build(new FollowersOverTimeAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
 
 		//Most Popular Hour
-		ChannelBuilder.build(new MostPopularTimeAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
+//		ChannelBuilder.build(new MostPopularTimeAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
 				
 		//Most Popular Day
 //		ChannelBuilder.build(new MostPopularDayAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
 		
 		//Similar Accounts
-//		ChannelBuilder.build(new SimilarAccountsAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
+		ChannelBuilder.build(new SimilarAccountsAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
 		
 		//Non Monitored Accounts
 //		ChannelBuilder.build(new NonMonitoredWithSubstantialActivityAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);

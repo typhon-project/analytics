@@ -1,6 +1,7 @@
 package com.twicky.analytics;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,6 +11,7 @@ import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.api.java.tuple.Tuple2;
+import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.functions.AssignerWithPeriodicWatermarks;
@@ -29,6 +31,7 @@ import com.twicky.analytics.utilities.DaySlot;
 import com.twicky.analytics.utilities.FollowersOverTimeObject;
 import com.twicky.analytics.utilities.HourSlot;
 import com.twicky.analytics.utilities.RetweetedAccounts;
+import com.twicky.analytics.utilities.sinks.SimilarAccountsMySQLSink;
 import com.twicky.dto.TweetDTO;
 import com.twicky.extractors.insert.extractor.TweetInsertExtractor;
 import com.twicky.extractors.update.extractor.TweetUpdateExtractor;
@@ -95,12 +98,38 @@ public class SimilarAccountsAnalyzer implements IAnalyzer {
 				return result;
 			}
 		})
-		.map(new MapFunction<Tuple2<RetweetedAccounts, String>, String>() {
+//		.map(new MapFunction<Tuple2<RetweetedAccounts, String>, String>() {
+//
+//			@Override
+//			public String map(Tuple2<RetweetedAccounts, String> value) throws Exception {
+//				// We only need to check for similarity for the discoverer of the tweet we are currently assessing. He is the only person who has his retweetedAccount changed.
+//				String discoverer = value.f1;
+//				// We check him against all the other discoverers we have in our list so far...
+//				for(String otherDiscoverer : value.f0.getRetweetedAccounts().keySet()) {
+//					// ...well, except himself
+//					if (discoverer.equals(otherDiscoverer)) {
+//						continue;
+//					} else {
+//						HashSet<String> tempRetweetedAccountsForDiscoverer = new HashSet<String>(value.f0.getRetweetedAccounts().get(discoverer));
+//						HashSet<String> retweetedAccountsForOtherDiscoverer = value.f0.getRetweetedAccounts().get(otherDiscoverer);
+//						tempRetweetedAccountsForDiscoverer.retainAll(retweetedAccountsForOtherDiscoverer);
+//						if (tempRetweetedAccountsForDiscoverer.size() >= 1) {
+//							System.out.println(discoverer + " and " + otherDiscoverer + " have " + tempRetweetedAccountsForDiscoverer.size() + " retweeters in common" + System.lineSeparator() 
+//								+ discoverer + " retweeted accounts: " + value.f0.getRetweetedAccounts().get(discoverer) + System.lineSeparator()
+//								+ otherDiscoverer + " retweeted accounts: " + retweetedAccountsForOtherDiscoverer);
+//						}
+//					}
+//				}
+//				return "";
+//			}
+//		})
+		.map(new MapFunction<Tuple2<RetweetedAccounts, String>, Tuple2<String, ArrayList<Tuple2<String, Integer>>>>() {
 
 			@Override
-			public String map(Tuple2<RetweetedAccounts, String> value) throws Exception {
+			public Tuple2<String, ArrayList<Tuple2<String, Integer>>> map(Tuple2<RetweetedAccounts, String> value) throws Exception {
 				// We only need to check for similarity for the discoverer of the tweet we are currently assessing. He is the only person who has his retweetedAccount changed.
 				String discoverer = value.f1;
+				ArrayList<Tuple2<String, Integer>> listOfSimilarAccountsWithDiscoverer = new ArrayList<Tuple2<String, Integer>>();
 				// We check him against all the other discoverers we have in our list so far...
 				for(String otherDiscoverer : value.f0.getRetweetedAccounts().keySet()) {
 					// ...well, except himself
@@ -111,15 +140,30 @@ public class SimilarAccountsAnalyzer implements IAnalyzer {
 						HashSet<String> retweetedAccountsForOtherDiscoverer = value.f0.getRetweetedAccounts().get(otherDiscoverer);
 						tempRetweetedAccountsForDiscoverer.retainAll(retweetedAccountsForOtherDiscoverer);
 						if (tempRetweetedAccountsForDiscoverer.size() >= 1) {
+							Tuple2<String, Integer> commonAccount = new Tuple2<String, Integer>();
+							int numberOfCommonAccounts = tempRetweetedAccountsForDiscoverer.size();
+							commonAccount.f0 = otherDiscoverer;
+							commonAccount.f1 = numberOfCommonAccounts;
+							listOfSimilarAccountsWithDiscoverer.add(commonAccount);
 							System.out.println(discoverer + " and " + otherDiscoverer + " have " + tempRetweetedAccountsForDiscoverer.size() + " retweeters in common" + System.lineSeparator() 
 								+ discoverer + " retweeted accounts: " + value.f0.getRetweetedAccounts().get(discoverer) + System.lineSeparator()
 								+ otherDiscoverer + " retweeted accounts: " + retweetedAccountsForOtherDiscoverer);
 						}
 					}
 				}
-				return "";
+				return new Tuple2<String, ArrayList<Tuple2<String, Integer>>>(discoverer, listOfSimilarAccountsWithDiscoverer); 
 			}
-		});
+		})
+		.filter(new FilterFunction<Tuple2<String,ArrayList<Tuple2<String,Integer>>>>() {
+
+			@Override
+			public boolean filter(Tuple2<String, ArrayList<Tuple2<String, Integer>>> value) throws Exception {
+				// TODO Auto-generated method stub
+				return value.f1.size() >=1;
+			}
+		})
+		.addSink(new SimilarAccountsMySQLSink());
+//		.print();
 		return eventsStream;
 	}
 }
