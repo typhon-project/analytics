@@ -56,6 +56,15 @@ public class SimilarAccountsMySQLSink extends RichSinkFunction<Tuple2<String,Arr
 	        state.setInt(4, numberOfSimilarAccounts);
 	        state.setInt(5, numberOfSimilarAccounts);
 	        state.executeUpdate();
+	        
+	        // We need to update the number of similar accounts for the other user as well.
+	        String oppositeUserAndOtherUserId = otherUser + "." + user;
+	        state.setString(1,  oppositeUserAndOtherUserId);
+	        state.setString(2, otherUser);
+	        state.setString(3, user);
+	        state.setInt(4, numberOfSimilarAccounts);
+	        state.setInt(5, numberOfSimilarAccounts);
+	        state.executeUpdate();
     	}
     }
 
