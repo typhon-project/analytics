@@ -14,6 +14,7 @@ import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
 
+import com.twicky.analytics.utilities.UsersToProfilePics;
 import com.twicky.dto.TweetDTO;
 
 public class SimilarAccountsMySQLSink extends RichSinkFunction<Tuple2<String,ArrayList<Tuple2<String,Integer>>>>{
@@ -25,7 +26,7 @@ public class SimilarAccountsMySQLSink extends RichSinkFunction<Tuple2<String,Arr
         super.open(parameters);
         conn = getConnection();
         //System.out.println("conn=" + conn);
-        String sql = "INSERT INTO SimilarAccountsResults(userAndOtherUserId, user, otherUser, numberOfSimilarAccounts) values(?, ?, ?, ?) ON DUPLICATE KEY UPDATE numberOfSimilarAccounts=?;";
+        String sql = "INSERT INTO SimilarAccountsResults(userAndOtherUserId, user, otherUser, numberOfSimilarAccounts, profilePic) values(?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE numberOfSimilarAccounts=?;";
         state = this.conn.prepareStatement(sql);
         //System.out.println("state=" + state);
     }
@@ -54,7 +55,8 @@ public class SimilarAccountsMySQLSink extends RichSinkFunction<Tuple2<String,Arr
 	        state.setString(2,user);
 	        state.setString(3, otherUser);
 	        state.setInt(4, numberOfSimilarAccounts);
-	        state.setInt(5, numberOfSimilarAccounts);
+	        state.setString(5, UsersToProfilePics.getProfilePicUrl(user));
+	        state.setInt(6, numberOfSimilarAccounts);
 	        state.executeUpdate();
 	        
 	        // We need to update the number of similar accounts for the other user as well.
@@ -63,7 +65,8 @@ public class SimilarAccountsMySQLSink extends RichSinkFunction<Tuple2<String,Arr
 	        state.setString(2, otherUser);
 	        state.setString(3, user);
 	        state.setInt(4, numberOfSimilarAccounts);
-	        state.setInt(5, numberOfSimilarAccounts);
+	        state.setString(5, UsersToProfilePics.getProfilePicUrl(otherUser));
+	        state.setInt(6, numberOfSimilarAccounts);
 	        state.executeUpdate();
     	}
     }
