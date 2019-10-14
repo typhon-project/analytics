@@ -47,7 +47,7 @@ public class AlphaBankDatabaseGeneratorImpl extends DatabaseGeneratorImpl {
 
 						pojoClass = NonFinancialEvent.class;
 						PreEvent preEvent = populatePreEvent(nonFncEvResults);
-						// System.out.println(preEvent);
+						 System.out.println(preEvent);
 						TopicPublisher.publish(AnalyticTopicType.PRE, preEvent);
 						// System.out
 						// .println("NON FNC Date: "
@@ -61,7 +61,7 @@ public class AlphaBankDatabaseGeneratorImpl extends DatabaseGeneratorImpl {
 						// PreEvent preEvent = populatePreEvent(fnc.toInsert());
 						pojoClass = FinancialEvent.class;
 						PreEvent preEvent = populatePreEvent(fncEvResults);
-						// System.out.println(preEvent);
+						 System.out.println(preEvent);
 						TopicPublisher.publish(AnalyticTopicType.PRE, preEvent);
 						// Go one step back in non fnc so when the NON FNC while
 						// loop condition will be called again, the cursor will
