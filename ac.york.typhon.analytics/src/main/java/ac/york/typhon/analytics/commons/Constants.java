@@ -13,6 +13,7 @@ public class Constants {
 			public String BOOTSTRAP_SERVERS;
 			public String ZOOKEEPER_CONNECT;
 			public String AUTO_OFFSET_RESET;
+			public String EVENT_SCHEMA_CLASS;
 
 			private static void reEvaluate(String topicName) {
 
@@ -24,6 +25,9 @@ public class Constants {
 
 				topic.AUTO_OFFSET_RESET = TOPIC_EVENT + topicName + "."
 						+ "auto.offset.reset";
+
+				topic.EVENT_SCHEMA_CLASS = TOPIC_EVENT + topicName + "."
+						+ "event.schema.class";
 			}
 
 			public static Topic name(String topicName) {

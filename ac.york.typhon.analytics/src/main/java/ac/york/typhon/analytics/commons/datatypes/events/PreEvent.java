@@ -101,7 +101,7 @@ public class PreEvent extends Event implements Serializable {
 	public String toString() {
 		return "PreEvent [user=" + user + ", queryTime=" + queryTime
 				+ ", dbUser=" + dbUser + ", authenticated=" + authenticated
-				+ ", dmlCommand=" + dmlCommand + ", id=" + id + ", query="
+				+ ", dmlCommand=" + dmlCommand + ", id=" + eventId + ", query="
 				+ query + "]";
 	}
 

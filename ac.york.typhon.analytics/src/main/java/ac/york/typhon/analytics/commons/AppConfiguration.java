@@ -51,4 +51,15 @@ public class AppConfiguration {
 
 	}
 
+	public static Integer getInteger(String key) {
+
+		Integer value = Integer.parseInt((String) props.get(key));
+		if (value == null) {
+			throw new InvalidParameterException(MessageFormat.format(
+					"Missing key - {0} - in configuration file ", key));
+		}
+		return value;
+
+	}
+
 }

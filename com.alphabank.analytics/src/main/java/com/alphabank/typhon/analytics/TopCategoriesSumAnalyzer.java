@@ -6,30 +6,30 @@ import java.sql.PreparedStatement;
 import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.tuple.Tuple3;
+import org.apache.flink.api.java.tuple.Tuple4;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSink;
 import org.apache.flink.streaming.api.windowing.time.Time;
+import java.sql.Date;
 
+import ac.york.typhon.analytics.analyzer.IAnalyzer;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
-import ac.york.typhon.analytics.process.StreamAnalyzer;
 
 import com.alphabank.typhon.analytics.assigner.BoundedOutOfOrdernessGenerator;
 import com.alphabank.typhon.dataaccess.impl.AnalyticsResultsAccessImpl;
 import com.alphabank.typhon.dto.FinancialEvent;
 import com.alphabank.typhon.extractor.insert.FinancialEventInsertExtractor;
 
-public class TopCategoriesSumAnalyzer extends StreamAnalyzer {
+public class TopCategoriesSumAnalyzer implements IAnalyzer {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private static Connection connection;
 
+	@SuppressWarnings("serial")
 	@Override
-	public DataStream<Event> analyse(DataStream<Event> postEvents)
+	public DataStream<Event> analyze(DataStream<Event> postEvents)
 			throws Exception {
-		DataStreamSink<Tuple3<String, String, Double>> results = postEvents
+		DataStreamSink<Tuple4<String, String, Double, Date>> results = postEvents
 				.filter(new FilterFunction<Event>() {
 
 					@Override
@@ -69,12 +69,12 @@ public class TopCategoriesSumAnalyzer extends StreamAnalyzer {
 				.keyBy("mcgDescription")
 				.timeWindow(Time.days(30))
 				.sum("amount")
-				.map(new MapFunction<FinancialEvent, Tuple3<String, String, Double>>() {
+				.map(new MapFunction<FinancialEvent, Tuple4<String, String, Double, Date>>() {
 
 					@Override
-					public Tuple3<String, String, Double> map(
+					public Tuple4<String, String, Double, Date> map(
 							FinancialEvent financialEvent) throws Exception {
-						Tuple3<String, String, Double> result = new Tuple3<String, String, Double>();
+						Tuple4<String, String, Double, Date> result = new Tuple4<String, String, Double, Date>();
 						String month = financialEvent.getDate().toLocalDate()
 								.getMonth().toString();
 						String year = Integer.toString(financialEvent.getDate()
@@ -82,22 +82,23 @@ public class TopCategoriesSumAnalyzer extends StreamAnalyzer {
 						result.f0 = financialEvent.getMcgDescription();
 						result.f1 = month + " " + year;
 						result.f2 = financialEvent.getAmount();
+						result.f3 = financialEvent.getDate();
 						System.out.println(financialEvent.getMcgDescription()
 								+ " " + month + " " + year + " "
 								+ financialEvent.getAmount());
 						return result;
 					}
 				})
-				.map(new MapFunction<Tuple3<String, String, Double>, Tuple3<String, String, Double>>() {
+				.map(new MapFunction<Tuple4<String, String, Double, Date>, Tuple4<String, String, Double, Date>>() {
 
 					@Override
-					public Tuple3<String, String, Double> map(
-							Tuple3<String, String, Double> arg0)
+					public Tuple4<String, String, Double, Date> map(
+							Tuple4<String, String, Double, Date> arg0)
 							throws Exception {
 						connection = AnalyticsResultsAccessImpl.getConnection();
 
-						String query = "insert into TopCategoriesSumResults (category_name, month_year, sum)"
-								+ " values (?, ?, ?)";
+						String query = "insert into TopCategoriesSumResults (category_name, month_year, sum, date)"
+								+ " values (?, ?, ?, ?)";
 
 						System.out.println(query);
 						// create the mysql insert preparedstatement
@@ -106,7 +107,7 @@ public class TopCategoriesSumAnalyzer extends StreamAnalyzer {
 						preparedStmt.setString(1, arg0.f0);
 						preparedStmt.setString(2, arg0.f1);
 						preparedStmt.setDouble(3, arg0.f2);
-
+						preparedStmt.setDate(4, arg0.f3);
 						// execute the preparedstatement
 						preparedStmt.execute();
 
@@ -118,59 +119,4 @@ public class TopCategoriesSumAnalyzer extends StreamAnalyzer {
 
 		return postEvents;
 	}
-
 }
-
-// public static FNC_EV createFncEvFromSQLInsertStatement(Statement stmt)
-// throws NumberFormatException, ParseException {
-//
-// SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-// SimpleDateFormat timeFormat = new SimpleDateFormat(
-// "yyyy-MM-dd hh:mm:ss:SSS");
-//
-// ExpressionList expressionList = (ExpressionList) ((Insert) stmt)
-// .getItemsList();
-// List<Expression> valueList = expressionList.getExpressions();
-//
-// long FNC_EV_ID = Long.parseLong(valueList.get(0).toString()
-// .replaceAll("'", ""));
-// long FNC_EV_AC_ID = Long.parseLong(valueList.get(1).toString()
-// .replaceAll("'", ""));
-// java.util.Date FNC_EV_DT_java = sdf1.parse(valueList.get(2).toString()
-// .replaceAll("'", ""));
-// Date FNC_EV_DT = new java.sql.Date(FNC_EV_DT_java.getTime());
-// String FNC_EV_SIGN_CODE_DSC = valueList.get(3).toString()
-// .replaceAll("'", "");
-// String FNC_EV_SIGN_CODE = valueList.get(4).toString()
-// .replaceAll("'", "");
-// double FNC_EV_AMT = new BigDecimal(valueList.get(5).toString()
-// .replaceAll("'", "")).doubleValue();
-// String FNC_EV_TUN_CODE = valueList.get(6).toString()
-// .replaceAll("'", "");
-// java.util.Date EFF_DT_java = sdf1.parse(valueList.get(7).toString()
-// .replaceAll("'", ""));
-// Date EFF_DT = new java.sql.Date(EFF_DT_java.getTime());
-// java.util.Date END_DT_java = sdf1.parse(valueList.get(8).toString()
-// .replaceAll("'", ""));
-// Date END_DT = new java.sql.Date(END_DT_java.getTime());
-// String MRCH_ID = valueList.get(9).toString().replaceAll("'", "");
-// String MRCH_NAME = valueList.get(10).toString().replaceAll("'", "");
-// long MCG_ID = Long.parseLong(valueList.get(11).toString()
-// .replaceAll("'", ""));
-// String MCG = valueList.get(12).toString().replaceAll("'", "");
-// String MCG_DSC = valueList.get(13).toString().replaceAll("'", "");
-// String FNC_EV_TP_CODE = valueList.get(14).toString()
-// .replaceAll("'", "");
-// String FNC_EV_TP_DSC = valueList.get(15).toString().replaceAll("'", "");
-// java.util.Date ISRT_TMS_java = sdf1.parse(valueList.get(16).toString()
-// .replaceAll("'", ""));
-// Timestamp ISRT_TMS = new Timestamp(ISRT_TMS_java.getTime());
-// String FNC_EV_SRC_STM_CODE = valueList.get(17).toString()
-// .replaceAll("'", "");
-//
-// return new FNC_EV(FNC_EV_ID, FNC_EV_AC_ID, FNC_EV_DT,
-// FNC_EV_SIGN_CODE_DSC, FNC_EV_SIGN_CODE, FNC_EV_AMT,
-// FNC_EV_TUN_CODE, EFF_DT, END_DT, MRCH_ID, MRCH_NAME, MCG_ID,
-// MCG, MCG_DSC, FNC_EV_TP_CODE, FNC_EV_TP_DSC, ISRT_TMS,
-// FNC_EV_SRC_STM_CODE);
-// }

@@ -27,6 +27,9 @@ public class Utils {
 		return ts;
 	}
 	
+
+	
+	
 	public static Timestamp convertStringToTimeStamp(String dateStr) throws ParseException {
 
 		String pattern = "yyyy-MM-dd hh:mm:ss";
@@ -72,4 +75,10 @@ public class Utils {
 	public static String replaceSquareBracketsWithBrackets(String str) {
 		return str.replace("[", "(").replace("]", ")");
 	}
+	
+	
+	public static long milliSeconds(int seconds) {
+		return seconds * 1000;
+	}
+
 }

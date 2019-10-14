@@ -13,7 +13,7 @@ import org.apache.flink.util.OutputTag;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.york.typhon.analytics.commons.datatypes.events.PreEvent;
 import ac.york.typhon.analytics.commons.enums.AnalyticTopicType;
-import ac.york.typhon.analytics.messaging.StreamManager;
+import ac.york.typhon.analytics.streaming.StreamManager;
 
 import com.alphabank.typhon.authorization.filters.EventFilter;
 import com.alphabank.typhon.authorization.filters.FinancialEventInsertFilter;
