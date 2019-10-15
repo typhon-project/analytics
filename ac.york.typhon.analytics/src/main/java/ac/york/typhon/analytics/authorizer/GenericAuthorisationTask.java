@@ -1,4 +1,4 @@
-package com.alphabank.typhon.authorization;
+package ac.york.typhon.analytics.authorizer;
 
 import java.io.Serializable;
 

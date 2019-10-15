@@ -1,7 +1,6 @@
 package com.alphabank.typhon.authorization.filters;
 
-import com.alphabank.typhon.authorization.GenericAuthorisationTask;
-
+import ac.york.typhon.analytics.authorizer.GenericAuthorisationTask;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
 
 // This example task rejects all the DEBIT FNC_EV
