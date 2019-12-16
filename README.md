@@ -1,1 +1,1 @@
-[![Build Status](http://typhon.clmsuk.com:8081/buildStatus/icon?job=TyphonAnalytics)](http://typhon.clmsuk.com:8081/job/TyphonAnalytics/)
+[![Build Status](http://typhon.clmsuk.com:8080/buildStatus/icon?job=TyphonAnalytics)](http://typhon.clmsuk.com:8080/job/TyphonAnalytics/)
