@@ -1,0 +1,29 @@
+datatype String
+datatype int
+datatype double
+
+entity Products {
+	id: String
+	name: String
+	description: String
+	weight: String
+}
+
+entity Review {
+	id: String
+	name: String
+}
+
+relationaldb RelationalDatabase {
+	tables {
+		table {
+			ProductDB: Products
+		}
+	}
+}
+
+documentdb DocumentDatabase {
+	collections {
+		ReviewsDB: Review
+	}
+}

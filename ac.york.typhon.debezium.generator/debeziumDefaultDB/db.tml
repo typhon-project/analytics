@@ -1,0 +1,18 @@
+datatype String
+datatype int
+datatype double
+
+entity Products {
+	id: String
+	name: String
+	description: String
+	weight: String
+}
+
+relationaldb RelationalDatabase {
+	tables {
+		table {
+			ProductDB: Products
+		}
+	}
+}

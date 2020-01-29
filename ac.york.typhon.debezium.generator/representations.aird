@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<viewpoint:DAnalysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:viewpoint="http://www.eclipse.org/sirius/1.1.0" uid="_AqZqIAYSEeqw2Kz176GS4w" version="14.1.0.201810161215">
+  <semanticResources>debeziumDefaultDB/db.tml</semanticResources>
+  <semanticResources>debeziumDefaultDB/debeziumDB.tml</semanticResources>
+  <semanticResources>debeziumDefaultDB/dbTypes.tdl</semanticResources>
+  <semanticResources>debeziumDefaultDB/RelationalDatabase.tdl</semanticResources>
+  <semanticResources>debeziumDefaultDB/polystoredb.tdl</semanticResources>
+  <semanticResources>debeziumDefaultDB/polystore_api.tdl</semanticResources>
+  <semanticResources>debeziumDefaultDB/polystore_ui.tdl</semanticResources>
+  <semanticResources>debeziumDefaultDB/debeziumDB.tdl</semanticResources>
+  <semanticResources>debeziumDefaultDB/DocumentDatabase.tdl</semanticResources>
+  <semanticResources>debeziumDefaultDB/debeziumDB/debeziumDB.xmi</semanticResources>
+</viewpoint:DAnalysis>

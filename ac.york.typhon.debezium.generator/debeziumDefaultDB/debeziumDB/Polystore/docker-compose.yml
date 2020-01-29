@@ -1,0 +1,49 @@
+version: '3.7'
+
+services:
+  polystore_api:
+    image: clms/typhon-polystore-api:latest
+    depends_on: 
+      - polystoredb
+    container_name: typhon-polystore-service
+    restart: always
+    hostname: polystore-api
+    ports:
+      - 8080:8080
+    volumes:
+      - ./models:/models
+  polystore_ui:
+    image: clms/typhon-polystore-ui:latest
+    environment:
+      API_PORT: 8080
+      API_HOST: localhost
+    depends_on: 
+      - polystore_api
+    container_name: polystore-ui
+    ports:
+      - 4200:4200
+    restart: always
+    hostname: polystore-ui
+  polystoredb:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    container_name: polystore-mongo
+    hostname: polystore-mongo
+    ports:
+      - 27017:27017
+  RelationalDatabase:
+    image: mysql/mysql-server:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    command: ["mysqld", "--log-bin=mysql-bin", "--server-id=223344", "--binlog_format=row", "--binlog_row_image=full", "--expire_logs_days=10"]
+    ports:
+      - 3306:3306
+  DocumentDatabase:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    ports:
+      - 27018:27017

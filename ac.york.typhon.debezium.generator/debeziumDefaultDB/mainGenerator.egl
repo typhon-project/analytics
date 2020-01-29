@@ -1,0 +1,48 @@
+package org.typhon.debezium.main;
+
+import java.util.Properties;
+
+import org.apache.flink.api.common.functions.FilterFunction;
+import org.apache.flink.api.common.functions.MapFunction;
+import org.apache.flink.api.common.serialization.SimpleStringSchema;
+import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+[% for (anEntity in ML!Entity.all()) { %]
+import org.typhon.debezium.deserializers.[%=anEntity.name%]Deserializer;
+import org.typhon.debezium.entities.[%=anEntity.name%]DML;
+[%}%]
+
+public class Main {	
+	
+	public static void main(String[] args) throws Exception {
+
+		StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+		
+		Properties properties = new Properties();
+		properties.setProperty("zookeeper.connect", "localhost:2181");
+		properties.setProperty("bootstrap.servers", "192.168.202.197:9092");
+		properties.setProperty("group.id", "test");
+		properties.setProperty("auto.offset.reset", "earliest");
+		
+		[% for (anEntity in ML!Entity.all()) { %]
+		DataStream<String> [%=anEntity.name%]Stream = env.addSource(new FlinkKafkaConsumer<String>("dbserver1.INSERT_DB_NAME_HERE.[%=anEntity.name%]", new SimpleStringSchema(), properties));
+		DataStream<[%=anEntity.name%]DML> [%=anEntity.name%]DMLStream = 
+			[%=anEntity.name%]Stream.map(new MapFunction<String, [%=anEntity.name%]DML>() {
+
+				@Override
+				public [%=anEntity.name%]DML map(String value) throws Exception {
+					[%=anEntity.name%]Deserializer [%=anEntity.name.firstToLowerCase()%]Deserializer = new [%=anEntity.name%]Deserializer();
+					[%=anEntity.name%]DML [%=anEntity.name.firstToLowerCase()%]DML = new [%=anEntity.name%]DML();
+					return [%=anEntity.name.firstToLowerCase()%]Deserializer.deserialize(value);
+				}
+			});
+		[%}%]		
+		
+		env.execute();
+	}
+}

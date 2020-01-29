@@ -1,0 +1,45 @@
+package org.typhon.debezium.deserializers;
+
+import java.io.IOException;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.typhon.debezium.entities.[%=entity.name%]DML;
+import org.typhon.debezium.entities.[%=entity.name%]Delete;
+import org.typhon.debezium.entities.[%=entity.name%]Insert;
+import org.typhon.debezium.entities.[%=entity.name%]Update;
+
+
+public class [%=entity.name%]Deserializer {
+
+	public [%=entity.name%]DML deserialize(String jsonString) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		[%=entity.name%]DML [%=entity.name%]DMLObject = null;
+		JsonNode jsonNode = objectMapper.readValue(jsonString, JsonNode.class);
+		if(jsonNode.path("payload").path("op").asText().equalsIgnoreCase("c")) {
+			// Insert
+			[%=entity.name%]DMLObject = new [%=entity.name%]Insert();
+			[% for (anAttribute in entity.attributes) { %]
+			(([%=entity.name%]Insert) [%=entity.name%]DMLObject).set[%=anAttribute.name.firstToUpperCase()%](jsonNode.path("payload").path("after").path("[%=entity.name%].[%=anAttribute.name%]").asText());
+			[%}%]
+			return [%=entity.name%]DMLObject;
+		} else if (jsonNode.path("payload").path("op").asText().equalsIgnoreCase("d")) {
+			// Delete
+			[%=entity.name%]DMLObject = new [%=entity.name%]Delete();
+			[% for (anAttribute in entity.attributes) { %]
+			(([%=entity.name%]Delete) [%=entity.name%]DMLObject).set[%=anAttribute.name.firstToUpperCase()%](jsonNode.path("payload").path("before").path("[%=entity.name%].[%=anAttribute.name%]").asText());
+			[%}%]
+		} else if (jsonNode.path("payload").path("op").asText().equalsIgnoreCase("u")) {
+			// Update
+			[%=entity.name%]DMLObject = new [%=entity.name%]Update();
+			[% for (anAttribute in entity.attributes) { %]
+			(([%=entity.name%]Update) [%=entity.name%]DMLObject).set[%=anAttribute.name.firstToUpperCase()%]Before(jsonNode.path("payload").path("before").path("[%=entity.name%].[%=anAttribute.name%]").asText());
+			(([%=entity.name%]Update) [%=entity.name%]DMLObject).set[%=anAttribute.name.firstToUpperCase()%]After(jsonNode.path("payload").path("after").path("[%=entity.name%].[%=anAttribute.name%]").asText());
+			[%}%]
+		}
+		return [%=entity.name%]DMLObject;
+	}
+}

@@ -1,0 +1,87 @@
+package org.typhon.debezium.entities;
+
+import java.util.ArrayList;
+import org.typhon.debezium.entities.[%=entity.name%]DML;
+
+public class [%=entity.name%]Update extends [%=entity.name%]DML {
+
+[%
+for (anAttribute in entity.attributes) { 
+	%]
+
+	private [%=anAttribute.type.name%] [%=anAttribute.name%]Before;
+	private [%=anAttribute.type.name%] [%=anAttribute.name%]After;
+	
+	public [%=anAttribute.type.name%] get[%=anAttribute.name.firstToUpperCase()%]Before() {
+		return this.[%=anAttribute.name%]Before;
+	}
+	
+	public [%=anAttribute.type.name%] get[%=anAttribute.name.firstToUpperCase()%]After() {
+		return this.[%=anAttribute.name%]After;
+	}
+	
+	public void set[%=anAttribute.name.firstToUpperCase()%]Before([%=anAttribute.type.name%] [%=anAttribute.name%]Before) {
+		this.[%=anAttribute.name%]Before = [%=anAttribute.name%]Before;
+	}
+	
+	public void set[%=anAttribute.name.firstToUpperCase()%]After([%=anAttribute.type.name%] [%=anAttribute.name%]After) {
+		this.[%=anAttribute.name%]After = [%=anAttribute.name%]After;
+	}
+[%
+}
+for (aRelation in entity.relations) {
+	if (aRelation.cardinality == Cardinality#zero_one or aRelation.cardinality == Cardinality#one) { %]
+	
+	private [%=aRelation.type.name%] [%=aRelation.name%]Before;
+	private [%=aRelation.type.name%] [%=aRelation.name%]After;
+	
+	public [%=aRelation.type.name%] get[%=aRelation.name.firstToUpperCase()%]Before() {
+		return this.[%=aRelation.name%]Before;
+	}
+	
+	public [%=aRelation.type.name%] get[%=aRelation.name.firstToUpperCase()%]After() {
+		return this.[%=aRelation.name%]After;
+	}
+	
+	public void set[%=aRelation.name.firstToUpperCase()%]Before([%=aRelation.type.name%] [%=aRelation.name%]Before) {
+		this.[%=aRelation.name%]Before = [%=aRelation.name%]Before;
+	}
+	
+	public void set[%=aRelation.name.firstToUpperCase()%]After([%=aRelation.type.name%] [%=aRelation.name%]After) {
+		this.[%=aRelation.name%]After = [%=aRelation.name%]After;
+	}
+	[%
+	} else { %]
+	
+	private ArrayList<[%=aRelation.type.name%]> [%=aRelation.name%]Before;
+	private ArrayList<[%=aRelation.type.name%]> [%=aRelation.name%]After;
+	
+	public ArrayList<[%=aRelation.type.name%]> get[%=aRelation.name.firstToUpperCase()%]Before() {
+		return this.[%=aRelation.name%]Before;
+	}
+	
+	public ArrayList<[%=aRelation.type.name%]> get[%=aRelation.name.firstToUpperCase()%]After() {
+		return this.[%=aRelation.name%]After;
+	}
+	
+	public void set[%=aRelation.name.firstToUpperCase()%]Before(ArrayList<[%=aRelation.type.name%]> [%=aRelation.name%]Before) {
+		this.[%=aRelation.name%]Before = [%=aRelation.name%]Before;
+	}
+	
+	public void set[%=aRelation.name.firstToUpperCase()%]After(ArrayList<[%=aRelation.type.name%]> [%=aRelation.name%]After) {
+		this.[%=aRelation.name%]After = [%=aRelation.name%]After;
+	}
+	[%
+	}
+}
+var toStringConcat = "\"[\" + ";
+for (anAttribute in entity.attributes) {
+	toStringConcat = toStringConcat + "\"" + anAttribute.name + " before: \" + " + anAttribute.name + "Before + \" \" + " + " " + "\"" + anAttribute.name + " after: \" + " + anAttribute.name + "After " + "+ \" \" + ";
+} 
+toStringConcat = toStringConcat + "\"]\"";
+%]
+
+	public String toString() {
+		return [%=toStringConcat%];
+	}	
+}

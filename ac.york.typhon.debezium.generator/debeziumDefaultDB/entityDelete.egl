@@ -1,0 +1,61 @@
+package org.typhon.debezium.entities;
+
+import java.util.ArrayList;
+import org.typhon.debezium.entities.[%=entity.name%]DML;
+
+public class [%=entity.name%]Delete extends [%=entity.name%]DML {
+
+[%
+for (anAttribute in entity.attributes) { 
+	%]
+
+	private [%=anAttribute.type.name%] [%=anAttribute.name%];
+	
+	public [%=anAttribute.type.name%] get[%=anAttribute.name.firstToUpperCase()%]() {
+		return this.[%=anAttribute.name%];
+	}
+	
+	public void set[%=anAttribute.name.firstToUpperCase()%]([%=anAttribute.type.name%] [%=anAttribute.name%]) {
+		this.[%=anAttribute.name%] = [%=anAttribute.name%];
+	}
+[%
+}
+for (aRelation in entity.relations) {
+	if (aRelation.cardinality == Cardinality#zero_one or aRelation.cardinality == Cardinality#one) { %]
+	
+	private [%=aRelation.type.name%] [%=aRelation.name%];
+	
+	public [%=aRelation.type.name%] get[%=aRelation.name.firstToUpperCase()%]() {
+		return this.[%=aRelation.name%];
+	}
+	
+	public void set[%=aRelation.name.firstToUpperCase()%]([%=aRelation.type.name%] [%=aRelation.name%]) {
+		this.[%=aRelation.name%] = [%=aRelation.name%];
+	}
+	[%
+	} else { %]
+	
+	private ArrayList<[%=aRelation.type.name%]> [%=aRelation.name%];
+	
+	public ArrayList<[%=aRelation.type.name%]> get[%=aRelation.name.firstToUpperCase()%]() {
+		return this.[%=aRelation.name%];
+	}
+	
+	public void set[%=aRelation.name.firstToUpperCase()%](ArrayList<[%=aRelation.type.name%]> [%=aRelation.name%]) {
+		this.[%=aRelation.name%] = [%=aRelation.name%];
+	}
+	[%
+	}
+}
+
+var toStringConcat = "\"[\" + ";
+for (anAttribute in entity.attributes) {
+	toStringConcat = toStringConcat + "\"" + anAttribute.name + ": \" + " + anAttribute.name + " + \" \" + ";
+} 
+toStringConcat = toStringConcat + "\"]\"";
+%]
+
+	public String toString() {
+		return [%=toStringConcat%];
+	}	
+}

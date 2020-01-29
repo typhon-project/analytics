@@ -1,0 +1,54 @@
+rule EntityStatic {
+  
+  template : "staticEntity.egl"
+  
+  target : "src/org/typhon/debezium/entities/Entity.java" 
+}
+
+rule MainClass {
+  
+  template : "mainGenerator.egl"
+  
+  target : "src/org/typhon/debezium/main/Main.java" 
+}
+
+rule EntityDML2Class 
+  transform entity : ML!Entity {
+  
+  template : "entityDML.egl"
+  
+  target : "src/org/typhon/debezium/entities/" + entity.name + "DML.java" 
+}
+
+rule EntityInsert2Class 
+  transform entity : ML!Entity {
+  
+  template : "EntityInsert.egl"
+  
+  target : "src/org/typhon/debezium/entities/" + entity.name + "Insert.java" 
+}
+
+rule EntityDelete2Class 
+  transform entity : ML!Entity {
+  
+  template : "EntityDelete.egl"
+  
+  target : "src/org/typhon/debezium/entities/" + entity.name + "Delete.java" 
+}
+
+rule EntityUpdate2Class 
+  transform entity : ML!Entity {
+  
+  template : "EntityUpdate.egl"
+  
+  target : "src/org/typhon/debezium/entities/" + entity.name + "Update.java" 
+}
+
+rule Entity2DeserializerClass
+  transform entity : ML!Entity {
+  
+  template : "entityDeserializerGenerator.egl"
+  
+  target : "src/org/typhon/debezium/deserializers/" + entity.name + "Deserializer.java" 
+}
+
