@@ -1,26 +1,34 @@
 package ac.york.typhon.queryinvertor;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 
+import ac.york.typhon.queryinvertor.events.PreEvent;
+
 public class QueryInvertor {
-	
+
 	public static void main(String[] args) {
 		QueryReaderWriter qrw = new QueryReaderWriter();
+		EventCreator eventCreator = new EventCreator();
 		ArrayList<String> queriesList = qrw.readQueriesFromFile();
-		ArrayList<String> invertedQueriesList = new ArrayList<String>();
+		ArrayList<String> allInvertedQueriesList = new ArrayList<String>();
+		ArrayList<String> invertedQueriesListForCurrentQuery = new ArrayList<String>();
+		ArrayList<PreEvent> allPreEventsList = new ArrayList<PreEvent>();
 
 		for (String query: queriesList) {
+			invertedQueriesListForCurrentQuery.clear();
 			System.out.println(query);
 			String invertedQuery = "";
-			// TODO: Invert queries here
-			invertedQueriesList.add(invertedQuery);
+			// TODO: Invert queries here and create preEvent
+			invertedQueriesListForCurrentQuery.add(invertedQuery);
+			PreEvent preEvent = eventCreator.createPreEvent(query, invertedQueriesListForCurrentQuery);
+
+			allPreEventsList.add(preEvent);
+			allInvertedQueriesList.add(invertedQuery);
 		}
 
 		
-		qrw.writeInverterQueriesToFile(invertedQueriesList);
+		qrw.writeInverterQueriesToFile(allInvertedQueriesList);
+		
+		
     }
 }
