@@ -23,10 +23,10 @@ import java.util.HashMap;
 @SuppressWarnings("all")
 public class InternalTyphonQLParser extends AbstractInternalContentAssistParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_VALUE_TERMINAL", "RULE_STRING", "RULE_ID", "RULE_ANY_OTHER", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "'update'", "'set'", "'{'", "'}'", "';'", "'where'", "','", "'delete'", "'insert'", "'@'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_VALUE_TERMINAL", "RULE_ID", "RULE_ANY_OTHER", "RULE_STRING", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "'update'", "'set'", "'{'", "'}'", "';'", "'where'", "','", "'delete'", "'insert'", "'@'"
     };
     public static final int RULE_VALUE_TERMINAL=4;
-    public static final int RULE_STRING=5;
+    public static final int RULE_STRING=7;
     public static final int RULE_SL_COMMENT=10;
     public static final int T__19=19;
     public static final int T__15=15;
@@ -37,9 +37,9 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
     public static final int T__13=13;
     public static final int T__14=14;
     public static final int EOF=-1;
-    public static final int RULE_ID=6;
+    public static final int RULE_ID=5;
     public static final int RULE_WS=11;
-    public static final int RULE_ANY_OTHER=7;
+    public static final int RULE_ANY_OTHER=6;
     public static final int RULE_INT=8;
     public static final int RULE_ML_COMMENT=9;
     public static final int T__20=20;
@@ -605,7 +605,7 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
                 int alt2=2;
                 int LA2_0 = input.LA(1);
 
-                if ( ((LA2_0>=RULE_VALUE_TERMINAL && LA2_0<=RULE_ANY_OTHER)||LA2_0==21) ) {
+                if ( ((LA2_0>=RULE_VALUE_TERMINAL && LA2_0<=RULE_STRING)||LA2_0==21) ) {
                     alt2=1;
                 }
 
@@ -740,14 +740,99 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
     // $ANTLR end "ruleStringy"
 
 
+    // $ANTLR start "entryRuleVariabley"
+    // InternalTyphonQL.g:236:1: entryRuleVariabley : ruleVariabley EOF ;
+    public final void entryRuleVariabley() throws RecognitionException {
+        try {
+            // InternalTyphonQL.g:237:1: ( ruleVariabley EOF )
+            // InternalTyphonQL.g:238:1: ruleVariabley EOF
+            {
+            if ( state.backtracking==0 ) {
+               before(grammarAccess.getVariableyRule()); 
+            }
+            pushFollow(FOLLOW_1);
+            ruleVariabley();
+
+            state._fsp--;
+            if (state.failed) return ;
+            if ( state.backtracking==0 ) {
+               after(grammarAccess.getVariableyRule()); 
+            }
+            match(input,EOF,FOLLOW_2); if (state.failed) return ;
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+        }
+        return ;
+    }
+    // $ANTLR end "entryRuleVariabley"
+
+
+    // $ANTLR start "ruleVariabley"
+    // InternalTyphonQL.g:245:1: ruleVariabley : ( ( rule__Variabley__ValsAssignment ) ) ;
+    public final void ruleVariabley() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalTyphonQL.g:249:2: ( ( ( rule__Variabley__ValsAssignment ) ) )
+            // InternalTyphonQL.g:250:2: ( ( rule__Variabley__ValsAssignment ) )
+            {
+            // InternalTyphonQL.g:250:2: ( ( rule__Variabley__ValsAssignment ) )
+            // InternalTyphonQL.g:251:3: ( rule__Variabley__ValsAssignment )
+            {
+            if ( state.backtracking==0 ) {
+               before(grammarAccess.getVariableyAccess().getValsAssignment()); 
+            }
+            // InternalTyphonQL.g:252:3: ( rule__Variabley__ValsAssignment )
+            // InternalTyphonQL.g:252:4: rule__Variabley__ValsAssignment
+            {
+            pushFollow(FOLLOW_2);
+            rule__Variabley__ValsAssignment();
+
+            state._fsp--;
+            if (state.failed) return ;
+
+            }
+
+            if ( state.backtracking==0 ) {
+               after(grammarAccess.getVariableyAccess().getValsAssignment()); 
+            }
+
+            }
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "ruleVariabley"
+
+
     // $ANTLR start "rule__Queries__QueriesAlternatives_0"
-    // InternalTyphonQL.g:235:1: rule__Queries__QueriesAlternatives_0 : ( ( ruleInsert ) | ( ruleDelete ) | ( ruleUpdate ) );
+    // InternalTyphonQL.g:260:1: rule__Queries__QueriesAlternatives_0 : ( ( ruleInsert ) | ( ruleDelete ) | ( ruleUpdate ) );
     public final void rule__Queries__QueriesAlternatives_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:239:1: ( ( ruleInsert ) | ( ruleDelete ) | ( ruleUpdate ) )
+            // InternalTyphonQL.g:264:1: ( ( ruleInsert ) | ( ruleDelete ) | ( ruleUpdate ) )
             int alt3=3;
             switch ( input.LA(1) ) {
             case 20:
@@ -775,10 +860,10 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
             switch (alt3) {
                 case 1 :
-                    // InternalTyphonQL.g:240:2: ( ruleInsert )
+                    // InternalTyphonQL.g:265:2: ( ruleInsert )
                     {
-                    // InternalTyphonQL.g:240:2: ( ruleInsert )
-                    // InternalTyphonQL.g:241:3: ruleInsert
+                    // InternalTyphonQL.g:265:2: ( ruleInsert )
+                    // InternalTyphonQL.g:266:3: ruleInsert
                     {
                     if ( state.backtracking==0 ) {
                        before(grammarAccess.getQueriesAccess().getQueriesInsertParserRuleCall_0_0()); 
@@ -798,10 +883,10 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
                     }
                     break;
                 case 2 :
-                    // InternalTyphonQL.g:246:2: ( ruleDelete )
+                    // InternalTyphonQL.g:271:2: ( ruleDelete )
                     {
-                    // InternalTyphonQL.g:246:2: ( ruleDelete )
-                    // InternalTyphonQL.g:247:3: ruleDelete
+                    // InternalTyphonQL.g:271:2: ( ruleDelete )
+                    // InternalTyphonQL.g:272:3: ruleDelete
                     {
                     if ( state.backtracking==0 ) {
                        before(grammarAccess.getQueriesAccess().getQueriesDeleteParserRuleCall_0_1()); 
@@ -821,10 +906,10 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
                     }
                     break;
                 case 3 :
-                    // InternalTyphonQL.g:252:2: ( ruleUpdate )
+                    // InternalTyphonQL.g:277:2: ( ruleUpdate )
                     {
-                    // InternalTyphonQL.g:252:2: ( ruleUpdate )
-                    // InternalTyphonQL.g:253:3: ruleUpdate
+                    // InternalTyphonQL.g:277:2: ( ruleUpdate )
+                    // InternalTyphonQL.g:278:3: ruleUpdate
                     {
                     if ( state.backtracking==0 ) {
                        before(grammarAccess.getQueriesAccess().getQueriesUpdateParserRuleCall_0_2()); 
@@ -861,36 +946,40 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Expr__ExprsAlternatives_0"
-    // InternalTyphonQL.g:262:1: rule__Expr__ExprsAlternatives_0 : ( ( ruleStringy ) | ( ruleObj ) );
+    // InternalTyphonQL.g:287:1: rule__Expr__ExprsAlternatives_0 : ( ( ruleStringy ) | ( ruleVariabley ) | ( ruleObj ) );
     public final void rule__Expr__ExprsAlternatives_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:266:1: ( ( ruleStringy ) | ( ruleObj ) )
-            int alt4=2;
+            // InternalTyphonQL.g:291:1: ( ( ruleStringy ) | ( ruleVariabley ) | ( ruleObj ) )
+            int alt4=3;
             switch ( input.LA(1) ) {
-            case RULE_VALUE_TERMINAL:
             case RULE_STRING:
-            case RULE_ANY_OTHER:
                 {
                 alt4=1;
                 }
                 break;
+            case RULE_VALUE_TERMINAL:
+            case RULE_ANY_OTHER:
+                {
+                alt4=2;
+                }
+                break;
             case RULE_ID:
                 {
-                int LA4_2 = input.LA(2);
+                int LA4_3 = input.LA(2);
 
-                if ( (LA4_2==14) ) {
+                if ( (LA4_3==EOF||(LA4_3>=RULE_VALUE_TERMINAL && LA4_3<=RULE_STRING)||LA4_3==13||(LA4_3>=15 && LA4_3<=16)||LA4_3==18||LA4_3==21) ) {
                     alt4=2;
                 }
-                else if ( (LA4_2==EOF||(LA4_2>=RULE_VALUE_TERMINAL && LA4_2<=RULE_ANY_OTHER)||LA4_2==13||(LA4_2>=15 && LA4_2<=16)||LA4_2==18||LA4_2==21) ) {
-                    alt4=1;
+                else if ( (LA4_3==14) ) {
+                    alt4=3;
                 }
                 else {
                     if (state.backtracking>0) {state.failed=true; return ;}
                     NoViableAltException nvae =
-                        new NoViableAltException("", 4, 2, input);
+                        new NoViableAltException("", 4, 3, input);
 
                     throw nvae;
                 }
@@ -898,7 +987,7 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
                 break;
             case 21:
                 {
-                alt4=2;
+                alt4=3;
                 }
                 break;
             default:
@@ -911,10 +1000,10 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
             switch (alt4) {
                 case 1 :
-                    // InternalTyphonQL.g:267:2: ( ruleStringy )
+                    // InternalTyphonQL.g:292:2: ( ruleStringy )
                     {
-                    // InternalTyphonQL.g:267:2: ( ruleStringy )
-                    // InternalTyphonQL.g:268:3: ruleStringy
+                    // InternalTyphonQL.g:292:2: ( ruleStringy )
+                    // InternalTyphonQL.g:293:3: ruleStringy
                     {
                     if ( state.backtracking==0 ) {
                        before(grammarAccess.getExprAccess().getExprsStringyParserRuleCall_0_0()); 
@@ -934,13 +1023,36 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
                     }
                     break;
                 case 2 :
-                    // InternalTyphonQL.g:273:2: ( ruleObj )
+                    // InternalTyphonQL.g:298:2: ( ruleVariabley )
                     {
-                    // InternalTyphonQL.g:273:2: ( ruleObj )
-                    // InternalTyphonQL.g:274:3: ruleObj
+                    // InternalTyphonQL.g:298:2: ( ruleVariabley )
+                    // InternalTyphonQL.g:299:3: ruleVariabley
                     {
                     if ( state.backtracking==0 ) {
-                       before(grammarAccess.getExprAccess().getExprsObjParserRuleCall_0_1()); 
+                       before(grammarAccess.getExprAccess().getExprsVariableyParserRuleCall_0_1()); 
+                    }
+                    pushFollow(FOLLOW_2);
+                    ruleVariabley();
+
+                    state._fsp--;
+                    if (state.failed) return ;
+                    if ( state.backtracking==0 ) {
+                       after(grammarAccess.getExprAccess().getExprsVariableyParserRuleCall_0_1()); 
+                    }
+
+                    }
+
+
+                    }
+                    break;
+                case 3 :
+                    // InternalTyphonQL.g:304:2: ( ruleObj )
+                    {
+                    // InternalTyphonQL.g:304:2: ( ruleObj )
+                    // InternalTyphonQL.g:305:3: ruleObj
+                    {
+                    if ( state.backtracking==0 ) {
+                       before(grammarAccess.getExprAccess().getExprsObjParserRuleCall_0_2()); 
                     }
                     pushFollow(FOLLOW_2);
                     ruleObj();
@@ -948,7 +1060,7 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
                     state._fsp--;
                     if (state.failed) return ;
                     if ( state.backtracking==0 ) {
-                       after(grammarAccess.getExprAccess().getExprsObjParserRuleCall_0_1()); 
+                       after(grammarAccess.getExprAccess().getExprsObjParserRuleCall_0_2()); 
                     }
 
                     }
@@ -973,34 +1085,29 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
     // $ANTLR end "rule__Expr__ExprsAlternatives_0"
 
 
-    // $ANTLR start "rule__Stringy__ValsAlternatives_0"
-    // InternalTyphonQL.g:283:1: rule__Stringy__ValsAlternatives_0 : ( ( RULE_VALUE_TERMINAL ) | ( RULE_STRING ) | ( RULE_ID ) | ( RULE_ANY_OTHER ) );
-    public final void rule__Stringy__ValsAlternatives_0() throws RecognitionException {
+    // $ANTLR start "rule__Variabley__ValsAlternatives_0"
+    // InternalTyphonQL.g:314:1: rule__Variabley__ValsAlternatives_0 : ( ( RULE_VALUE_TERMINAL ) | ( RULE_ID ) | ( RULE_ANY_OTHER ) );
+    public final void rule__Variabley__ValsAlternatives_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:287:1: ( ( RULE_VALUE_TERMINAL ) | ( RULE_STRING ) | ( RULE_ID ) | ( RULE_ANY_OTHER ) )
-            int alt5=4;
+            // InternalTyphonQL.g:318:1: ( ( RULE_VALUE_TERMINAL ) | ( RULE_ID ) | ( RULE_ANY_OTHER ) )
+            int alt5=3;
             switch ( input.LA(1) ) {
             case RULE_VALUE_TERMINAL:
                 {
                 alt5=1;
                 }
                 break;
-            case RULE_STRING:
+            case RULE_ID:
                 {
                 alt5=2;
                 }
                 break;
-            case RULE_ID:
-                {
-                alt5=3;
-                }
-                break;
             case RULE_ANY_OTHER:
                 {
-                alt5=4;
+                alt5=3;
                 }
                 break;
             default:
@@ -1013,17 +1120,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
             switch (alt5) {
                 case 1 :
-                    // InternalTyphonQL.g:288:2: ( RULE_VALUE_TERMINAL )
+                    // InternalTyphonQL.g:319:2: ( RULE_VALUE_TERMINAL )
                     {
-                    // InternalTyphonQL.g:288:2: ( RULE_VALUE_TERMINAL )
-                    // InternalTyphonQL.g:289:3: RULE_VALUE_TERMINAL
+                    // InternalTyphonQL.g:319:2: ( RULE_VALUE_TERMINAL )
+                    // InternalTyphonQL.g:320:3: RULE_VALUE_TERMINAL
                     {
                     if ( state.backtracking==0 ) {
-                       before(grammarAccess.getStringyAccess().getValsVALUE_TERMINALTerminalRuleCall_0_0()); 
+                       before(grammarAccess.getVariableyAccess().getValsVALUE_TERMINALTerminalRuleCall_0_0()); 
                     }
                     match(input,RULE_VALUE_TERMINAL,FOLLOW_2); if (state.failed) return ;
                     if ( state.backtracking==0 ) {
-                       after(grammarAccess.getStringyAccess().getValsVALUE_TERMINALTerminalRuleCall_0_0()); 
+                       after(grammarAccess.getVariableyAccess().getValsVALUE_TERMINALTerminalRuleCall_0_0()); 
                     }
 
                     }
@@ -1032,17 +1139,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
                     }
                     break;
                 case 2 :
-                    // InternalTyphonQL.g:294:2: ( RULE_STRING )
+                    // InternalTyphonQL.g:325:2: ( RULE_ID )
                     {
-                    // InternalTyphonQL.g:294:2: ( RULE_STRING )
-                    // InternalTyphonQL.g:295:3: RULE_STRING
+                    // InternalTyphonQL.g:325:2: ( RULE_ID )
+                    // InternalTyphonQL.g:326:3: RULE_ID
                     {
                     if ( state.backtracking==0 ) {
-                       before(grammarAccess.getStringyAccess().getValsSTRINGTerminalRuleCall_0_1()); 
+                       before(grammarAccess.getVariableyAccess().getValsIDTerminalRuleCall_0_1()); 
                     }
-                    match(input,RULE_STRING,FOLLOW_2); if (state.failed) return ;
+                    match(input,RULE_ID,FOLLOW_2); if (state.failed) return ;
                     if ( state.backtracking==0 ) {
-                       after(grammarAccess.getStringyAccess().getValsSTRINGTerminalRuleCall_0_1()); 
+                       after(grammarAccess.getVariableyAccess().getValsIDTerminalRuleCall_0_1()); 
                     }
 
                     }
@@ -1051,36 +1158,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
                     }
                     break;
                 case 3 :
-                    // InternalTyphonQL.g:300:2: ( RULE_ID )
+                    // InternalTyphonQL.g:331:2: ( RULE_ANY_OTHER )
                     {
-                    // InternalTyphonQL.g:300:2: ( RULE_ID )
-                    // InternalTyphonQL.g:301:3: RULE_ID
-                    {
-                    if ( state.backtracking==0 ) {
-                       before(grammarAccess.getStringyAccess().getValsIDTerminalRuleCall_0_2()); 
-                    }
-                    match(input,RULE_ID,FOLLOW_2); if (state.failed) return ;
-                    if ( state.backtracking==0 ) {
-                       after(grammarAccess.getStringyAccess().getValsIDTerminalRuleCall_0_2()); 
-                    }
-
-                    }
-
-
-                    }
-                    break;
-                case 4 :
-                    // InternalTyphonQL.g:306:2: ( RULE_ANY_OTHER )
-                    {
-                    // InternalTyphonQL.g:306:2: ( RULE_ANY_OTHER )
-                    // InternalTyphonQL.g:307:3: RULE_ANY_OTHER
+                    // InternalTyphonQL.g:331:2: ( RULE_ANY_OTHER )
+                    // InternalTyphonQL.g:332:3: RULE_ANY_OTHER
                     {
                     if ( state.backtracking==0 ) {
-                       before(grammarAccess.getStringyAccess().getValsANY_OTHERTerminalRuleCall_0_3()); 
+                       before(grammarAccess.getVariableyAccess().getValsANY_OTHERTerminalRuleCall_0_2()); 
                     }
                     match(input,RULE_ANY_OTHER,FOLLOW_2); if (state.failed) return ;
                     if ( state.backtracking==0 ) {
-                       after(grammarAccess.getStringyAccess().getValsANY_OTHERTerminalRuleCall_0_3()); 
+                       after(grammarAccess.getVariableyAccess().getValsANY_OTHERTerminalRuleCall_0_2()); 
                     }
 
                     }
@@ -1102,18 +1190,18 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
         }
         return ;
     }
-    // $ANTLR end "rule__Stringy__ValsAlternatives_0"
+    // $ANTLR end "rule__Variabley__ValsAlternatives_0"
 
 
     // $ANTLR start "rule__Update__Group__0"
-    // InternalTyphonQL.g:316:1: rule__Update__Group__0 : rule__Update__Group__0__Impl rule__Update__Group__1 ;
+    // InternalTyphonQL.g:341:1: rule__Update__Group__0 : rule__Update__Group__0__Impl rule__Update__Group__1 ;
     public final void rule__Update__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:320:1: ( rule__Update__Group__0__Impl rule__Update__Group__1 )
-            // InternalTyphonQL.g:321:2: rule__Update__Group__0__Impl rule__Update__Group__1
+            // InternalTyphonQL.g:345:1: ( rule__Update__Group__0__Impl rule__Update__Group__1 )
+            // InternalTyphonQL.g:346:2: rule__Update__Group__0__Impl rule__Update__Group__1
             {
             pushFollow(FOLLOW_5);
             rule__Update__Group__0__Impl();
@@ -1144,17 +1232,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group__0__Impl"
-    // InternalTyphonQL.g:328:1: rule__Update__Group__0__Impl : ( 'update' ) ;
+    // InternalTyphonQL.g:353:1: rule__Update__Group__0__Impl : ( 'update' ) ;
     public final void rule__Update__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:332:1: ( ( 'update' ) )
-            // InternalTyphonQL.g:333:1: ( 'update' )
+            // InternalTyphonQL.g:357:1: ( ( 'update' ) )
+            // InternalTyphonQL.g:358:1: ( 'update' )
             {
-            // InternalTyphonQL.g:333:1: ( 'update' )
-            // InternalTyphonQL.g:334:2: 'update'
+            // InternalTyphonQL.g:358:1: ( 'update' )
+            // InternalTyphonQL.g:359:2: 'update'
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getUpdateAccess().getUpdateKeyword_0()); 
@@ -1185,14 +1273,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group__1"
-    // InternalTyphonQL.g:343:1: rule__Update__Group__1 : rule__Update__Group__1__Impl rule__Update__Group__2 ;
+    // InternalTyphonQL.g:368:1: rule__Update__Group__1 : rule__Update__Group__1__Impl rule__Update__Group__2 ;
     public final void rule__Update__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:347:1: ( rule__Update__Group__1__Impl rule__Update__Group__2 )
-            // InternalTyphonQL.g:348:2: rule__Update__Group__1__Impl rule__Update__Group__2
+            // InternalTyphonQL.g:372:1: ( rule__Update__Group__1__Impl rule__Update__Group__2 )
+            // InternalTyphonQL.g:373:2: rule__Update__Group__1__Impl rule__Update__Group__2
             {
             pushFollow(FOLLOW_5);
             rule__Update__Group__1__Impl();
@@ -1223,23 +1311,23 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group__1__Impl"
-    // InternalTyphonQL.g:355:1: rule__Update__Group__1__Impl : ( ( rule__Update__EidAssignment_1 ) ) ;
+    // InternalTyphonQL.g:380:1: rule__Update__Group__1__Impl : ( ( rule__Update__EidAssignment_1 ) ) ;
     public final void rule__Update__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:359:1: ( ( ( rule__Update__EidAssignment_1 ) ) )
-            // InternalTyphonQL.g:360:1: ( ( rule__Update__EidAssignment_1 ) )
+            // InternalTyphonQL.g:384:1: ( ( ( rule__Update__EidAssignment_1 ) ) )
+            // InternalTyphonQL.g:385:1: ( ( rule__Update__EidAssignment_1 ) )
             {
-            // InternalTyphonQL.g:360:1: ( ( rule__Update__EidAssignment_1 ) )
-            // InternalTyphonQL.g:361:2: ( rule__Update__EidAssignment_1 )
+            // InternalTyphonQL.g:385:1: ( ( rule__Update__EidAssignment_1 ) )
+            // InternalTyphonQL.g:386:2: ( rule__Update__EidAssignment_1 )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getUpdateAccess().getEidAssignment_1()); 
             }
-            // InternalTyphonQL.g:362:2: ( rule__Update__EidAssignment_1 )
-            // InternalTyphonQL.g:362:3: rule__Update__EidAssignment_1
+            // InternalTyphonQL.g:387:2: ( rule__Update__EidAssignment_1 )
+            // InternalTyphonQL.g:387:3: rule__Update__EidAssignment_1
             {
             pushFollow(FOLLOW_2);
             rule__Update__EidAssignment_1();
@@ -1274,14 +1362,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group__2"
-    // InternalTyphonQL.g:370:1: rule__Update__Group__2 : rule__Update__Group__2__Impl rule__Update__Group__3 ;
+    // InternalTyphonQL.g:395:1: rule__Update__Group__2 : rule__Update__Group__2__Impl rule__Update__Group__3 ;
     public final void rule__Update__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:374:1: ( rule__Update__Group__2__Impl rule__Update__Group__3 )
-            // InternalTyphonQL.g:375:2: rule__Update__Group__2__Impl rule__Update__Group__3
+            // InternalTyphonQL.g:399:1: ( rule__Update__Group__2__Impl rule__Update__Group__3 )
+            // InternalTyphonQL.g:400:2: rule__Update__Group__2__Impl rule__Update__Group__3
             {
             pushFollow(FOLLOW_6);
             rule__Update__Group__2__Impl();
@@ -1312,23 +1400,23 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group__2__Impl"
-    // InternalTyphonQL.g:382:1: rule__Update__Group__2__Impl : ( ( rule__Update__VidAssignment_2 ) ) ;
+    // InternalTyphonQL.g:407:1: rule__Update__Group__2__Impl : ( ( rule__Update__VidAssignment_2 ) ) ;
     public final void rule__Update__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:386:1: ( ( ( rule__Update__VidAssignment_2 ) ) )
-            // InternalTyphonQL.g:387:1: ( ( rule__Update__VidAssignment_2 ) )
+            // InternalTyphonQL.g:411:1: ( ( ( rule__Update__VidAssignment_2 ) ) )
+            // InternalTyphonQL.g:412:1: ( ( rule__Update__VidAssignment_2 ) )
             {
-            // InternalTyphonQL.g:387:1: ( ( rule__Update__VidAssignment_2 ) )
-            // InternalTyphonQL.g:388:2: ( rule__Update__VidAssignment_2 )
+            // InternalTyphonQL.g:412:1: ( ( rule__Update__VidAssignment_2 ) )
+            // InternalTyphonQL.g:413:2: ( rule__Update__VidAssignment_2 )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getUpdateAccess().getVidAssignment_2()); 
             }
-            // InternalTyphonQL.g:389:2: ( rule__Update__VidAssignment_2 )
-            // InternalTyphonQL.g:389:3: rule__Update__VidAssignment_2
+            // InternalTyphonQL.g:414:2: ( rule__Update__VidAssignment_2 )
+            // InternalTyphonQL.g:414:3: rule__Update__VidAssignment_2
             {
             pushFollow(FOLLOW_2);
             rule__Update__VidAssignment_2();
@@ -1363,14 +1451,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group__3"
-    // InternalTyphonQL.g:397:1: rule__Update__Group__3 : rule__Update__Group__3__Impl rule__Update__Group__4 ;
+    // InternalTyphonQL.g:422:1: rule__Update__Group__3 : rule__Update__Group__3__Impl rule__Update__Group__4 ;
     public final void rule__Update__Group__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:401:1: ( rule__Update__Group__3__Impl rule__Update__Group__4 )
-            // InternalTyphonQL.g:402:2: rule__Update__Group__3__Impl rule__Update__Group__4
+            // InternalTyphonQL.g:426:1: ( rule__Update__Group__3__Impl rule__Update__Group__4 )
+            // InternalTyphonQL.g:427:2: rule__Update__Group__3__Impl rule__Update__Group__4
             {
             pushFollow(FOLLOW_6);
             rule__Update__Group__3__Impl();
@@ -1401,22 +1489,22 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group__3__Impl"
-    // InternalTyphonQL.g:409:1: rule__Update__Group__3__Impl : ( ( rule__Update__Group_3__0 )? ) ;
+    // InternalTyphonQL.g:434:1: rule__Update__Group__3__Impl : ( ( rule__Update__Group_3__0 )? ) ;
     public final void rule__Update__Group__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:413:1: ( ( ( rule__Update__Group_3__0 )? ) )
-            // InternalTyphonQL.g:414:1: ( ( rule__Update__Group_3__0 )? )
+            // InternalTyphonQL.g:438:1: ( ( ( rule__Update__Group_3__0 )? ) )
+            // InternalTyphonQL.g:439:1: ( ( rule__Update__Group_3__0 )? )
             {
-            // InternalTyphonQL.g:414:1: ( ( rule__Update__Group_3__0 )? )
-            // InternalTyphonQL.g:415:2: ( rule__Update__Group_3__0 )?
+            // InternalTyphonQL.g:439:1: ( ( rule__Update__Group_3__0 )? )
+            // InternalTyphonQL.g:440:2: ( rule__Update__Group_3__0 )?
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getUpdateAccess().getGroup_3()); 
             }
-            // InternalTyphonQL.g:416:2: ( rule__Update__Group_3__0 )?
+            // InternalTyphonQL.g:441:2: ( rule__Update__Group_3__0 )?
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -1425,7 +1513,7 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
             }
             switch (alt6) {
                 case 1 :
-                    // InternalTyphonQL.g:416:3: rule__Update__Group_3__0
+                    // InternalTyphonQL.g:441:3: rule__Update__Group_3__0
                     {
                     pushFollow(FOLLOW_2);
                     rule__Update__Group_3__0();
@@ -1463,14 +1551,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group__4"
-    // InternalTyphonQL.g:424:1: rule__Update__Group__4 : rule__Update__Group__4__Impl rule__Update__Group__5 ;
+    // InternalTyphonQL.g:449:1: rule__Update__Group__4 : rule__Update__Group__4__Impl rule__Update__Group__5 ;
     public final void rule__Update__Group__4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:428:1: ( rule__Update__Group__4__Impl rule__Update__Group__5 )
-            // InternalTyphonQL.g:429:2: rule__Update__Group__4__Impl rule__Update__Group__5
+            // InternalTyphonQL.g:453:1: ( rule__Update__Group__4__Impl rule__Update__Group__5 )
+            // InternalTyphonQL.g:454:2: rule__Update__Group__4__Impl rule__Update__Group__5
             {
             pushFollow(FOLLOW_7);
             rule__Update__Group__4__Impl();
@@ -1501,17 +1589,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group__4__Impl"
-    // InternalTyphonQL.g:436:1: rule__Update__Group__4__Impl : ( 'set' ) ;
+    // InternalTyphonQL.g:461:1: rule__Update__Group__4__Impl : ( 'set' ) ;
     public final void rule__Update__Group__4__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:440:1: ( ( 'set' ) )
-            // InternalTyphonQL.g:441:1: ( 'set' )
+            // InternalTyphonQL.g:465:1: ( ( 'set' ) )
+            // InternalTyphonQL.g:466:1: ( 'set' )
             {
-            // InternalTyphonQL.g:441:1: ( 'set' )
-            // InternalTyphonQL.g:442:2: 'set'
+            // InternalTyphonQL.g:466:1: ( 'set' )
+            // InternalTyphonQL.g:467:2: 'set'
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getUpdateAccess().getSetKeyword_4()); 
@@ -1542,14 +1630,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group__5"
-    // InternalTyphonQL.g:451:1: rule__Update__Group__5 : rule__Update__Group__5__Impl rule__Update__Group__6 ;
+    // InternalTyphonQL.g:476:1: rule__Update__Group__5 : rule__Update__Group__5__Impl rule__Update__Group__6 ;
     public final void rule__Update__Group__5() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:455:1: ( rule__Update__Group__5__Impl rule__Update__Group__6 )
-            // InternalTyphonQL.g:456:2: rule__Update__Group__5__Impl rule__Update__Group__6
+            // InternalTyphonQL.g:480:1: ( rule__Update__Group__5__Impl rule__Update__Group__6 )
+            // InternalTyphonQL.g:481:2: rule__Update__Group__5__Impl rule__Update__Group__6
             {
             pushFollow(FOLLOW_8);
             rule__Update__Group__5__Impl();
@@ -1580,17 +1668,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group__5__Impl"
-    // InternalTyphonQL.g:463:1: rule__Update__Group__5__Impl : ( '{' ) ;
+    // InternalTyphonQL.g:488:1: rule__Update__Group__5__Impl : ( '{' ) ;
     public final void rule__Update__Group__5__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:467:1: ( ( '{' ) )
-            // InternalTyphonQL.g:468:1: ( '{' )
+            // InternalTyphonQL.g:492:1: ( ( '{' ) )
+            // InternalTyphonQL.g:493:1: ( '{' )
             {
-            // InternalTyphonQL.g:468:1: ( '{' )
-            // InternalTyphonQL.g:469:2: '{'
+            // InternalTyphonQL.g:493:1: ( '{' )
+            // InternalTyphonQL.g:494:2: '{'
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getUpdateAccess().getLeftCurlyBracketKeyword_5()); 
@@ -1621,14 +1709,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group__6"
-    // InternalTyphonQL.g:478:1: rule__Update__Group__6 : rule__Update__Group__6__Impl rule__Update__Group__7 ;
+    // InternalTyphonQL.g:503:1: rule__Update__Group__6 : rule__Update__Group__6__Impl rule__Update__Group__7 ;
     public final void rule__Update__Group__6() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:482:1: ( rule__Update__Group__6__Impl rule__Update__Group__7 )
-            // InternalTyphonQL.g:483:2: rule__Update__Group__6__Impl rule__Update__Group__7
+            // InternalTyphonQL.g:507:1: ( rule__Update__Group__6__Impl rule__Update__Group__7 )
+            // InternalTyphonQL.g:508:2: rule__Update__Group__6__Impl rule__Update__Group__7
             {
             pushFollow(FOLLOW_8);
             rule__Update__Group__6__Impl();
@@ -1659,31 +1747,31 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group__6__Impl"
-    // InternalTyphonQL.g:490:1: rule__Update__Group__6__Impl : ( ( rule__Update__SetAssignment_6 )? ) ;
+    // InternalTyphonQL.g:515:1: rule__Update__Group__6__Impl : ( ( rule__Update__SetAssignment_6 )? ) ;
     public final void rule__Update__Group__6__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:494:1: ( ( ( rule__Update__SetAssignment_6 )? ) )
-            // InternalTyphonQL.g:495:1: ( ( rule__Update__SetAssignment_6 )? )
+            // InternalTyphonQL.g:519:1: ( ( ( rule__Update__SetAssignment_6 )? ) )
+            // InternalTyphonQL.g:520:1: ( ( rule__Update__SetAssignment_6 )? )
             {
-            // InternalTyphonQL.g:495:1: ( ( rule__Update__SetAssignment_6 )? )
-            // InternalTyphonQL.g:496:2: ( rule__Update__SetAssignment_6 )?
+            // InternalTyphonQL.g:520:1: ( ( rule__Update__SetAssignment_6 )? )
+            // InternalTyphonQL.g:521:2: ( rule__Update__SetAssignment_6 )?
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getUpdateAccess().getSetAssignment_6()); 
             }
-            // InternalTyphonQL.g:497:2: ( rule__Update__SetAssignment_6 )?
+            // InternalTyphonQL.g:522:2: ( rule__Update__SetAssignment_6 )?
             int alt7=2;
             int LA7_0 = input.LA(1);
 
-            if ( ((LA7_0>=RULE_VALUE_TERMINAL && LA7_0<=RULE_ANY_OTHER)||LA7_0==21) ) {
+            if ( ((LA7_0>=RULE_VALUE_TERMINAL && LA7_0<=RULE_STRING)||LA7_0==21) ) {
                 alt7=1;
             }
             switch (alt7) {
                 case 1 :
-                    // InternalTyphonQL.g:497:3: rule__Update__SetAssignment_6
+                    // InternalTyphonQL.g:522:3: rule__Update__SetAssignment_6
                     {
                     pushFollow(FOLLOW_2);
                     rule__Update__SetAssignment_6();
@@ -1721,14 +1809,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group__7"
-    // InternalTyphonQL.g:505:1: rule__Update__Group__7 : rule__Update__Group__7__Impl rule__Update__Group__8 ;
+    // InternalTyphonQL.g:530:1: rule__Update__Group__7 : rule__Update__Group__7__Impl rule__Update__Group__8 ;
     public final void rule__Update__Group__7() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:509:1: ( rule__Update__Group__7__Impl rule__Update__Group__8 )
-            // InternalTyphonQL.g:510:2: rule__Update__Group__7__Impl rule__Update__Group__8
+            // InternalTyphonQL.g:534:1: ( rule__Update__Group__7__Impl rule__Update__Group__8 )
+            // InternalTyphonQL.g:535:2: rule__Update__Group__7__Impl rule__Update__Group__8
             {
             pushFollow(FOLLOW_8);
             rule__Update__Group__7__Impl();
@@ -1759,22 +1847,22 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group__7__Impl"
-    // InternalTyphonQL.g:517:1: rule__Update__Group__7__Impl : ( ( rule__Update__Group_7__0 )* ) ;
+    // InternalTyphonQL.g:542:1: rule__Update__Group__7__Impl : ( ( rule__Update__Group_7__0 )* ) ;
     public final void rule__Update__Group__7__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:521:1: ( ( ( rule__Update__Group_7__0 )* ) )
-            // InternalTyphonQL.g:522:1: ( ( rule__Update__Group_7__0 )* )
+            // InternalTyphonQL.g:546:1: ( ( ( rule__Update__Group_7__0 )* ) )
+            // InternalTyphonQL.g:547:1: ( ( rule__Update__Group_7__0 )* )
             {
-            // InternalTyphonQL.g:522:1: ( ( rule__Update__Group_7__0 )* )
-            // InternalTyphonQL.g:523:2: ( rule__Update__Group_7__0 )*
+            // InternalTyphonQL.g:547:1: ( ( rule__Update__Group_7__0 )* )
+            // InternalTyphonQL.g:548:2: ( rule__Update__Group_7__0 )*
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getUpdateAccess().getGroup_7()); 
             }
-            // InternalTyphonQL.g:524:2: ( rule__Update__Group_7__0 )*
+            // InternalTyphonQL.g:549:2: ( rule__Update__Group_7__0 )*
             loop8:
             do {
                 int alt8=2;
@@ -1787,7 +1875,7 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
                 switch (alt8) {
             	case 1 :
-            	    // InternalTyphonQL.g:524:3: rule__Update__Group_7__0
+            	    // InternalTyphonQL.g:549:3: rule__Update__Group_7__0
             	    {
             	    pushFollow(FOLLOW_9);
             	    rule__Update__Group_7__0();
@@ -1828,14 +1916,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group__8"
-    // InternalTyphonQL.g:532:1: rule__Update__Group__8 : rule__Update__Group__8__Impl rule__Update__Group__9 ;
+    // InternalTyphonQL.g:557:1: rule__Update__Group__8 : rule__Update__Group__8__Impl rule__Update__Group__9 ;
     public final void rule__Update__Group__8() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:536:1: ( rule__Update__Group__8__Impl rule__Update__Group__9 )
-            // InternalTyphonQL.g:537:2: rule__Update__Group__8__Impl rule__Update__Group__9
+            // InternalTyphonQL.g:561:1: ( rule__Update__Group__8__Impl rule__Update__Group__9 )
+            // InternalTyphonQL.g:562:2: rule__Update__Group__8__Impl rule__Update__Group__9
             {
             pushFollow(FOLLOW_10);
             rule__Update__Group__8__Impl();
@@ -1866,17 +1954,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group__8__Impl"
-    // InternalTyphonQL.g:544:1: rule__Update__Group__8__Impl : ( '}' ) ;
+    // InternalTyphonQL.g:569:1: rule__Update__Group__8__Impl : ( '}' ) ;
     public final void rule__Update__Group__8__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:548:1: ( ( '}' ) )
-            // InternalTyphonQL.g:549:1: ( '}' )
+            // InternalTyphonQL.g:573:1: ( ( '}' ) )
+            // InternalTyphonQL.g:574:1: ( '}' )
             {
-            // InternalTyphonQL.g:549:1: ( '}' )
-            // InternalTyphonQL.g:550:2: '}'
+            // InternalTyphonQL.g:574:1: ( '}' )
+            // InternalTyphonQL.g:575:2: '}'
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getUpdateAccess().getRightCurlyBracketKeyword_8()); 
@@ -1907,14 +1995,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group__9"
-    // InternalTyphonQL.g:559:1: rule__Update__Group__9 : rule__Update__Group__9__Impl ;
+    // InternalTyphonQL.g:584:1: rule__Update__Group__9 : rule__Update__Group__9__Impl ;
     public final void rule__Update__Group__9() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:563:1: ( rule__Update__Group__9__Impl )
-            // InternalTyphonQL.g:564:2: rule__Update__Group__9__Impl
+            // InternalTyphonQL.g:588:1: ( rule__Update__Group__9__Impl )
+            // InternalTyphonQL.g:589:2: rule__Update__Group__9__Impl
             {
             pushFollow(FOLLOW_2);
             rule__Update__Group__9__Impl();
@@ -1940,17 +2028,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group__9__Impl"
-    // InternalTyphonQL.g:570:1: rule__Update__Group__9__Impl : ( ';' ) ;
+    // InternalTyphonQL.g:595:1: rule__Update__Group__9__Impl : ( ';' ) ;
     public final void rule__Update__Group__9__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:574:1: ( ( ';' ) )
-            // InternalTyphonQL.g:575:1: ( ';' )
+            // InternalTyphonQL.g:599:1: ( ( ';' ) )
+            // InternalTyphonQL.g:600:1: ( ';' )
             {
-            // InternalTyphonQL.g:575:1: ( ';' )
-            // InternalTyphonQL.g:576:2: ';'
+            // InternalTyphonQL.g:600:1: ( ';' )
+            // InternalTyphonQL.g:601:2: ';'
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getUpdateAccess().getSemicolonKeyword_9()); 
@@ -1981,14 +2069,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group_3__0"
-    // InternalTyphonQL.g:586:1: rule__Update__Group_3__0 : rule__Update__Group_3__0__Impl rule__Update__Group_3__1 ;
+    // InternalTyphonQL.g:611:1: rule__Update__Group_3__0 : rule__Update__Group_3__0__Impl rule__Update__Group_3__1 ;
     public final void rule__Update__Group_3__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:590:1: ( rule__Update__Group_3__0__Impl rule__Update__Group_3__1 )
-            // InternalTyphonQL.g:591:2: rule__Update__Group_3__0__Impl rule__Update__Group_3__1
+            // InternalTyphonQL.g:615:1: ( rule__Update__Group_3__0__Impl rule__Update__Group_3__1 )
+            // InternalTyphonQL.g:616:2: rule__Update__Group_3__0__Impl rule__Update__Group_3__1
             {
             pushFollow(FOLLOW_11);
             rule__Update__Group_3__0__Impl();
@@ -2019,17 +2107,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group_3__0__Impl"
-    // InternalTyphonQL.g:598:1: rule__Update__Group_3__0__Impl : ( 'where' ) ;
+    // InternalTyphonQL.g:623:1: rule__Update__Group_3__0__Impl : ( 'where' ) ;
     public final void rule__Update__Group_3__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:602:1: ( ( 'where' ) )
-            // InternalTyphonQL.g:603:1: ( 'where' )
+            // InternalTyphonQL.g:627:1: ( ( 'where' ) )
+            // InternalTyphonQL.g:628:1: ( 'where' )
             {
-            // InternalTyphonQL.g:603:1: ( 'where' )
-            // InternalTyphonQL.g:604:2: 'where'
+            // InternalTyphonQL.g:628:1: ( 'where' )
+            // InternalTyphonQL.g:629:2: 'where'
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getUpdateAccess().getWhereKeyword_3_0()); 
@@ -2060,14 +2148,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group_3__1"
-    // InternalTyphonQL.g:613:1: rule__Update__Group_3__1 : rule__Update__Group_3__1__Impl ;
+    // InternalTyphonQL.g:638:1: rule__Update__Group_3__1 : rule__Update__Group_3__1__Impl ;
     public final void rule__Update__Group_3__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:617:1: ( rule__Update__Group_3__1__Impl )
-            // InternalTyphonQL.g:618:2: rule__Update__Group_3__1__Impl
+            // InternalTyphonQL.g:642:1: ( rule__Update__Group_3__1__Impl )
+            // InternalTyphonQL.g:643:2: rule__Update__Group_3__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__Update__Group_3__1__Impl();
@@ -2093,23 +2181,23 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group_3__1__Impl"
-    // InternalTyphonQL.g:624:1: rule__Update__Group_3__1__Impl : ( ( rule__Update__WhereAssignment_3_1 ) ) ;
+    // InternalTyphonQL.g:649:1: rule__Update__Group_3__1__Impl : ( ( rule__Update__WhereAssignment_3_1 ) ) ;
     public final void rule__Update__Group_3__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:628:1: ( ( ( rule__Update__WhereAssignment_3_1 ) ) )
-            // InternalTyphonQL.g:629:1: ( ( rule__Update__WhereAssignment_3_1 ) )
+            // InternalTyphonQL.g:653:1: ( ( ( rule__Update__WhereAssignment_3_1 ) ) )
+            // InternalTyphonQL.g:654:1: ( ( rule__Update__WhereAssignment_3_1 ) )
             {
-            // InternalTyphonQL.g:629:1: ( ( rule__Update__WhereAssignment_3_1 ) )
-            // InternalTyphonQL.g:630:2: ( rule__Update__WhereAssignment_3_1 )
+            // InternalTyphonQL.g:654:1: ( ( rule__Update__WhereAssignment_3_1 ) )
+            // InternalTyphonQL.g:655:2: ( rule__Update__WhereAssignment_3_1 )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getUpdateAccess().getWhereAssignment_3_1()); 
             }
-            // InternalTyphonQL.g:631:2: ( rule__Update__WhereAssignment_3_1 )
-            // InternalTyphonQL.g:631:3: rule__Update__WhereAssignment_3_1
+            // InternalTyphonQL.g:656:2: ( rule__Update__WhereAssignment_3_1 )
+            // InternalTyphonQL.g:656:3: rule__Update__WhereAssignment_3_1
             {
             pushFollow(FOLLOW_2);
             rule__Update__WhereAssignment_3_1();
@@ -2144,14 +2232,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group_7__0"
-    // InternalTyphonQL.g:640:1: rule__Update__Group_7__0 : rule__Update__Group_7__0__Impl rule__Update__Group_7__1 ;
+    // InternalTyphonQL.g:665:1: rule__Update__Group_7__0 : rule__Update__Group_7__0__Impl rule__Update__Group_7__1 ;
     public final void rule__Update__Group_7__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:644:1: ( rule__Update__Group_7__0__Impl rule__Update__Group_7__1 )
-            // InternalTyphonQL.g:645:2: rule__Update__Group_7__0__Impl rule__Update__Group_7__1
+            // InternalTyphonQL.g:669:1: ( rule__Update__Group_7__0__Impl rule__Update__Group_7__1 )
+            // InternalTyphonQL.g:670:2: rule__Update__Group_7__0__Impl rule__Update__Group_7__1
             {
             pushFollow(FOLLOW_11);
             rule__Update__Group_7__0__Impl();
@@ -2182,17 +2270,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group_7__0__Impl"
-    // InternalTyphonQL.g:652:1: rule__Update__Group_7__0__Impl : ( ',' ) ;
+    // InternalTyphonQL.g:677:1: rule__Update__Group_7__0__Impl : ( ',' ) ;
     public final void rule__Update__Group_7__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:656:1: ( ( ',' ) )
-            // InternalTyphonQL.g:657:1: ( ',' )
+            // InternalTyphonQL.g:681:1: ( ( ',' ) )
+            // InternalTyphonQL.g:682:1: ( ',' )
             {
-            // InternalTyphonQL.g:657:1: ( ',' )
-            // InternalTyphonQL.g:658:2: ','
+            // InternalTyphonQL.g:682:1: ( ',' )
+            // InternalTyphonQL.g:683:2: ','
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getUpdateAccess().getCommaKeyword_7_0()); 
@@ -2223,14 +2311,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group_7__1"
-    // InternalTyphonQL.g:667:1: rule__Update__Group_7__1 : rule__Update__Group_7__1__Impl ;
+    // InternalTyphonQL.g:692:1: rule__Update__Group_7__1 : rule__Update__Group_7__1__Impl ;
     public final void rule__Update__Group_7__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:671:1: ( rule__Update__Group_7__1__Impl )
-            // InternalTyphonQL.g:672:2: rule__Update__Group_7__1__Impl
+            // InternalTyphonQL.g:696:1: ( rule__Update__Group_7__1__Impl )
+            // InternalTyphonQL.g:697:2: rule__Update__Group_7__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__Update__Group_7__1__Impl();
@@ -2256,23 +2344,23 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__Group_7__1__Impl"
-    // InternalTyphonQL.g:678:1: rule__Update__Group_7__1__Impl : ( ( rule__Update__SetAssignment_7_1 ) ) ;
+    // InternalTyphonQL.g:703:1: rule__Update__Group_7__1__Impl : ( ( rule__Update__SetAssignment_7_1 ) ) ;
     public final void rule__Update__Group_7__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:682:1: ( ( ( rule__Update__SetAssignment_7_1 ) ) )
-            // InternalTyphonQL.g:683:1: ( ( rule__Update__SetAssignment_7_1 ) )
+            // InternalTyphonQL.g:707:1: ( ( ( rule__Update__SetAssignment_7_1 ) ) )
+            // InternalTyphonQL.g:708:1: ( ( rule__Update__SetAssignment_7_1 ) )
             {
-            // InternalTyphonQL.g:683:1: ( ( rule__Update__SetAssignment_7_1 ) )
-            // InternalTyphonQL.g:684:2: ( rule__Update__SetAssignment_7_1 )
+            // InternalTyphonQL.g:708:1: ( ( rule__Update__SetAssignment_7_1 ) )
+            // InternalTyphonQL.g:709:2: ( rule__Update__SetAssignment_7_1 )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getUpdateAccess().getSetAssignment_7_1()); 
             }
-            // InternalTyphonQL.g:685:2: ( rule__Update__SetAssignment_7_1 )
-            // InternalTyphonQL.g:685:3: rule__Update__SetAssignment_7_1
+            // InternalTyphonQL.g:710:2: ( rule__Update__SetAssignment_7_1 )
+            // InternalTyphonQL.g:710:3: rule__Update__SetAssignment_7_1
             {
             pushFollow(FOLLOW_2);
             rule__Update__SetAssignment_7_1();
@@ -2307,14 +2395,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Delete__Group__0"
-    // InternalTyphonQL.g:694:1: rule__Delete__Group__0 : rule__Delete__Group__0__Impl rule__Delete__Group__1 ;
+    // InternalTyphonQL.g:719:1: rule__Delete__Group__0 : rule__Delete__Group__0__Impl rule__Delete__Group__1 ;
     public final void rule__Delete__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:698:1: ( rule__Delete__Group__0__Impl rule__Delete__Group__1 )
-            // InternalTyphonQL.g:699:2: rule__Delete__Group__0__Impl rule__Delete__Group__1
+            // InternalTyphonQL.g:723:1: ( rule__Delete__Group__0__Impl rule__Delete__Group__1 )
+            // InternalTyphonQL.g:724:2: rule__Delete__Group__0__Impl rule__Delete__Group__1
             {
             pushFollow(FOLLOW_5);
             rule__Delete__Group__0__Impl();
@@ -2345,17 +2433,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Delete__Group__0__Impl"
-    // InternalTyphonQL.g:706:1: rule__Delete__Group__0__Impl : ( 'delete' ) ;
+    // InternalTyphonQL.g:731:1: rule__Delete__Group__0__Impl : ( 'delete' ) ;
     public final void rule__Delete__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:710:1: ( ( 'delete' ) )
-            // InternalTyphonQL.g:711:1: ( 'delete' )
+            // InternalTyphonQL.g:735:1: ( ( 'delete' ) )
+            // InternalTyphonQL.g:736:1: ( 'delete' )
             {
-            // InternalTyphonQL.g:711:1: ( 'delete' )
-            // InternalTyphonQL.g:712:2: 'delete'
+            // InternalTyphonQL.g:736:1: ( 'delete' )
+            // InternalTyphonQL.g:737:2: 'delete'
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getDeleteAccess().getDeleteKeyword_0()); 
@@ -2386,14 +2474,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Delete__Group__1"
-    // InternalTyphonQL.g:721:1: rule__Delete__Group__1 : rule__Delete__Group__1__Impl rule__Delete__Group__2 ;
+    // InternalTyphonQL.g:746:1: rule__Delete__Group__1 : rule__Delete__Group__1__Impl rule__Delete__Group__2 ;
     public final void rule__Delete__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:725:1: ( rule__Delete__Group__1__Impl rule__Delete__Group__2 )
-            // InternalTyphonQL.g:726:2: rule__Delete__Group__1__Impl rule__Delete__Group__2
+            // InternalTyphonQL.g:750:1: ( rule__Delete__Group__1__Impl rule__Delete__Group__2 )
+            // InternalTyphonQL.g:751:2: rule__Delete__Group__1__Impl rule__Delete__Group__2
             {
             pushFollow(FOLLOW_5);
             rule__Delete__Group__1__Impl();
@@ -2424,23 +2512,23 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Delete__Group__1__Impl"
-    // InternalTyphonQL.g:733:1: rule__Delete__Group__1__Impl : ( ( rule__Delete__EidAssignment_1 ) ) ;
+    // InternalTyphonQL.g:758:1: rule__Delete__Group__1__Impl : ( ( rule__Delete__EidAssignment_1 ) ) ;
     public final void rule__Delete__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:737:1: ( ( ( rule__Delete__EidAssignment_1 ) ) )
-            // InternalTyphonQL.g:738:1: ( ( rule__Delete__EidAssignment_1 ) )
+            // InternalTyphonQL.g:762:1: ( ( ( rule__Delete__EidAssignment_1 ) ) )
+            // InternalTyphonQL.g:763:1: ( ( rule__Delete__EidAssignment_1 ) )
             {
-            // InternalTyphonQL.g:738:1: ( ( rule__Delete__EidAssignment_1 ) )
-            // InternalTyphonQL.g:739:2: ( rule__Delete__EidAssignment_1 )
+            // InternalTyphonQL.g:763:1: ( ( rule__Delete__EidAssignment_1 ) )
+            // InternalTyphonQL.g:764:2: ( rule__Delete__EidAssignment_1 )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getDeleteAccess().getEidAssignment_1()); 
             }
-            // InternalTyphonQL.g:740:2: ( rule__Delete__EidAssignment_1 )
-            // InternalTyphonQL.g:740:3: rule__Delete__EidAssignment_1
+            // InternalTyphonQL.g:765:2: ( rule__Delete__EidAssignment_1 )
+            // InternalTyphonQL.g:765:3: rule__Delete__EidAssignment_1
             {
             pushFollow(FOLLOW_2);
             rule__Delete__EidAssignment_1();
@@ -2475,14 +2563,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Delete__Group__2"
-    // InternalTyphonQL.g:748:1: rule__Delete__Group__2 : rule__Delete__Group__2__Impl rule__Delete__Group__3 ;
+    // InternalTyphonQL.g:773:1: rule__Delete__Group__2 : rule__Delete__Group__2__Impl rule__Delete__Group__3 ;
     public final void rule__Delete__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:752:1: ( rule__Delete__Group__2__Impl rule__Delete__Group__3 )
-            // InternalTyphonQL.g:753:2: rule__Delete__Group__2__Impl rule__Delete__Group__3
+            // InternalTyphonQL.g:777:1: ( rule__Delete__Group__2__Impl rule__Delete__Group__3 )
+            // InternalTyphonQL.g:778:2: rule__Delete__Group__2__Impl rule__Delete__Group__3
             {
             pushFollow(FOLLOW_12);
             rule__Delete__Group__2__Impl();
@@ -2513,23 +2601,23 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Delete__Group__2__Impl"
-    // InternalTyphonQL.g:760:1: rule__Delete__Group__2__Impl : ( ( rule__Delete__VidAssignment_2 ) ) ;
+    // InternalTyphonQL.g:785:1: rule__Delete__Group__2__Impl : ( ( rule__Delete__VidAssignment_2 ) ) ;
     public final void rule__Delete__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:764:1: ( ( ( rule__Delete__VidAssignment_2 ) ) )
-            // InternalTyphonQL.g:765:1: ( ( rule__Delete__VidAssignment_2 ) )
+            // InternalTyphonQL.g:789:1: ( ( ( rule__Delete__VidAssignment_2 ) ) )
+            // InternalTyphonQL.g:790:1: ( ( rule__Delete__VidAssignment_2 ) )
             {
-            // InternalTyphonQL.g:765:1: ( ( rule__Delete__VidAssignment_2 ) )
-            // InternalTyphonQL.g:766:2: ( rule__Delete__VidAssignment_2 )
+            // InternalTyphonQL.g:790:1: ( ( rule__Delete__VidAssignment_2 ) )
+            // InternalTyphonQL.g:791:2: ( rule__Delete__VidAssignment_2 )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getDeleteAccess().getVidAssignment_2()); 
             }
-            // InternalTyphonQL.g:767:2: ( rule__Delete__VidAssignment_2 )
-            // InternalTyphonQL.g:767:3: rule__Delete__VidAssignment_2
+            // InternalTyphonQL.g:792:2: ( rule__Delete__VidAssignment_2 )
+            // InternalTyphonQL.g:792:3: rule__Delete__VidAssignment_2
             {
             pushFollow(FOLLOW_2);
             rule__Delete__VidAssignment_2();
@@ -2564,14 +2652,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Delete__Group__3"
-    // InternalTyphonQL.g:775:1: rule__Delete__Group__3 : rule__Delete__Group__3__Impl rule__Delete__Group__4 ;
+    // InternalTyphonQL.g:800:1: rule__Delete__Group__3 : rule__Delete__Group__3__Impl rule__Delete__Group__4 ;
     public final void rule__Delete__Group__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:779:1: ( rule__Delete__Group__3__Impl rule__Delete__Group__4 )
-            // InternalTyphonQL.g:780:2: rule__Delete__Group__3__Impl rule__Delete__Group__4
+            // InternalTyphonQL.g:804:1: ( rule__Delete__Group__3__Impl rule__Delete__Group__4 )
+            // InternalTyphonQL.g:805:2: rule__Delete__Group__3__Impl rule__Delete__Group__4
             {
             pushFollow(FOLLOW_12);
             rule__Delete__Group__3__Impl();
@@ -2602,22 +2690,22 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Delete__Group__3__Impl"
-    // InternalTyphonQL.g:787:1: rule__Delete__Group__3__Impl : ( ( rule__Delete__Group_3__0 )? ) ;
+    // InternalTyphonQL.g:812:1: rule__Delete__Group__3__Impl : ( ( rule__Delete__Group_3__0 )? ) ;
     public final void rule__Delete__Group__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:791:1: ( ( ( rule__Delete__Group_3__0 )? ) )
-            // InternalTyphonQL.g:792:1: ( ( rule__Delete__Group_3__0 )? )
+            // InternalTyphonQL.g:816:1: ( ( ( rule__Delete__Group_3__0 )? ) )
+            // InternalTyphonQL.g:817:1: ( ( rule__Delete__Group_3__0 )? )
             {
-            // InternalTyphonQL.g:792:1: ( ( rule__Delete__Group_3__0 )? )
-            // InternalTyphonQL.g:793:2: ( rule__Delete__Group_3__0 )?
+            // InternalTyphonQL.g:817:1: ( ( rule__Delete__Group_3__0 )? )
+            // InternalTyphonQL.g:818:2: ( rule__Delete__Group_3__0 )?
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getDeleteAccess().getGroup_3()); 
             }
-            // InternalTyphonQL.g:794:2: ( rule__Delete__Group_3__0 )?
+            // InternalTyphonQL.g:819:2: ( rule__Delete__Group_3__0 )?
             int alt9=2;
             int LA9_0 = input.LA(1);
 
@@ -2626,7 +2714,7 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
             }
             switch (alt9) {
                 case 1 :
-                    // InternalTyphonQL.g:794:3: rule__Delete__Group_3__0
+                    // InternalTyphonQL.g:819:3: rule__Delete__Group_3__0
                     {
                     pushFollow(FOLLOW_2);
                     rule__Delete__Group_3__0();
@@ -2664,14 +2752,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Delete__Group__4"
-    // InternalTyphonQL.g:802:1: rule__Delete__Group__4 : rule__Delete__Group__4__Impl ;
+    // InternalTyphonQL.g:827:1: rule__Delete__Group__4 : rule__Delete__Group__4__Impl ;
     public final void rule__Delete__Group__4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:806:1: ( rule__Delete__Group__4__Impl )
-            // InternalTyphonQL.g:807:2: rule__Delete__Group__4__Impl
+            // InternalTyphonQL.g:831:1: ( rule__Delete__Group__4__Impl )
+            // InternalTyphonQL.g:832:2: rule__Delete__Group__4__Impl
             {
             pushFollow(FOLLOW_2);
             rule__Delete__Group__4__Impl();
@@ -2697,17 +2785,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Delete__Group__4__Impl"
-    // InternalTyphonQL.g:813:1: rule__Delete__Group__4__Impl : ( ';' ) ;
+    // InternalTyphonQL.g:838:1: rule__Delete__Group__4__Impl : ( ';' ) ;
     public final void rule__Delete__Group__4__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:817:1: ( ( ';' ) )
-            // InternalTyphonQL.g:818:1: ( ';' )
+            // InternalTyphonQL.g:842:1: ( ( ';' ) )
+            // InternalTyphonQL.g:843:1: ( ';' )
             {
-            // InternalTyphonQL.g:818:1: ( ';' )
-            // InternalTyphonQL.g:819:2: ';'
+            // InternalTyphonQL.g:843:1: ( ';' )
+            // InternalTyphonQL.g:844:2: ';'
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getDeleteAccess().getSemicolonKeyword_4()); 
@@ -2738,14 +2826,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Delete__Group_3__0"
-    // InternalTyphonQL.g:829:1: rule__Delete__Group_3__0 : rule__Delete__Group_3__0__Impl rule__Delete__Group_3__1 ;
+    // InternalTyphonQL.g:854:1: rule__Delete__Group_3__0 : rule__Delete__Group_3__0__Impl rule__Delete__Group_3__1 ;
     public final void rule__Delete__Group_3__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:833:1: ( rule__Delete__Group_3__0__Impl rule__Delete__Group_3__1 )
-            // InternalTyphonQL.g:834:2: rule__Delete__Group_3__0__Impl rule__Delete__Group_3__1
+            // InternalTyphonQL.g:858:1: ( rule__Delete__Group_3__0__Impl rule__Delete__Group_3__1 )
+            // InternalTyphonQL.g:859:2: rule__Delete__Group_3__0__Impl rule__Delete__Group_3__1
             {
             pushFollow(FOLLOW_11);
             rule__Delete__Group_3__0__Impl();
@@ -2776,17 +2864,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Delete__Group_3__0__Impl"
-    // InternalTyphonQL.g:841:1: rule__Delete__Group_3__0__Impl : ( 'where' ) ;
+    // InternalTyphonQL.g:866:1: rule__Delete__Group_3__0__Impl : ( 'where' ) ;
     public final void rule__Delete__Group_3__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:845:1: ( ( 'where' ) )
-            // InternalTyphonQL.g:846:1: ( 'where' )
+            // InternalTyphonQL.g:870:1: ( ( 'where' ) )
+            // InternalTyphonQL.g:871:1: ( 'where' )
             {
-            // InternalTyphonQL.g:846:1: ( 'where' )
-            // InternalTyphonQL.g:847:2: 'where'
+            // InternalTyphonQL.g:871:1: ( 'where' )
+            // InternalTyphonQL.g:872:2: 'where'
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getDeleteAccess().getWhereKeyword_3_0()); 
@@ -2817,14 +2905,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Delete__Group_3__1"
-    // InternalTyphonQL.g:856:1: rule__Delete__Group_3__1 : rule__Delete__Group_3__1__Impl ;
+    // InternalTyphonQL.g:881:1: rule__Delete__Group_3__1 : rule__Delete__Group_3__1__Impl ;
     public final void rule__Delete__Group_3__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:860:1: ( rule__Delete__Group_3__1__Impl )
-            // InternalTyphonQL.g:861:2: rule__Delete__Group_3__1__Impl
+            // InternalTyphonQL.g:885:1: ( rule__Delete__Group_3__1__Impl )
+            // InternalTyphonQL.g:886:2: rule__Delete__Group_3__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__Delete__Group_3__1__Impl();
@@ -2850,23 +2938,23 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Delete__Group_3__1__Impl"
-    // InternalTyphonQL.g:867:1: rule__Delete__Group_3__1__Impl : ( ( rule__Delete__WhereAssignment_3_1 ) ) ;
+    // InternalTyphonQL.g:892:1: rule__Delete__Group_3__1__Impl : ( ( rule__Delete__WhereAssignment_3_1 ) ) ;
     public final void rule__Delete__Group_3__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:871:1: ( ( ( rule__Delete__WhereAssignment_3_1 ) ) )
-            // InternalTyphonQL.g:872:1: ( ( rule__Delete__WhereAssignment_3_1 ) )
+            // InternalTyphonQL.g:896:1: ( ( ( rule__Delete__WhereAssignment_3_1 ) ) )
+            // InternalTyphonQL.g:897:1: ( ( rule__Delete__WhereAssignment_3_1 ) )
             {
-            // InternalTyphonQL.g:872:1: ( ( rule__Delete__WhereAssignment_3_1 ) )
-            // InternalTyphonQL.g:873:2: ( rule__Delete__WhereAssignment_3_1 )
+            // InternalTyphonQL.g:897:1: ( ( rule__Delete__WhereAssignment_3_1 ) )
+            // InternalTyphonQL.g:898:2: ( rule__Delete__WhereAssignment_3_1 )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getDeleteAccess().getWhereAssignment_3_1()); 
             }
-            // InternalTyphonQL.g:874:2: ( rule__Delete__WhereAssignment_3_1 )
-            // InternalTyphonQL.g:874:3: rule__Delete__WhereAssignment_3_1
+            // InternalTyphonQL.g:899:2: ( rule__Delete__WhereAssignment_3_1 )
+            // InternalTyphonQL.g:899:3: rule__Delete__WhereAssignment_3_1
             {
             pushFollow(FOLLOW_2);
             rule__Delete__WhereAssignment_3_1();
@@ -2901,14 +2989,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Insert__Group__0"
-    // InternalTyphonQL.g:883:1: rule__Insert__Group__0 : rule__Insert__Group__0__Impl rule__Insert__Group__1 ;
+    // InternalTyphonQL.g:908:1: rule__Insert__Group__0 : rule__Insert__Group__0__Impl rule__Insert__Group__1 ;
     public final void rule__Insert__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:887:1: ( rule__Insert__Group__0__Impl rule__Insert__Group__1 )
-            // InternalTyphonQL.g:888:2: rule__Insert__Group__0__Impl rule__Insert__Group__1
+            // InternalTyphonQL.g:912:1: ( rule__Insert__Group__0__Impl rule__Insert__Group__1 )
+            // InternalTyphonQL.g:913:2: rule__Insert__Group__0__Impl rule__Insert__Group__1
             {
             pushFollow(FOLLOW_11);
             rule__Insert__Group__0__Impl();
@@ -2939,17 +3027,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Insert__Group__0__Impl"
-    // InternalTyphonQL.g:895:1: rule__Insert__Group__0__Impl : ( 'insert' ) ;
+    // InternalTyphonQL.g:920:1: rule__Insert__Group__0__Impl : ( 'insert' ) ;
     public final void rule__Insert__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:899:1: ( ( 'insert' ) )
-            // InternalTyphonQL.g:900:1: ( 'insert' )
+            // InternalTyphonQL.g:924:1: ( ( 'insert' ) )
+            // InternalTyphonQL.g:925:1: ( 'insert' )
             {
-            // InternalTyphonQL.g:900:1: ( 'insert' )
-            // InternalTyphonQL.g:901:2: 'insert'
+            // InternalTyphonQL.g:925:1: ( 'insert' )
+            // InternalTyphonQL.g:926:2: 'insert'
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getInsertAccess().getInsertKeyword_0()); 
@@ -2980,14 +3068,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Insert__Group__1"
-    // InternalTyphonQL.g:910:1: rule__Insert__Group__1 : rule__Insert__Group__1__Impl rule__Insert__Group__2 ;
+    // InternalTyphonQL.g:935:1: rule__Insert__Group__1 : rule__Insert__Group__1__Impl rule__Insert__Group__2 ;
     public final void rule__Insert__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:914:1: ( rule__Insert__Group__1__Impl rule__Insert__Group__2 )
-            // InternalTyphonQL.g:915:2: rule__Insert__Group__1__Impl rule__Insert__Group__2
+            // InternalTyphonQL.g:939:1: ( rule__Insert__Group__1__Impl rule__Insert__Group__2 )
+            // InternalTyphonQL.g:940:2: rule__Insert__Group__1__Impl rule__Insert__Group__2
             {
             pushFollow(FOLLOW_13);
             rule__Insert__Group__1__Impl();
@@ -3018,23 +3106,23 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Insert__Group__1__Impl"
-    // InternalTyphonQL.g:922:1: rule__Insert__Group__1__Impl : ( ( rule__Insert__ObjectsAssignment_1 ) ) ;
+    // InternalTyphonQL.g:947:1: rule__Insert__Group__1__Impl : ( ( rule__Insert__ObjectsAssignment_1 ) ) ;
     public final void rule__Insert__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:926:1: ( ( ( rule__Insert__ObjectsAssignment_1 ) ) )
-            // InternalTyphonQL.g:927:1: ( ( rule__Insert__ObjectsAssignment_1 ) )
+            // InternalTyphonQL.g:951:1: ( ( ( rule__Insert__ObjectsAssignment_1 ) ) )
+            // InternalTyphonQL.g:952:1: ( ( rule__Insert__ObjectsAssignment_1 ) )
             {
-            // InternalTyphonQL.g:927:1: ( ( rule__Insert__ObjectsAssignment_1 ) )
-            // InternalTyphonQL.g:928:2: ( rule__Insert__ObjectsAssignment_1 )
+            // InternalTyphonQL.g:952:1: ( ( rule__Insert__ObjectsAssignment_1 ) )
+            // InternalTyphonQL.g:953:2: ( rule__Insert__ObjectsAssignment_1 )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getInsertAccess().getObjectsAssignment_1()); 
             }
-            // InternalTyphonQL.g:929:2: ( rule__Insert__ObjectsAssignment_1 )
-            // InternalTyphonQL.g:929:3: rule__Insert__ObjectsAssignment_1
+            // InternalTyphonQL.g:954:2: ( rule__Insert__ObjectsAssignment_1 )
+            // InternalTyphonQL.g:954:3: rule__Insert__ObjectsAssignment_1
             {
             pushFollow(FOLLOW_2);
             rule__Insert__ObjectsAssignment_1();
@@ -3069,14 +3157,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Insert__Group__2"
-    // InternalTyphonQL.g:937:1: rule__Insert__Group__2 : rule__Insert__Group__2__Impl rule__Insert__Group__3 ;
+    // InternalTyphonQL.g:962:1: rule__Insert__Group__2 : rule__Insert__Group__2__Impl rule__Insert__Group__3 ;
     public final void rule__Insert__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:941:1: ( rule__Insert__Group__2__Impl rule__Insert__Group__3 )
-            // InternalTyphonQL.g:942:2: rule__Insert__Group__2__Impl rule__Insert__Group__3
+            // InternalTyphonQL.g:966:1: ( rule__Insert__Group__2__Impl rule__Insert__Group__3 )
+            // InternalTyphonQL.g:967:2: rule__Insert__Group__2__Impl rule__Insert__Group__3
             {
             pushFollow(FOLLOW_13);
             rule__Insert__Group__2__Impl();
@@ -3107,22 +3195,22 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Insert__Group__2__Impl"
-    // InternalTyphonQL.g:949:1: rule__Insert__Group__2__Impl : ( ( rule__Insert__Group_2__0 )* ) ;
+    // InternalTyphonQL.g:974:1: rule__Insert__Group__2__Impl : ( ( rule__Insert__Group_2__0 )* ) ;
     public final void rule__Insert__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:953:1: ( ( ( rule__Insert__Group_2__0 )* ) )
-            // InternalTyphonQL.g:954:1: ( ( rule__Insert__Group_2__0 )* )
+            // InternalTyphonQL.g:978:1: ( ( ( rule__Insert__Group_2__0 )* ) )
+            // InternalTyphonQL.g:979:1: ( ( rule__Insert__Group_2__0 )* )
             {
-            // InternalTyphonQL.g:954:1: ( ( rule__Insert__Group_2__0 )* )
-            // InternalTyphonQL.g:955:2: ( rule__Insert__Group_2__0 )*
+            // InternalTyphonQL.g:979:1: ( ( rule__Insert__Group_2__0 )* )
+            // InternalTyphonQL.g:980:2: ( rule__Insert__Group_2__0 )*
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getInsertAccess().getGroup_2()); 
             }
-            // InternalTyphonQL.g:956:2: ( rule__Insert__Group_2__0 )*
+            // InternalTyphonQL.g:981:2: ( rule__Insert__Group_2__0 )*
             loop10:
             do {
                 int alt10=2;
@@ -3135,7 +3223,7 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
                 switch (alt10) {
             	case 1 :
-            	    // InternalTyphonQL.g:956:3: rule__Insert__Group_2__0
+            	    // InternalTyphonQL.g:981:3: rule__Insert__Group_2__0
             	    {
             	    pushFollow(FOLLOW_9);
             	    rule__Insert__Group_2__0();
@@ -3176,14 +3264,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Insert__Group__3"
-    // InternalTyphonQL.g:964:1: rule__Insert__Group__3 : rule__Insert__Group__3__Impl ;
+    // InternalTyphonQL.g:989:1: rule__Insert__Group__3 : rule__Insert__Group__3__Impl ;
     public final void rule__Insert__Group__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:968:1: ( rule__Insert__Group__3__Impl )
-            // InternalTyphonQL.g:969:2: rule__Insert__Group__3__Impl
+            // InternalTyphonQL.g:993:1: ( rule__Insert__Group__3__Impl )
+            // InternalTyphonQL.g:994:2: rule__Insert__Group__3__Impl
             {
             pushFollow(FOLLOW_2);
             rule__Insert__Group__3__Impl();
@@ -3209,17 +3297,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Insert__Group__3__Impl"
-    // InternalTyphonQL.g:975:1: rule__Insert__Group__3__Impl : ( ';' ) ;
+    // InternalTyphonQL.g:1000:1: rule__Insert__Group__3__Impl : ( ';' ) ;
     public final void rule__Insert__Group__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:979:1: ( ( ';' ) )
-            // InternalTyphonQL.g:980:1: ( ';' )
+            // InternalTyphonQL.g:1004:1: ( ( ';' ) )
+            // InternalTyphonQL.g:1005:1: ( ';' )
             {
-            // InternalTyphonQL.g:980:1: ( ';' )
-            // InternalTyphonQL.g:981:2: ';'
+            // InternalTyphonQL.g:1005:1: ( ';' )
+            // InternalTyphonQL.g:1006:2: ';'
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getInsertAccess().getSemicolonKeyword_3()); 
@@ -3250,14 +3338,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Insert__Group_2__0"
-    // InternalTyphonQL.g:991:1: rule__Insert__Group_2__0 : rule__Insert__Group_2__0__Impl rule__Insert__Group_2__1 ;
+    // InternalTyphonQL.g:1016:1: rule__Insert__Group_2__0 : rule__Insert__Group_2__0__Impl rule__Insert__Group_2__1 ;
     public final void rule__Insert__Group_2__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:995:1: ( rule__Insert__Group_2__0__Impl rule__Insert__Group_2__1 )
-            // InternalTyphonQL.g:996:2: rule__Insert__Group_2__0__Impl rule__Insert__Group_2__1
+            // InternalTyphonQL.g:1020:1: ( rule__Insert__Group_2__0__Impl rule__Insert__Group_2__1 )
+            // InternalTyphonQL.g:1021:2: rule__Insert__Group_2__0__Impl rule__Insert__Group_2__1
             {
             pushFollow(FOLLOW_11);
             rule__Insert__Group_2__0__Impl();
@@ -3288,17 +3376,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Insert__Group_2__0__Impl"
-    // InternalTyphonQL.g:1003:1: rule__Insert__Group_2__0__Impl : ( ',' ) ;
+    // InternalTyphonQL.g:1028:1: rule__Insert__Group_2__0__Impl : ( ',' ) ;
     public final void rule__Insert__Group_2__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1007:1: ( ( ',' ) )
-            // InternalTyphonQL.g:1008:1: ( ',' )
+            // InternalTyphonQL.g:1032:1: ( ( ',' ) )
+            // InternalTyphonQL.g:1033:1: ( ',' )
             {
-            // InternalTyphonQL.g:1008:1: ( ',' )
-            // InternalTyphonQL.g:1009:2: ','
+            // InternalTyphonQL.g:1033:1: ( ',' )
+            // InternalTyphonQL.g:1034:2: ','
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getInsertAccess().getCommaKeyword_2_0()); 
@@ -3329,14 +3417,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Insert__Group_2__1"
-    // InternalTyphonQL.g:1018:1: rule__Insert__Group_2__1 : rule__Insert__Group_2__1__Impl ;
+    // InternalTyphonQL.g:1043:1: rule__Insert__Group_2__1 : rule__Insert__Group_2__1__Impl ;
     public final void rule__Insert__Group_2__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1022:1: ( rule__Insert__Group_2__1__Impl )
-            // InternalTyphonQL.g:1023:2: rule__Insert__Group_2__1__Impl
+            // InternalTyphonQL.g:1047:1: ( rule__Insert__Group_2__1__Impl )
+            // InternalTyphonQL.g:1048:2: rule__Insert__Group_2__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__Insert__Group_2__1__Impl();
@@ -3362,23 +3450,23 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Insert__Group_2__1__Impl"
-    // InternalTyphonQL.g:1029:1: rule__Insert__Group_2__1__Impl : ( ( rule__Insert__ObjectsAssignment_2_1 ) ) ;
+    // InternalTyphonQL.g:1054:1: rule__Insert__Group_2__1__Impl : ( ( rule__Insert__ObjectsAssignment_2_1 ) ) ;
     public final void rule__Insert__Group_2__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1033:1: ( ( ( rule__Insert__ObjectsAssignment_2_1 ) ) )
-            // InternalTyphonQL.g:1034:1: ( ( rule__Insert__ObjectsAssignment_2_1 ) )
+            // InternalTyphonQL.g:1058:1: ( ( ( rule__Insert__ObjectsAssignment_2_1 ) ) )
+            // InternalTyphonQL.g:1059:1: ( ( rule__Insert__ObjectsAssignment_2_1 ) )
             {
-            // InternalTyphonQL.g:1034:1: ( ( rule__Insert__ObjectsAssignment_2_1 ) )
-            // InternalTyphonQL.g:1035:2: ( rule__Insert__ObjectsAssignment_2_1 )
+            // InternalTyphonQL.g:1059:1: ( ( rule__Insert__ObjectsAssignment_2_1 ) )
+            // InternalTyphonQL.g:1060:2: ( rule__Insert__ObjectsAssignment_2_1 )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getInsertAccess().getObjectsAssignment_2_1()); 
             }
-            // InternalTyphonQL.g:1036:2: ( rule__Insert__ObjectsAssignment_2_1 )
-            // InternalTyphonQL.g:1036:3: rule__Insert__ObjectsAssignment_2_1
+            // InternalTyphonQL.g:1061:2: ( rule__Insert__ObjectsAssignment_2_1 )
+            // InternalTyphonQL.g:1061:3: rule__Insert__ObjectsAssignment_2_1
             {
             pushFollow(FOLLOW_2);
             rule__Insert__ObjectsAssignment_2_1();
@@ -3413,14 +3501,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Obj__Group__0"
-    // InternalTyphonQL.g:1045:1: rule__Obj__Group__0 : rule__Obj__Group__0__Impl rule__Obj__Group__1 ;
+    // InternalTyphonQL.g:1070:1: rule__Obj__Group__0 : rule__Obj__Group__0__Impl rule__Obj__Group__1 ;
     public final void rule__Obj__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1049:1: ( rule__Obj__Group__0__Impl rule__Obj__Group__1 )
-            // InternalTyphonQL.g:1050:2: rule__Obj__Group__0__Impl rule__Obj__Group__1
+            // InternalTyphonQL.g:1074:1: ( rule__Obj__Group__0__Impl rule__Obj__Group__1 )
+            // InternalTyphonQL.g:1075:2: rule__Obj__Group__0__Impl rule__Obj__Group__1
             {
             pushFollow(FOLLOW_11);
             rule__Obj__Group__0__Impl();
@@ -3451,22 +3539,22 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Obj__Group__0__Impl"
-    // InternalTyphonQL.g:1057:1: rule__Obj__Group__0__Impl : ( ( rule__Obj__Group_0__0 )? ) ;
+    // InternalTyphonQL.g:1082:1: rule__Obj__Group__0__Impl : ( ( rule__Obj__Group_0__0 )? ) ;
     public final void rule__Obj__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1061:1: ( ( ( rule__Obj__Group_0__0 )? ) )
-            // InternalTyphonQL.g:1062:1: ( ( rule__Obj__Group_0__0 )? )
+            // InternalTyphonQL.g:1086:1: ( ( ( rule__Obj__Group_0__0 )? ) )
+            // InternalTyphonQL.g:1087:1: ( ( rule__Obj__Group_0__0 )? )
             {
-            // InternalTyphonQL.g:1062:1: ( ( rule__Obj__Group_0__0 )? )
-            // InternalTyphonQL.g:1063:2: ( rule__Obj__Group_0__0 )?
+            // InternalTyphonQL.g:1087:1: ( ( rule__Obj__Group_0__0 )? )
+            // InternalTyphonQL.g:1088:2: ( rule__Obj__Group_0__0 )?
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getObjAccess().getGroup_0()); 
             }
-            // InternalTyphonQL.g:1064:2: ( rule__Obj__Group_0__0 )?
+            // InternalTyphonQL.g:1089:2: ( rule__Obj__Group_0__0 )?
             int alt11=2;
             int LA11_0 = input.LA(1);
 
@@ -3475,7 +3563,7 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
             }
             switch (alt11) {
                 case 1 :
-                    // InternalTyphonQL.g:1064:3: rule__Obj__Group_0__0
+                    // InternalTyphonQL.g:1089:3: rule__Obj__Group_0__0
                     {
                     pushFollow(FOLLOW_2);
                     rule__Obj__Group_0__0();
@@ -3513,14 +3601,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Obj__Group__1"
-    // InternalTyphonQL.g:1072:1: rule__Obj__Group__1 : rule__Obj__Group__1__Impl rule__Obj__Group__2 ;
+    // InternalTyphonQL.g:1097:1: rule__Obj__Group__1 : rule__Obj__Group__1__Impl rule__Obj__Group__2 ;
     public final void rule__Obj__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1076:1: ( rule__Obj__Group__1__Impl rule__Obj__Group__2 )
-            // InternalTyphonQL.g:1077:2: rule__Obj__Group__1__Impl rule__Obj__Group__2
+            // InternalTyphonQL.g:1101:1: ( rule__Obj__Group__1__Impl rule__Obj__Group__2 )
+            // InternalTyphonQL.g:1102:2: rule__Obj__Group__1__Impl rule__Obj__Group__2
             {
             pushFollow(FOLLOW_7);
             rule__Obj__Group__1__Impl();
@@ -3551,23 +3639,23 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Obj__Group__1__Impl"
-    // InternalTyphonQL.g:1084:1: rule__Obj__Group__1__Impl : ( ( rule__Obj__EidAssignment_1 ) ) ;
+    // InternalTyphonQL.g:1109:1: rule__Obj__Group__1__Impl : ( ( rule__Obj__EidAssignment_1 ) ) ;
     public final void rule__Obj__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1088:1: ( ( ( rule__Obj__EidAssignment_1 ) ) )
-            // InternalTyphonQL.g:1089:1: ( ( rule__Obj__EidAssignment_1 ) )
+            // InternalTyphonQL.g:1113:1: ( ( ( rule__Obj__EidAssignment_1 ) ) )
+            // InternalTyphonQL.g:1114:1: ( ( rule__Obj__EidAssignment_1 ) )
             {
-            // InternalTyphonQL.g:1089:1: ( ( rule__Obj__EidAssignment_1 ) )
-            // InternalTyphonQL.g:1090:2: ( rule__Obj__EidAssignment_1 )
+            // InternalTyphonQL.g:1114:1: ( ( rule__Obj__EidAssignment_1 ) )
+            // InternalTyphonQL.g:1115:2: ( rule__Obj__EidAssignment_1 )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getObjAccess().getEidAssignment_1()); 
             }
-            // InternalTyphonQL.g:1091:2: ( rule__Obj__EidAssignment_1 )
-            // InternalTyphonQL.g:1091:3: rule__Obj__EidAssignment_1
+            // InternalTyphonQL.g:1116:2: ( rule__Obj__EidAssignment_1 )
+            // InternalTyphonQL.g:1116:3: rule__Obj__EidAssignment_1
             {
             pushFollow(FOLLOW_2);
             rule__Obj__EidAssignment_1();
@@ -3602,14 +3690,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Obj__Group__2"
-    // InternalTyphonQL.g:1099:1: rule__Obj__Group__2 : rule__Obj__Group__2__Impl rule__Obj__Group__3 ;
+    // InternalTyphonQL.g:1124:1: rule__Obj__Group__2 : rule__Obj__Group__2__Impl rule__Obj__Group__3 ;
     public final void rule__Obj__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1103:1: ( rule__Obj__Group__2__Impl rule__Obj__Group__3 )
-            // InternalTyphonQL.g:1104:2: rule__Obj__Group__2__Impl rule__Obj__Group__3
+            // InternalTyphonQL.g:1128:1: ( rule__Obj__Group__2__Impl rule__Obj__Group__3 )
+            // InternalTyphonQL.g:1129:2: rule__Obj__Group__2__Impl rule__Obj__Group__3
             {
             pushFollow(FOLLOW_8);
             rule__Obj__Group__2__Impl();
@@ -3640,17 +3728,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Obj__Group__2__Impl"
-    // InternalTyphonQL.g:1111:1: rule__Obj__Group__2__Impl : ( '{' ) ;
+    // InternalTyphonQL.g:1136:1: rule__Obj__Group__2__Impl : ( '{' ) ;
     public final void rule__Obj__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1115:1: ( ( '{' ) )
-            // InternalTyphonQL.g:1116:1: ( '{' )
+            // InternalTyphonQL.g:1140:1: ( ( '{' ) )
+            // InternalTyphonQL.g:1141:1: ( '{' )
             {
-            // InternalTyphonQL.g:1116:1: ( '{' )
-            // InternalTyphonQL.g:1117:2: '{'
+            // InternalTyphonQL.g:1141:1: ( '{' )
+            // InternalTyphonQL.g:1142:2: '{'
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getObjAccess().getLeftCurlyBracketKeyword_2()); 
@@ -3681,14 +3769,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Obj__Group__3"
-    // InternalTyphonQL.g:1126:1: rule__Obj__Group__3 : rule__Obj__Group__3__Impl rule__Obj__Group__4 ;
+    // InternalTyphonQL.g:1151:1: rule__Obj__Group__3 : rule__Obj__Group__3__Impl rule__Obj__Group__4 ;
     public final void rule__Obj__Group__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1130:1: ( rule__Obj__Group__3__Impl rule__Obj__Group__4 )
-            // InternalTyphonQL.g:1131:2: rule__Obj__Group__3__Impl rule__Obj__Group__4
+            // InternalTyphonQL.g:1155:1: ( rule__Obj__Group__3__Impl rule__Obj__Group__4 )
+            // InternalTyphonQL.g:1156:2: rule__Obj__Group__3__Impl rule__Obj__Group__4
             {
             pushFollow(FOLLOW_8);
             rule__Obj__Group__3__Impl();
@@ -3719,31 +3807,31 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Obj__Group__3__Impl"
-    // InternalTyphonQL.g:1138:1: rule__Obj__Group__3__Impl : ( ( rule__Obj__SetAssignment_3 )? ) ;
+    // InternalTyphonQL.g:1163:1: rule__Obj__Group__3__Impl : ( ( rule__Obj__SetAssignment_3 )? ) ;
     public final void rule__Obj__Group__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1142:1: ( ( ( rule__Obj__SetAssignment_3 )? ) )
-            // InternalTyphonQL.g:1143:1: ( ( rule__Obj__SetAssignment_3 )? )
+            // InternalTyphonQL.g:1167:1: ( ( ( rule__Obj__SetAssignment_3 )? ) )
+            // InternalTyphonQL.g:1168:1: ( ( rule__Obj__SetAssignment_3 )? )
             {
-            // InternalTyphonQL.g:1143:1: ( ( rule__Obj__SetAssignment_3 )? )
-            // InternalTyphonQL.g:1144:2: ( rule__Obj__SetAssignment_3 )?
+            // InternalTyphonQL.g:1168:1: ( ( rule__Obj__SetAssignment_3 )? )
+            // InternalTyphonQL.g:1169:2: ( rule__Obj__SetAssignment_3 )?
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getObjAccess().getSetAssignment_3()); 
             }
-            // InternalTyphonQL.g:1145:2: ( rule__Obj__SetAssignment_3 )?
+            // InternalTyphonQL.g:1170:2: ( rule__Obj__SetAssignment_3 )?
             int alt12=2;
             int LA12_0 = input.LA(1);
 
-            if ( ((LA12_0>=RULE_VALUE_TERMINAL && LA12_0<=RULE_ANY_OTHER)||LA12_0==21) ) {
+            if ( ((LA12_0>=RULE_VALUE_TERMINAL && LA12_0<=RULE_STRING)||LA12_0==21) ) {
                 alt12=1;
             }
             switch (alt12) {
                 case 1 :
-                    // InternalTyphonQL.g:1145:3: rule__Obj__SetAssignment_3
+                    // InternalTyphonQL.g:1170:3: rule__Obj__SetAssignment_3
                     {
                     pushFollow(FOLLOW_2);
                     rule__Obj__SetAssignment_3();
@@ -3781,14 +3869,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Obj__Group__4"
-    // InternalTyphonQL.g:1153:1: rule__Obj__Group__4 : rule__Obj__Group__4__Impl rule__Obj__Group__5 ;
+    // InternalTyphonQL.g:1178:1: rule__Obj__Group__4 : rule__Obj__Group__4__Impl rule__Obj__Group__5 ;
     public final void rule__Obj__Group__4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1157:1: ( rule__Obj__Group__4__Impl rule__Obj__Group__5 )
-            // InternalTyphonQL.g:1158:2: rule__Obj__Group__4__Impl rule__Obj__Group__5
+            // InternalTyphonQL.g:1182:1: ( rule__Obj__Group__4__Impl rule__Obj__Group__5 )
+            // InternalTyphonQL.g:1183:2: rule__Obj__Group__4__Impl rule__Obj__Group__5
             {
             pushFollow(FOLLOW_8);
             rule__Obj__Group__4__Impl();
@@ -3819,22 +3907,22 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Obj__Group__4__Impl"
-    // InternalTyphonQL.g:1165:1: rule__Obj__Group__4__Impl : ( ( rule__Obj__Group_4__0 )* ) ;
+    // InternalTyphonQL.g:1190:1: rule__Obj__Group__4__Impl : ( ( rule__Obj__Group_4__0 )* ) ;
     public final void rule__Obj__Group__4__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1169:1: ( ( ( rule__Obj__Group_4__0 )* ) )
-            // InternalTyphonQL.g:1170:1: ( ( rule__Obj__Group_4__0 )* )
+            // InternalTyphonQL.g:1194:1: ( ( ( rule__Obj__Group_4__0 )* ) )
+            // InternalTyphonQL.g:1195:1: ( ( rule__Obj__Group_4__0 )* )
             {
-            // InternalTyphonQL.g:1170:1: ( ( rule__Obj__Group_4__0 )* )
-            // InternalTyphonQL.g:1171:2: ( rule__Obj__Group_4__0 )*
+            // InternalTyphonQL.g:1195:1: ( ( rule__Obj__Group_4__0 )* )
+            // InternalTyphonQL.g:1196:2: ( rule__Obj__Group_4__0 )*
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getObjAccess().getGroup_4()); 
             }
-            // InternalTyphonQL.g:1172:2: ( rule__Obj__Group_4__0 )*
+            // InternalTyphonQL.g:1197:2: ( rule__Obj__Group_4__0 )*
             loop13:
             do {
                 int alt13=2;
@@ -3847,7 +3935,7 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
                 switch (alt13) {
             	case 1 :
-            	    // InternalTyphonQL.g:1172:3: rule__Obj__Group_4__0
+            	    // InternalTyphonQL.g:1197:3: rule__Obj__Group_4__0
             	    {
             	    pushFollow(FOLLOW_9);
             	    rule__Obj__Group_4__0();
@@ -3888,14 +3976,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Obj__Group__5"
-    // InternalTyphonQL.g:1180:1: rule__Obj__Group__5 : rule__Obj__Group__5__Impl ;
+    // InternalTyphonQL.g:1205:1: rule__Obj__Group__5 : rule__Obj__Group__5__Impl ;
     public final void rule__Obj__Group__5() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1184:1: ( rule__Obj__Group__5__Impl )
-            // InternalTyphonQL.g:1185:2: rule__Obj__Group__5__Impl
+            // InternalTyphonQL.g:1209:1: ( rule__Obj__Group__5__Impl )
+            // InternalTyphonQL.g:1210:2: rule__Obj__Group__5__Impl
             {
             pushFollow(FOLLOW_2);
             rule__Obj__Group__5__Impl();
@@ -3921,17 +4009,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Obj__Group__5__Impl"
-    // InternalTyphonQL.g:1191:1: rule__Obj__Group__5__Impl : ( '}' ) ;
+    // InternalTyphonQL.g:1216:1: rule__Obj__Group__5__Impl : ( '}' ) ;
     public final void rule__Obj__Group__5__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1195:1: ( ( '}' ) )
-            // InternalTyphonQL.g:1196:1: ( '}' )
+            // InternalTyphonQL.g:1220:1: ( ( '}' ) )
+            // InternalTyphonQL.g:1221:1: ( '}' )
             {
-            // InternalTyphonQL.g:1196:1: ( '}' )
-            // InternalTyphonQL.g:1197:2: '}'
+            // InternalTyphonQL.g:1221:1: ( '}' )
+            // InternalTyphonQL.g:1222:2: '}'
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getObjAccess().getRightCurlyBracketKeyword_5()); 
@@ -3962,14 +4050,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Obj__Group_0__0"
-    // InternalTyphonQL.g:1207:1: rule__Obj__Group_0__0 : rule__Obj__Group_0__0__Impl rule__Obj__Group_0__1 ;
+    // InternalTyphonQL.g:1232:1: rule__Obj__Group_0__0 : rule__Obj__Group_0__0__Impl rule__Obj__Group_0__1 ;
     public final void rule__Obj__Group_0__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1211:1: ( rule__Obj__Group_0__0__Impl rule__Obj__Group_0__1 )
-            // InternalTyphonQL.g:1212:2: rule__Obj__Group_0__0__Impl rule__Obj__Group_0__1
+            // InternalTyphonQL.g:1236:1: ( rule__Obj__Group_0__0__Impl rule__Obj__Group_0__1 )
+            // InternalTyphonQL.g:1237:2: rule__Obj__Group_0__0__Impl rule__Obj__Group_0__1
             {
             pushFollow(FOLLOW_5);
             rule__Obj__Group_0__0__Impl();
@@ -4000,17 +4088,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Obj__Group_0__0__Impl"
-    // InternalTyphonQL.g:1219:1: rule__Obj__Group_0__0__Impl : ( '@' ) ;
+    // InternalTyphonQL.g:1244:1: rule__Obj__Group_0__0__Impl : ( '@' ) ;
     public final void rule__Obj__Group_0__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1223:1: ( ( '@' ) )
-            // InternalTyphonQL.g:1224:1: ( '@' )
+            // InternalTyphonQL.g:1248:1: ( ( '@' ) )
+            // InternalTyphonQL.g:1249:1: ( '@' )
             {
-            // InternalTyphonQL.g:1224:1: ( '@' )
-            // InternalTyphonQL.g:1225:2: '@'
+            // InternalTyphonQL.g:1249:1: ( '@' )
+            // InternalTyphonQL.g:1250:2: '@'
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getObjAccess().getCommercialAtKeyword_0_0()); 
@@ -4041,14 +4129,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Obj__Group_0__1"
-    // InternalTyphonQL.g:1234:1: rule__Obj__Group_0__1 : rule__Obj__Group_0__1__Impl ;
+    // InternalTyphonQL.g:1259:1: rule__Obj__Group_0__1 : rule__Obj__Group_0__1__Impl ;
     public final void rule__Obj__Group_0__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1238:1: ( rule__Obj__Group_0__1__Impl )
-            // InternalTyphonQL.g:1239:2: rule__Obj__Group_0__1__Impl
+            // InternalTyphonQL.g:1263:1: ( rule__Obj__Group_0__1__Impl )
+            // InternalTyphonQL.g:1264:2: rule__Obj__Group_0__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__Obj__Group_0__1__Impl();
@@ -4074,23 +4162,23 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Obj__Group_0__1__Impl"
-    // InternalTyphonQL.g:1245:1: rule__Obj__Group_0__1__Impl : ( ( rule__Obj__LabelAssignment_0_1 ) ) ;
+    // InternalTyphonQL.g:1270:1: rule__Obj__Group_0__1__Impl : ( ( rule__Obj__LabelAssignment_0_1 ) ) ;
     public final void rule__Obj__Group_0__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1249:1: ( ( ( rule__Obj__LabelAssignment_0_1 ) ) )
-            // InternalTyphonQL.g:1250:1: ( ( rule__Obj__LabelAssignment_0_1 ) )
+            // InternalTyphonQL.g:1274:1: ( ( ( rule__Obj__LabelAssignment_0_1 ) ) )
+            // InternalTyphonQL.g:1275:1: ( ( rule__Obj__LabelAssignment_0_1 ) )
             {
-            // InternalTyphonQL.g:1250:1: ( ( rule__Obj__LabelAssignment_0_1 ) )
-            // InternalTyphonQL.g:1251:2: ( rule__Obj__LabelAssignment_0_1 )
+            // InternalTyphonQL.g:1275:1: ( ( rule__Obj__LabelAssignment_0_1 ) )
+            // InternalTyphonQL.g:1276:2: ( rule__Obj__LabelAssignment_0_1 )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getObjAccess().getLabelAssignment_0_1()); 
             }
-            // InternalTyphonQL.g:1252:2: ( rule__Obj__LabelAssignment_0_1 )
-            // InternalTyphonQL.g:1252:3: rule__Obj__LabelAssignment_0_1
+            // InternalTyphonQL.g:1277:2: ( rule__Obj__LabelAssignment_0_1 )
+            // InternalTyphonQL.g:1277:3: rule__Obj__LabelAssignment_0_1
             {
             pushFollow(FOLLOW_2);
             rule__Obj__LabelAssignment_0_1();
@@ -4125,14 +4213,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Obj__Group_4__0"
-    // InternalTyphonQL.g:1261:1: rule__Obj__Group_4__0 : rule__Obj__Group_4__0__Impl rule__Obj__Group_4__1 ;
+    // InternalTyphonQL.g:1286:1: rule__Obj__Group_4__0 : rule__Obj__Group_4__0__Impl rule__Obj__Group_4__1 ;
     public final void rule__Obj__Group_4__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1265:1: ( rule__Obj__Group_4__0__Impl rule__Obj__Group_4__1 )
-            // InternalTyphonQL.g:1266:2: rule__Obj__Group_4__0__Impl rule__Obj__Group_4__1
+            // InternalTyphonQL.g:1290:1: ( rule__Obj__Group_4__0__Impl rule__Obj__Group_4__1 )
+            // InternalTyphonQL.g:1291:2: rule__Obj__Group_4__0__Impl rule__Obj__Group_4__1
             {
             pushFollow(FOLLOW_11);
             rule__Obj__Group_4__0__Impl();
@@ -4163,17 +4251,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Obj__Group_4__0__Impl"
-    // InternalTyphonQL.g:1273:1: rule__Obj__Group_4__0__Impl : ( ',' ) ;
+    // InternalTyphonQL.g:1298:1: rule__Obj__Group_4__0__Impl : ( ',' ) ;
     public final void rule__Obj__Group_4__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1277:1: ( ( ',' ) )
-            // InternalTyphonQL.g:1278:1: ( ',' )
+            // InternalTyphonQL.g:1302:1: ( ( ',' ) )
+            // InternalTyphonQL.g:1303:1: ( ',' )
             {
-            // InternalTyphonQL.g:1278:1: ( ',' )
-            // InternalTyphonQL.g:1279:2: ','
+            // InternalTyphonQL.g:1303:1: ( ',' )
+            // InternalTyphonQL.g:1304:2: ','
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getObjAccess().getCommaKeyword_4_0()); 
@@ -4204,14 +4292,14 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Obj__Group_4__1"
-    // InternalTyphonQL.g:1288:1: rule__Obj__Group_4__1 : rule__Obj__Group_4__1__Impl ;
+    // InternalTyphonQL.g:1313:1: rule__Obj__Group_4__1 : rule__Obj__Group_4__1__Impl ;
     public final void rule__Obj__Group_4__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1292:1: ( rule__Obj__Group_4__1__Impl )
-            // InternalTyphonQL.g:1293:2: rule__Obj__Group_4__1__Impl
+            // InternalTyphonQL.g:1317:1: ( rule__Obj__Group_4__1__Impl )
+            // InternalTyphonQL.g:1318:2: rule__Obj__Group_4__1__Impl
             {
             pushFollow(FOLLOW_2);
             rule__Obj__Group_4__1__Impl();
@@ -4237,23 +4325,23 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Obj__Group_4__1__Impl"
-    // InternalTyphonQL.g:1299:1: rule__Obj__Group_4__1__Impl : ( ( rule__Obj__SetAssignment_4_1 ) ) ;
+    // InternalTyphonQL.g:1324:1: rule__Obj__Group_4__1__Impl : ( ( rule__Obj__SetAssignment_4_1 ) ) ;
     public final void rule__Obj__Group_4__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1303:1: ( ( ( rule__Obj__SetAssignment_4_1 ) ) )
-            // InternalTyphonQL.g:1304:1: ( ( rule__Obj__SetAssignment_4_1 ) )
+            // InternalTyphonQL.g:1328:1: ( ( ( rule__Obj__SetAssignment_4_1 ) ) )
+            // InternalTyphonQL.g:1329:1: ( ( rule__Obj__SetAssignment_4_1 ) )
             {
-            // InternalTyphonQL.g:1304:1: ( ( rule__Obj__SetAssignment_4_1 ) )
-            // InternalTyphonQL.g:1305:2: ( rule__Obj__SetAssignment_4_1 )
+            // InternalTyphonQL.g:1329:1: ( ( rule__Obj__SetAssignment_4_1 ) )
+            // InternalTyphonQL.g:1330:2: ( rule__Obj__SetAssignment_4_1 )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getObjAccess().getSetAssignment_4_1()); 
             }
-            // InternalTyphonQL.g:1306:2: ( rule__Obj__SetAssignment_4_1 )
-            // InternalTyphonQL.g:1306:3: rule__Obj__SetAssignment_4_1
+            // InternalTyphonQL.g:1331:2: ( rule__Obj__SetAssignment_4_1 )
+            // InternalTyphonQL.g:1331:3: rule__Obj__SetAssignment_4_1
             {
             pushFollow(FOLLOW_2);
             rule__Obj__SetAssignment_4_1();
@@ -4288,23 +4376,23 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Queries__QueriesAssignment"
-    // InternalTyphonQL.g:1315:1: rule__Queries__QueriesAssignment : ( ( rule__Queries__QueriesAlternatives_0 ) ) ;
+    // InternalTyphonQL.g:1340:1: rule__Queries__QueriesAssignment : ( ( rule__Queries__QueriesAlternatives_0 ) ) ;
     public final void rule__Queries__QueriesAssignment() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1319:1: ( ( ( rule__Queries__QueriesAlternatives_0 ) ) )
-            // InternalTyphonQL.g:1320:2: ( ( rule__Queries__QueriesAlternatives_0 ) )
+            // InternalTyphonQL.g:1344:1: ( ( ( rule__Queries__QueriesAlternatives_0 ) ) )
+            // InternalTyphonQL.g:1345:2: ( ( rule__Queries__QueriesAlternatives_0 ) )
             {
-            // InternalTyphonQL.g:1320:2: ( ( rule__Queries__QueriesAlternatives_0 ) )
-            // InternalTyphonQL.g:1321:3: ( rule__Queries__QueriesAlternatives_0 )
+            // InternalTyphonQL.g:1345:2: ( ( rule__Queries__QueriesAlternatives_0 ) )
+            // InternalTyphonQL.g:1346:3: ( rule__Queries__QueriesAlternatives_0 )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getQueriesAccess().getQueriesAlternatives_0()); 
             }
-            // InternalTyphonQL.g:1322:3: ( rule__Queries__QueriesAlternatives_0 )
-            // InternalTyphonQL.g:1322:4: rule__Queries__QueriesAlternatives_0
+            // InternalTyphonQL.g:1347:3: ( rule__Queries__QueriesAlternatives_0 )
+            // InternalTyphonQL.g:1347:4: rule__Queries__QueriesAlternatives_0
             {
             pushFollow(FOLLOW_2);
             rule__Queries__QueriesAlternatives_0();
@@ -4339,17 +4427,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__EidAssignment_1"
-    // InternalTyphonQL.g:1330:1: rule__Update__EidAssignment_1 : ( RULE_ID ) ;
+    // InternalTyphonQL.g:1355:1: rule__Update__EidAssignment_1 : ( RULE_ID ) ;
     public final void rule__Update__EidAssignment_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1334:1: ( ( RULE_ID ) )
-            // InternalTyphonQL.g:1335:2: ( RULE_ID )
+            // InternalTyphonQL.g:1359:1: ( ( RULE_ID ) )
+            // InternalTyphonQL.g:1360:2: ( RULE_ID )
             {
-            // InternalTyphonQL.g:1335:2: ( RULE_ID )
-            // InternalTyphonQL.g:1336:3: RULE_ID
+            // InternalTyphonQL.g:1360:2: ( RULE_ID )
+            // InternalTyphonQL.g:1361:3: RULE_ID
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getUpdateAccess().getEidIDTerminalRuleCall_1_0()); 
@@ -4380,17 +4468,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__VidAssignment_2"
-    // InternalTyphonQL.g:1345:1: rule__Update__VidAssignment_2 : ( RULE_ID ) ;
+    // InternalTyphonQL.g:1370:1: rule__Update__VidAssignment_2 : ( RULE_ID ) ;
     public final void rule__Update__VidAssignment_2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1349:1: ( ( RULE_ID ) )
-            // InternalTyphonQL.g:1350:2: ( RULE_ID )
+            // InternalTyphonQL.g:1374:1: ( ( RULE_ID ) )
+            // InternalTyphonQL.g:1375:2: ( RULE_ID )
             {
-            // InternalTyphonQL.g:1350:2: ( RULE_ID )
-            // InternalTyphonQL.g:1351:3: RULE_ID
+            // InternalTyphonQL.g:1375:2: ( RULE_ID )
+            // InternalTyphonQL.g:1376:3: RULE_ID
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getUpdateAccess().getVidIDTerminalRuleCall_2_0()); 
@@ -4421,17 +4509,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__WhereAssignment_3_1"
-    // InternalTyphonQL.g:1360:1: rule__Update__WhereAssignment_3_1 : ( ruleExpr ) ;
+    // InternalTyphonQL.g:1385:1: rule__Update__WhereAssignment_3_1 : ( ruleExpr ) ;
     public final void rule__Update__WhereAssignment_3_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1364:1: ( ( ruleExpr ) )
-            // InternalTyphonQL.g:1365:2: ( ruleExpr )
+            // InternalTyphonQL.g:1389:1: ( ( ruleExpr ) )
+            // InternalTyphonQL.g:1390:2: ( ruleExpr )
             {
-            // InternalTyphonQL.g:1365:2: ( ruleExpr )
-            // InternalTyphonQL.g:1366:3: ruleExpr
+            // InternalTyphonQL.g:1390:2: ( ruleExpr )
+            // InternalTyphonQL.g:1391:3: ruleExpr
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getUpdateAccess().getWhereExprParserRuleCall_3_1_0()); 
@@ -4466,17 +4554,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__SetAssignment_6"
-    // InternalTyphonQL.g:1375:1: rule__Update__SetAssignment_6 : ( ruleExpr ) ;
+    // InternalTyphonQL.g:1400:1: rule__Update__SetAssignment_6 : ( ruleExpr ) ;
     public final void rule__Update__SetAssignment_6() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1379:1: ( ( ruleExpr ) )
-            // InternalTyphonQL.g:1380:2: ( ruleExpr )
+            // InternalTyphonQL.g:1404:1: ( ( ruleExpr ) )
+            // InternalTyphonQL.g:1405:2: ( ruleExpr )
             {
-            // InternalTyphonQL.g:1380:2: ( ruleExpr )
-            // InternalTyphonQL.g:1381:3: ruleExpr
+            // InternalTyphonQL.g:1405:2: ( ruleExpr )
+            // InternalTyphonQL.g:1406:3: ruleExpr
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getUpdateAccess().getSetExprParserRuleCall_6_0()); 
@@ -4511,17 +4599,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Update__SetAssignment_7_1"
-    // InternalTyphonQL.g:1390:1: rule__Update__SetAssignment_7_1 : ( ruleExpr ) ;
+    // InternalTyphonQL.g:1415:1: rule__Update__SetAssignment_7_1 : ( ruleExpr ) ;
     public final void rule__Update__SetAssignment_7_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1394:1: ( ( ruleExpr ) )
-            // InternalTyphonQL.g:1395:2: ( ruleExpr )
+            // InternalTyphonQL.g:1419:1: ( ( ruleExpr ) )
+            // InternalTyphonQL.g:1420:2: ( ruleExpr )
             {
-            // InternalTyphonQL.g:1395:2: ( ruleExpr )
-            // InternalTyphonQL.g:1396:3: ruleExpr
+            // InternalTyphonQL.g:1420:2: ( ruleExpr )
+            // InternalTyphonQL.g:1421:3: ruleExpr
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getUpdateAccess().getSetExprParserRuleCall_7_1_0()); 
@@ -4556,17 +4644,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Delete__EidAssignment_1"
-    // InternalTyphonQL.g:1405:1: rule__Delete__EidAssignment_1 : ( RULE_ID ) ;
+    // InternalTyphonQL.g:1430:1: rule__Delete__EidAssignment_1 : ( RULE_ID ) ;
     public final void rule__Delete__EidAssignment_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1409:1: ( ( RULE_ID ) )
-            // InternalTyphonQL.g:1410:2: ( RULE_ID )
+            // InternalTyphonQL.g:1434:1: ( ( RULE_ID ) )
+            // InternalTyphonQL.g:1435:2: ( RULE_ID )
             {
-            // InternalTyphonQL.g:1410:2: ( RULE_ID )
-            // InternalTyphonQL.g:1411:3: RULE_ID
+            // InternalTyphonQL.g:1435:2: ( RULE_ID )
+            // InternalTyphonQL.g:1436:3: RULE_ID
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getDeleteAccess().getEidIDTerminalRuleCall_1_0()); 
@@ -4597,17 +4685,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Delete__VidAssignment_2"
-    // InternalTyphonQL.g:1420:1: rule__Delete__VidAssignment_2 : ( RULE_ID ) ;
+    // InternalTyphonQL.g:1445:1: rule__Delete__VidAssignment_2 : ( RULE_ID ) ;
     public final void rule__Delete__VidAssignment_2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1424:1: ( ( RULE_ID ) )
-            // InternalTyphonQL.g:1425:2: ( RULE_ID )
+            // InternalTyphonQL.g:1449:1: ( ( RULE_ID ) )
+            // InternalTyphonQL.g:1450:2: ( RULE_ID )
             {
-            // InternalTyphonQL.g:1425:2: ( RULE_ID )
-            // InternalTyphonQL.g:1426:3: RULE_ID
+            // InternalTyphonQL.g:1450:2: ( RULE_ID )
+            // InternalTyphonQL.g:1451:3: RULE_ID
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getDeleteAccess().getVidIDTerminalRuleCall_2_0()); 
@@ -4638,17 +4726,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Delete__WhereAssignment_3_1"
-    // InternalTyphonQL.g:1435:1: rule__Delete__WhereAssignment_3_1 : ( ruleExpr ) ;
+    // InternalTyphonQL.g:1460:1: rule__Delete__WhereAssignment_3_1 : ( ruleExpr ) ;
     public final void rule__Delete__WhereAssignment_3_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1439:1: ( ( ruleExpr ) )
-            // InternalTyphonQL.g:1440:2: ( ruleExpr )
+            // InternalTyphonQL.g:1464:1: ( ( ruleExpr ) )
+            // InternalTyphonQL.g:1465:2: ( ruleExpr )
             {
-            // InternalTyphonQL.g:1440:2: ( ruleExpr )
-            // InternalTyphonQL.g:1441:3: ruleExpr
+            // InternalTyphonQL.g:1465:2: ( ruleExpr )
+            // InternalTyphonQL.g:1466:3: ruleExpr
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getDeleteAccess().getWhereExprParserRuleCall_3_1_0()); 
@@ -4683,17 +4771,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Insert__ObjectsAssignment_1"
-    // InternalTyphonQL.g:1450:1: rule__Insert__ObjectsAssignment_1 : ( ruleObj ) ;
+    // InternalTyphonQL.g:1475:1: rule__Insert__ObjectsAssignment_1 : ( ruleObj ) ;
     public final void rule__Insert__ObjectsAssignment_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1454:1: ( ( ruleObj ) )
-            // InternalTyphonQL.g:1455:2: ( ruleObj )
+            // InternalTyphonQL.g:1479:1: ( ( ruleObj ) )
+            // InternalTyphonQL.g:1480:2: ( ruleObj )
             {
-            // InternalTyphonQL.g:1455:2: ( ruleObj )
-            // InternalTyphonQL.g:1456:3: ruleObj
+            // InternalTyphonQL.g:1480:2: ( ruleObj )
+            // InternalTyphonQL.g:1481:3: ruleObj
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getInsertAccess().getObjectsObjParserRuleCall_1_0()); 
@@ -4728,17 +4816,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Insert__ObjectsAssignment_2_1"
-    // InternalTyphonQL.g:1465:1: rule__Insert__ObjectsAssignment_2_1 : ( ruleObj ) ;
+    // InternalTyphonQL.g:1490:1: rule__Insert__ObjectsAssignment_2_1 : ( ruleObj ) ;
     public final void rule__Insert__ObjectsAssignment_2_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1469:1: ( ( ruleObj ) )
-            // InternalTyphonQL.g:1470:2: ( ruleObj )
+            // InternalTyphonQL.g:1494:1: ( ( ruleObj ) )
+            // InternalTyphonQL.g:1495:2: ( ruleObj )
             {
-            // InternalTyphonQL.g:1470:2: ( ruleObj )
-            // InternalTyphonQL.g:1471:3: ruleObj
+            // InternalTyphonQL.g:1495:2: ( ruleObj )
+            // InternalTyphonQL.g:1496:3: ruleObj
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getInsertAccess().getObjectsObjParserRuleCall_2_1_0()); 
@@ -4773,17 +4861,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Obj__LabelAssignment_0_1"
-    // InternalTyphonQL.g:1480:1: rule__Obj__LabelAssignment_0_1 : ( RULE_ID ) ;
+    // InternalTyphonQL.g:1505:1: rule__Obj__LabelAssignment_0_1 : ( RULE_ID ) ;
     public final void rule__Obj__LabelAssignment_0_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1484:1: ( ( RULE_ID ) )
-            // InternalTyphonQL.g:1485:2: ( RULE_ID )
+            // InternalTyphonQL.g:1509:1: ( ( RULE_ID ) )
+            // InternalTyphonQL.g:1510:2: ( RULE_ID )
             {
-            // InternalTyphonQL.g:1485:2: ( RULE_ID )
-            // InternalTyphonQL.g:1486:3: RULE_ID
+            // InternalTyphonQL.g:1510:2: ( RULE_ID )
+            // InternalTyphonQL.g:1511:3: RULE_ID
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getObjAccess().getLabelIDTerminalRuleCall_0_1_0()); 
@@ -4814,17 +4902,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Obj__EidAssignment_1"
-    // InternalTyphonQL.g:1495:1: rule__Obj__EidAssignment_1 : ( RULE_ID ) ;
+    // InternalTyphonQL.g:1520:1: rule__Obj__EidAssignment_1 : ( RULE_ID ) ;
     public final void rule__Obj__EidAssignment_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1499:1: ( ( RULE_ID ) )
-            // InternalTyphonQL.g:1500:2: ( RULE_ID )
+            // InternalTyphonQL.g:1524:1: ( ( RULE_ID ) )
+            // InternalTyphonQL.g:1525:2: ( RULE_ID )
             {
-            // InternalTyphonQL.g:1500:2: ( RULE_ID )
-            // InternalTyphonQL.g:1501:3: RULE_ID
+            // InternalTyphonQL.g:1525:2: ( RULE_ID )
+            // InternalTyphonQL.g:1526:3: RULE_ID
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getObjAccess().getEidIDTerminalRuleCall_1_0()); 
@@ -4855,17 +4943,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Obj__SetAssignment_3"
-    // InternalTyphonQL.g:1510:1: rule__Obj__SetAssignment_3 : ( ruleExpr ) ;
+    // InternalTyphonQL.g:1535:1: rule__Obj__SetAssignment_3 : ( ruleExpr ) ;
     public final void rule__Obj__SetAssignment_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1514:1: ( ( ruleExpr ) )
-            // InternalTyphonQL.g:1515:2: ( ruleExpr )
+            // InternalTyphonQL.g:1539:1: ( ( ruleExpr ) )
+            // InternalTyphonQL.g:1540:2: ( ruleExpr )
             {
-            // InternalTyphonQL.g:1515:2: ( ruleExpr )
-            // InternalTyphonQL.g:1516:3: ruleExpr
+            // InternalTyphonQL.g:1540:2: ( ruleExpr )
+            // InternalTyphonQL.g:1541:3: ruleExpr
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getObjAccess().getSetExprParserRuleCall_3_0()); 
@@ -4900,17 +4988,17 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Obj__SetAssignment_4_1"
-    // InternalTyphonQL.g:1525:1: rule__Obj__SetAssignment_4_1 : ( ruleExpr ) ;
+    // InternalTyphonQL.g:1550:1: rule__Obj__SetAssignment_4_1 : ( ruleExpr ) ;
     public final void rule__Obj__SetAssignment_4_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1529:1: ( ( ruleExpr ) )
-            // InternalTyphonQL.g:1530:2: ( ruleExpr )
+            // InternalTyphonQL.g:1554:1: ( ( ruleExpr ) )
+            // InternalTyphonQL.g:1555:2: ( ruleExpr )
             {
-            // InternalTyphonQL.g:1530:2: ( ruleExpr )
-            // InternalTyphonQL.g:1531:3: ruleExpr
+            // InternalTyphonQL.g:1555:2: ( ruleExpr )
+            // InternalTyphonQL.g:1556:3: ruleExpr
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getObjAccess().getSetExprParserRuleCall_4_1_0()); 
@@ -4945,23 +5033,23 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Expr__ExprsAssignment"
-    // InternalTyphonQL.g:1540:1: rule__Expr__ExprsAssignment : ( ( rule__Expr__ExprsAlternatives_0 ) ) ;
+    // InternalTyphonQL.g:1565:1: rule__Expr__ExprsAssignment : ( ( rule__Expr__ExprsAlternatives_0 ) ) ;
     public final void rule__Expr__ExprsAssignment() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1544:1: ( ( ( rule__Expr__ExprsAlternatives_0 ) ) )
-            // InternalTyphonQL.g:1545:2: ( ( rule__Expr__ExprsAlternatives_0 ) )
+            // InternalTyphonQL.g:1569:1: ( ( ( rule__Expr__ExprsAlternatives_0 ) ) )
+            // InternalTyphonQL.g:1570:2: ( ( rule__Expr__ExprsAlternatives_0 ) )
             {
-            // InternalTyphonQL.g:1545:2: ( ( rule__Expr__ExprsAlternatives_0 ) )
-            // InternalTyphonQL.g:1546:3: ( rule__Expr__ExprsAlternatives_0 )
+            // InternalTyphonQL.g:1570:2: ( ( rule__Expr__ExprsAlternatives_0 ) )
+            // InternalTyphonQL.g:1571:3: ( rule__Expr__ExprsAlternatives_0 )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getExprAccess().getExprsAlternatives_0()); 
             }
-            // InternalTyphonQL.g:1547:3: ( rule__Expr__ExprsAlternatives_0 )
-            // InternalTyphonQL.g:1547:4: rule__Expr__ExprsAlternatives_0
+            // InternalTyphonQL.g:1572:3: ( rule__Expr__ExprsAlternatives_0 )
+            // InternalTyphonQL.g:1572:4: rule__Expr__ExprsAlternatives_0
             {
             pushFollow(FOLLOW_2);
             rule__Expr__ExprsAlternatives_0();
@@ -4996,34 +5084,24 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
 
 
     // $ANTLR start "rule__Stringy__ValsAssignment"
-    // InternalTyphonQL.g:1555:1: rule__Stringy__ValsAssignment : ( ( rule__Stringy__ValsAlternatives_0 ) ) ;
+    // InternalTyphonQL.g:1580:1: rule__Stringy__ValsAssignment : ( RULE_STRING ) ;
     public final void rule__Stringy__ValsAssignment() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalTyphonQL.g:1559:1: ( ( ( rule__Stringy__ValsAlternatives_0 ) ) )
-            // InternalTyphonQL.g:1560:2: ( ( rule__Stringy__ValsAlternatives_0 ) )
+            // InternalTyphonQL.g:1584:1: ( ( RULE_STRING ) )
+            // InternalTyphonQL.g:1585:2: ( RULE_STRING )
             {
-            // InternalTyphonQL.g:1560:2: ( ( rule__Stringy__ValsAlternatives_0 ) )
-            // InternalTyphonQL.g:1561:3: ( rule__Stringy__ValsAlternatives_0 )
+            // InternalTyphonQL.g:1585:2: ( RULE_STRING )
+            // InternalTyphonQL.g:1586:3: RULE_STRING
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getStringyAccess().getValsAlternatives_0()); 
+               before(grammarAccess.getStringyAccess().getValsSTRINGTerminalRuleCall_0()); 
             }
-            // InternalTyphonQL.g:1562:3: ( rule__Stringy__ValsAlternatives_0 )
-            // InternalTyphonQL.g:1562:4: rule__Stringy__ValsAlternatives_0
-            {
-            pushFollow(FOLLOW_2);
-            rule__Stringy__ValsAlternatives_0();
-
-            state._fsp--;
-            if (state.failed) return ;
-
-            }
-
+            match(input,RULE_STRING,FOLLOW_2); if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getStringyAccess().getValsAlternatives_0()); 
+               after(grammarAccess.getStringyAccess().getValsSTRINGTerminalRuleCall_0()); 
             }
 
             }
@@ -5045,6 +5123,57 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
     }
     // $ANTLR end "rule__Stringy__ValsAssignment"
 
+
+    // $ANTLR start "rule__Variabley__ValsAssignment"
+    // InternalTyphonQL.g:1595:1: rule__Variabley__ValsAssignment : ( ( rule__Variabley__ValsAlternatives_0 ) ) ;
+    public final void rule__Variabley__ValsAssignment() throws RecognitionException {
+
+        		int stackSize = keepStackSize();
+        	
+        try {
+            // InternalTyphonQL.g:1599:1: ( ( ( rule__Variabley__ValsAlternatives_0 ) ) )
+            // InternalTyphonQL.g:1600:2: ( ( rule__Variabley__ValsAlternatives_0 ) )
+            {
+            // InternalTyphonQL.g:1600:2: ( ( rule__Variabley__ValsAlternatives_0 ) )
+            // InternalTyphonQL.g:1601:3: ( rule__Variabley__ValsAlternatives_0 )
+            {
+            if ( state.backtracking==0 ) {
+               before(grammarAccess.getVariableyAccess().getValsAlternatives_0()); 
+            }
+            // InternalTyphonQL.g:1602:3: ( rule__Variabley__ValsAlternatives_0 )
+            // InternalTyphonQL.g:1602:4: rule__Variabley__ValsAlternatives_0
+            {
+            pushFollow(FOLLOW_2);
+            rule__Variabley__ValsAlternatives_0();
+
+            state._fsp--;
+            if (state.failed) return ;
+
+            }
+
+            if ( state.backtracking==0 ) {
+               after(grammarAccess.getVariableyAccess().getValsAlternatives_0()); 
+            }
+
+            }
+
+
+            }
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+        }
+        finally {
+
+            	restoreStackSize(stackSize);
+
+        }
+        return ;
+    }
+    // $ANTLR end "rule__Variabley__ValsAssignment"
+
     // Delegated rules
 
 
@@ -5054,7 +5183,7 @@ public class InternalTyphonQLParser extends AbstractInternalContentAssistParser 
     public static final BitSet FOLLOW_2 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_3 = new BitSet(new long[]{0x0000000000181002L});
     public static final BitSet FOLLOW_4 = new BitSet(new long[]{0x00000000002000F2L});
-    public static final BitSet FOLLOW_5 = new BitSet(new long[]{0x0000000000000040L});
+    public static final BitSet FOLLOW_5 = new BitSet(new long[]{0x0000000000000020L});
     public static final BitSet FOLLOW_6 = new BitSet(new long[]{0x0000000000022000L});
     public static final BitSet FOLLOW_7 = new BitSet(new long[]{0x0000000000004000L});
     public static final BitSet FOLLOW_8 = new BitSet(new long[]{0x00000000002480F0L});

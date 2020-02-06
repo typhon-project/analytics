@@ -22,10 +22,10 @@ import java.util.HashMap;
 @SuppressWarnings("all")
 public class InternalTyphonQLParser extends AbstractInternalAntlrParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_VALUE_TERMINAL", "RULE_STRING", "RULE_ANY_OTHER", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "'update'", "'where'", "'set'", "'{'", "','", "'}'", "';'", "'delete'", "'insert'", "'@'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_STRING", "RULE_VALUE_TERMINAL", "RULE_ANY_OTHER", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "'update'", "'where'", "'set'", "'{'", "','", "'}'", "';'", "'delete'", "'insert'", "'@'"
     };
-    public static final int RULE_VALUE_TERMINAL=5;
-    public static final int RULE_STRING=6;
+    public static final int RULE_VALUE_TERMINAL=6;
+    public static final int RULE_STRING=5;
     public static final int RULE_SL_COMMENT=10;
     public static final int T__19=19;
     public static final int T__15=15;
@@ -1422,7 +1422,7 @@ public class InternalTyphonQLParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleExpr"
-    // InternalTyphonQL.g:563:1: ruleExpr returns [EObject current=null] : ( ( (lv_exprs_0_1= ruleStringy | lv_exprs_0_2= ruleObj ) ) )+ ;
+    // InternalTyphonQL.g:563:1: ruleExpr returns [EObject current=null] : ( ( (lv_exprs_0_1= ruleStringy | lv_exprs_0_2= ruleVariabley | lv_exprs_0_3= ruleObj ) ) )+ ;
     public final EObject ruleExpr() throws RecognitionException {
         EObject current = null;
 
@@ -1430,15 +1430,17 @@ public class InternalTyphonQLParser extends AbstractInternalAntlrParser {
 
         EObject lv_exprs_0_2 = null;
 
+        EObject lv_exprs_0_3 = null;
+
 
 
         	enterRule();
 
         try {
-            // InternalTyphonQL.g:569:2: ( ( ( (lv_exprs_0_1= ruleStringy | lv_exprs_0_2= ruleObj ) ) )+ )
-            // InternalTyphonQL.g:570:2: ( ( (lv_exprs_0_1= ruleStringy | lv_exprs_0_2= ruleObj ) ) )+
+            // InternalTyphonQL.g:569:2: ( ( ( (lv_exprs_0_1= ruleStringy | lv_exprs_0_2= ruleVariabley | lv_exprs_0_3= ruleObj ) ) )+ )
+            // InternalTyphonQL.g:570:2: ( ( (lv_exprs_0_1= ruleStringy | lv_exprs_0_2= ruleVariabley | lv_exprs_0_3= ruleObj ) ) )+
             {
-            // InternalTyphonQL.g:570:2: ( ( (lv_exprs_0_1= ruleStringy | lv_exprs_0_2= ruleObj ) ) )+
+            // InternalTyphonQL.g:570:2: ( ( (lv_exprs_0_1= ruleStringy | lv_exprs_0_2= ruleVariabley | lv_exprs_0_3= ruleObj ) ) )+
             int cnt12=0;
             loop12:
             do {
@@ -1452,35 +1454,39 @@ public class InternalTyphonQLParser extends AbstractInternalAntlrParser {
 
                 switch (alt12) {
             	case 1 :
-            	    // InternalTyphonQL.g:571:3: ( (lv_exprs_0_1= ruleStringy | lv_exprs_0_2= ruleObj ) )
+            	    // InternalTyphonQL.g:571:3: ( (lv_exprs_0_1= ruleStringy | lv_exprs_0_2= ruleVariabley | lv_exprs_0_3= ruleObj ) )
             	    {
-            	    // InternalTyphonQL.g:571:3: ( (lv_exprs_0_1= ruleStringy | lv_exprs_0_2= ruleObj ) )
-            	    // InternalTyphonQL.g:572:4: (lv_exprs_0_1= ruleStringy | lv_exprs_0_2= ruleObj )
+            	    // InternalTyphonQL.g:571:3: ( (lv_exprs_0_1= ruleStringy | lv_exprs_0_2= ruleVariabley | lv_exprs_0_3= ruleObj ) )
+            	    // InternalTyphonQL.g:572:4: (lv_exprs_0_1= ruleStringy | lv_exprs_0_2= ruleVariabley | lv_exprs_0_3= ruleObj )
             	    {
-            	    // InternalTyphonQL.g:572:4: (lv_exprs_0_1= ruleStringy | lv_exprs_0_2= ruleObj )
-            	    int alt11=2;
+            	    // InternalTyphonQL.g:572:4: (lv_exprs_0_1= ruleStringy | lv_exprs_0_2= ruleVariabley | lv_exprs_0_3= ruleObj )
+            	    int alt11=3;
             	    switch ( input.LA(1) ) {
-            	    case RULE_VALUE_TERMINAL:
             	    case RULE_STRING:
-            	    case RULE_ANY_OTHER:
             	        {
             	        alt11=1;
             	        }
             	        break;
+            	    case RULE_VALUE_TERMINAL:
+            	    case RULE_ANY_OTHER:
+            	        {
+            	        alt11=2;
+            	        }
+            	        break;
             	    case RULE_ID:
             	        {
-            	        int LA11_2 = input.LA(2);
+            	        int LA11_3 = input.LA(2);
 
-            	        if ( (LA11_2==EOF||(LA11_2>=RULE_ID && LA11_2<=RULE_ANY_OTHER)||LA11_2==14||(LA11_2>=16 && LA11_2<=18)||LA11_2==21) ) {
-            	            alt11=1;
-            	        }
-            	        else if ( (LA11_2==15) ) {
+            	        if ( (LA11_3==EOF||(LA11_3>=RULE_ID && LA11_3<=RULE_ANY_OTHER)||LA11_3==14||(LA11_3>=16 && LA11_3<=18)||LA11_3==21) ) {
             	            alt11=2;
+            	        }
+            	        else if ( (LA11_3==15) ) {
+            	            alt11=3;
             	        }
             	        else {
             	            if (state.backtracking>0) {state.failed=true; return current;}
             	            NoViableAltException nvae =
-            	                new NoViableAltException("", 11, 2, input);
+            	                new NoViableAltException("", 11, 3, input);
 
             	            throw nvae;
             	        }
@@ -1488,7 +1494,7 @@ public class InternalTyphonQLParser extends AbstractInternalAntlrParser {
             	        break;
             	    case 21:
             	        {
-            	        alt11=2;
+            	        alt11=3;
             	        }
             	        break;
             	    default:
@@ -1530,15 +1536,15 @@ public class InternalTyphonQLParser extends AbstractInternalAntlrParser {
             	            }
             	            break;
             	        case 2 :
-            	            // InternalTyphonQL.g:589:5: lv_exprs_0_2= ruleObj
+            	            // InternalTyphonQL.g:589:5: lv_exprs_0_2= ruleVariabley
             	            {
             	            if ( state.backtracking==0 ) {
 
-            	              					newCompositeNode(grammarAccess.getExprAccess().getExprsObjParserRuleCall_0_1());
+            	              					newCompositeNode(grammarAccess.getExprAccess().getExprsVariableyParserRuleCall_0_1());
             	              				
             	            }
             	            pushFollow(FOLLOW_14);
-            	            lv_exprs_0_2=ruleObj();
+            	            lv_exprs_0_2=ruleVariabley();
 
             	            state._fsp--;
             	            if (state.failed) return current;
@@ -1551,6 +1557,35 @@ public class InternalTyphonQLParser extends AbstractInternalAntlrParser {
             	              						current,
             	              						"exprs",
             	              						lv_exprs_0_2,
+            	              						"org.xtext.typhonql.TyphonQL.Variabley");
+            	              					afterParserOrEnumRuleCall();
+            	              				
+            	            }
+
+            	            }
+            	            break;
+            	        case 3 :
+            	            // InternalTyphonQL.g:605:5: lv_exprs_0_3= ruleObj
+            	            {
+            	            if ( state.backtracking==0 ) {
+
+            	              					newCompositeNode(grammarAccess.getExprAccess().getExprsObjParserRuleCall_0_2());
+            	              				
+            	            }
+            	            pushFollow(FOLLOW_14);
+            	            lv_exprs_0_3=ruleObj();
+
+            	            state._fsp--;
+            	            if (state.failed) return current;
+            	            if ( state.backtracking==0 ) {
+
+            	              					if (current==null) {
+            	              						current = createModelElementForParent(grammarAccess.getExprRule());
+            	              					}
+            	              					add(
+            	              						current,
+            	              						"exprs",
+            	              						lv_exprs_0_3,
             	              						"org.xtext.typhonql.TyphonQL.Obj");
             	              					afterParserOrEnumRuleCall();
             	              				
@@ -1600,7 +1635,7 @@ public class InternalTyphonQLParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleStringy"
-    // InternalTyphonQL.g:610:1: entryRuleStringy returns [EObject current=null] : iv_ruleStringy= ruleStringy EOF ;
+    // InternalTyphonQL.g:626:1: entryRuleStringy returns [EObject current=null] : iv_ruleStringy= ruleStringy EOF ;
     public final EObject entryRuleStringy() throws RecognitionException {
         EObject current = null;
 
@@ -1608,8 +1643,8 @@ public class InternalTyphonQLParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalTyphonQL.g:610:48: (iv_ruleStringy= ruleStringy EOF )
-            // InternalTyphonQL.g:611:2: iv_ruleStringy= ruleStringy EOF
+            // InternalTyphonQL.g:626:48: (iv_ruleStringy= ruleStringy EOF )
+            // InternalTyphonQL.g:627:2: iv_ruleStringy= ruleStringy EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getStringyRule()); 
@@ -1640,49 +1675,148 @@ public class InternalTyphonQLParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleStringy"
-    // InternalTyphonQL.g:617:1: ruleStringy returns [EObject current=null] : ( ( (lv_vals_0_1= RULE_VALUE_TERMINAL | lv_vals_0_2= RULE_STRING | lv_vals_0_3= RULE_ID | lv_vals_0_4= RULE_ANY_OTHER ) ) ) ;
+    // InternalTyphonQL.g:633:1: ruleStringy returns [EObject current=null] : ( (lv_vals_0_0= RULE_STRING ) ) ;
     public final EObject ruleStringy() throws RecognitionException {
         EObject current = null;
 
-        Token lv_vals_0_1=null;
-        Token lv_vals_0_2=null;
-        Token lv_vals_0_3=null;
-        Token lv_vals_0_4=null;
+        Token lv_vals_0_0=null;
 
 
         	enterRule();
 
         try {
-            // InternalTyphonQL.g:623:2: ( ( ( (lv_vals_0_1= RULE_VALUE_TERMINAL | lv_vals_0_2= RULE_STRING | lv_vals_0_3= RULE_ID | lv_vals_0_4= RULE_ANY_OTHER ) ) ) )
-            // InternalTyphonQL.g:624:2: ( ( (lv_vals_0_1= RULE_VALUE_TERMINAL | lv_vals_0_2= RULE_STRING | lv_vals_0_3= RULE_ID | lv_vals_0_4= RULE_ANY_OTHER ) ) )
+            // InternalTyphonQL.g:639:2: ( ( (lv_vals_0_0= RULE_STRING ) ) )
+            // InternalTyphonQL.g:640:2: ( (lv_vals_0_0= RULE_STRING ) )
             {
-            // InternalTyphonQL.g:624:2: ( ( (lv_vals_0_1= RULE_VALUE_TERMINAL | lv_vals_0_2= RULE_STRING | lv_vals_0_3= RULE_ID | lv_vals_0_4= RULE_ANY_OTHER ) ) )
-            // InternalTyphonQL.g:625:3: ( (lv_vals_0_1= RULE_VALUE_TERMINAL | lv_vals_0_2= RULE_STRING | lv_vals_0_3= RULE_ID | lv_vals_0_4= RULE_ANY_OTHER ) )
+            // InternalTyphonQL.g:640:2: ( (lv_vals_0_0= RULE_STRING ) )
+            // InternalTyphonQL.g:641:3: (lv_vals_0_0= RULE_STRING )
             {
-            // InternalTyphonQL.g:625:3: ( (lv_vals_0_1= RULE_VALUE_TERMINAL | lv_vals_0_2= RULE_STRING | lv_vals_0_3= RULE_ID | lv_vals_0_4= RULE_ANY_OTHER ) )
-            // InternalTyphonQL.g:626:4: (lv_vals_0_1= RULE_VALUE_TERMINAL | lv_vals_0_2= RULE_STRING | lv_vals_0_3= RULE_ID | lv_vals_0_4= RULE_ANY_OTHER )
+            // InternalTyphonQL.g:641:3: (lv_vals_0_0= RULE_STRING )
+            // InternalTyphonQL.g:642:4: lv_vals_0_0= RULE_STRING
             {
-            // InternalTyphonQL.g:626:4: (lv_vals_0_1= RULE_VALUE_TERMINAL | lv_vals_0_2= RULE_STRING | lv_vals_0_3= RULE_ID | lv_vals_0_4= RULE_ANY_OTHER )
-            int alt13=4;
+            lv_vals_0_0=(Token)match(input,RULE_STRING,FOLLOW_2); if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+
+              				newLeafNode(lv_vals_0_0, grammarAccess.getStringyAccess().getValsSTRINGTerminalRuleCall_0());
+              			
+            }
+            if ( state.backtracking==0 ) {
+
+              				if (current==null) {
+              					current = createModelElement(grammarAccess.getStringyRule());
+              				}
+              				addWithLastConsumed(
+              					current,
+              					"vals",
+              					lv_vals_0_0,
+              					"org.eclipse.xtext.common.Terminals.STRING");
+              			
+            }
+
+            }
+
+
+            }
+
+
+            }
+
+            if ( state.backtracking==0 ) {
+
+              	leaveRule();
+
+            }
+        }
+
+            catch (RecognitionException re) {
+                recover(input,re);
+                appendSkippedTokens();
+            }
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "ruleStringy"
+
+
+    // $ANTLR start "entryRuleVariabley"
+    // InternalTyphonQL.g:661:1: entryRuleVariabley returns [EObject current=null] : iv_ruleVariabley= ruleVariabley EOF ;
+    public final EObject entryRuleVariabley() throws RecognitionException {
+        EObject current = null;
+
+        EObject iv_ruleVariabley = null;
+
+
+        try {
+            // InternalTyphonQL.g:661:50: (iv_ruleVariabley= ruleVariabley EOF )
+            // InternalTyphonQL.g:662:2: iv_ruleVariabley= ruleVariabley EOF
+            {
+            if ( state.backtracking==0 ) {
+               newCompositeNode(grammarAccess.getVariableyRule()); 
+            }
+            pushFollow(FOLLOW_1);
+            iv_ruleVariabley=ruleVariabley();
+
+            state._fsp--;
+            if (state.failed) return current;
+            if ( state.backtracking==0 ) {
+               current =iv_ruleVariabley; 
+            }
+            match(input,EOF,FOLLOW_2); if (state.failed) return current;
+
+            }
+
+        }
+
+            catch (RecognitionException re) {
+                recover(input,re);
+                appendSkippedTokens();
+            }
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "entryRuleVariabley"
+
+
+    // $ANTLR start "ruleVariabley"
+    // InternalTyphonQL.g:668:1: ruleVariabley returns [EObject current=null] : ( ( (lv_vals_0_1= RULE_VALUE_TERMINAL | lv_vals_0_2= RULE_ID | lv_vals_0_3= RULE_ANY_OTHER ) ) ) ;
+    public final EObject ruleVariabley() throws RecognitionException {
+        EObject current = null;
+
+        Token lv_vals_0_1=null;
+        Token lv_vals_0_2=null;
+        Token lv_vals_0_3=null;
+
+
+        	enterRule();
+
+        try {
+            // InternalTyphonQL.g:674:2: ( ( ( (lv_vals_0_1= RULE_VALUE_TERMINAL | lv_vals_0_2= RULE_ID | lv_vals_0_3= RULE_ANY_OTHER ) ) ) )
+            // InternalTyphonQL.g:675:2: ( ( (lv_vals_0_1= RULE_VALUE_TERMINAL | lv_vals_0_2= RULE_ID | lv_vals_0_3= RULE_ANY_OTHER ) ) )
+            {
+            // InternalTyphonQL.g:675:2: ( ( (lv_vals_0_1= RULE_VALUE_TERMINAL | lv_vals_0_2= RULE_ID | lv_vals_0_3= RULE_ANY_OTHER ) ) )
+            // InternalTyphonQL.g:676:3: ( (lv_vals_0_1= RULE_VALUE_TERMINAL | lv_vals_0_2= RULE_ID | lv_vals_0_3= RULE_ANY_OTHER ) )
+            {
+            // InternalTyphonQL.g:676:3: ( (lv_vals_0_1= RULE_VALUE_TERMINAL | lv_vals_0_2= RULE_ID | lv_vals_0_3= RULE_ANY_OTHER ) )
+            // InternalTyphonQL.g:677:4: (lv_vals_0_1= RULE_VALUE_TERMINAL | lv_vals_0_2= RULE_ID | lv_vals_0_3= RULE_ANY_OTHER )
+            {
+            // InternalTyphonQL.g:677:4: (lv_vals_0_1= RULE_VALUE_TERMINAL | lv_vals_0_2= RULE_ID | lv_vals_0_3= RULE_ANY_OTHER )
+            int alt13=3;
             switch ( input.LA(1) ) {
             case RULE_VALUE_TERMINAL:
                 {
                 alt13=1;
                 }
                 break;
-            case RULE_STRING:
+            case RULE_ID:
                 {
                 alt13=2;
                 }
                 break;
-            case RULE_ID:
-                {
-                alt13=3;
-                }
-                break;
             case RULE_ANY_OTHER:
                 {
-                alt13=4;
+                alt13=3;
                 }
                 break;
             default:
@@ -1695,18 +1829,18 @@ public class InternalTyphonQLParser extends AbstractInternalAntlrParser {
 
             switch (alt13) {
                 case 1 :
-                    // InternalTyphonQL.g:627:5: lv_vals_0_1= RULE_VALUE_TERMINAL
+                    // InternalTyphonQL.g:678:5: lv_vals_0_1= RULE_VALUE_TERMINAL
                     {
                     lv_vals_0_1=(Token)match(input,RULE_VALUE_TERMINAL,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
-                      					newLeafNode(lv_vals_0_1, grammarAccess.getStringyAccess().getValsVALUE_TERMINALTerminalRuleCall_0_0());
+                      					newLeafNode(lv_vals_0_1, grammarAccess.getVariableyAccess().getValsVALUE_TERMINALTerminalRuleCall_0_0());
                       				
                     }
                     if ( state.backtracking==0 ) {
 
                       					if (current==null) {
-                      						current = createModelElement(grammarAccess.getStringyRule());
+                      						current = createModelElement(grammarAccess.getVariableyRule());
                       					}
                       					addWithLastConsumed(
                       						current,
@@ -1719,71 +1853,47 @@ public class InternalTyphonQLParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalTyphonQL.g:642:5: lv_vals_0_2= RULE_STRING
+                    // InternalTyphonQL.g:693:5: lv_vals_0_2= RULE_ID
                     {
-                    lv_vals_0_2=(Token)match(input,RULE_STRING,FOLLOW_2); if (state.failed) return current;
+                    lv_vals_0_2=(Token)match(input,RULE_ID,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
-                      					newLeafNode(lv_vals_0_2, grammarAccess.getStringyAccess().getValsSTRINGTerminalRuleCall_0_1());
+                      					newLeafNode(lv_vals_0_2, grammarAccess.getVariableyAccess().getValsIDTerminalRuleCall_0_1());
                       				
                     }
                     if ( state.backtracking==0 ) {
 
                       					if (current==null) {
-                      						current = createModelElement(grammarAccess.getStringyRule());
+                      						current = createModelElement(grammarAccess.getVariableyRule());
                       					}
                       					addWithLastConsumed(
                       						current,
                       						"vals",
                       						lv_vals_0_2,
-                      						"org.eclipse.xtext.common.Terminals.STRING");
-                      				
-                    }
-
-                    }
-                    break;
-                case 3 :
-                    // InternalTyphonQL.g:657:5: lv_vals_0_3= RULE_ID
-                    {
-                    lv_vals_0_3=(Token)match(input,RULE_ID,FOLLOW_2); if (state.failed) return current;
-                    if ( state.backtracking==0 ) {
-
-                      					newLeafNode(lv_vals_0_3, grammarAccess.getStringyAccess().getValsIDTerminalRuleCall_0_2());
-                      				
-                    }
-                    if ( state.backtracking==0 ) {
-
-                      					if (current==null) {
-                      						current = createModelElement(grammarAccess.getStringyRule());
-                      					}
-                      					addWithLastConsumed(
-                      						current,
-                      						"vals",
-                      						lv_vals_0_3,
                       						"org.eclipse.xtext.common.Terminals.ID");
                       				
                     }
 
                     }
                     break;
-                case 4 :
-                    // InternalTyphonQL.g:672:5: lv_vals_0_4= RULE_ANY_OTHER
+                case 3 :
+                    // InternalTyphonQL.g:708:5: lv_vals_0_3= RULE_ANY_OTHER
                     {
-                    lv_vals_0_4=(Token)match(input,RULE_ANY_OTHER,FOLLOW_2); if (state.failed) return current;
+                    lv_vals_0_3=(Token)match(input,RULE_ANY_OTHER,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
-                      					newLeafNode(lv_vals_0_4, grammarAccess.getStringyAccess().getValsANY_OTHERTerminalRuleCall_0_3());
+                      					newLeafNode(lv_vals_0_3, grammarAccess.getVariableyAccess().getValsANY_OTHERTerminalRuleCall_0_2());
                       				
                     }
                     if ( state.backtracking==0 ) {
 
                       					if (current==null) {
-                      						current = createModelElement(grammarAccess.getStringyRule());
+                      						current = createModelElement(grammarAccess.getVariableyRule());
                       					}
                       					addWithLastConsumed(
                       						current,
                       						"vals",
-                      						lv_vals_0_4,
+                      						lv_vals_0_3,
                       						"org.eclipse.xtext.common.Terminals.ANY_OTHER");
                       				
                     }
@@ -1817,7 +1927,7 @@ public class InternalTyphonQLParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end "ruleStringy"
+    // $ANTLR end "ruleVariabley"
 
     // Delegated rules
 

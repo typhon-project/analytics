@@ -13,7 +13,7 @@ import java.util.ArrayList;
 @SuppressWarnings("all")
 public class InternalTyphonQLLexer extends Lexer {
     public static final int RULE_VALUE_TERMINAL=4;
-    public static final int RULE_STRING=5;
+    public static final int RULE_STRING=7;
     public static final int RULE_SL_COMMENT=10;
     public static final int T__19=19;
     public static final int T__15=15;
@@ -24,9 +24,9 @@ public class InternalTyphonQLLexer extends Lexer {
     public static final int T__13=13;
     public static final int T__14=14;
     public static final int EOF=-1;
-    public static final int RULE_ID=6;
+    public static final int RULE_ID=5;
     public static final int RULE_WS=11;
-    public static final int RULE_ANY_OTHER=7;
+    public static final int RULE_ANY_OTHER=6;
     public static final int RULE_INT=8;
     public static final int RULE_ML_COMMENT=9;
     public static final int T__20=20;
@@ -255,10 +255,10 @@ public class InternalTyphonQLLexer extends Lexer {
         try {
             int _type = RULE_VALUE_TERMINAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalTyphonQL.g:1570:21: ( ( '0' .. '9' )+ )
-            // InternalTyphonQL.g:1570:23: ( '0' .. '9' )+
+            // InternalTyphonQL.g:1610:21: ( ( '0' .. '9' )+ )
+            // InternalTyphonQL.g:1610:23: ( '0' .. '9' )+
             {
-            // InternalTyphonQL.g:1570:23: ( '0' .. '9' )+
+            // InternalTyphonQL.g:1610:23: ( '0' .. '9' )+
             int cnt1=0;
             loop1:
             do {
@@ -272,7 +272,7 @@ public class InternalTyphonQLLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // InternalTyphonQL.g:1570:24: '0' .. '9'
+            	    // InternalTyphonQL.g:1610:24: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -304,10 +304,10 @@ public class InternalTyphonQLLexer extends Lexer {
         try {
             int _type = RULE_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalTyphonQL.g:1572:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
-            // InternalTyphonQL.g:1572:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // InternalTyphonQL.g:1612:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
+            // InternalTyphonQL.g:1612:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             {
-            // InternalTyphonQL.g:1572:11: ( '^' )?
+            // InternalTyphonQL.g:1612:11: ( '^' )?
             int alt2=2;
             int LA2_0 = input.LA(1);
 
@@ -316,7 +316,7 @@ public class InternalTyphonQLLexer extends Lexer {
             }
             switch (alt2) {
                 case 1 :
-                    // InternalTyphonQL.g:1572:11: '^'
+                    // InternalTyphonQL.g:1612:11: '^'
                     {
                     match('^'); 
 
@@ -334,7 +334,7 @@ public class InternalTyphonQLLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // InternalTyphonQL.g:1572:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // InternalTyphonQL.g:1612:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             loop3:
             do {
                 int alt3=2;
@@ -383,10 +383,10 @@ public class InternalTyphonQLLexer extends Lexer {
         try {
             int _type = RULE_INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalTyphonQL.g:1574:10: ( ( '0' .. '9' )+ )
-            // InternalTyphonQL.g:1574:12: ( '0' .. '9' )+
+            // InternalTyphonQL.g:1614:10: ( ( '0' .. '9' )+ )
+            // InternalTyphonQL.g:1614:12: ( '0' .. '9' )+
             {
-            // InternalTyphonQL.g:1574:12: ( '0' .. '9' )+
+            // InternalTyphonQL.g:1614:12: ( '0' .. '9' )+
             int cnt4=0;
             loop4:
             do {
@@ -400,7 +400,7 @@ public class InternalTyphonQLLexer extends Lexer {
 
                 switch (alt4) {
             	case 1 :
-            	    // InternalTyphonQL.g:1574:13: '0' .. '9'
+            	    // InternalTyphonQL.g:1614:13: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -432,10 +432,10 @@ public class InternalTyphonQLLexer extends Lexer {
         try {
             int _type = RULE_STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalTyphonQL.g:1576:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
-            // InternalTyphonQL.g:1576:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // InternalTyphonQL.g:1616:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
+            // InternalTyphonQL.g:1616:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             {
-            // InternalTyphonQL.g:1576:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // InternalTyphonQL.g:1616:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             int alt7=2;
             int LA7_0 = input.LA(1);
 
@@ -453,10 +453,10 @@ public class InternalTyphonQLLexer extends Lexer {
             }
             switch (alt7) {
                 case 1 :
-                    // InternalTyphonQL.g:1576:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
+                    // InternalTyphonQL.g:1616:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
                     {
                     match('\"'); 
-                    // InternalTyphonQL.g:1576:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
+                    // InternalTyphonQL.g:1616:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
                     loop5:
                     do {
                         int alt5=3;
@@ -472,7 +472,7 @@ public class InternalTyphonQLLexer extends Lexer {
 
                         switch (alt5) {
                     	case 1 :
-                    	    // InternalTyphonQL.g:1576:21: '\\\\' .
+                    	    // InternalTyphonQL.g:1616:21: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -480,7 +480,7 @@ public class InternalTyphonQLLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // InternalTyphonQL.g:1576:28: ~ ( ( '\\\\' | '\"' ) )
+                    	    // InternalTyphonQL.g:1616:28: ~ ( ( '\\\\' | '\"' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -505,10 +505,10 @@ public class InternalTyphonQLLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // InternalTyphonQL.g:1576:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
+                    // InternalTyphonQL.g:1616:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
                     {
                     match('\''); 
-                    // InternalTyphonQL.g:1576:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
+                    // InternalTyphonQL.g:1616:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
                     loop6:
                     do {
                         int alt6=3;
@@ -524,7 +524,7 @@ public class InternalTyphonQLLexer extends Lexer {
 
                         switch (alt6) {
                     	case 1 :
-                    	    // InternalTyphonQL.g:1576:54: '\\\\' .
+                    	    // InternalTyphonQL.g:1616:54: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -532,7 +532,7 @@ public class InternalTyphonQLLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // InternalTyphonQL.g:1576:61: ~ ( ( '\\\\' | '\\'' ) )
+                    	    // InternalTyphonQL.g:1616:61: ~ ( ( '\\\\' | '\\'' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -575,12 +575,12 @@ public class InternalTyphonQLLexer extends Lexer {
         try {
             int _type = RULE_ML_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalTyphonQL.g:1578:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // InternalTyphonQL.g:1578:19: '/*' ( options {greedy=false; } : . )* '*/'
+            // InternalTyphonQL.g:1618:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // InternalTyphonQL.g:1618:19: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // InternalTyphonQL.g:1578:24: ( options {greedy=false; } : . )*
+            // InternalTyphonQL.g:1618:24: ( options {greedy=false; } : . )*
             loop8:
             do {
                 int alt8=2;
@@ -605,7 +605,7 @@ public class InternalTyphonQLLexer extends Lexer {
 
                 switch (alt8) {
             	case 1 :
-            	    // InternalTyphonQL.g:1578:52: .
+            	    // InternalTyphonQL.g:1618:52: .
             	    {
             	    matchAny(); 
 
@@ -635,12 +635,12 @@ public class InternalTyphonQLLexer extends Lexer {
         try {
             int _type = RULE_SL_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalTyphonQL.g:1580:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
-            // InternalTyphonQL.g:1580:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
+            // InternalTyphonQL.g:1620:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
+            // InternalTyphonQL.g:1620:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
             {
             match("//"); 
 
-            // InternalTyphonQL.g:1580:24: (~ ( ( '\\n' | '\\r' ) ) )*
+            // InternalTyphonQL.g:1620:24: (~ ( ( '\\n' | '\\r' ) ) )*
             loop9:
             do {
                 int alt9=2;
@@ -653,7 +653,7 @@ public class InternalTyphonQLLexer extends Lexer {
 
                 switch (alt9) {
             	case 1 :
-            	    // InternalTyphonQL.g:1580:24: ~ ( ( '\\n' | '\\r' ) )
+            	    // InternalTyphonQL.g:1620:24: ~ ( ( '\\n' | '\\r' ) )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -673,7 +673,7 @@ public class InternalTyphonQLLexer extends Lexer {
                 }
             } while (true);
 
-            // InternalTyphonQL.g:1580:40: ( ( '\\r' )? '\\n' )?
+            // InternalTyphonQL.g:1620:40: ( ( '\\r' )? '\\n' )?
             int alt11=2;
             int LA11_0 = input.LA(1);
 
@@ -682,9 +682,9 @@ public class InternalTyphonQLLexer extends Lexer {
             }
             switch (alt11) {
                 case 1 :
-                    // InternalTyphonQL.g:1580:41: ( '\\r' )? '\\n'
+                    // InternalTyphonQL.g:1620:41: ( '\\r' )? '\\n'
                     {
-                    // InternalTyphonQL.g:1580:41: ( '\\r' )?
+                    // InternalTyphonQL.g:1620:41: ( '\\r' )?
                     int alt10=2;
                     int LA10_0 = input.LA(1);
 
@@ -693,7 +693,7 @@ public class InternalTyphonQLLexer extends Lexer {
                     }
                     switch (alt10) {
                         case 1 :
-                            // InternalTyphonQL.g:1580:41: '\\r'
+                            // InternalTyphonQL.g:1620:41: '\\r'
                             {
                             match('\r'); 
 
@@ -725,10 +725,10 @@ public class InternalTyphonQLLexer extends Lexer {
         try {
             int _type = RULE_WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalTyphonQL.g:1582:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
-            // InternalTyphonQL.g:1582:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // InternalTyphonQL.g:1622:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+            // InternalTyphonQL.g:1622:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             {
-            // InternalTyphonQL.g:1582:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // InternalTyphonQL.g:1622:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             int cnt12=0;
             loop12:
             do {
@@ -782,8 +782,8 @@ public class InternalTyphonQLLexer extends Lexer {
         try {
             int _type = RULE_ANY_OTHER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalTyphonQL.g:1584:16: ( . )
-            // InternalTyphonQL.g:1584:18: .
+            // InternalTyphonQL.g:1624:16: ( . )
+            // InternalTyphonQL.g:1624:18: .
             {
             matchAny(); 
 

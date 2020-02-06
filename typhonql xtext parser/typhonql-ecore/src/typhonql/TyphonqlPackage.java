@@ -353,6 +353,43 @@ public interface TyphonqlPackage extends EPackage {
 	int STRING_FEATURE_COUNT = EXPR_FEATURE_COUNT + 1;
 
 	/**
+	 * The meta object id for the '{@link typhonql.impl.VariableImpl <em>Variable</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see typhonql.impl.VariableImpl
+	 * @see typhonql.impl.TyphonqlPackageImpl#getVariable()
+	 * @generated
+	 */
+	int VARIABLE = 8;
+
+	/**
+	 * The feature id for the '<em><b>Exprs</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VARIABLE__EXPRS = EXPR__EXPRS;
+
+	/**
+	 * The feature id for the '<em><b>Vals</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VARIABLE__VALS = EXPR_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Variable</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VARIABLE_FEATURE_COUNT = EXPR_FEATURE_COUNT + 1;
+
+	/**
 	 * Returns the meta object for class '{@link typhonql.Queries <em>Queries</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -587,6 +624,27 @@ public interface TyphonqlPackage extends EPackage {
 	EAttribute getString_Vals();
 
 	/**
+	 * Returns the meta object for class '{@link typhonql.Variable <em>Variable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Variable</em>'.
+	 * @see typhonql.Variable
+	 * @generated
+	 */
+	EClass getVariable();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link typhonql.Variable#getVals <em>Vals</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Vals</em>'.
+	 * @see typhonql.Variable#getVals()
+	 * @see #getVariable()
+	 * @generated
+	 */
+	EAttribute getVariable_Vals();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -799,6 +857,24 @@ public interface TyphonqlPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute STRING__VALS = eINSTANCE.getString_Vals();
+
+		/**
+		 * The meta object literal for the '{@link typhonql.impl.VariableImpl <em>Variable</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see typhonql.impl.VariableImpl
+		 * @see typhonql.impl.TyphonqlPackageImpl#getVariable()
+		 * @generated
+		 */
+		EClass VARIABLE = eINSTANCE.getVariable();
+
+		/**
+		 * The meta object literal for the '<em><b>Vals</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VARIABLE__VALS = eINSTANCE.getVariable_Vals();
 
 	}
 

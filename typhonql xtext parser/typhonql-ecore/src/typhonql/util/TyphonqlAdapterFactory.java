@@ -17,6 +17,7 @@ import typhonql.Queries;
 import typhonql.Query;
 import typhonql.TyphonqlPackage;
 import typhonql.Update;
+import typhonql.Variable;
 import typhonql.*;
 
 /**
@@ -106,6 +107,10 @@ public class TyphonqlAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseString(typhonql.String object) {
 				return createStringAdapter();
+			}
+			@Override
+			public Adapter caseVariable(Variable object) {
+				return createVariableAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -236,6 +241,20 @@ public class TyphonqlAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createStringAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link typhonql.Variable <em>Variable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see typhonql.Variable
+	 * @generated
+	 */
+	public Adapter createVariableAdapter() {
 		return null;
 	}
 

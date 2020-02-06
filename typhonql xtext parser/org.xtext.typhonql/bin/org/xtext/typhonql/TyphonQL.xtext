@@ -20,10 +20,13 @@ Obj:
 	('@'label=ID)? eid=ID '{' (set+=Expr)? (',' set+=Expr)* '}';
 
 Expr returns Expr:
-	exprs+=(Stringy | Obj)+;
+	exprs+=(Stringy | Variabley | Obj)+;
 
 Stringy returns String:
-	vals+=( VALUE_TERMINAL | STRING | ID | ANY_OTHER );
+	vals+=( STRING );
+
+Variabley returns Variable:
+	vals+=( VALUE_TERMINAL | ID | ANY_OTHER);
 
 terminal VALUE_TERMINAL returns ecore::EString: 
 ( '0' .. '9' )+ ;

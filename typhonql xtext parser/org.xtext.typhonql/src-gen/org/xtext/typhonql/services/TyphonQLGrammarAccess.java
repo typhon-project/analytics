@@ -302,54 +302,69 @@ public class TyphonQLGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cExprsAssignment = (Assignment)rule.eContents().get(1);
 		private final Alternatives cExprsAlternatives_0 = (Alternatives)cExprsAssignment.eContents().get(0);
 		private final RuleCall cExprsStringyParserRuleCall_0_0 = (RuleCall)cExprsAlternatives_0.eContents().get(0);
-		private final RuleCall cExprsObjParserRuleCall_0_1 = (RuleCall)cExprsAlternatives_0.eContents().get(1);
+		private final RuleCall cExprsVariableyParserRuleCall_0_1 = (RuleCall)cExprsAlternatives_0.eContents().get(1);
+		private final RuleCall cExprsObjParserRuleCall_0_2 = (RuleCall)cExprsAlternatives_0.eContents().get(2);
 		
 		//Expr:
-		//	exprs+=(Stringy | Obj)+;
+		//	exprs+=(Stringy | Variabley | Obj)+;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//exprs+=(Stringy | Obj)+
+		//exprs+=(Stringy | Variabley | Obj)+
 		public Assignment getExprsAssignment() { return cExprsAssignment; }
 		
-		//(Stringy | Obj)
+		//(Stringy | Variabley | Obj)
 		public Alternatives getExprsAlternatives_0() { return cExprsAlternatives_0; }
 		
 		//Stringy
 		public RuleCall getExprsStringyParserRuleCall_0_0() { return cExprsStringyParserRuleCall_0_0; }
 		
+		//Variabley
+		public RuleCall getExprsVariableyParserRuleCall_0_1() { return cExprsVariableyParserRuleCall_0_1; }
+		
 		//Obj
-		public RuleCall getExprsObjParserRuleCall_0_1() { return cExprsObjParserRuleCall_0_1; }
+		public RuleCall getExprsObjParserRuleCall_0_2() { return cExprsObjParserRuleCall_0_2; }
 	}
 	public class StringyElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.typhonql.TyphonQL.Stringy");
 		private final Assignment cValsAssignment = (Assignment)rule.eContents().get(1);
-		private final Alternatives cValsAlternatives_0 = (Alternatives)cValsAssignment.eContents().get(0);
-		private final RuleCall cValsVALUE_TERMINALTerminalRuleCall_0_0 = (RuleCall)cValsAlternatives_0.eContents().get(0);
-		private final RuleCall cValsSTRINGTerminalRuleCall_0_1 = (RuleCall)cValsAlternatives_0.eContents().get(1);
-		private final RuleCall cValsIDTerminalRuleCall_0_2 = (RuleCall)cValsAlternatives_0.eContents().get(2);
-		private final RuleCall cValsANY_OTHERTerminalRuleCall_0_3 = (RuleCall)cValsAlternatives_0.eContents().get(3);
+		private final RuleCall cValsSTRINGTerminalRuleCall_0 = (RuleCall)cValsAssignment.eContents().get(0);
 		
 		//Stringy String:
-		//	vals+=(VALUE_TERMINAL | STRING | ID | ANY_OTHER);
+		//	vals+=STRING;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//vals+=(VALUE_TERMINAL | STRING | ID | ANY_OTHER)
+		//vals+=STRING
 		public Assignment getValsAssignment() { return cValsAssignment; }
 		
-		//(VALUE_TERMINAL | STRING | ID | ANY_OTHER)
+		//STRING
+		public RuleCall getValsSTRINGTerminalRuleCall_0() { return cValsSTRINGTerminalRuleCall_0; }
+	}
+	public class VariableyElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.typhonql.TyphonQL.Variabley");
+		private final Assignment cValsAssignment = (Assignment)rule.eContents().get(1);
+		private final Alternatives cValsAlternatives_0 = (Alternatives)cValsAssignment.eContents().get(0);
+		private final RuleCall cValsVALUE_TERMINALTerminalRuleCall_0_0 = (RuleCall)cValsAlternatives_0.eContents().get(0);
+		private final RuleCall cValsIDTerminalRuleCall_0_1 = (RuleCall)cValsAlternatives_0.eContents().get(1);
+		private final RuleCall cValsANY_OTHERTerminalRuleCall_0_2 = (RuleCall)cValsAlternatives_0.eContents().get(2);
+		
+		//Variabley Variable:
+		//	vals+=(VALUE_TERMINAL | ID | ANY_OTHER);
+		@Override public ParserRule getRule() { return rule; }
+		
+		//vals+=(VALUE_TERMINAL | ID | ANY_OTHER)
+		public Assignment getValsAssignment() { return cValsAssignment; }
+		
+		//(VALUE_TERMINAL | ID | ANY_OTHER)
 		public Alternatives getValsAlternatives_0() { return cValsAlternatives_0; }
 		
 		//VALUE_TERMINAL
 		public RuleCall getValsVALUE_TERMINALTerminalRuleCall_0_0() { return cValsVALUE_TERMINALTerminalRuleCall_0_0; }
 		
-		//STRING
-		public RuleCall getValsSTRINGTerminalRuleCall_0_1() { return cValsSTRINGTerminalRuleCall_0_1; }
-		
 		//ID
-		public RuleCall getValsIDTerminalRuleCall_0_2() { return cValsIDTerminalRuleCall_0_2; }
+		public RuleCall getValsIDTerminalRuleCall_0_1() { return cValsIDTerminalRuleCall_0_1; }
 		
 		//ANY_OTHER
-		public RuleCall getValsANY_OTHERTerminalRuleCall_0_3() { return cValsANY_OTHERTerminalRuleCall_0_3; }
+		public RuleCall getValsANY_OTHERTerminalRuleCall_0_2() { return cValsANY_OTHERTerminalRuleCall_0_2; }
 	}
 	
 	
@@ -360,6 +375,7 @@ public class TyphonQLGrammarAccess extends AbstractGrammarElementFinder {
 	private final ObjElements pObj;
 	private final ExprElements pExpr;
 	private final StringyElements pStringy;
+	private final VariableyElements pVariabley;
 	private final TerminalRule tVALUE_TERMINAL;
 	
 	private final Grammar grammar;
@@ -378,6 +394,7 @@ public class TyphonQLGrammarAccess extends AbstractGrammarElementFinder {
 		this.pObj = new ObjElements();
 		this.pExpr = new ExprElements();
 		this.pStringy = new StringyElements();
+		this.pVariabley = new VariableyElements();
 		this.tVALUE_TERMINAL = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.typhonql.TyphonQL.VALUE_TERMINAL");
 	}
 	
@@ -459,7 +476,7 @@ public class TyphonQLGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//Expr:
-	//	exprs+=(Stringy | Obj)+;
+	//	exprs+=(Stringy | Variabley | Obj)+;
 	public ExprElements getExprAccess() {
 		return pExpr;
 	}
@@ -469,13 +486,23 @@ public class TyphonQLGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//Stringy String:
-	//	vals+=(VALUE_TERMINAL | STRING | ID | ANY_OTHER);
+	//	vals+=STRING;
 	public StringyElements getStringyAccess() {
 		return pStringy;
 	}
 	
 	public ParserRule getStringyRule() {
 		return getStringyAccess().getRule();
+	}
+	
+	//Variabley Variable:
+	//	vals+=(VALUE_TERMINAL | ID | ANY_OTHER);
+	public VariableyElements getVariableyAccess() {
+		return pVariabley;
+	}
+	
+	public ParserRule getVariableyRule() {
+		return getVariableyAccess().getRule();
 	}
 	
 	//terminal VALUE_TERMINAL:

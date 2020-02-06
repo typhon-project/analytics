@@ -19,6 +19,7 @@ import typhonql.Query;
 import typhonql.TyphonqlFactory;
 import typhonql.TyphonqlPackage;
 import typhonql.Update;
+import typhonql.Variable;
 
 /**
  * <!-- begin-user-doc -->
@@ -82,6 +83,13 @@ public class TyphonqlPackageImpl extends EPackageImpl implements TyphonqlPackage
 	 * @generated
 	 */
 	private EClass stringEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass variableEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -370,6 +378,26 @@ public class TyphonqlPackageImpl extends EPackageImpl implements TyphonqlPackage
 	 * @generated
 	 */
 	@Override
+	public EClass getVariable() {
+		return variableEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getVariable_Vals() {
+		return (EAttribute)variableEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public TyphonqlFactory getTyphonqlFactory() {
 		return (TyphonqlFactory)getEFactoryInstance();
 	}
@@ -422,6 +450,9 @@ public class TyphonqlPackageImpl extends EPackageImpl implements TyphonqlPackage
 
 		stringEClass = createEClass(STRING);
 		createEAttribute(stringEClass, STRING__VALS);
+
+		variableEClass = createEClass(VARIABLE);
+		createEAttribute(variableEClass, VARIABLE__VALS);
 	}
 
 	/**
@@ -457,6 +488,7 @@ public class TyphonqlPackageImpl extends EPackageImpl implements TyphonqlPackage
 		updateEClass.getESuperTypes().add(this.getQuery());
 		objEClass.getESuperTypes().add(this.getExpr());
 		stringEClass.getESuperTypes().add(this.getExpr());
+		variableEClass.getESuperTypes().add(this.getExpr());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(queriesEClass, Queries.class, "Queries", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -488,6 +520,9 @@ public class TyphonqlPackageImpl extends EPackageImpl implements TyphonqlPackage
 
 		initEClass(stringEClass, typhonql.String.class, "String", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getString_Vals(), ecorePackage.getEString(), "vals", null, 0, -1, typhonql.String.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(variableEClass, Variable.class, "Variable", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getVariable_Vals(), ecorePackage.getEString(), "vals", null, 0, -1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

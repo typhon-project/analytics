@@ -587,9 +587,9 @@ ruleExpr returns [EObject current=null]
 				}
 				    |
 				{
-					newCompositeNode(grammarAccess.getExprAccess().getExprsObjParserRuleCall_0_1());
+					newCompositeNode(grammarAccess.getExprAccess().getExprsVariableyParserRuleCall_0_1());
 				}
-				lv_exprs_0_2=ruleObj
+				lv_exprs_0_2=ruleVariabley
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getExprRule());
@@ -598,6 +598,22 @@ ruleExpr returns [EObject current=null]
 						$current,
 						"exprs",
 						lv_exprs_0_2,
+						"org.xtext.typhonql.TyphonQL.Variabley");
+					afterParserOrEnumRuleCall();
+				}
+				    |
+				{
+					newCompositeNode(grammarAccess.getExprAccess().getExprsObjParserRuleCall_0_2());
+				}
+				lv_exprs_0_3=ruleObj
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getExprRule());
+					}
+					add(
+						$current,
+						"exprs",
+						lv_exprs_0_3,
 						"org.xtext.typhonql.TyphonQL.Obj");
 					afterParserOrEnumRuleCall();
 				}
@@ -623,14 +639,49 @@ ruleStringy returns [EObject current=null]
 }:
 	(
 		(
+			lv_vals_0_0=RULE_STRING
+			{
+				newLeafNode(lv_vals_0_0, grammarAccess.getStringyAccess().getValsSTRINGTerminalRuleCall_0());
+			}
+			{
+				if ($current==null) {
+					$current = createModelElement(grammarAccess.getStringyRule());
+				}
+				addWithLastConsumed(
+					$current,
+					"vals",
+					lv_vals_0_0,
+					"org.eclipse.xtext.common.Terminals.STRING");
+			}
+		)
+	)
+;
+
+// Entry rule entryRuleVariabley
+entryRuleVariabley returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getVariableyRule()); }
+	iv_ruleVariabley=ruleVariabley
+	{ $current=$iv_ruleVariabley.current; }
+	EOF;
+
+// Rule Variabley
+ruleVariabley returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		(
 			(
 				lv_vals_0_1=RULE_VALUE_TERMINAL
 				{
-					newLeafNode(lv_vals_0_1, grammarAccess.getStringyAccess().getValsVALUE_TERMINALTerminalRuleCall_0_0());
+					newLeafNode(lv_vals_0_1, grammarAccess.getVariableyAccess().getValsVALUE_TERMINALTerminalRuleCall_0_0());
 				}
 				{
 					if ($current==null) {
-						$current = createModelElement(grammarAccess.getStringyRule());
+						$current = createModelElement(grammarAccess.getVariableyRule());
 					}
 					addWithLastConsumed(
 						$current,
@@ -639,48 +690,33 @@ ruleStringy returns [EObject current=null]
 						"org.xtext.typhonql.TyphonQL.VALUE_TERMINAL");
 				}
 				    |
-				lv_vals_0_2=RULE_STRING
+				lv_vals_0_2=RULE_ID
 				{
-					newLeafNode(lv_vals_0_2, grammarAccess.getStringyAccess().getValsSTRINGTerminalRuleCall_0_1());
+					newLeafNode(lv_vals_0_2, grammarAccess.getVariableyAccess().getValsIDTerminalRuleCall_0_1());
 				}
 				{
 					if ($current==null) {
-						$current = createModelElement(grammarAccess.getStringyRule());
+						$current = createModelElement(grammarAccess.getVariableyRule());
 					}
 					addWithLastConsumed(
 						$current,
 						"vals",
 						lv_vals_0_2,
-						"org.eclipse.xtext.common.Terminals.STRING");
+						"org.eclipse.xtext.common.Terminals.ID");
 				}
 				    |
-				lv_vals_0_3=RULE_ID
+				lv_vals_0_3=RULE_ANY_OTHER
 				{
-					newLeafNode(lv_vals_0_3, grammarAccess.getStringyAccess().getValsIDTerminalRuleCall_0_2());
+					newLeafNode(lv_vals_0_3, grammarAccess.getVariableyAccess().getValsANY_OTHERTerminalRuleCall_0_2());
 				}
 				{
 					if ($current==null) {
-						$current = createModelElement(grammarAccess.getStringyRule());
+						$current = createModelElement(grammarAccess.getVariableyRule());
 					}
 					addWithLastConsumed(
 						$current,
 						"vals",
 						lv_vals_0_3,
-						"org.eclipse.xtext.common.Terminals.ID");
-				}
-				    |
-				lv_vals_0_4=RULE_ANY_OTHER
-				{
-					newLeafNode(lv_vals_0_4, grammarAccess.getStringyAccess().getValsANY_OTHERTerminalRuleCall_0_3());
-				}
-				{
-					if ($current==null) {
-						$current = createModelElement(grammarAccess.getStringyRule());
-					}
-					addWithLastConsumed(
-						$current,
-						"vals",
-						lv_vals_0_4,
 						"org.eclipse.xtext.common.Terminals.ANY_OTHER");
 				}
 			)

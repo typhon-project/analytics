@@ -33,7 +33,7 @@ public class TyphonQLParser extends AbstractContentAssistParser {
 		private static void init(ImmutableMap.Builder<AbstractElement, String> builder, TyphonQLGrammarAccess grammarAccess) {
 			builder.put(grammarAccess.getQueriesAccess().getQueriesAlternatives_0(), "rule__Queries__QueriesAlternatives_0");
 			builder.put(grammarAccess.getExprAccess().getExprsAlternatives_0(), "rule__Expr__ExprsAlternatives_0");
-			builder.put(grammarAccess.getStringyAccess().getValsAlternatives_0(), "rule__Stringy__ValsAlternatives_0");
+			builder.put(grammarAccess.getVariableyAccess().getValsAlternatives_0(), "rule__Variabley__ValsAlternatives_0");
 			builder.put(grammarAccess.getUpdateAccess().getGroup(), "rule__Update__Group__0");
 			builder.put(grammarAccess.getUpdateAccess().getGroup_3(), "rule__Update__Group_3__0");
 			builder.put(grammarAccess.getUpdateAccess().getGroup_7(), "rule__Update__Group_7__0");
@@ -61,6 +61,7 @@ public class TyphonQLParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getObjAccess().getSetAssignment_4_1(), "rule__Obj__SetAssignment_4_1");
 			builder.put(grammarAccess.getExprAccess().getExprsAssignment(), "rule__Expr__ExprsAssignment");
 			builder.put(grammarAccess.getStringyAccess().getValsAssignment(), "rule__Stringy__ValsAssignment");
+			builder.put(grammarAccess.getVariableyAccess().getValsAssignment(), "rule__Variabley__ValsAssignment");
 		}
 	}
 	

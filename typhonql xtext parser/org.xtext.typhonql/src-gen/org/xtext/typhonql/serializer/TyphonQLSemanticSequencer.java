@@ -20,6 +20,7 @@ import typhonql.Obj;
 import typhonql.Queries;
 import typhonql.TyphonqlPackage;
 import typhonql.Update;
+import typhonql.Variable;
 
 @SuppressWarnings("all")
 public class TyphonQLSemanticSequencer extends AbstractDelegatingSemanticSequencer {
@@ -56,6 +57,9 @@ public class TyphonQLSemanticSequencer extends AbstractDelegatingSemanticSequenc
 			case TyphonqlPackage.UPDATE:
 				sequence_Update(context, (Update) semanticObject); 
 				return; 
+			case TyphonqlPackage.VARIABLE:
+				sequence_Variabley(context, (Variable) semanticObject); 
+				return; 
 			}
 		if (errorAcceptor != null)
 			errorAcceptor.accept(diagnosticProvider.createInvalidContextOrTypeDiagnostic(semanticObject, context));
@@ -78,7 +82,7 @@ public class TyphonQLSemanticSequencer extends AbstractDelegatingSemanticSequenc
 	 *     Expr returns Expr
 	 *
 	 * Constraint:
-	 *     (exprs+=Stringy | exprs+=Obj)+
+	 *     (exprs+=Stringy | exprs+=Variabley | exprs+=Obj)+
 	 */
 	protected void sequence_Expr(ISerializationContext context, Expr semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -126,7 +130,7 @@ public class TyphonQLSemanticSequencer extends AbstractDelegatingSemanticSequenc
 	 *     Stringy returns String
 	 *
 	 * Constraint:
-	 *     (vals+=VALUE_TERMINAL | vals+=STRING | vals+=ID | vals+=ANY_OTHER)
+	 *     vals+=STRING
 	 */
 	protected void sequence_Stringy(ISerializationContext context, typhonql.String semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -141,6 +145,18 @@ public class TyphonQLSemanticSequencer extends AbstractDelegatingSemanticSequenc
 	 *     (eid=ID vid=ID where+=Expr? set+=Expr? set+=Expr*)
 	 */
 	protected void sequence_Update(ISerializationContext context, Update semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Variabley returns Variable
+	 *
+	 * Constraint:
+	 *     (vals+=VALUE_TERMINAL | vals+=ID | vals+=ANY_OTHER)
+	 */
+	protected void sequence_Variabley(ISerializationContext context, Variable semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	

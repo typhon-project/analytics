@@ -18,6 +18,7 @@ import typhonql.Queries;
 import typhonql.TyphonqlFactory;
 import typhonql.TyphonqlPackage;
 import typhonql.Update;
+import typhonql.Variable;
 import typhonql.*;
 
 /**
@@ -71,6 +72,7 @@ public class TyphonqlFactoryImpl extends EFactoryImpl implements TyphonqlFactory
 			case TyphonqlPackage.EXPR: return createExpr();
 			case TyphonqlPackage.OBJ: return createObj();
 			case TyphonqlPackage.STRING: return createString();
+			case TyphonqlPackage.VARIABLE: return createVariable();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -151,6 +153,17 @@ public class TyphonqlFactoryImpl extends EFactoryImpl implements TyphonqlFactory
 	public typhonql.String createString() {
 		StringImpl string = new StringImpl();
 		return string;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Variable createVariable() {
+		VariableImpl variable = new VariableImpl();
+		return variable;
 	}
 
 	/**

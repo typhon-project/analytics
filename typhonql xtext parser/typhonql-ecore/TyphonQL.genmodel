@@ -34,5 +34,8 @@
     <genClasses ecoreClass="TyphonQL.ecore#//String">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TyphonQL.ecore#//String/vals"/>
     </genClasses>
+    <genClasses ecoreClass="TyphonQL.ecore#//Variable">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TyphonQL.ecore#//Variable/vals"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>
