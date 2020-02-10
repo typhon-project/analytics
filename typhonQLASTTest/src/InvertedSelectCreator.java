@@ -1,6 +1,12 @@
+import java.lang.reflect.Method;
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
+
+import org.typhon.entities.Entity;
 
 import engineering.swat.typhonql.ast.ASTConversionException;
 import engineering.swat.typhonql.ast.Expr;
@@ -40,13 +46,111 @@ public class InvertedSelectCreator {
 //		r = new InvertedSelectCreator().createRequest("update Order o where totalAmount == 23 && paidWith == @cc CreditCard { number: \"12345678\" } set { name: \"TVV\"}");
 //		new InvertedSelectCreator().createInvertedSelect(r);
 //		
-		
+		new InvertedSelectCreator().createUpdateParser("update User u where u.name == \"alice\" set { name: \"bob\" }");
+		new InvertedSelectCreator()
+				.createUpdateParser("update User u where u.name == \"alice\" set { review: Review { name : 5 } }");
+	}
+
+	public Entity createUpdateParser(String req) throws Exception {
+
+		Request request = createRequest(req);
+
+		HashMap<String, Object> KVmappings = parseKeyVals(request.getStm().getKeyVals());
+		String entityType = request.getStm().getBinding().getEntity().getString();
+
+		Class<?> clazz = Class.forName("org.typhon.entities." + entityType);
+		Entity entity = (Entity) clazz.getConstructor().newInstance();
+
+		for (Entry<String, Object> kv : KVmappings.entrySet()) {
+
+			String methodName = "set" + kv.getKey().split("::")[1].substring(0, 1).toUpperCase()
+					+ kv.getKey().split("::")[1].substring(1);
+
+			Method setter = clazz.getMethod(methodName, Class.forName(kv.getKey().split("::")[0]));
+
+			setter.invoke(entity, kv.getValue());
+
+			// entity
+
+		}
+
+		System.out.println(entityType + "::" + KVmappings);
+		System.out.println(entity);
+
+		// user.setName(name);
+
+		return entity;
+	}
+
+	public HashMap<String, Object> parseKeyVals(List<KeyVal> vals) {
+		HashMap<String, Object> ret = new HashMap<>();
+		for (KeyVal val : vals) {
+			Entry<String, Object> e = getValue(val.getValue());
+			ret.put(e.getKey() + "::" + val.getKey().getString(), e.getValue());
+		}
+		return ret;
+	}
+
+	public Entry<String, Object> getValue(Expr e) {
+
+		if (e.isStr())
+			return new AbstractMap.SimpleEntry<>(e.getStrValue().getString().getClass().getName(),
+					e.getStrValue().getString());
+		else if (e.isVar())
+			return new AbstractMap.SimpleEntry<>(e.getClass().getName(), e.getVar());
+		else if (e.isInt())
+			return new AbstractMap.SimpleEntry<>(e.getClass().getName(), e.getIntValue());
+		else if (e.isBool())
+			return new AbstractMap.SimpleEntry<>(e.getClass().getName(), e.getBoolValue());
+		else if (e.isReal())
+			return new AbstractMap.SimpleEntry<>(e.getClass().getName(), e.getRealValue());
+		else if (e.isDt())
+			return new AbstractMap.SimpleEntry<>(e.getClass().getName(), e.getDtValue().getDateTime());// TODO see
+																										// if
+																										// this
+																										// works
+		//
+		else if (e.isAttr()) {
+			String ret = "";
+			if (e.hasVar())
+				ret += e.getVar() + ".";
+			// ret += String.join(", ", e.getAttrs().stream().map(a ->
+			// a.getString()).collect(Collectors.toList()));
+			if (e.getAttrs().size() == 1)
+				ret += e.getAttrs().get(0).getString();
+			else
+				throw new UnsupportedOperationException("ZERO/MANY ATTRS");
+			return new AbstractMap.SimpleEntry<>(e.getClass().getName(), ret);
+			//
+		} else if (e.isCall())
+			throw new UnsupportedOperationException("CALL");
+		else if (e.isCustom())
+			throw new UnsupportedOperationException("CUSTOM");
+		//
+		else if (e.isKey())
+			return new AbstractMap.SimpleEntry<>(e.getClass().getName(), e.getName().getString());// TODO see if
+																									// this works
+		else if (e.isUuid())
+			return new AbstractMap.SimpleEntry<>(e.getClass().getName(), e.getUuidValue().getString());
+		//
+		else if (e.isObj()) {
+			return new AbstractMap.SimpleEntry<>("org.typhon.entities." + e.getObjValue().getEntity().getString(),
+					parseKeyVals(e.getObjValue().getKeyVals()));
+		} else if (e.isLst()) {
+			List<HashMap<String, Object>> oList = new ArrayList<>();
+			for (Obj o : e.getEntries())
+				oList.add(parseKeyVals(o.getKeyVals()));
+			return new AbstractMap.SimpleEntry<>("org.typhon.entities." + e.getObjValue().getEntity().getString(),
+					oList);
+		} else
+			throw new UnsupportedOperationException("OTHER");
+
 	}
 
 	public Request createRequest(String request) throws ASTConversionException {
 		return TyphonQLASTParser.parseTyphonQLRequest((request).toCharArray());
 	}
-	
+
 	public String createInvertedSelect(Request request) {
 		Statement stm = request.getStm();
 		String dmlCommand = "";
@@ -54,7 +158,7 @@ public class InvertedSelectCreator {
 		if (request.getStm() instanceof Update || request.getStm() instanceof Delete) {
 			String eid = stm.getBinding().getEntity().getString();
 			String vid = stm.getBinding().getVar().getString();
-			dmlCommand += "from " +  eid + " " + vid + " select * ";
+			dmlCommand += "from " + eid + " " + vid + " select * ";
 
 			if (stm.hasWhere()) {
 				Where where = stm.getWhere();
@@ -62,8 +166,9 @@ public class InvertedSelectCreator {
 			}
 		}
 		if (request.getStm() instanceof Update) {
-			//TODO: If an update statement, we need to parse the SET for the updated values. An inverted select might not work as
-			//		the clause might contain values that have been updated.
+			// TODO: If an update statement, we need to parse the SET for the updated
+			// values. An inverted select might not work as
+			// the clause might contain values that have been updated.
 		}
 		System.out.println(dmlCommand);
 		return dmlCommand;
@@ -133,9 +238,9 @@ public class InvertedSelectCreator {
 			return ret;
 			//
 		} else if (e.isCall())
-			return "UNSUPPORTED";
+			throw new UnsupportedOperationException("CALL");
 		else if (e.isCustom())
-			return "CUSTOM";
+			throw new UnsupportedOperationException("CUSTOM");
 		//
 		else if (e.isKey())
 			return e.getName().getString();// TODO see if this works
@@ -186,7 +291,7 @@ public class InvertedSelectCreator {
 				oList.add(flattenObj(o));
 			return "[ " + String.join(", ", oList) + " ]";
 		} else
-			return "ERROR";
+			throw new UnsupportedOperationException("ERROR");
 
 	}
 
