@@ -6,6 +6,10 @@ import java.util.List;
 
 public class User extends Entity {
 
+	public String toString() {
+		return "User:id=" + id + ":name=" + name + ":reviews=" + reviews;
+	}
+
 	public User() {
 	}
 
@@ -65,9 +69,9 @@ public class User extends Entity {
 	}
 
 	private List<Review> reviews = new ArrayList<>();
-	
+
 	public void setReview(Review r) {
 		reviews.add(r);
 	}
-	
+
 }

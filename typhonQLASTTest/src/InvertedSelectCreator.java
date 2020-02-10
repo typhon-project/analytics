@@ -23,9 +23,9 @@ public class InvertedSelectCreator {
 
 	public static void main(String[] a) throws Exception {
 
-		Request r = new InvertedSelectCreator()
-				.createRequest("update User u where u.name == \"alice\" set { name: \"bob\" }");
-		new InvertedSelectCreator().createInvertedSelect(r);
+//		Request r = new InvertedSelectCreator()
+//				.createRequest("update User u where u.name == \"alice\" set { name: \"bob\" }");
+//		new InvertedSelectCreator().createInvertedSelect(r);
 //		System.out.println("");
 //		r = new InvertedSelectCreator().createRequest(
 //				"update Product p where p.name == \"TV\" && p.review == Review { name : \"NO\"} set { name: \"TVV\"}");
@@ -46,9 +46,7 @@ public class InvertedSelectCreator {
 //		r = new InvertedSelectCreator().createRequest("update Order o where totalAmount == 23 && paidWith == @cc CreditCard { number: \"12345678\" } set { name: \"TVV\"}");
 //		new InvertedSelectCreator().createInvertedSelect(r);
 //		
-		new InvertedSelectCreator().createUpdateParser("update User u where u.name == \"alice\" set { name: \"bob\" }");
-		new InvertedSelectCreator()
-				.createUpdateParser("update User u where u.name == \"alice\" set { review: Review { name : 5 } }");
+		new InvertedSelectCreator().createUpdateParser("update User u where u.name == \"alice\" set { name: \"bob\", review: Review { rating : 5 } }");
 	}
 
 	public Entity createUpdateParser(String req) throws Exception {
@@ -74,7 +72,7 @@ public class InvertedSelectCreator {
 
 		}
 
-		System.out.println(entityType + "::" + KVmappings);
+		//System.out.println(entityType + "::" + KVmappings);
 		System.out.println(entity);
 
 		// user.setName(name);
@@ -82,7 +80,35 @@ public class InvertedSelectCreator {
 		return entity;
 	}
 
-	public HashMap<String, Object> parseKeyVals(List<KeyVal> vals) {
+	public Object entry2Object(Entry<String, Object> entry) throws Exception {
+
+		Class<?> clazz = Class.forName("org.typhon.entities." + entry.getKey());
+		Entity entity = (Entity) clazz.getConstructor().newInstance();
+
+		for (Entry<String, Object> kv : ((HashMap<String, Object>) entry.getValue()).entrySet()) {
+
+			String methodName = "set" + kv.getKey().split("::")[1].substring(0, 1).toUpperCase()
+					+ kv.getKey().split("::")[1].substring(1);
+
+			Class<?> parameterType = Class.forName(kv.getKey().split("::")[0]);
+			if (parameterType.equals(Integer.class))
+				parameterType = int.class;
+			else if (parameterType.equals(Boolean.class))
+				parameterType = boolean.class;
+			else if (parameterType.equals(Double.class))
+				parameterType = double.class;
+			else
+				throw new UnsupportedOperationException(kv.getKey().split("::")[0]);
+
+			Method setter = clazz.getMethod(methodName, parameterType);
+
+			setter.invoke(entity, kv.getValue());
+
+		}
+		return entity;
+	}
+
+	public HashMap<String, Object> parseKeyVals(List<KeyVal> vals) throws Exception {
 		HashMap<String, Object> ret = new HashMap<>();
 		for (KeyVal val : vals) {
 			Entry<String, Object> e = getValue(val.getValue());
@@ -91,25 +117,26 @@ public class InvertedSelectCreator {
 		return ret;
 	}
 
-	public Entry<String, Object> getValue(Expr e) {
+	public Entry<String, Object> getValue(Expr e) throws Exception {
 
 		if (e.isStr())
-			return new AbstractMap.SimpleEntry<>(e.getStrValue().getString().getClass().getName(),
-					e.getStrValue().getString());
+			return new AbstractMap.SimpleEntry<>(String.class.getName(), e.getStrValue().getString());
 		else if (e.isVar())
-			return new AbstractMap.SimpleEntry<>(e.getClass().getName(), e.getVar());
+			return new AbstractMap.SimpleEntry<>(String.class.getName(), e.getVar().getString());
 		else if (e.isInt())
-			return new AbstractMap.SimpleEntry<>(e.getClass().getName(), e.getIntValue());
+			return new AbstractMap.SimpleEntry<>(Integer.class.getName(),
+					Integer.parseInt(e.getIntValue().getString()));
 		else if (e.isBool())
-			return new AbstractMap.SimpleEntry<>(e.getClass().getName(), e.getBoolValue());
+			return new AbstractMap.SimpleEntry<>(Boolean.class.getName(),
+					Boolean.parseBoolean(e.getBoolValue().getString()));
 		else if (e.isReal())
-			return new AbstractMap.SimpleEntry<>(e.getClass().getName(), e.getRealValue());
+			return new AbstractMap.SimpleEntry<>(Double.class.getName(),
+					Double.parseDouble(e.getRealValue().getString()));
 		else if (e.isDt())
-			return new AbstractMap.SimpleEntry<>(e.getClass().getName(), e.getDtValue().getDateTime());// TODO see
-																										// if
-																										// this
-																										// works
-		//
+			return new AbstractMap.SimpleEntry<>(engineering.swat.typhonql.ast.DateTime.class.getName(),
+					e.getDtValue().getDateTime());
+		// TODO see if this works
+
 		else if (e.isAttr()) {
 			String ret = "";
 			if (e.hasVar())
@@ -135,7 +162,18 @@ public class InvertedSelectCreator {
 		//
 		else if (e.isObj()) {
 			return new AbstractMap.SimpleEntry<>("org.typhon.entities." + e.getObjValue().getEntity().getString(),
-					parseKeyVals(e.getObjValue().getKeyVals()));
+
+					entry2Object(
+
+							new AbstractMap.SimpleEntry<>(e.getObjValue().getEntity().getString(),
+
+									parseKeyVals(e.getObjValue().getKeyVals())
+
+							)
+
+					)
+
+			);
 		} else if (e.isLst()) {
 			List<HashMap<String, Object>> oList = new ArrayList<>();
 			for (Obj o : e.getEntries())
