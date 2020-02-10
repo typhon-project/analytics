@@ -19,21 +19,21 @@ public class InvertedSelectCreator {
 
 		Request r = new InvertedSelectCreator()
 				.createRequest("update User u where u.name == \"alice\" set { name: \"bob\" }");
-		new InvertedSelectCreator().createInvertedSelects(r);
-		r = new InvertedSelectCreator().createRequest(
-				"update Product p where p.name == \"TV\" && p.review == Review { name : \"NO\"} set { name: \"TVV\"}");
-		new InvertedSelectCreator().createInvertedSelects(r);
-
-		r = new InvertedSelectCreator().createRequest("update Order o where\n"
-				+ "	o.totalAmount == 32 && o.products == [ Product { name: \"TV\" } ] set { name: \"TVV\"}");
-		new InvertedSelectCreator().createInvertedSelects(r);
-
-		r = new InvertedSelectCreator().createRequest("update Order o where\n"
-				+ "		o.products == [ Product { name: \"TV\", reviews: [ Review { }, Review { name: \"Crash\" } ] } ] set { name: \"TVV\"}");
-		new InvertedSelectCreator().createInvertedSelects(r);
-
-		r = new InvertedSelectCreator().createRequest("update Order o where totalAmount == 23 && paidWith == @cc CreditCard { number: \"12345678\" } set { name: \"TVV\"}");
-		new InvertedSelectCreator().createInvertedSelects(r);
+		new InvertedSelectCreator().createInvertedSelect(r);
+//		r = new InvertedSelectCreator().createRequest(
+//				"update Product p where p.name == \"TV\" && p.review == Review { name : \"NO\"} set { name: \"TVV\"}");
+//		new InvertedSelectCreator().createStatementFromRequest(r);
+//
+//		r = new InvertedSelectCreator().createRequest("update Order o where\n"
+//				+ "	o.totalAmount == 32 && o.products == [ Product { name: \"TV\" } ] set { name: \"TVV\"}");
+//		new InvertedSelectCreator().createStatementFromRequest(r);
+//
+//		r = new InvertedSelectCreator().createRequest("update Order o where\n"
+//				+ "		o.products == [ Product { name: \"TV\", reviews: [ Review { }, Review { name: \"Crash\" } ] } ] set { name: \"TVV\"}");
+//		new InvertedSelectCreator().createStatementFromRequest(r);
+//
+//		r = new InvertedSelectCreator().createRequest("update Order o where totalAmount == 23 && paidWith == @cc CreditCard { number: \"12345678\" } set { name: \"TVV\"}");
+//		new InvertedSelectCreator().createStatementFromRequest(r);
 		
 		
 	}
@@ -41,19 +41,38 @@ public class InvertedSelectCreator {
 	public Request createRequest(String request) throws ASTConversionException {
 		return TyphonQLASTParser.parseTyphonQLRequest((request).toCharArray());
 	}
+	
+	public String createInvertedSelect(Request request) {
+		Statement stm = request.getStm();
+		String dmlCommand = "";
+		System.out.println(request.yieldTree());
+		if (request.getStm() instanceof Update || request.getStm() instanceof Delete) {
+			String eid = stm.getBinding().getEntity().getString();
+			String vid = stm.getBinding().getVar().getString();
+			dmlCommand += "from " +  eid + " " + vid + " select * ";
+
+			if (stm.hasWhere()) {
+				Where where = stm.getWhere();
+				dmlCommand += where.yieldTree();
+			}
+		}
+		if (request.getStm() instanceof Update) {
+			//TODO: If an update statement, we need to parse the SET for the updated values. An inverted select might not work as
+			//		the clause might contain values that have been updated.
+		}
+		System.out.println(dmlCommand);
+		return dmlCommand;
+	}
 
 	/*
 	 * update User u where u.name == "alice" set { name: "bob" }
 	 * 
 	 */
-	public void createInvertedSelects(Request request) {
+	public void createStatementFromRequest(Request request) {
 		Statement stm = request.getStm();
 		String dmlCommand = "";
-
 		if (request.getStm() instanceof Update || request.getStm() instanceof Delete) {
-
 			dmlCommand += (request.getStm() instanceof Update) ? "update" : "delete";
-
 			String eid = stm.getBinding().getEntity().getString();
 			String vid = stm.getBinding().getVar().getString();
 			dmlCommand += " " + eid + " " + vid;
@@ -102,6 +121,7 @@ public class InvertedSelectCreator {
 			return e.getDtValue().getDateTime().getString();// TODO see if this works
 		//
 		else if (e.isAttr()) {
+			System.out.println("Attr: " + e.yieldTree());
 			String ret = "";
 			if (e.hasVar())
 				ret += e.getVar() + ".";
