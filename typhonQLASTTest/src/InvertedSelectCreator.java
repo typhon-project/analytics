@@ -20,21 +20,26 @@ public class InvertedSelectCreator {
 		Request r = new InvertedSelectCreator()
 				.createRequest("update User u where u.name == \"alice\" set { name: \"bob\" }");
 		new InvertedSelectCreator().createInvertedSelect(r);
+//		System.out.println("");
 //		r = new InvertedSelectCreator().createRequest(
 //				"update Product p where p.name == \"TV\" && p.review == Review { name : \"NO\"} set { name: \"TVV\"}");
-//		new InvertedSelectCreator().createStatementFromRequest(r);
-//
+//		new InvertedSelectCreator().createInvertedSelect(r);
+//		System.out.println("");
+//		r = new InvertedSelectCreator().createRequest(
+//				"delete Product p where p.name == \"TV\" && p.review == Review { name : \"NO\"}");
+//		new InvertedSelectCreator().createInvertedSelect(r);
+//		System.out.println("");
 //		r = new InvertedSelectCreator().createRequest("update Order o where\n"
 //				+ "	o.totalAmount == 32 && o.products == [ Product { name: \"TV\" } ] set { name: \"TVV\"}");
-//		new InvertedSelectCreator().createStatementFromRequest(r);
-//
+//		new InvertedSelectCreator().createInvertedSelect(r);
+//		System.out.println("");
 //		r = new InvertedSelectCreator().createRequest("update Order o where\n"
 //				+ "		o.products == [ Product { name: \"TV\", reviews: [ Review { }, Review { name: \"Crash\" } ] } ] set { name: \"TVV\"}");
-//		new InvertedSelectCreator().createStatementFromRequest(r);
-//
+//		new InvertedSelectCreator().createInvertedSelect(r);
+//		System.out.println("");
 //		r = new InvertedSelectCreator().createRequest("update Order o where totalAmount == 23 && paidWith == @cc CreditCard { number: \"12345678\" } set { name: \"TVV\"}");
-//		new InvertedSelectCreator().createStatementFromRequest(r);
-		
+//		new InvertedSelectCreator().createInvertedSelect(r);
+//		
 		
 	}
 
@@ -121,7 +126,6 @@ public class InvertedSelectCreator {
 			return e.getDtValue().getDateTime().getString();// TODO see if this works
 		//
 		else if (e.isAttr()) {
-			System.out.println("Attr: " + e.yieldTree());
 			String ret = "";
 			if (e.hasVar())
 				ret += e.getVar() + ".";
