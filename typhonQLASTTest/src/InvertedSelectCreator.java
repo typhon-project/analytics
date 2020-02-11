@@ -15,6 +15,7 @@ import engineering.swat.typhonql.ast.Obj;
 import engineering.swat.typhonql.ast.Request;
 import engineering.swat.typhonql.ast.Statement;
 import engineering.swat.typhonql.ast.Statement.Delete;
+import engineering.swat.typhonql.ast.Statement.Insert;
 import engineering.swat.typhonql.ast.Statement.Update;
 import engineering.swat.typhonql.ast.TyphonQLASTParser;
 import engineering.swat.typhonql.ast.Where;
@@ -46,7 +47,9 @@ public class InvertedSelectCreator {
 //		r = new InvertedSelectCreator().createRequest("update Order o where totalAmount == 23 && paidWith == @cc CreditCard { number: \"12345678\" } set { name: \"TVV\"}");
 //		new InvertedSelectCreator().createInvertedSelect(r);
 //		
-		new InvertedSelectCreator().createUpdateParser("update User u where u.name == \"alice\" set { name: \"bob\", review: Review { rating : 5 } }");
+//		new InvertedSelectCreator().createUpdateParser(
+//				"update User u where u.name == \"alice\" set { name: \"bob\", review: Review { rating : 5 } }");
+		new InvertedSelectCreator().createInsertParser("insert Product { name: \"TV\", review: Review { } }");
 	}
 
 	public Entity createUpdateParser(String req) throws Exception {
@@ -72,12 +75,45 @@ public class InvertedSelectCreator {
 
 		}
 
-		//System.out.println(entityType + "::" + KVmappings);
+		// System.out.println(entityType + "::" + KVmappings);
 		System.out.println(entity);
 
 		// user.setName(name);
 
 		return entity;
+	}
+
+	public ArrayList<Entity> createInsertParser(String req) throws Exception {
+		ArrayList<Entity> allEntities = new ArrayList<Entity>();
+		Request request = createRequest(req);
+		List<Obj> insertObjects = request.getStm().getObjs();
+		for (Obj obj : insertObjects) {
+
+			HashMap<String, Object> KVmappings = parseKeyVals(obj.getKeyVals());
+			String entityType = obj.getEntity().getString();
+
+			Class<?> clazz = Class.forName("org.typhon.entities." + entityType);
+			Entity entity = (Entity) clazz.getConstructor().newInstance();
+
+			for (Entry<String, Object> kv : KVmappings.entrySet()) {
+
+				String methodName = "set" + kv.getKey().split("::")[1].substring(0, 1).toUpperCase()
+						+ kv.getKey().split("::")[1].substring(1);
+				// TODO: If the method requires an ArrayList as a parameter (e.g.,
+				// seetReviews(ArrayList<Review> reviews) then this is not working as it returns
+				// that a method not found
+				Method setter = clazz.getMethod(methodName, Class.forName(kv.getKey().split("::")[0]));
+
+				setter.invoke(entity, kv.getValue());
+
+				// entity
+
+			}
+			// System.out.println(entityType + "::" + KVmappings);
+			System.out.println(entity);
+
+		}
+		return allEntities;
 	}
 
 	public Object entry2Object(Entry<String, Object> entry) throws Exception {

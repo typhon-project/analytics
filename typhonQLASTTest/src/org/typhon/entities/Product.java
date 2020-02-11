@@ -4,6 +4,12 @@ import org.typhon.entities.Entity;
 import java.util.ArrayList;
 
 public class Product extends Entity {
+	
+	public String toString() {
+		return "Name: " + name + " review: " + review;
+	}
+	
+	public Product() {}
 
 	private String id;
 	
@@ -41,13 +47,13 @@ this.description = description;
 	}
 	
 	
-	private ArrayList<Review> review;
+	private Review review;
 	
-	public ArrayList<Review> getReview() {
+	public Review getReview() {
 		return this.review;
 	}
 	
-	public void setReview(ArrayList<Review> review) {
+	public void setReview(Review review) {
 		this.review = review;
 	}
 	
