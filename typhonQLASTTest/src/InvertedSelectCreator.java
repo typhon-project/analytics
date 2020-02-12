@@ -2,6 +2,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -50,8 +51,8 @@ public class InvertedSelectCreator {
 //		
 //		new InvertedSelectCreator().createUpdateParser(
 //				"update User u where u.name == \"alice\" set { name: \"bob\", review: Review { rating : 5 } }");
-//		new InvertedSelectCreator()
-//				.createInsertParser("insert Product { name: \"TV\", review: [Review { }, Review { } ]}");
+		new InvertedSelectCreator()
+				.createInsertParser("insert Product { name: \"TV\", review: [Review { rating : 5}, Review {rating : 7 } ]}");
 		new InvertedSelectCreator()
 		.createInsertParser("insert Product { name: \"TV\", review: Review { } }");
 	}
@@ -103,16 +104,14 @@ public class InvertedSelectCreator {
 				Field field = clazz.getDeclaredField(kv.getKey().split("::")[1]);
 				String methodName = "set" + kv.getKey().split("::")[1].substring(0, 1).toUpperCase()
 						+ kv.getKey().split("::")[1].substring(1);
-				if (field.getType().getName().equals("java.util.ArrayList")) {
-					methodName = "add" + kv.getKey().split("::")[1].substring(0, 1).toUpperCase()
-							+ kv.getKey().split("::")[1].substring(1);
-				}
 				// FIXME: If the method requires an ArrayList as a parameter (e.g.,
 				// seetReviews(ArrayList<Review> reviews) then this is not working as it returns
 				// that a method not found. Check that the above solution is right.
 				System.out.println(field.getType());
+				System.out.println(Class.forName(kv.getKey().split("::")[0]));
 				Method setter = clazz.getMethod(methodName, Class.forName(kv.getKey().split("::")[0]));
 				System.out.println(setter.getParameterTypes()[0]);
+				System.out.println(kv.getValue().getClass());
 				setter.invoke(entity, kv.getValue());
 
 				// entity
@@ -209,22 +208,19 @@ public class InvertedSelectCreator {
 			return new AbstractMap.SimpleEntry<>("org.typhon.entities." + e.getObjValue().getEntity().getString(),
 
 					entry2Object(
-
 							new AbstractMap.SimpleEntry<>(e.getObjValue().getEntity().getString(),
-
 									parseKeyVals(e.getObjValue().getKeyVals())
-
 							)
-
 					)
-
 			);
 		} else if (e.isLst()) {
 			List<HashMap<String, Object>> oList = new ArrayList<>();
 			for (Obj o : e.getEntries()) {
 				oList.add(parseKeyVals(o.getKeyVals()));
 			}
-			return new AbstractMap.SimpleEntry<>("org.typhon.entities." + e.getObjValue().getEntity().getString(),
+			
+			
+			return new AbstractMap.SimpleEntry<>("java.util.ArrayList",
 					oList);
 		} else
 			throw new UnsupportedOperationException("OTHER");

@@ -2,6 +2,8 @@ package org.typhon.entities;
 
 import org.typhon.entities.Entity;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Product extends Entity {
 	
@@ -53,14 +55,15 @@ this.description = description;
 		return this.review;
 	}
 	
+	//FIXME: Change the tamplate to produce overloaded 
 	public void setReview(ArrayList<Review> review) {
 		this.review = review;
 	}
-	
-	public void addReview(Review review) {
+
+	public void setReview(Review review) {
 		this.review.add(review);
 	}
-	
+
 	private ArrayList<OrderProduct> orders;
 	
 	public ArrayList<OrderProduct> getOrders() {
