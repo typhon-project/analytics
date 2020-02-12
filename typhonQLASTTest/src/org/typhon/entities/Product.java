@@ -47,14 +47,18 @@ this.description = description;
 	}
 	
 	
-	private Review review;
+	private ArrayList<Review> review = new ArrayList<Review>();
 	
-	public Review getReview() {
+	public ArrayList<Review> getReview() {
 		return this.review;
 	}
 	
-	public void setReview(Review review) {
+	public void setReview(ArrayList<Review> review) {
 		this.review = review;
+	}
+	
+	public void addReview(Review review) {
+		this.review.add(review);
 	}
 	
 	private ArrayList<OrderProduct> orders;

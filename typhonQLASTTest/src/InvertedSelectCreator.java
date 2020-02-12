@@ -1,3 +1,4 @@
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -49,7 +50,10 @@ public class InvertedSelectCreator {
 //		
 //		new InvertedSelectCreator().createUpdateParser(
 //				"update User u where u.name == \"alice\" set { name: \"bob\", review: Review { rating : 5 } }");
-		new InvertedSelectCreator().createInsertParser("insert Product { name: \"TV\", review: Review { } }");
+//		new InvertedSelectCreator()
+//				.createInsertParser("insert Product { name: \"TV\", review: [Review { }, Review { } ]}");
+		new InvertedSelectCreator()
+		.createInsertParser("insert Product { name: \"TV\", review: Review { } }");
 	}
 
 	public Entity createUpdateParser(String req) throws Exception {
@@ -96,14 +100,19 @@ public class InvertedSelectCreator {
 			Entity entity = (Entity) clazz.getConstructor().newInstance();
 
 			for (Entry<String, Object> kv : KVmappings.entrySet()) {
-
+				Field field = clazz.getDeclaredField(kv.getKey().split("::")[1]);
 				String methodName = "set" + kv.getKey().split("::")[1].substring(0, 1).toUpperCase()
 						+ kv.getKey().split("::")[1].substring(1);
-				// TODO: If the method requires an ArrayList as a parameter (e.g.,
+				if (field.getType().getName().equals("java.util.ArrayList")) {
+					methodName = "add" + kv.getKey().split("::")[1].substring(0, 1).toUpperCase()
+							+ kv.getKey().split("::")[1].substring(1);
+				}
+				// FIXME: If the method requires an ArrayList as a parameter (e.g.,
 				// seetReviews(ArrayList<Review> reviews) then this is not working as it returns
-				// that a method not found
+				// that a method not found. Check that the above solution is right.
+				System.out.println(field.getType());
 				Method setter = clazz.getMethod(methodName, Class.forName(kv.getKey().split("::")[0]));
-
+				System.out.println(setter.getParameterTypes()[0]);
 				setter.invoke(entity, kv.getValue());
 
 				// entity
@@ -212,8 +221,9 @@ public class InvertedSelectCreator {
 			);
 		} else if (e.isLst()) {
 			List<HashMap<String, Object>> oList = new ArrayList<>();
-			for (Obj o : e.getEntries())
+			for (Obj o : e.getEntries()) {
 				oList.add(parseKeyVals(o.getKeyVals()));
+			}
 			return new AbstractMap.SimpleEntry<>("org.typhon.entities." + e.getObjValue().getEntity().getString(),
 					oList);
 		} else
