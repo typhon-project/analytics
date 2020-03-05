@@ -7,6 +7,15 @@ public class PostEvent extends Event {
 	private Date startTime;
 	private Date endTime;
 	private PreEvent preEvent;
+	private String resultSet;
+
+	public String getResultSet() {
+		return resultSet;
+	}
+
+	public void setResultSet(String resultSet) {
+		this.resultSet = resultSet;
+	}
 
 	public PostEvent() {
 		super();
@@ -20,6 +29,16 @@ public class PostEvent extends Event {
 		this.endTime = endTime;
 		this.preEvent = preEvent;
 
+	}
+	
+	public PostEvent(String id, String query, Boolean success, Date startTime,
+			Date endTime, PreEvent preEvent, String resultSet) {
+		super(id, query);
+		this.success = success;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.preEvent = preEvent;
+		this.resultSet = resultSet;
 	}
 
 //	public PostEvent(String id, String query, Boolean success, Date startTime,
@@ -68,7 +87,7 @@ public class PostEvent extends Event {
 	public String toString() {
 		return "PostEvent [success=" + success + ", startTime=" + startTime
 				+ ", endTime=" + endTime + ", preEvent=" + preEvent + ", id="
-				+ eventId + ", query=" + query + "]";
+				+ eventId + ", query=" + query + ", resultSet=" + resultSet +"]";
 	}
 
 	// @Override
