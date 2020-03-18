@@ -1,0 +1,20 @@
+insert ESP {VIN: 1277771325, timestamp: "2019-02-25T12:02:02Z", vehicle_position: "la13.692489411030097 lo52.65831035735839", esp_edl: false, esp_idd: false, esp_abs: true, vweather: vwd1277771325}
+insert VehicleMetadata {VIN: 1277771326, brand: "Volkswagen", model: "Golf-8", constr_year: 2019, color: "red201", t_sensor_h: 62, engine_type: "combustion"}
+insert ESP {VIN: 1277771325, timestamp: "2019-02-25T18:25:02Z", vehicle_position: "la13.66328594456117 lo52.64527316183478", esp_edl: false, esp_idd: false, esp_abs: true, vweather: vwd1277771325}
+insert VehicleMetadata {VIN: 3977771325, brand: "Audi", model: "A7", constr_year: 2011, color: "white", t_sensor_h: 69, engine_type: "combustion"}
+insert VehicleMetadata {VIN: 4977771325, brand: "Seat", model: "Leon", constr_year: 2018, color: "grey", t_sensor_h: 59, engine_type: "combustion"}
+insert VehicleMetadata {VIN: 4537771325, brand: "Seat", model: "Leon", constr_year: 2019, color: "black", t_sensor_h: 59, engine_type: "combustion"}
+insert ESP {VIN: 1277771325, timestamp: "2019-02-26T23:27:02Z", vehicle_position: "la13.536966149762609 lo52.5798887415313", esp_edl: false, esp_idd: false, esp_abs: true, vweather: vwd1277771325}
+insert ESP {VIN: 1277771325, timestamp: "2019-02-23T12:12:02Z", vehicle_position: "la13.905653043732777 lo52.76174290658388", esp_edl: false, esp_idd: false, esp_abs: true, vweather: vwd1277771325}
+insert ESP {VIN: 1277771325, timestamp: "2019-02-26T22:58:02Z", vehicle_position: "la13.539386870558339 lo52.58104752684457", esp_edl: true, esp_idd: false, esp_abs: false, vweather: vwd1277771325}
+insert VehicleMetadata {VIN: 1277771456, brand: "Volkswagen", model: "Golf-6", constr_year: 2009, color: "black201", t_sensor_h: 62, engine_type: "combustion"}
+insert VehicleMetadata {VIN: 3251771325, brand: "Audi", model: "A3", constr_year: 2020, color: "white", t_sensor_h: 69, engine_type: "combustion"}
+insert ESP {VIN: 1277771325, timestamp: "2019-02-26T21:20:02Z", vehicle_position: "la13.5465411105471 lo52.585132951570465", esp_edl: true, esp_idd: false, esp_abs: false, vweather: vwd1277771325}
+insert ESP {VIN: 1277771325, timestamp: "2019-02-24T08:03:02Z", vehicle_position: "la13.81981720570689 lo52.71839349046823", esp_edl: true, esp_idd: false, esp_abs: false, vweather: vwd1277771325}
+insert VehicleMetadata {VIN: 1277771325, brand: "Volkswagen", model: "Golf-7", constr_year: 2015, color: "black201", t_sensor_h: 62, engine_type: "combustion"}
+insert ESP {VIN: 1277771325, timestamp: "2019-02-24T06:17:02Z", vehicle_position: "la13.827744265000756 lo52.72265113253333", esp_edl: false, esp_idd: true, esp_abs: false, vweather: vwd1277771325}
+insert VehicleMetadata {VIN: 1277771825, brand: "Volkswagen", model: "e-Golf", constr_year: 2019, color: "grey101", t_sensor_h: 52, engine_type: "electric"}
+insert VehicleMetadata {VIN: 1277772225, brand: "Volkswagen", model: "e-Golf", constr_year: 2019, color: "white", t_sensor_h: 52, engine_type: "electric"}
+insert ESP {VIN: 1277771325, timestamp: "2019-02-24T03:53:02Z", vehicle_position: "la13.837729744610447 lo52.72777359350138", esp_edl: false, esp_idd: true, esp_abs: false, vweather: vwd1277771325}
+insert ESP {VIN: 1277771325, timestamp: "2019-02-24T04:08:02Z", vehicle_position: "la13.836963355021455 lo52.727343097273284", esp_edl: false, esp_idd: true, esp_abs: false, vweather: vwd1277771325}
+insert VehicleMetadata {VIN: 1277771467, brand: "Volkswagen", model: "Golf-8", constr_year: 2020, color: "black201", t_sensor_h: 52, engine_type: "combustion"}
