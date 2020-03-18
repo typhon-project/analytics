@@ -2,10 +2,10 @@ package ac.york.typhon.analytics.examples.vw.datatypes;
 
 public class VehicleMetadata {
 	
-	public int getVIN() {
+	public long getVIN() {
 		return VIN;
 	}
-	public void setVIN(int vIN) {
+	public void setVIN(long vIN) {
 		VIN = vIN;
 	}
 	public String getBrand() {
@@ -44,11 +44,15 @@ public class VehicleMetadata {
 	public void setEngine_type(String engine_type) {
 		this.engine_type = engine_type;
 	}
-	int VIN;
+	long VIN;
 	String brand;
 	String model;
 	int constr_year;
 	String color;
 	int t_sensor_h;
 	String engine_type;
+	
+	public String toString() {
+		return "VIN: " + VIN + " Brand: " + brand + " Model: " + model + " Constr Year: " + constr_year + " Color: " + color + " Sensor H: " + t_sensor_h + " Engine Type: " + engine_type;
+	}
 }

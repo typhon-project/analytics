@@ -77,7 +77,7 @@ public class AnalyticsScenarioTwo {
 						ESP espObj = new ESP();
 						for (KeyVal kv : keyValues) {
 							if (kv.getKey().getString().equalsIgnoreCase("VIN")) {
-								espObj.setVIN(Integer.parseInt(kv.getValue().yieldTree()));
+								espObj.setVIN(Long.parseLong(kv.getValue().yieldTree()));
 							} else if (kv.getKey().getString().equalsIgnoreCase("timestamp")) {
 								espObj.setTimestamp(kv.getValue().yieldTree());
 							} else if (kv.getKey().getString().equalsIgnoreCase("vehicle_position")) {
@@ -112,7 +112,7 @@ public class AnalyticsScenarioTwo {
 						String query = postEvent.getQuery();
 						Request request = TyphonQLASTParser.parseTyphonQLRequest((query).toCharArray());
 						if (request.hasStm()) {
-							 return (request.getStm().getObjs().get(0).getEntity().getString().equalsIgnoreCase("ESP"));
+							 return (request.getStm().getObjs().get(0).getEntity().getString().equalsIgnoreCase("VehicleMetadata"));
 						}
 						return false;
 					}
@@ -128,7 +128,7 @@ public class AnalyticsScenarioTwo {
 						VehicleMetadata metadataObj = new VehicleMetadata();
 						for (KeyVal kv : keyValues) {
 							if (kv.getKey().getString().equalsIgnoreCase("VIN")) {
-								metadataObj.setVIN(Integer.parseInt(kv.getValue().yieldTree()));
+								metadataObj.setVIN(Long.parseLong(kv.getValue().yieldTree()));
 							} else if (kv.getKey().getString().equalsIgnoreCase("brand")) {
 								metadataObj.setBrand(kv.getValue().yieldTree());
 							} else if (kv.getKey().getString().equalsIgnoreCase("model")) {
