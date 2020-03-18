@@ -17,16 +17,16 @@ import commons.PostEvent;
 public class ExecuteQueries {
 	
 	// Make sure you put the local ip address of your computer
-	final String IP_ADDRESS = "10.240.55.24";
+	final String IP_ADDRESS = "192.168.1.16";
 
 	public static void main(String[] args) throws Exception {
 		ExecuteQueries eq = new ExecuteQueries();
 		ExecuteQueries.Utils utils = eq.new Utils();
-		utils.executeQueryAndReturnPostvent("from user u select u");
-//		utils.executeUpdateAndReturnPostvent("insert user { name: \"1234\" }");
+//		utils.executeQueryAndReturnPostvent("from VehicleMetadata v select v");
+		utils.executeUpdateAndReturnPostvent("insert @vmd1277771325 VehicleMetadata {VIN: 1277771325, brand: \"Volkswagen\", model: \"Golf-7\", constr_year: 2015, color: \"black201\", t_sensor_h: 62, engine_type: \"combustion\"}");
 	}
 
-	class Utils {
+	public class Utils {
 		// Executes a select query
 		public void executeQueryAndReturnPostvent(String query) throws Exception {
 			// This is the REST url that executes a select query. Authentication is done
