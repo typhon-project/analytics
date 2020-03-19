@@ -80,7 +80,7 @@ public class AnalyticsScenarioOne {
 						ESP espObj = new ESP();
 						for (KeyVal kv : keyValues) {
 							if (kv.getKey().getString().equalsIgnoreCase("VIN")) {
-								espObj.setVIN(Integer.parseInt(kv.getValue().yieldTree()));
+								espObj.setVIN(Long.parseLong(kv.getValue().yieldTree()));
 							} else if (kv.getKey().getString().equalsIgnoreCase("timestamp")) {
 								espObj.setTimestamp(kv.getValue().yieldTree());
 							} else if (kv.getKey().getString().equalsIgnoreCase("vehicle_position")) {
