@@ -5,6 +5,8 @@ import java.util.Properties;
 
 import queryGenerators.InsertProductGenerator;
 import queryGenerators.InsertUserGenerator;
+import utils.ExecuteQueries;
+import utils.ExecuteQueries.Utils;
 
 public class RunSimulator {
 	
@@ -19,18 +21,20 @@ public class RunSimulator {
 		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties");
 		Properties appProps = new Properties();
 		appProps.load(inputStream);
-		
+		ExecuteQueries eq = new ExecuteQueries();
+		ExecuteQueries.Utils utils = eq.new Utils();
+	
 		if(Boolean.parseBoolean(appProps.getProperty("generate_users"))) {
 			InsertUserGenerator iug = new InsertUserGenerator();
 			for (int i=0; i < Integer.parseInt(appProps.getProperty("num_of_users")); i++) {
-				System.out.println(iug.generateQuery());
+				utils.executeUpdateAndReturnPostvent(iug.generateQuery());
 			}
 		}
 		
 		if(Boolean.parseBoolean(appProps.getProperty("generate_products"))) {
 			InsertProductGenerator ipg = new InsertProductGenerator();
 			for (int i=0; i < Integer.parseInt(appProps.getProperty("num_of_products")); i++) {
-				System.out.println(ipg.generateQuery());
+				utils.executeUpdateAndReturnPostvent(ipg.generateQuery());
 			}
 		}
 		
