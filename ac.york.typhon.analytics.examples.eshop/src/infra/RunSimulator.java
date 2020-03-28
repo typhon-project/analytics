@@ -1,8 +1,13 @@
 package infra;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
+import java.util.UUID;
 
+import queryGenerators.InsertCreditCardGenerator;
 import queryGenerators.InsertProductGenerator;
 import queryGenerators.InsertUserGenerator;
 import utils.ExecuteQueries;
@@ -27,14 +32,16 @@ public class RunSimulator {
 		if(Boolean.parseBoolean(appProps.getProperty("generate_users"))) {
 			InsertUserGenerator iug = new InsertUserGenerator();
 			for (int i=0; i < Integer.parseInt(appProps.getProperty("num_of_users")); i++) {
-				utils.executeUpdateAndReturnPostvent(iug.generateQuery());
+				System.out.println(iug.generateQuery(null));
+//				utils.executeUpdateAndReturnPostvent(iug.generateQuery(null));
 			}
 		}
 		
 		if(Boolean.parseBoolean(appProps.getProperty("generate_products"))) {
 			InsertProductGenerator ipg = new InsertProductGenerator();
 			for (int i=0; i < Integer.parseInt(appProps.getProperty("num_of_products")); i++) {
-				utils.executeUpdateAndReturnPostvent(ipg.generateQuery());
+				System.out.println(ipg.generateQuery(null));
+//				utils.executeUpdateAndReturnPostvent(ipg.generateQuery(null));
 			}
 		}
 		

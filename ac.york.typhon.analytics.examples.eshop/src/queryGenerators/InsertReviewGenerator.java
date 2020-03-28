@@ -1,11 +1,13 @@
 package queryGenerators;
 
+import java.util.Map;
+
 import com.github.javafaker.Faker;
 
-public class InsertReviewGenerator implements QueryGenerator {
+public abstract class InsertReviewGenerator implements QueryGenerator {
 
 	@Override
-	public String generateQuery() {
+	public String generateQuery(Map<String, String> parameters) {
 		Faker faker = new Faker();
 		StringBuilder str = new StringBuilder();
 		str.append("insert Review {");
