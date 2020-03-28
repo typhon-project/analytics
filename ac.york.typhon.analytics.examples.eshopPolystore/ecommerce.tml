@@ -1,23 +1,29 @@
+datatype String
+datatype int
+datatype Real
+datatype Blob
+datatype natural_language
+
 entity Review{
-	id : string[32] 
-	content : string[32] 
+	id : String 
+	content : String
 	product -> Product[1]
 }
 
 
 entity Product{
-	id : string[32]
-	name : string[32]
-	description : string[32]
+	id : String
+	name : String
+	description : String
 	
 	orders -> OrderProduct[0..*]
 	review:->Review."Review.product"[0..*]
 }
 
 entity OrderProduct{
-	id : string[32]
-	product_date : datetime
-	totalAmount : bigint
+	id : String
+	product_date : String
+	totalAmount : int
 	
 	products -> Product.products[0..*]
 	users -> User."User.orders"[1]
@@ -25,8 +31,8 @@ entity OrderProduct{
 }
 
 entity User{
-	id : string[32]
-	name : string[32]
+	id : String
+	name : String
 	
 	comments :-> Comment[0..*]
 	paymentsDetails :-> CreditCard[0..*]
@@ -34,16 +40,16 @@ entity User{
 }
 
 entity Comment{
-	id : string[32]
-	content : string[32]
+	id : String
+	content : String
 	
 	responses :-> Comment[0..*]
 }
 
 entity CreditCard{
-	id : string[32]
-	number : string[32]
-	expiryDate : datetime
+	id : String
+	number : String
+	expiryDate : String
 } 
 
 relationaldb RelationalDatabase{
