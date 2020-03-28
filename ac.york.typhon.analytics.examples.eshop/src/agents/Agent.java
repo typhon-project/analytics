@@ -1,5 +1,5 @@
 package agents;
 
-public interface Agent {
+public interface Agent extends Runnable {
 
 }
