@@ -9,6 +9,8 @@ import java.util.UUID;
 
 import com.sun.jersey.api.client.ClientResponse;
 
+import agents.SimpleAgent;
+import agents.SimpleAgent2;
 import queryGenerators.InsertCreditCardGenerator;
 import queryGenerators.InsertProductGenerator;
 import queryGenerators.InsertUserGenerator;
@@ -48,12 +50,10 @@ public class RunSimulator {
 			}
 		}
 		
-		// Create query generators
-//		InsertCommentGenerator insertComment = new InsertCommentGenerator();
-//		
-//		Action a1 = new Action(insertComment.generateQuery());
-//		a1.setName("Action");
-//		a1.start();
+		Thread at1 = new Thread(new SimpleAgent());
+		at1.start();
+		Thread at2 = new Thread(new SimpleAgent2());
+		at2.start();
 	}
 
 }
