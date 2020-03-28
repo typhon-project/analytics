@@ -26,7 +26,7 @@ public class ExecuteQueries {
 
 	public class Utils {
 		// Executes a select query
-		public void executeQueryAndReturnPostvent(String query) throws Exception {
+		public String executeQueryAndReturnPostvent(String query) throws Exception {
 			// This is the REST url that executes a select query. Authentication is done
 			// using the polystore's credentials.
 			String url = "http://localhost:8080/api/query";
@@ -65,10 +65,12 @@ public class ExecuteQueries {
 			// Publish PostEvent to POST queue
 			produce(postEvent);
 			
+			return output;
+			
 		}
 
 		// Executes an insert/delete/update query
-		public void executeUpdateAndReturnPostvent(String query) throws Exception {
+		public String executeUpdateAndReturnPostvent(String query) throws Exception {
 			// This is the REST url that executes a select query. Authentication is done
 			// using the polystore's credentials.
 			String url = "http://localhost:8080/api/update";
@@ -107,6 +109,7 @@ public class ExecuteQueries {
 			// Publish PostEvent to POST queue
 			produce(postEvent);
 
+			return output;
 		}
 
 		public void produce(PostEvent postEvent) throws Exception {

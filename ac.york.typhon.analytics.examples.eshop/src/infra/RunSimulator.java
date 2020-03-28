@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
 
+import com.sun.jersey.api.client.ClientResponse;
+
 import queryGenerators.InsertCreditCardGenerator;
 import queryGenerators.InsertProductGenerator;
 import queryGenerators.InsertUserGenerator;
@@ -33,7 +35,8 @@ public class RunSimulator {
 			InsertUserGenerator iug = new InsertUserGenerator();
 			for (int i=0; i < Integer.parseInt(appProps.getProperty("num_of_users")); i++) {
 				System.out.println(iug.generateQuery(null));
-//				utils.executeUpdateAndReturnPostvent(iug.generateQuery(null));
+//				String response = utils.executeUpdateAndReturnPostvent(iug.generateQuery(null));
+//				System.out.println(response);
 			}
 		}
 		
