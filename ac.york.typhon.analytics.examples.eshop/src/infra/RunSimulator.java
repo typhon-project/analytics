@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import com.sun.jersey.api.client.ClientResponse;
 
+import agents.BuyerAgent;
 import agents.SimpleAgent;
 import agents.SimpleAgent2;
 import queryGenerators.InsertCreditCardGenerator;
@@ -29,7 +30,7 @@ public class RunSimulator {
 		
 		Thread at1 = new Thread(new SimpleAgent());
 		at1.start();
-		Thread at2 = new Thread(new SimpleAgent2());
+		Thread at2 = new Thread(new BuyerAgent());
 		at2.start();
 	}
 	
