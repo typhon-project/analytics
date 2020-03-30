@@ -17,13 +17,6 @@ public class ExecuteQueries {
 	// Make sure you put the local ip address of your computer
 	final String IP_ADDRESS = "192.168.1.16";
 
-	public static void main(String[] args) throws Exception {
-		ExecuteQueries eq = new ExecuteQueries();
-		ExecuteQueries.Utils utils = eq.new Utils();
-//		utils.executeQueryAndReturnPostvent("from VehicleMetadata v select v");
-		utils.executeUpdateAndReturnPostvent("insert @vmd1277771325 VehicleMetadata {VIN: 1277771325, brand: \"Volkswagen\", model: \"Golf-7\", constr_year: 2015, color: \"black201\", t_sensor_h: 62, engine_type: \"combustion\"}");
-	}
-
 	public class Utils {
 		// Executes a select query
 		public String executeQueryAndReturnPostvent(String query) throws Exception {
@@ -34,7 +27,6 @@ public class ExecuteQueries {
 			String password = "admin1@";
 			String authString = name + ":" + password;
 			String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
-			System.out.println("Base64 encoded auth string: " + authStringEnc);
 			Client restClient = Client.create();
 			WebResource webResource = restClient.resource(url);
 
@@ -51,8 +43,6 @@ public class ExecuteQueries {
 			// Get date/time when query execution has finished
 			Date endTime = new Date();
 
-			System.out.println("response: " + output);
-
 			PostEvent postEvent = new PostEvent();
 			postEvent.setId(UUID.randomUUID().toString());
 			postEvent.setQuery(query);
@@ -60,7 +50,6 @@ public class ExecuteQueries {
 			postEvent.setResultSet(output);
 			postEvent.setStartTime(startTime);
 			postEvent.setEndTime(endTime);
-			System.out.println(postEvent);
 			
 			// Publish PostEvent to POST queue
 			produce(postEvent);
@@ -95,8 +84,6 @@ public class ExecuteQueries {
 			// Get date/time when query execution has finished
 			Date endTime = new Date();
 
-			System.out.println("response: " + output);
-
 			PostEvent postEvent = new PostEvent();
 			postEvent.setId(UUID.randomUUID().toString());
 			postEvent.setQuery(query);
@@ -104,7 +91,6 @@ public class ExecuteQueries {
 			postEvent.setResultSet(output);
 			postEvent.setStartTime(startTime);
 			postEvent.setEndTime(endTime);
-			System.out.println(postEvent);
 
 			// Publish PostEvent to POST queue
 			produce(postEvent);
