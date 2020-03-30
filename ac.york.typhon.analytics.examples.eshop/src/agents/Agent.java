@@ -17,5 +17,9 @@ public class Agent {
 		RunSimulator.allUsers.remove(uuidPosition);
 	}
 	
+	public void randomSleep(int lowerBound, int upperBound) throws InterruptedException {
+		int sleepTime = Utilities.getRandomNumberInRange(lowerBound, upperBound);
+		Thread.sleep(sleepTime);
+	}
 
 }
