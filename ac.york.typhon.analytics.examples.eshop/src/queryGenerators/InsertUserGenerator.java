@@ -13,6 +13,7 @@ public class InsertUserGenerator implements QueryGenerator {
 		Faker faker = new Faker();
 		StringBuilder str = new StringBuilder();
 		str.append("insert User {");
+		str.append("id: \"" + UUID.randomUUID().toString()  + "\", ");
 		str.append("name: \"" + faker.name().fullName() + "\", ");
 		str.append("paymentsDetails: [CreditCard {id: \"" + UUID.randomUUID().toString() + "\", ");
 		str.append("number: \"" + faker.finance().creditCard() + "\", ");
