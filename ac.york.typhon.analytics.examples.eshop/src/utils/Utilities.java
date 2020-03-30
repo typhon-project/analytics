@@ -5,8 +5,12 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import utils.ExecuteQueries.Utils;
+
 public class Utilities {
 
+	
+	
 	// Code taken from here:
 	// https://mkyong.com/java/java-generate-random-integers-in-a-range/
 	public static int getRandomNumberInRange(int min, int max) {
@@ -19,14 +23,18 @@ public class Utilities {
 		return r.nextInt((max - min) + 1) + min;
 	}
 
-	public static void getUserUUID(String resultSet) {
+	public static ArrayList<String> getAllUserUUIDs() throws Exception {
+		ExecuteQueries eq = new ExecuteQueries();
+		ExecuteQueries.Utils utils = eq.new Utils();
+		
+		String resultSet = utils.executeQueryAndReturnPostvent("from User u select u");
 		ArrayList<String> allUUIDsWithPattern  = getPatternGroupsFromResultSet(resultSet, "\"uuid\":\"[a-zA-Z0-9\\-]*\",\"fields\"");
 		ArrayList<String> allUUIDs = new ArrayList<String>();
 		for (String uuidWithPattern : allUUIDsWithPattern) {
 			String uuid = uuidWithPattern.split("\"uuid\":\"")[1].split("\",")[0];
 			allUUIDs.add(uuid);
 		}
-		System.out.println(allUUIDs);
+		return allUUIDs;
 	}
 	
 	public static ArrayList<String> getPatternGroupsFromResultSet(String resultSet,  String  stringPattern) {

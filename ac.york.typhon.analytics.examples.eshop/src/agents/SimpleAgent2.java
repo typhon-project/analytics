@@ -1,12 +1,10 @@
 package agents;
 
-public class SimpleAgent2 implements Agent {
+public class SimpleAgent2 extends Agent implements Runnable {
 
 	@Override
 	public void run() {
-		while(true) {
-		System.out.println("SimpleAgent 2");
-		}
+		System.out.println("SA 2: " + this.uuid);
 	}
 
 }
