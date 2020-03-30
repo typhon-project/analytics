@@ -16,10 +16,9 @@ import queryGenerators.InsertProductGenerator;
 import queryGenerators.InsertUserGenerator;
 import utils.ExecuteQueries;
 import utils.ExecuteQueries.Utils;
+import utils.Utilities;
 
 public class RunSimulator {
-	
-	
 	
 	public static final Boolean GENERATE_USERS = true;
 	public static final Boolean GENERATE_PRODUCTS = true;
@@ -37,7 +36,9 @@ public class RunSimulator {
 			InsertUserGenerator iug = new InsertUserGenerator();
 			for (int i=0; i < Integer.parseInt(appProps.getProperty("num_of_users")); i++) {
 				System.out.println(iug.generateQuery(null));
-//				String response = utils.executeUpdateAndReturnPostvent(iug.generateQuery(null));
+				String response = utils.executeQueryAndReturnPostvent("from User u select u");
+				Utilities.getUserUUID(response);
+//				String response2 = utils.executeUpdateAndReturnPostvent(iug.generateQuery(null));
 //				System.out.println(response);
 			}
 		}
@@ -53,7 +54,7 @@ public class RunSimulator {
 		Thread at1 = new Thread(new SimpleAgent());
 		at1.start();
 		Thread at2 = new Thread(new SimpleAgent2());
-		at2.start();
+//		at2.start();
 	}
 
 }
