@@ -37,6 +37,21 @@ public class Utilities {
 		return allUUIDs;
 	}
 	
+	public static ArrayList<String> getAllProductUUIDs() throws Exception {
+		ExecuteQueries eq = new ExecuteQueries();
+		ExecuteQueries.Utils utils = eq.new Utils();
+		
+		String resultSet = utils.executeQueryAndReturnPostvent("from Product p select p");
+		ArrayList<String> allUUIDsWithPattern  = getPatternGroupsFromResultSet(resultSet, "\"uuid\":\"[a-zA-Z0-9\\-]*\",\"fields\"");
+		ArrayList<String> allUUIDs = new ArrayList<String>();
+		for (String uuidWithPattern : allUUIDsWithPattern) {
+			String uuid = uuidWithPattern.split("\"uuid\":\"")[1].split("\",")[0];
+			allUUIDs.add(uuid);
+		}
+		return allUUIDs;
+	}
+
+	
 	public static ArrayList<String> getPatternGroupsFromResultSet(String resultSet,  String  stringPattern) {
 		ArrayList<String> patternGroups = new ArrayList<String>();
 		Pattern pattern = Pattern.compile(stringPattern);
@@ -47,4 +62,5 @@ public class Utilities {
 		return patternGroups;
 	}
 
+	
 }
