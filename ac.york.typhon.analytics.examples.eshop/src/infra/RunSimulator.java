@@ -11,6 +11,8 @@ import java.util.UUID;
 import com.sun.jersey.api.client.ClientResponse;
 
 import agents.BuyerAgent;
+import agents.BuyerReviewerAgent;
+import agents.ReviewerNoBuyerAgent;
 import agents.SimpleAgent;
 import agents.SimpleAgent2;
 import queryGenerators.InsertCreditCardGenerator;
@@ -28,10 +30,12 @@ public class RunSimulator {
 		
 		init();
 		
-		Thread at1 = new Thread(new SimpleAgent());
+		Thread at1 = new Thread(new BuyerReviewerAgent());
 		at1.start();
 		Thread at2 = new Thread(new BuyerAgent());
 		at2.start();
+		Thread at3 = new Thread(new ReviewerNoBuyerAgent());
+		at3.start();
 	}
 	
 	public static void init() throws Exception {
