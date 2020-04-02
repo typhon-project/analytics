@@ -44,14 +44,19 @@ public class RunSimulator {
 		appProps.load(inputStream);
 		ExecuteQueries eq = new ExecuteQueries();
 		ExecuteQueries.Utils utils = eq.new Utils();
-		
 		// Create Users
 		System.out.println("Create users? " + appProps.getProperty("generate_users"));
 		if(Boolean.parseBoolean(appProps.getProperty("generate_users"))) {
 			System.out.println("Started user creation");
 			InsertUserGenerator iug = new InsertUserGenerator();
+			Map<String, String> params = new HashMap<String, String>();
 			for (int i=0; i < Integer.parseInt(appProps.getProperty("num_of_users")); i++) {
-				String response = utils.executeUpdateAndReturnPostvent(iug.generateQuery(null));
+				int seed = Integer.parseInt(appProps.getProperty("seed"));
+				seed+=i;
+				System.out.println(seed);
+				params.put("seed", ""  + seed);
+				System.out.println(iug.generateQuery(params));
+//				String response = utils.executeUpdateAndReturnPostvent(iug.generateQuery(params));
 			}
 			System.out.println("User creation finished.");
 		}

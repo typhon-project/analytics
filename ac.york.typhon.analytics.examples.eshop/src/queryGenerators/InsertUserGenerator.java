@@ -1,6 +1,10 @@
 package queryGenerators;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
+import java.util.Properties;
+import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -10,10 +14,12 @@ public class InsertUserGenerator implements QueryGenerator {
 
 	@Override
 	public String generateQuery(Map<String, String> params) {
-		Faker faker = new Faker();
+		int seed = Integer.parseInt(params.get("seed"));
+		System.out.println(seed);
+		Faker faker = new Faker(new Random(seed));
 		StringBuilder str = new StringBuilder();
 		str.append("insert User {");
-		str.append("id: \"" + UUID.randomUUID().toString()  + "\", ");
+		str.append("id: \"" + UUID.randomUUID().toString() + "\", ");
 		str.append("name: \"" + faker.name().fullName() + "\", ");
 		str.append("paymentsDetails: [CreditCard {id: \"" + UUID.randomUUID().toString() + "\", ");
 		str.append("number: \"" + faker.finance().creditCard() + "\", ");
