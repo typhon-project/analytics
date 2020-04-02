@@ -6,4 +6,5 @@
   <semanticResources>DocumentDatabase.tdl</semanticResources>
   <semanticResources>ecommerce.tdl</semanticResources>
   <semanticResources>ecommerce/ecommerce.xmi</semanticResources>
+  <semanticResources>ecommerceNewSyntax.tml</semanticResources>
 </viewpoint:DAnalysis>
