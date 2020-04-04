@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer09;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 
 import ac.york.typhon.analytics.commons.AppConfiguration;
@@ -16,7 +16,7 @@ import ac.york.typhon.analytics.commons.serialization.EventSchema;
 public class TopicSubscriber {
 
 	// private static Map<ITopicType, Class<?>> topicEventMap;
-	private static Map<ITopicType, FlinkKafkaConsumer09<Event>> topicStreamConsumerMap;
+	private static Map<ITopicType, FlinkKafkaConsumer<Event>> topicStreamConsumerMap;
 
 	static {
 		initialize();
@@ -26,7 +26,7 @@ public class TopicSubscriber {
 	 * 
 	 */
 	private static void initialize() {
-		topicStreamConsumerMap = new HashMap<ITopicType, FlinkKafkaConsumer09<Event>>();
+		topicStreamConsumerMap = new HashMap<ITopicType, FlinkKafkaConsumer<Event>>();
 
 		// topicEventMap = new HashMap<ITopicType, Class<?>>();
 		// topicEventMap.put(AnalyticTopicType.PRE, PreEvent.class);
@@ -46,9 +46,9 @@ public class TopicSubscriber {
 	 * @param topic
 	 * @return
 	 */
-	public static FlinkKafkaConsumer09<Event> retrieveStreamConsumer(
+	public static FlinkKafkaConsumer<Event> retrieveStreamConsumer(
 			ITopicType topic, Class<?> eventClass) {
-		FlinkKafkaConsumer09<Event> topicConsumer = null;
+		FlinkKafkaConsumer<Event> topicConsumer = null;
 
 		if (topicStreamConsumerMap.containsKey(topic) == true) {
 			topicConsumer = topicStreamConsumerMap.get(topic);
@@ -60,7 +60,6 @@ public class TopicSubscriber {
 			properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
 					AppConfiguration.getString(Constants.Properties.Topic
 							.name(topic.getLabel()).BOOTSTRAP_SERVERS));
-
 			// Consumer group ID
 			properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG,
 					AppConfiguration.getString(Constants.Properties.Topic
@@ -73,8 +72,7 @@ public class TopicSubscriber {
 
 			// topicConsumer = new FlinkKafkaConsumer09<Event>(topic.getLabel(),
 			// new EventSchema(topicEventMap.get(topic)), properties);
-
-			topicConsumer = new FlinkKafkaConsumer09<Event>(topic.getLabel(),
+			topicConsumer = new FlinkKafkaConsumer<Event>(topic.getLabel().toUpperCase(),
 					new EventSchema(eventClass), properties);
 
 			topicStreamConsumerMap.put(topic, topicConsumer);

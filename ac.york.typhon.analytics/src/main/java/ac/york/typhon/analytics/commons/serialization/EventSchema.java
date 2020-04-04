@@ -13,6 +13,10 @@ import org.apache.flink.api.common.serialization.DeserializationSchema;
 import org.apache.flink.api.common.serialization.SerializationSchema;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.java.typeutils.TypeExtractor;
+import org.apache.flink.streaming.connectors.kafka.KafkaDeserializationSchema;
+import org.apache.flink.streaming.connectors.kafka.KafkaSerializationSchema;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.Serializer;
 
@@ -27,8 +31,8 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.gson.Gson;
 
-public class EventSchema implements DeserializationSchema<Event>, Deserializer,
-		SerializationSchema<Event>, Serializer {
+public class EventSchema implements KafkaDeserializationSchema<Event>, Deserializer,
+		KafkaSerializationSchema<Event>, Serializer {
 	private static ObjectMapper objectMapper = new ObjectMapper()
 			.registerModule(new JavaTimeModule());
 
@@ -125,9 +129,15 @@ public class EventSchema implements DeserializationSchema<Event>, Deserializer,
 		// Kafka Deserializer
 		Event event = null;
 		try {
-			event = deserialize(data);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
+			if (data != null) {
+//					event = (Event) gson.fromJson(message.toString(),
+//							this.eventClass);
+
+				 event = (Event) objectMapper
+				 .readValue(data, this.eventClass);
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return event;
@@ -139,26 +149,26 @@ public class EventSchema implements DeserializationSchema<Event>, Deserializer,
 
 	}
 
-	@Override
-	public Event deserialize(byte[] message) throws IOException {
-		// Flink Deserializer
-
-		Event event = null;
-		try {
-
-			if (message != null) {
-//				event = (Event) gson.fromJson(message.toString(),
-//						this.eventClass);
-
-				 event = (Event) objectMapper
-				 .readValue(message, this.eventClass);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return event;
-
-	}
+//	@Override
+//	public Event deserialize(byte[] message) throws IOException {
+//		// Flink Deserializer
+//
+//		Event event = null;
+//		try {
+//
+//			if (message != null) {
+////				event = (Event) gson.fromJson(message.toString(),
+////						this.eventClass);
+//
+//				 event = (Event) objectMapper
+//				 .readValue(message, this.eventClass);
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return event;
+//
+//	}
 
 	@Override
 	public boolean isEndOfStream(Event nextElement) {
@@ -173,11 +183,34 @@ public class EventSchema implements DeserializationSchema<Event>, Deserializer,
 		return convertObjectToByteArray(data);
 	}
 
-	@Override
-	public byte[] serialize(Event element) {
-		// Flink serializer
+//	@Override
+//	public byte[] serialize(Event element) {
+//		// Flink serializer
+//
+//		return convertObjectToByteArray(element);
+//	}
 
-		return convertObjectToByteArray(element);
+	@Override
+	public ProducerRecord<byte[], byte[]> serialize(Event element, Long timestamp) {
+		return new ProducerRecord<byte[],byte[]>("test", convertObjectToByteArray(element));
+	}
+
+	@Override
+	public Event deserialize(ConsumerRecord<byte[], byte[]> record) throws Exception {
+		Event event = null;
+		try {
+
+			if (record.value() != null) {
+//				event = (Event) gson.fromJson(message.toString(),
+//						this.eventClass);
+
+				 event = (Event) objectMapper
+				 .readValue(record.value(), this.eventClass);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return event;
 	}
 
 }

@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer09;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer.Semantic;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -18,7 +19,7 @@ import ac.york.typhon.analytics.commons.serialization.EventSchema;
 public class TopicPublisher {
 
 	private static Map<ITopicType, KafkaProducer<String, Event>> topicProducerMap;
-	private static Map<ITopicType, FlinkKafkaProducer09<Event>> topicStreamProducerMap;
+	private static Map<ITopicType, FlinkKafkaProducer<Event>> topicStreamProducerMap;
 
 	static {
 		initialize();
@@ -27,7 +28,7 @@ public class TopicPublisher {
 	private static void initialize() {
 
 		topicProducerMap = new HashMap<ITopicType, KafkaProducer<String, Event>>();
-		topicStreamProducerMap = new HashMap<ITopicType, FlinkKafkaProducer09<Event>>();
+		topicStreamProducerMap = new HashMap<ITopicType, FlinkKafkaProducer<Event>>();
 
 	}
 
@@ -66,17 +67,19 @@ public class TopicPublisher {
 	 * @param topic
 	 * @return
 	 */
-	public static FlinkKafkaProducer09<Event> retrieveStreamProducer(
+	public static FlinkKafkaProducer<Event> retrieveStreamProducer(
 			ITopicType topic) {
-		FlinkKafkaProducer09<Event> topicStreamProducer = null;
+		FlinkKafkaProducer<Event> topicStreamProducer = null;
 
 		if (topicStreamProducerMap.containsKey(topic) == true) {
 			topicStreamProducer = topicStreamProducerMap.get(topic);
 		} else if (topicStreamProducerMap.containsKey(topic) == false) {
-			topicStreamProducer = new FlinkKafkaProducer09<Event>(
+			Properties producerConfig = new Properties();
+			producerConfig.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
 					AppConfiguration.getString(Constants.Properties.Topic
-							.name(topic.getLabel()).BOOTSTRAP_SERVERS),
-					topic.getLabel(), new EventSchema());
+							.name(topic.getLabel()).BOOTSTRAP_SERVERS));
+			topicStreamProducer = new FlinkKafkaProducer<Event>(
+					topic.getLabel(), new EventSchema(), producerConfig, Semantic.NONE);
 			topicStreamProducerMap.put(topic, topicStreamProducer);
 		}
 
