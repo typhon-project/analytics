@@ -7,7 +7,7 @@ import commons.EShopTopics;
 public class AnalyticsRunner {
 
 	public static void main(String[] args) throws Exception {
-		ChannelBuilder.build(new TestScenario(), AnalyticTopicType.POST, EShopTopics.ESHOPRESULTS);
+		ChannelBuilder.build(new TestScenario(), AnalyticTopicType.POST);
 	}
 
 }
