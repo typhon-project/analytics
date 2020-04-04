@@ -1,7 +1,7 @@
 package ac.york.typhon.analytics.commons;
 
 public class Constants {
-	public static final String PROPERTIES_FILENAME = "config.properties";
+	public static final String PROPERTIES_FILENAME = "typhonAnalyticsConfig.properties";
 
 	public static interface Properties {
 
