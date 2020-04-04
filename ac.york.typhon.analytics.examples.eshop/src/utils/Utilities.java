@@ -27,7 +27,7 @@ public class Utilities {
 		ExecuteQueries eq = new ExecuteQueries();
 		ExecuteQueries.Utils utils = eq.new Utils();
 		
-		String resultSet = utils.executeQueryAndReturnPostvent("from User u select u");
+		String resultSet = utils.executeQuery("from User u select u");
 		ArrayList<String> allUUIDsWithPattern  = getPatternGroupsFromResultSet(resultSet, "\"uuid\":\"[a-zA-Z0-9\\-]*\",\"fields\"");
 		ArrayList<String> allUUIDs = new ArrayList<String>();
 		for (String uuidWithPattern : allUUIDsWithPattern) {
@@ -41,7 +41,7 @@ public class Utilities {
 		ExecuteQueries eq = new ExecuteQueries();
 		ExecuteQueries.Utils utils = eq.new Utils();
 		
-		String resultSet = utils.executeQueryAndReturnPostvent("from Product p select p");
+		String resultSet = utils.executeQuery("from Product p select p");
 		ArrayList<String> allUUIDsWithPattern  = getPatternGroupsFromResultSet(resultSet, "\"uuid\":\"[a-zA-Z0-9\\-]*\",\"fields\"");
 		ArrayList<String> allUUIDs = new ArrayList<String>();
 		for (String uuidWithPattern : allUUIDsWithPattern) {
