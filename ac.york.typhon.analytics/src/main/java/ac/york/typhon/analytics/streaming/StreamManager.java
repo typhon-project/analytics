@@ -6,7 +6,7 @@ import java.util.Map;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer09;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
 
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.york.typhon.analytics.commons.enums.ITopicType;
@@ -46,7 +46,7 @@ public class StreamManager {
 		streamExecutionEnvironmentMap.put(topic, streamExecutionEnvironment);
 
 		// retrieve the topic consumer that subscribed to the topic
-		FlinkKafkaConsumer09<Event> topicConsumer = TopicSubscriber
+		FlinkKafkaConsumer<Event> topicConsumer = TopicSubscriber
 				.retrieveStreamConsumer(topic, eventClass);
 
 		// assign the consumer as the data source of the stream
