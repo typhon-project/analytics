@@ -1,22 +1,22 @@
 entity Review{
-	id : string 
-	content : string
+	id : string[32] 
+	content : string[32]
 	product -> Product[1]
 }
 
 
 entity Product{
-	id : string
-	name : string
-	description : string
+	id : string[32]
+	name : string[32]
+	description : string[32]
 	
 	orders -> OrderProduct[0..*]
 	review :-> Review."Review.product"[0..*]
 }
 
 entity OrderProduct{
-	id : string
-	product_date : string
+	id : string[32]
+	product_date : string[32]
 	totalAmount : int
 	
 	products -> Product.products[0..*]
@@ -25,8 +25,8 @@ entity OrderProduct{
 }
 
 entity User{
-	id : string
-	name : string
+	id : string[32]
+	name : string[32]
 	
 	comments :-> Comment[0..*]
 	paymentsDetails :-> CreditCard[0..*]
@@ -34,16 +34,16 @@ entity User{
 }
 
 entity Comment{
-	id : string
-	content : string
+	id : string[32]
+	content : string[32]
 	
 	responses :-> Comment[0..*]
 }
 
 entity CreditCard{
-	id : string
-	number : string
-	expiryDate : string
+	id : string[32]
+	number : string[32]
+	expiryDate : string[32]
 } 
 
 relationaldb RelationalDatabase{

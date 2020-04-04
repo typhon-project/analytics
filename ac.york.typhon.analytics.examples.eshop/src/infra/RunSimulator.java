@@ -31,11 +31,11 @@ public class RunSimulator {
 		init();
 		
 		Thread at1 = new Thread(new BuyerReviewerAgent());
-		at1.start();
+//		at1.start();
 		Thread at2 = new Thread(new BuyerAgent());
-		at2.start();
+//		at2.start();
 		Thread at3 = new Thread(new ReviewerNoBuyerAgent());
-		at3.start();
+//		at3.start();
 	}
 	
 	public static void init() throws Exception {
@@ -56,7 +56,7 @@ public class RunSimulator {
 				System.out.println(seed);
 				params.put("seed", ""  + seed);
 				System.out.println(iug.generateQuery(params));
-//				String response = utils.executeUpdateAndReturnPostvent(iug.generateQuery(params));
+//				String response = utils.executeUpdate(iug.generateQuery(params));
 			}
 			System.out.println("User creation finished.");
 		}
@@ -69,7 +69,7 @@ public class RunSimulator {
 			System.out.println("Started product creation");
 			InsertProductGenerator ipg = new InsertProductGenerator();
 			for (int i=0; i < Integer.parseInt(appProps.getProperty("num_of_products")); i++) {
-				utils.executeUpdateAndReturnPostvent(ipg.generateQuery(null));
+				utils.executeUpdate(ipg.generateQuery(null));
 			}
 			System.out.println("Product creation finished.");
 		}

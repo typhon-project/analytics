@@ -1,15 +1,6 @@
 version: '3.7'
 
 services:
-  RelationalDatabase:
-    image: mariadb:latest
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-    ports:
-      - target: 3306
-        published: 3306
-    hostname: RelationalDatabase
-    container_name : RelationalDatabase
   DocumentDatabase:
     image: mongo:latest
     environment:
@@ -20,6 +11,15 @@ services:
         published: 27018
     hostname: DocumentDatabase
     container_name : DocumentDatabase
+  RelationalDatabase:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - target: 3306
+        published: 3306
+    hostname: RelationalDatabase
+    container_name : RelationalDatabase
   polystore-mongo:
     image: mongo:latest
     environment:
