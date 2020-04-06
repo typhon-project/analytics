@@ -53,7 +53,6 @@ public class RunSimulator {
 			for (int i=0; i < Integer.parseInt(appProps.getProperty("num_of_users")); i++) {
 				int seed = Integer.parseInt(appProps.getProperty("seed"));
 				seed+=i;
-				System.out.println(seed);
 				params.put("seed", ""  + seed);
 				System.out.println(iug.generateQuery(params));
 //				String response = utils.executeUpdate(iug.generateQuery(params));
@@ -64,8 +63,12 @@ public class RunSimulator {
 		allUsers = Utilities.getAllUserUUIDs();
 
 		System.out.println("Create products? " + appProps.getProperty("generate_products"));
+		
 		// Create Products
 		if(Boolean.parseBoolean(appProps.getProperty("generate_products"))) {
+			// Start by creating Categories
+			System.out.println("Started categories creation");
+			createCategories();
 			System.out.println("Started product creation");
 			InsertProductGenerator ipg = new InsertProductGenerator();
 			for (int i=0; i < Integer.parseInt(appProps.getProperty("num_of_products")); i++) {
@@ -75,6 +78,30 @@ public class RunSimulator {
 		}
 		// Store all products created
 		allProducts = Utilities.getAllProductUUIDs();
+	}
+	
+	public static void createCategories() throws Exception {
+		ExecuteQueries eq = new ExecuteQueries();
+		ExecuteQueries.Utils utils = eq.new Utils();
+		
+		ArrayList<String> possibleCategories = new ArrayList<String>();
+		possibleCategories.add("Computers");
+		possibleCategories.add("Groceries");
+		possibleCategories.add("Health");
+		possibleCategories.add("Clothing");
+		possibleCategories.add("Kitchen");
+		possibleCategories.add("Bathroom");
+		possibleCategories.add("Furniture");
+		
+		for (int i=0; i<possibleCategories.size(); i++) {
+			String category = possibleCategories.get(i);
+			StringBuilder str = new StringBuilder();
+			str.append("insert Category {");
+			str.append("id: \"" + i + "\", ");
+			str.append("name: \"" + category + "\"");
+			str.append("}");
+			utils.executeUpdate(str.toString());
+		}
 	}
 
 }
