@@ -1,4 +1,4 @@
-import ecommerce.tmlx
+import EcommerceEnhanced.xmi
 import RelationalDatabase.tdl
 import DocumentDatabase.tdl
 import dbTypes.tdl
