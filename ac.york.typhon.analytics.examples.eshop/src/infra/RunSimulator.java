@@ -15,6 +15,7 @@ import agents.BuyerReviewerAgent;
 import agents.ReviewerNoBuyerAgent;
 import agents.SimpleAgent;
 import agents.SimpleAgent2;
+import queryGenerators.InsertAddressGenerator;
 import queryGenerators.InsertCreditCardGenerator;
 import queryGenerators.InsertProductGenerator;
 import queryGenerators.InsertUserGenerator;
@@ -49,11 +50,17 @@ public class RunSimulator {
 		if(Boolean.parseBoolean(appProps.getProperty("generate_users"))) {
 			System.out.println("Started user creation");
 			InsertUserGenerator iug = new InsertUserGenerator();
+			InsertAddressGenerator iadg = new InsertAddressGenerator();
+
 			Map<String, String> params = new HashMap<String, String>();
 			for (int i=0; i < Integer.parseInt(appProps.getProperty("num_of_users")); i++) {
 				int seed = Integer.parseInt(appProps.getProperty("seed"));
 				seed+=i;
 				params.put("seed", ""  + seed);
+				// Create Address queries
+				// FIXME: After execution we need to keep the UUID to put it in the User query
+				System.out.println(iadg.generateQuery(params));
+				// Create User queries
 				System.out.println(iug.generateQuery(params));
 //				String response = utils.executeUpdate(iug.generateQuery(params));
 			}
