@@ -10,6 +10,8 @@ public class PopulateDBAndQueues {
 		for (File file : folder.listFiles()) {
 			if (file.getName().contains("ESP")) {
 				Utilities.fromESPJsonToQuery(file);
+			} else if (file.getName().contains("Metadata_")) {
+				Utilities.fromMetadataJsonToQuery(file);
 			}
 		}
 

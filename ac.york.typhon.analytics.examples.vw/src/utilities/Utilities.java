@@ -86,5 +86,37 @@ public class Utilities {
 		System.out.println(query);
 		return query;
 	}
+	
+	public static String fromMetadataJsonToQuery(File jsonFile) throws FileNotFoundException, IOException, ParseException {
+		String query = "";
+        Object obj = new JSONParser().parse(new FileReader(jsonFile)); 
+        JSONObject jo = (JSONObject) obj; 
+        
+        Map codMessage = (Map) jo.get("codMessage");
+		
+        Map ignitionOn = (Map) ((JSONArray) codMessage.get("ignitionOn")).get(0);
+		String VIN = ignitionOn.get("VIN").toString();
+		String brand = ignitionOn.get("brand").toString();
+		String model = ignitionOn.get("model").toString();
+		String constr_year = ignitionOn.get("constr_year").toString();
+		String color = ignitionOn.get("color").toString();
+		String t_sensor_h = ignitionOn.get("t_sensor_h").toString();
+		String engine_type = ignitionOn.get("engine_type").toString();
+
+		StringBuilder str = new StringBuilder();
+		str.append("insert VehicleMetadata {");
+		str.append("VIN: " + VIN + ", ");
+		str.append("brand: \"" + brand + "\", ");
+		str.append("model: \"" + model + "\", ");
+		str.append("constr_year: " + constr_year + ", ");
+		str.append("color: \"" + color + "\", ");
+		str.append("t_sensor_h: " + t_sensor_h + ", ");
+		str.append("engine_type: \"" + engine_type + "\"");
+		str.append("}");
+		
+		query = str.toString();
+		System.out.println(query);
+		return query;
+	}
 
 }
