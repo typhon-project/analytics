@@ -1,5 +1,17 @@
 package utilities;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Map;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 public class Utilities {
 	
 	/**
@@ -29,6 +41,50 @@ public class Utilities {
 	    distance = Math.pow(distance, 2) + Math.pow(height, 2);
 
 	    return Math.sqrt(distance);
+	}
+	
+	public static String fromESPJsonToQuery(File jsonFile) throws FileNotFoundException, IOException, ParseException {
+		String query = "";
+        Object obj = new JSONParser().parse(new FileReader(jsonFile)); 
+        JSONObject jo = (JSONObject) obj; 
+        
+        Map eventMessage = (Map) jo.get("eventMessage"); 
+		
+        // Find ESP event type
+        String espSignal = (String) eventMessage.get("esp_signal");
+		String esp_edl = "false";
+		String esp_idd = "false";
+		String esp_abs = "false";
+		if (espSignal.equalsIgnoreCase("esp_edl")) {
+			esp_edl = "true";
+		} else if (espSignal.equalsIgnoreCase("esp_idd")) {
+			esp_idd = "true";
+		} else if (espSignal.equalsIgnoreCase("esp_abs")) {
+			esp_abs = "true";
+		}
+		
+        Map data = (Map) ((JSONArray) eventMessage.get("data")).get(0);
+		String VIN = data.get("VIN").toString();
+		String timestamp = data.get("timestamp").toString();
+		Map geoposition = (Map) ((JSONArray) data.get("geoposition")).get(0);
+		String lat = geoposition.get("lat").toString();
+		String lon = geoposition.get("lon").toString();
+		
+		StringBuilder str = new StringBuilder();
+		str.append("insert EPS {");
+		str.append("VIN: " + VIN + ", ");
+		str.append("timestamp: " + timestamp + ", ");
+		// FIXME: How to represent a point?
+		str.append("vehicle_position: " + lat + " " + lon + ", ");
+		str.append("esp_edl: " + esp_edl + ", ");
+		str.append("esp_idd: " + esp_idd + ", ");
+		str.append("esp_abs: " + esp_abs );
+		str.append("}");
+		// TODO: What about weather reference?
+		
+		query = str.toString();
+		System.out.println(query);
+		return query;
 	}
 
 }
