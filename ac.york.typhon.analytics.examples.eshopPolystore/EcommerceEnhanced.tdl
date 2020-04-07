@@ -1,6 +1,6 @@
 import EcommerceEnhanced.xmi
-import RelationalDatabase.tdl
 import DocumentDatabase.tdl
+import RelationalDatabase.tdl
 import dbTypes.tdl
 containertype Docker
 clustertype DockerCompose
@@ -8,18 +8,18 @@ platformtype localhost
 platform platformName : localhost {
 	cluster clusterName : DockerCompose {
 		application Polystore {
-			container RelationalDatabase : Docker {
-				deploys RelationalDatabase
-				ports {
-					target = 3306 ;
-					published = 3306 ;
-				}
-			}
 			container DocumentDatabase : Docker {
 				deploys DocumentDatabase
 				ports {
 					target = 27017 ;
 					published = 27018 ;
+				}
+			}
+			container RelationalDatabase : Docker {
+				deploys RelationalDatabase
+				ports {
+					target = 3306 ;
+					published = 3306 ;
 				}
 			}
 		}

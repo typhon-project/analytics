@@ -10,6 +10,7 @@ import agents.BuyerAgent;
 import agents.BuyerReviewerAgent;
 import agents.ReviewerNoBuyerAgent;
 import entityCreator.ProductCreator;
+import entityCreator.UserCreator;
 import queryGenerators.InsertAddressGenerator;
 import queryGenerators.InsertUserGenerator;
 import utils.ExecuteQueries;
@@ -41,25 +42,16 @@ public class RunSimulator {
 		System.out.println("Create users? " + appProps.getProperty("generate_users"));
 		if(Boolean.parseBoolean(appProps.getProperty("generate_users"))) {
 			System.out.println("Started user creation");
-			InsertUserGenerator iug = new InsertUserGenerator();
-			InsertAddressGenerator iadg = new InsertAddressGenerator();
-
-			Map<String, String> params = new HashMap<String, String>();
+			UserCreator uc = new UserCreator();
 			int seed = Integer.parseInt(appProps.getProperty("seed"));
+			ArrayList<String> userIds = new ArrayList<String>();
 			for (int i=0; i < Integer.parseInt(appProps.getProperty("num_of_users")); i++) {
+				String userId = uc.create(seed);
+				userIds.add(userId);
 				seed++;
-				params.put("seed", ""  + seed);
-				// Create Address queries
-				// FIXME: After execution we need to keep the UUID to put it in the User query
-				System.out.println(iadg.generateQuery(params));
-				// Create User queries
-				System.out.println(iug.generateQuery(params));
-//				String response = utils.executeUpdate(iug.generateQuery(params));
 			}
 			System.out.println("User creation finished.");
 		}
-		// Store all users created
-//		allUsers = Utilities.getAllUserUUIDs();
 
 		System.out.println("Create products? " + appProps.getProperty("generate_products"));
 		
@@ -79,8 +71,6 @@ public class RunSimulator {
 			}
 			System.out.println("Product creation finished.");
 		}
-		// Store all products created
-//		allProducts = Utilities.getAllProductUUIDs();
 	}
 	
 	

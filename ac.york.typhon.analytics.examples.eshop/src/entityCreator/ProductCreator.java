@@ -29,7 +29,8 @@ public class ProductCreator {
 	}
 
 	public static ArrayList<String> createCategoryies() throws Exception {
-
+		
+		System.out.println("Started Category Creation");
 		ExecuteQueries eq = new ExecuteQueries();
 		ExecuteQueries.Utils utils = eq.new Utils();
 
@@ -54,6 +55,7 @@ public class ProductCreator {
 			String categoryId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
 			categoryIds.add(categoryId);
 		}
+		System.out.println("Finished Category Creation");
 		return categoryIds;
 	}
 }

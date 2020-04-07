@@ -22,7 +22,6 @@
       <type xsi:type="typhonml:StringType" maxSize="1024"/>
     </attributes>
     <relations name="category" type="//@entities.3" cardinality="one"/>
-    <relations name="reviews" type="//@entities.0" cardinality="zero_many" opposite="//@entities.0/@relations.0" isContainment="true"/>
   </entities>
   <entities name="Order">
     <attributes xsi:type="typhonml:Attribute" name="id">
@@ -86,7 +85,6 @@
       <type xsi:type="typhonml:StringType" maxSize="64"/>
     </attributes>
     <relations name="items" type="//@entities.8" cardinality="zero_many" isContainment="true"/>
-    <relations name="user" type="//@entities.5" cardinality="one" opposite="//@entities.5/@relations.5"/>
   </entities>
   <entities name="BasketProduct">
     <attributes xsi:type="typhonml:Attribute" name="id">
@@ -99,7 +97,6 @@
       <type xsi:type="typhonml:DateType"/>
     </attributes>
     <relations name="product" type="//@entities.1" cardinality="one" isContainment="true"/>
-    <relations name="basket" type="//@entities.7" cardinality="one" opposite="//@entities.7/@relations.0"/>
   </entities>
   <entities name="Comment">
     <attributes xsi:type="typhonml:Attribute" name="id">
@@ -125,7 +122,7 @@
     <tables name="OrderDB" entity="//@entities.2">
       <indexSpec name="orderIndex" attributes="//@entities.2/@attributes.0"/>
       <idSpec>
-        <attributes href="/ac.york.typhon.analytics.examples.eshopPolystore/EcommerceEnhanced.tml#|29"/>
+        <attributes href="/ac.york.typhon.analytics.examples.eshopPolystore/EcommerceEnhanced.tml#|23"/>
       </idSpec>
     </tables>
     <tables name="UserDB" entity="//@entities.5">
