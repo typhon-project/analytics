@@ -2,10 +2,10 @@
 <typhonml:Model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:typhonml="http://org.typhon.dsls.typhonml.sirius">
   <entities name="Review">
     <attributes xsi:type="typhonml:Attribute" name="id">
-      <type xsi:type="typhonml:StringType" maxSize="32"/>
+      <type xsi:type="typhonml:StringType" maxSize="64"/>
     </attributes>
     <attributes xsi:type="typhonml:Attribute" name="content">
-      <type xsi:type="typhonml:StringType" maxSize="32"/>
+      <type xsi:type="typhonml:StringType" maxSize="1024"/>
     </attributes>
     <relations name="product" type="//@entities.1" cardinality="one"/>
     <relations name="comments" type="//@entities.9" cardinality="zero_many" isContainment="true"/>
@@ -13,20 +13,20 @@
   </entities>
   <entities name="Product">
     <attributes xsi:type="typhonml:Attribute" name="id">
-      <type xsi:type="typhonml:StringType" maxSize="32"/>
+      <type xsi:type="typhonml:StringType" maxSize="64"/>
     </attributes>
     <attributes xsi:type="typhonml:Attribute" name="name">
-      <type xsi:type="typhonml:StringType" maxSize="32"/>
+      <type xsi:type="typhonml:StringType" maxSize="64"/>
     </attributes>
     <attributes xsi:type="typhonml:Attribute" name="description">
-      <type xsi:type="typhonml:StringType" maxSize="32"/>
+      <type xsi:type="typhonml:StringType" maxSize="1024"/>
     </attributes>
     <relations name="category" type="//@entities.3" cardinality="one"/>
     <relations name="reviews" type="//@entities.0" cardinality="zero_many" opposite="//@entities.0/@relations.0" isContainment="true"/>
   </entities>
   <entities name="Order">
     <attributes xsi:type="typhonml:Attribute" name="id">
-      <type xsi:type="typhonml:StringType" maxSize="32"/>
+      <type xsi:type="typhonml:StringType" maxSize="64"/>
     </attributes>
     <attributes xsi:type="typhonml:Attribute" name="order_date">
       <type xsi:type="typhonml:DateType"/>
@@ -40,7 +40,7 @@
   </entities>
   <entities name="Category">
     <attributes xsi:type="typhonml:Attribute" name="id">
-      <type xsi:type="typhonml:StringType" maxSize="32"/>
+      <type xsi:type="typhonml:StringType" maxSize="64"/>
     </attributes>
     <attributes xsi:type="typhonml:Attribute" name="name">
       <type xsi:type="typhonml:StringType" maxSize="32"/>
@@ -48,9 +48,9 @@
   </entities>
   <entities name="OrderedProduct">
     <attributes xsi:type="typhonml:Attribute" name="id">
-      <type xsi:type="typhonml:StringType" maxSize="32"/>
+      <type xsi:type="typhonml:StringType" maxSize="64"/>
     </attributes>
-    <attributes xsi:type="typhonml:Attribute" name="quanity">
+    <attributes xsi:type="typhonml:Attribute" name="quantity">
       <type xsi:type="typhonml:IntType"/>
     </attributes>
     <relations name="product" type="//@entities.1" cardinality="one"/>
@@ -58,7 +58,7 @@
   </entities>
   <entities name="User">
     <attributes xsi:type="typhonml:Attribute" name="id">
-      <type xsi:type="typhonml:StringType" maxSize="32"/>
+      <type xsi:type="typhonml:StringType" maxSize="64"/>
     </attributes>
     <attributes xsi:type="typhonml:Attribute" name="name">
       <type xsi:type="typhonml:StringType" maxSize="32"/>
@@ -72,7 +72,7 @@
   </entities>
   <entities name="Address">
     <attributes xsi:type="typhonml:Attribute" name="id">
-      <type xsi:type="typhonml:StringType" maxSize="32"/>
+      <type xsi:type="typhonml:StringType" maxSize="64"/>
     </attributes>
     <attributes xsi:type="typhonml:Attribute" name="street">
       <type xsi:type="typhonml:StringType" maxSize="256"/>
@@ -83,14 +83,14 @@
   </entities>
   <entities name="Basket">
     <attributes xsi:type="typhonml:Attribute" name="id">
-      <type xsi:type="typhonml:StringType" maxSize="32"/>
+      <type xsi:type="typhonml:StringType" maxSize="64"/>
     </attributes>
     <relations name="items" type="//@entities.8" cardinality="zero_many" isContainment="true"/>
     <relations name="user" type="//@entities.5" cardinality="one" opposite="//@entities.5/@relations.5"/>
   </entities>
   <entities name="BasketProduct">
     <attributes xsi:type="typhonml:Attribute" name="id">
-      <type xsi:type="typhonml:StringType" maxSize="32"/>
+      <type xsi:type="typhonml:StringType" maxSize="64"/>
     </attributes>
     <attributes xsi:type="typhonml:Attribute" name="quantity">
       <type xsi:type="typhonml:IntType"/>
@@ -103,16 +103,16 @@
   </entities>
   <entities name="Comment">
     <attributes xsi:type="typhonml:Attribute" name="id">
-      <type xsi:type="typhonml:StringType" maxSize="32"/>
+      <type xsi:type="typhonml:StringType" maxSize="64"/>
     </attributes>
     <attributes xsi:type="typhonml:Attribute" name="content">
-      <type xsi:type="typhonml:StringType" maxSize="32"/>
+      <type xsi:type="typhonml:StringType" maxSize="1024"/>
     </attributes>
     <relations name="responses" type="//@entities.9" cardinality="zero_many" isContainment="true"/>
   </entities>
   <entities name="CreditCard">
     <attributes xsi:type="typhonml:Attribute" name="id">
-      <type xsi:type="typhonml:StringType" maxSize="32"/>
+      <type xsi:type="typhonml:StringType" maxSize="64"/>
     </attributes>
     <attributes xsi:type="typhonml:Attribute" name="number">
       <type xsi:type="typhonml:StringType" maxSize="32"/>
