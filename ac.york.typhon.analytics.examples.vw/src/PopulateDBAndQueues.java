@@ -12,6 +12,8 @@ public class PopulateDBAndQueues {
 				Utilities.fromESPJsonToQuery(file);
 			} else if (file.getName().contains("Metadata_")) {
 				Utilities.fromMetadataJsonToQuery(file);
+			} else {
+				Utilities.fromVehicleWeatherCSVToQuery(file);
 			}
 		}
 
