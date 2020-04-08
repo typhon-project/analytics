@@ -56,6 +56,33 @@ public class StreamManager {
 		return dataStream;
 
 	}
+	
+	public static DataStream<Event> initializeSource(ITopicType topic, Class<?> eventClass, String groupId) {
+
+		// Configuration flinkConfig = new Configuration();
+		// flinkConfig.setBoolean(ConfigConstants.LOCAL_START_WEBSERVER, true);
+		// streamExecutionEnvironment = StreamExecutionEnvironment
+		// .createLocalEnvironmentWithWebUI(flinkConfig);
+
+		StreamExecutionEnvironment streamExecutionEnvironment = StreamExecutionEnvironment
+				.createLocalEnvironment(4);
+
+		streamExecutionEnvironment
+				.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
+
+		streamExecutionEnvironmentMap.put(topic, streamExecutionEnvironment);
+
+		// retrieve the topic consumer that subscribed to the topic
+		FlinkKafkaConsumer<Event> topicConsumer = TopicSubscriber
+				.retrieveStreamConsumer(topic, eventClass, groupId);
+
+		// assign the consumer as the data source of the stream
+		DataStream<Event> dataStream = streamExecutionEnvironment
+				.addSource(topicConsumer);
+
+		return dataStream;
+
+	}
 
 	/**
 	 * Initialize the

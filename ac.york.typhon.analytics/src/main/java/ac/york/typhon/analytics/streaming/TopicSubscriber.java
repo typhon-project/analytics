@@ -16,7 +16,7 @@ import ac.york.typhon.analytics.commons.serialization.EventSchema;
 public class TopicSubscriber {
 
 	// private static Map<ITopicType, Class<?>> topicEventMap;
-	private static Map<ITopicType, FlinkKafkaConsumer<Event>> topicStreamConsumerMap;
+	private static Map<String, FlinkKafkaConsumer<Event>> topicStreamConsumerMap;
 
 	static {
 		initialize();
@@ -26,7 +26,7 @@ public class TopicSubscriber {
 	 * 
 	 */
 	private static void initialize() {
-		topicStreamConsumerMap = new HashMap<ITopicType, FlinkKafkaConsumer<Event>>();
+		topicStreamConsumerMap = new HashMap<String, FlinkKafkaConsumer<Event>>();
 
 		// topicEventMap = new HashMap<ITopicType, Class<?>>();
 		// topicEventMap.put(AnalyticTopicType.PRE, PreEvent.class);
@@ -75,7 +75,39 @@ public class TopicSubscriber {
 			topicConsumer = new FlinkKafkaConsumer<Event>(topic.getLabel().toUpperCase(),
 					new EventSchema(eventClass), properties);
 
-			topicStreamConsumerMap.put(topic, topicConsumer);
+			topicStreamConsumerMap.put(topic.getLabel(), topicConsumer);
+
+		}
+		return topicConsumer;
+	}
+	
+	public static FlinkKafkaConsumer<Event> retrieveStreamConsumer(
+			ITopicType topic, Class<?> eventClass, String groupId) {
+		FlinkKafkaConsumer<Event> topicConsumer = null;
+
+		if (topicStreamConsumerMap.containsKey(topic + "." + groupId) == true) {
+			topicConsumer = topicStreamConsumerMap.get(topic);
+		} else if (topicStreamConsumerMap.containsKey(topic + "." + groupId) == false) {
+
+			Properties properties = new Properties();
+
+			// Broker default host:port
+			properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
+					AppConfiguration.getString(Constants.Properties.Topic
+							.name(topic.getLabel()).BOOTSTRAP_SERVERS));
+			// Consumer group ID
+			properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+
+			// Always read topic from start
+			properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG,
+					AppConfiguration.getString(Constants.Properties.Topic
+							.name(topic.getLabel()).AUTO_OFFSET_RESET));
+
+			// topicConsumer = new FlinkKafkaConsumer09<Event>(topic.getLabel(),
+			// new EventSchema(topicEventMap.get(topic)), properties);
+			topicConsumer = new FlinkKafkaConsumer<Event>(topic.getLabel().toUpperCase(),
+					new EventSchema(eventClass), properties);
+			topicStreamConsumerMap.put(topic + "." + groupId, topicConsumer);
 
 		}
 		return topicConsumer;

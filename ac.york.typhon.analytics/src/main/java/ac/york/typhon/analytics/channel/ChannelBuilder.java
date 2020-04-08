@@ -40,4 +40,17 @@ public class ChannelBuilder {
 		StreamManager.startExecutionEnvironment(sourceTopic);
 
 	}
+	
+	public static void build(IAnalyzer topicController,
+			ITopicType sourceTopic, String groupId) throws Exception {
+
+		DataStream<Event> dataStream = StreamManager.initializeSource(
+				sourceTopic, Class.forName(AppConfiguration
+						.getString(Constants.Properties.Topic.name(sourceTopic
+								.getLabel()).EVENT_SCHEMA_CLASS)), groupId);
+		topicController.analyze(dataStream);
+
+		StreamManager.startExecutionEnvironment(sourceTopic);
+
+	}
 }
