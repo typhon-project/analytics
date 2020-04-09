@@ -1,47 +1,27 @@
 import java.util.ArrayList;
-import java.util.Properties;
-import java.util.UUID;
 
 import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.datastream.DataStream;
-import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.api.functions.windowing.AllWindowFunction;
-import org.apache.flink.streaming.api.windowing.time.Time;
-import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
-import org.apache.flink.util.Collector;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 
+import ac.york.typhon.analytics.analyzer.IAnalyzer;
+import ac.york.typhon.analytics.commons.datatypes.events.Event;
+import ac.york.typhon.analytics.commons.datatypes.events.PostEvent;
 import ac.york.typhon.analytics.examples.vw.datatypes.ESP;
 import ac.york.typhon.analytics.examples.vw.datatypes.VehicleMetadata;
-import commons.Event;
-import commons.EventSchema;
-import commons.PostEvent;
-import utilities.Utilities;
 import engineering.swat.typhonql.ast.KeyVal;
 import engineering.swat.typhonql.ast.Request;
+import engineering.swat.typhonql.ast.Statement.Insert;
 import engineering.swat.typhonql.ast.TyphonQLASTParser;
 import enrichment.EnrichmentFunction;
-import engineering.swat.typhonql.ast.Statement.Insert;
-import io.usethesource.capsule.Map;
 
-public class AnalyticsScenarioTwo {
+public class AnalyticsScenarioTwo implements IAnalyzer {
 
-	public static void main(String[] args) throws Exception {
-
-		StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-
-		Properties properties = new Properties();
-		properties.setProperty("bootstrap.servers", "192.168.1.16:29092");
-		properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, UUID.randomUUID().toString());
-		properties.setProperty("auto.offset.reset", "earliest");
-
-		DataStream<Event> PostEventStream = env
-				.addSource(new FlinkKafkaConsumer<Event>("POST", new EventSchema(PostEvent.class), properties));
-
-		DataStream<ESP> espEvents = PostEventStream.filter(new FilterFunction<Event>() {
+	@Override
+	public DataStream<Event> analyze(
+			DataStream<Event> eventsStream) throws Exception {
+		DataStream<ESP> espEvents = eventsStream.filter(new FilterFunction<Event>() {
 
 			@Override
 			public boolean filter(Event event) throws Exception {
@@ -89,7 +69,7 @@ public class AnalyticsScenarioTwo {
 
 		}).keyBy("VIN");
 
-		DataStream<VehicleMetadata> vehicleMetaDataEvents = PostEventStream.filter(new FilterFunction<Event>() {
+		DataStream<VehicleMetadata> vehicleMetaDataEvents = eventsStream.filter(new FilterFunction<Event>() {
 
 			@Override
 			public boolean filter(Event event) throws Exception {
@@ -149,9 +129,7 @@ public class AnalyticsScenarioTwo {
 				.flatMap(new EnrichmentFunction());
 
 		enrichedEvents.print();
-
-		env.execute();
-
+		return null;
 	}
 
 }
