@@ -1,20 +1,26 @@
 import java.io.File;
 
+import mains.ExecuteQueries;
+import mains.ExecuteQueries.Utils;
 import utilities.Utilities;
 
 public class PopulateDBAndQueues {
 
 	public static void main(String[] args) throws Exception {
 
+		ExecuteQueries eq = new ExecuteQueries();
+		ExecuteQueries.Utils utils = eq.new Utils();
+		
 		final File folder = new File("files/VolkswagenSimulatedData/");
 		for (File file : folder.listFiles()) {
 			if (file.getName().contains("ESP")) {
-				Utilities.fromESPJsonToQuery(file);
-			} else if (file.getName().contains("Metadata_")) {
-				Utilities.fromMetadataJsonToQuery(file);
-			} else {
-				Utilities.fromVehicleWeatherCSVToQuery(file);
-			}
+				System.out.println(utils.executeUpdateAndReturnPostvent(Utilities.fromESPJsonToQuery(file)));
+			} 
+//			else if (file.getName().contains("Metadata_")) {
+//				Utilities.fromMetadataJsonToQuery(file);
+//			} else {
+//				Utilities.fromVehicleWeatherCSVToQuery(file);
+//			}
 		}
 
 //

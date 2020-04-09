@@ -72,11 +72,11 @@ public class Utilities {
 		String lon = geoposition.get("lon").toString();
 
 		StringBuilder str = new StringBuilder();
-		str.append("insert EPS {");
+		str.append("insert ESP {");
 		str.append("VIN: " + VIN + ", ");
-		str.append("timestamp: " + timestamp + ", ");
+		str.append("timeStamp: \"" + timestamp + "\", ");
 		// FIXME: How to represent a point?
-		str.append("vehicle_position: " + lat + " " + lon + ", ");
+		str.append("vehicle_position: \"" + lat + " " + lon + "\", ");
 		str.append("esp_edl: " + esp_edl + ", ");
 		str.append("esp_idd: " + esp_idd + ", ");
 		str.append("esp_abs: " + esp_abs);
