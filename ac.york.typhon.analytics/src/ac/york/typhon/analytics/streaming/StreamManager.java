@@ -38,7 +38,7 @@ public class StreamManager {
 		// .createLocalEnvironmentWithWebUI(flinkConfig);
 
 		StreamExecutionEnvironment streamExecutionEnvironment = StreamExecutionEnvironment
-				.createLocalEnvironment(4);
+				.getExecutionEnvironment();
 
 		streamExecutionEnvironment
 				.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
@@ -65,7 +65,7 @@ public class StreamManager {
 		// .createLocalEnvironmentWithWebUI(flinkConfig);
 
 		StreamExecutionEnvironment streamExecutionEnvironment = StreamExecutionEnvironment
-				.createLocalEnvironment(4);
+				.getExecutionEnvironment();
 
 		streamExecutionEnvironment
 				.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
