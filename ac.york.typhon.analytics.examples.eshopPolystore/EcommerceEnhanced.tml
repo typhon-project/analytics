@@ -8,7 +8,7 @@ entity Review{
 
 
 // DONE without Review ref
-entity Product{
+entity Product {
 	id : string[64]
 	name : string[64]
 	description : string[1024]
@@ -36,7 +36,6 @@ entity OrderedProduct {
 	id : string[64]
 	quantity : int
 	product -> Product[1]
-//	users -> User."User.orders"[1]
 }
 
 // DONE
@@ -94,7 +93,7 @@ relationaldb RelationalDatabase{
 			index orderIndex {
 				attributes ("Order.id")
 			}
-			idSpec ("OrderProduct.id")
+			idSpec ("OrderedProduct.id")
 		}
 		table {
 			UserDB : User
