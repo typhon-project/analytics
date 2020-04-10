@@ -1,9 +1,9 @@
-package org.typhon.entities;
+package entities;
 
-import org.typhon.entities.Entity;
 import java.util.ArrayList;
+import java.util.Date;
 
-public class [%=entity.name%] extends Entity {
+public class [%=entity.name%] {
 [%
 var types = new Map();
 types.put("StringType", "String");
@@ -11,7 +11,6 @@ types.put("IntType", "int");
 types.put("DateType", "Date");
 
 for (anAttribute in entity.attributes) { 
-	anAttribute.type.type.name.println();
 	%]
 	private [%=types.get(anAttribute.type.type.name)%] [%=anAttribute.name%];
 	
@@ -52,5 +51,21 @@ for (aRelation in entity.relations) {
 	}
 }
 %]
+
+	public String toString() { 
+		String result = "";
+		[%
+		var result = "";
+		for (anAttribute in entity.attributes) { 
+			result = result + "\" " + anAttribute.name + ": \" + " + anAttribute.name;
+			if(hasMore) {
+				result = result + " + ";
+			}
+		}	
+	
+	%]	
+		result = [%=result%];
+		return result;
+	}
 }
 
