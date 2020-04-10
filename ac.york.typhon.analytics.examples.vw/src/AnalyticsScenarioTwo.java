@@ -56,11 +56,11 @@ public class AnalyticsScenarioTwo implements IAnalyzer {
 				ESP espObj = new ESP();
 				for (KeyVal kv : keyValues) {
 					if (kv.getKey().getString().equalsIgnoreCase("VIN")) {
-						espObj.setVIN(Long.parseLong(kv.getValue().yieldTree()));
+						espObj.setVIN(Integer.parseInt(kv.getValue().yieldTree()));
 					} else if (kv.getKey().getString().equalsIgnoreCase("timestamp")) {
 						espObj.setTimestamp(kv.getValue().yieldTree());
 					} else if (kv.getKey().getString().equalsIgnoreCase("vehicle_position")) {
-						espObj.setPosition(kv.getValue().yieldTree());
+						espObj.setVehicle_position(kv.getValue().yieldTree());
 					}
 				}
 //						System.out.println(espObj);

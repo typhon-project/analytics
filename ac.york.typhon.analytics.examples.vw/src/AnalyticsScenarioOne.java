@@ -23,8 +23,8 @@ public class AnalyticsScenarioOne implements IAnalyzer {
 	
 	final static double DISTANCE_THRESHOLD = 5000.0;
 	final static int COUNT_THRESHOLD = 2;
-	final static int WINDOW_LENGTH = 60;
-	final static int WINDOW_SLIDE = 20;
+	final static int WINDOW_LENGTH = 6;
+	final static int WINDOW_SLIDE = 2;
 
 	@Override
 	public DataStream<Event> analyze(DataStream<Event> eventsStream) throws Exception {
@@ -84,12 +84,13 @@ public class AnalyticsScenarioOne implements IAnalyzer {
 					@Override
 					public void apply(TimeWindow timeWindow, Iterable<ESP> allEventsInWindow, Collector<ESP> result) throws Exception {
 						for (ESP espObj : allEventsInWindow) {
-							double la1 = Double.parseDouble(espObj.getVehicle_position().split(" ")[0].substring(3, espObj.getVehicle_position().split(" ")[0].length()));
-							double lo1 = Double.parseDouble(espObj.getVehicle_position().split(" ")[1].substring(3, espObj.getVehicle_position().split(" ")[1].length()-1));
+							double la1 = Double.parseDouble(espObj.getVehicle_position().split(" ")[0].substring(0, espObj.getVehicle_position().split(" ")[0].length()));
+							double lo1 = Double.parseDouble(espObj.getVehicle_position().split(" ")[1].substring(0, espObj.getVehicle_position().split(" ")[1].length()-1));
 							int count = 0;
+							System.out.println(la1 + " " + lo1);
 							for (ESP nestedESPObj : allEventsInWindow) {
-								double la2 = Double.parseDouble(nestedESPObj.getVehicle_position().split(" ")[0].substring(3, nestedESPObj.getVehicle_position().split(" ")[0].length()));
-								double lo2 = Double.parseDouble(nestedESPObj.getVehicle_position().split(" ")[1].substring(3, nestedESPObj.getVehicle_position().split(" ")[1].length()-1));
+								double la2 = Double.parseDouble(nestedESPObj.getVehicle_position().split(" ")[0].substring(0, nestedESPObj.getVehicle_position().split(" ")[0].length()));
+								double lo2 = Double.parseDouble(nestedESPObj.getVehicle_position().split(" ")[1].substring(0, nestedESPObj.getVehicle_position().split(" ")[1].length()-1));
 								double distance = Utilities.distance(la1, la2, lo1, lo2, 0.0, 0.0);
 								if(distance != 0.0 && distance <= DISTANCE_THRESHOLD) {
 									count++;
