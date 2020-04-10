@@ -25,7 +25,7 @@ public class TestScenario implements IAnalyzer {
 			
 			@Override
 			public boolean filter(PostEvent pe) throws Exception {
-				return pe.getQuery().contains("insert Order {");
+				return pe.getQuery().contains("insert BasketProduct {");
 			}
 		}).print();
 		return eventsStream;

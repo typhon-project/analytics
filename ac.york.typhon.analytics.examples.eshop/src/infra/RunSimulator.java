@@ -9,6 +9,7 @@ import java.util.Properties;
 import agents.BuyerAgent;
 import agents.BuyerReviewerAgent;
 import agents.ReviewerNoBuyerAgent;
+import agents.UndecisiveAgent;
 import entityUtils.ProductCreator;
 import entityUtils.UserCreator;
 import queryGenerators.InsertAddressGenerator;
@@ -44,8 +45,15 @@ public class RunSimulator {
 		for (Thread agent : allBuyerReviewerAgents) {
 			agent.start();
 		}
-		Thread at3 = new Thread(new ReviewerNoBuyerAgent());
-		at3.start();
+		
+		int numOfUndecisiveAgents = Integer.parseInt(appProps.getProperty("num_of_undecisive_agents"));
+		ArrayList<Thread> allUndecisiveAgents = new ArrayList<Thread>();
+		for (int i=0; i<numOfUndecisiveAgents; i++) {
+			allUndecisiveAgents.add(new Thread(new UndecisiveAgent()));
+		}
+		for (Thread agent : allUndecisiveAgents) {
+			agent.start();
+		}
 	}
 	
 	public static void init() throws Exception {

@@ -3,6 +3,7 @@ package entityUtils;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.UUID;
 
 import com.github.javafaker.Faker;
 
@@ -23,8 +24,9 @@ public class BasketPopulator {
 		str.append("product: [#" + productUUID + "], ");
 		str.append("basket: [#" + basketUUID + "]");
 		str.append("}");
-		System.out.println(str.toString());
-		String basketProductId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
+//		String basketProductId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
+		String basketProductId = UUID.randomUUID().toString();
+		utils.createAndPublishPostEvent(str.toString());
 		return basketProductId;
 	}
 
@@ -35,7 +37,7 @@ public class BasketPopulator {
 		// FIXME: Is this a correct delete syntax?
 		str.append("delete BasketProduct bp where ");
 		str.append("bp.@id == " + basketProductId);
-		System.out.println(str.toString());
-		utils.executeUpdate(str.toString());
+//		utils.executeUpdate(str.toString());
+		utils.createAndPublishPostEvent(str.toString());
 	}
 }
