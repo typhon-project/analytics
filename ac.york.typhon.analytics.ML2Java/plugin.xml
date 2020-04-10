@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="net.zolotas.typhon.generation.plugin.GenerateHandler"
+            id="net.zolotas.typhon.generation.plugin.Generate"
+            name="Generate">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.popup.any">
+         <menu
+               icon="icons/logo.png"
+               label="TYPHON">
+            <command
+                  commandId="net.zolotas.typhon.generation.plugin.Generate"
+                  icon="icons/newFolderIcon.png"
+                  label="Generate Analytics Code"
+                  style="push"
+                  tooltip="Generate Typhon">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+
+</plugin>
