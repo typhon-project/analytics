@@ -2,8 +2,8 @@ entity Review{
 	id : string[64] 
 	content : string[1024]
 	product -> Product[1]
-	comments :-> Comment[0..*]
-	user -> User."User.reviews"[1]
+	comments :-> Comment."Comment.review"[0..*]
+	user -> User[1]
 }
 
 
@@ -13,16 +13,15 @@ entity Product {
 	name : string[64]
 	description : string[1024]
 	category -> Category[1]
-//	reviews :-> Review."Review.product"[0..*]
+	reviews :-> Review."Review.product"[0..*]
 }
 
 entity Order {
 	id : string[64]
 	order_date : date
 	totalAmount : int
-	
 	orderedProducts -> OrderedProduct[0..*]
-	users -> User."User.orders"[1]
+	users -> User[1]
 	paidWith -> CreditCard[1]
 }
 
@@ -45,8 +44,8 @@ entity User {
 	address :-> Address[1]
 	comments :-> Comment[0..*]
 	paymentsDetails :-> CreditCard[0..*]
-	orders -> Order[0..*]
-	reviews -> Review[0..*]
+	orders -> Order."Order.users"[0..*]
+	reviews -> Review."Review.product"[0..*]
 	basket :-> Basket[1]
 }
 
@@ -61,7 +60,7 @@ entity Address {
 entity Basket {
 	id : string[64]
 	items :-> BasketProduct[0..*]
-	//user -> User."User.basket"[1]
+	user -> User."User.basket"[1]
 }
 
 entity BasketProduct {
@@ -75,7 +74,7 @@ entity BasketProduct {
 entity Comment{
 	id : string[64]
 	content : string[1024]
-	
+	review -> Review[1]
 	responses :-> Comment[0..*]
 }
 

@@ -8,8 +8,8 @@
       <type xsi:type="typhonml:StringType" maxSize="1024"/>
     </attributes>
     <relations name="product" type="//@entities.1" cardinality="one"/>
-    <relations name="comments" type="//@entities.9" cardinality="zero_many" isContainment="true"/>
-    <relations name="user" type="//@entities.5" cardinality="one" opposite="//@entities.5/@relations.4"/>
+    <relations name="comments" type="//@entities.9" cardinality="zero_many" opposite="//@entities.9/@relations.0" isContainment="true"/>
+    <relations name="user" type="//@entities.5" cardinality="one"/>
   </entities>
   <entities name="Product">
     <attributes xsi:type="typhonml:Attribute" name="id">
@@ -21,7 +21,8 @@
     <attributes xsi:type="typhonml:Attribute" name="description">
       <type xsi:type="typhonml:StringType" maxSize="1024"/>
     </attributes>
-    <relations name="category" type="//@entities.3"/>
+    <relations name="category" type="//@entities.3" cardinality="one"/>
+    <relations name="reviews" type="//@entities.0" cardinality="zero_many" opposite="//@entities.0/@relations.0" isContainment="true"/>
   </entities>
   <entities name="Order">
     <attributes xsi:type="typhonml:Attribute" name="id">
@@ -34,7 +35,7 @@
       <type xsi:type="typhonml:IntType"/>
     </attributes>
     <relations name="orderedProducts" type="//@entities.4" cardinality="zero_many"/>
-    <relations name="users" type="//@entities.5" cardinality="one" opposite="//@entities.5/@relations.3"/>
+    <relations name="users" type="//@entities.5" cardinality="one"/>
     <relations name="paidWith" type="//@entities.10" cardinality="one"/>
   </entities>
   <entities name="Category">
@@ -44,7 +45,6 @@
     <attributes xsi:type="typhonml:Attribute" name="name">
       <type xsi:type="typhonml:StringType" maxSize="32"/>
     </attributes>
-    <relations name="product" type="//@entities.1" cardinality="one" opposite="//@entities.1/@relations.0"/>
   </entities>
   <entities name="OrderedProduct">
     <attributes xsi:type="typhonml:Attribute" name="id">
@@ -65,8 +65,8 @@
     <relations name="address" type="//@entities.6" cardinality="one" isContainment="true"/>
     <relations name="comments" type="//@entities.9" cardinality="zero_many" isContainment="true"/>
     <relations name="paymentsDetails" type="//@entities.10" cardinality="zero_many" isContainment="true"/>
-    <relations name="orders" type="//@entities.2" cardinality="zero_many"/>
-    <relations name="reviews" type="//@entities.0" cardinality="zero_many"/>
+    <relations name="orders" type="//@entities.2" cardinality="zero_many" opposite="//@entities.2/@relations.1"/>
+    <relations name="reviews" type="//@entities.0" cardinality="zero_many" opposite="//@entities.0/@relations.0"/>
     <relations name="basket" type="//@entities.7" cardinality="one" isContainment="true"/>
   </entities>
   <entities name="Address">
@@ -85,6 +85,7 @@
       <type xsi:type="typhonml:StringType" maxSize="64"/>
     </attributes>
     <relations name="items" type="//@entities.8" cardinality="zero_many" isContainment="true"/>
+    <relations name="user" type="//@entities.5" cardinality="one" opposite="//@entities.5/@relations.5"/>
   </entities>
   <entities name="BasketProduct">
     <attributes xsi:type="typhonml:Attribute" name="id">
@@ -106,6 +107,7 @@
     <attributes xsi:type="typhonml:Attribute" name="content">
       <type xsi:type="typhonml:StringType" maxSize="1024"/>
     </attributes>
+    <relations name="review" type="//@entities.0" cardinality="one"/>
     <relations name="responses" type="//@entities.9" cardinality="zero_many" isContainment="true"/>
   </entities>
   <entities name="CreditCard">
