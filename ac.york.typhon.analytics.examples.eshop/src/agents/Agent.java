@@ -12,7 +12,6 @@ public class Agent {
 
 	public Agent() {
 		Random r = new Random();
-		System.out.println("All users: " + RunSimulator.allUsers.size());
 		int uuidPosition = r.nextInt(RunSimulator.allUsers.size());
 		this.uuid = RunSimulator.allUsers.get(uuidPosition);
 		RunSimulator.allUsers.remove(uuidPosition);

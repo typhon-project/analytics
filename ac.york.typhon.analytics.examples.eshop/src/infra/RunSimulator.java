@@ -58,7 +58,6 @@ public class RunSimulator {
 				allUsers.add(userId);
 				seed++;
 			}
-			System.out.println(allUsers);
 			System.out.println("User creation finished.");
 		}
 
@@ -69,7 +68,7 @@ public class RunSimulator {
 			// Start by creating Categories
 			System.out.println("Started product creation");
 			ProductCreator pc = new ProductCreator();
-			ArrayList<String> categoryIds = ProductCreator.createCategoryies();
+			ArrayList<String> categoryIds = ProductCreator.createCategories();
 			// Create products
 			int seed = Integer.parseInt(appProps.getProperty("seed"));
 			for (int i=0; i < Integer.parseInt(appProps.getProperty("num_of_products")); i++) {

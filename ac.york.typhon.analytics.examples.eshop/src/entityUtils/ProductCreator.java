@@ -23,14 +23,13 @@ public class ProductCreator {
 		str.append("description: \"" + faker.lorem().paragraph() + "\", ");
 		str.append("category: [#" + selectedId + "]");
 		str.append("}");
-		System.out.println(str.toString());
 //		String productId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
 		utils.createAndPublishPostEvent(str.toString());
 		String productId = UUID.randomUUID().toString();
 		return productId;
 	}
 
-	public static ArrayList<String> createCategoryies() throws Exception {
+	public static ArrayList<String> createCategories() throws Exception {
 		
 		System.out.println("Started Category Creation");
 		ExecuteQueries eq = new ExecuteQueries();

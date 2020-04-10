@@ -13,7 +13,9 @@ import sun.misc.BASE64Encoder;
 public class ExecuteQueries {
 
 	// Make sure you put the local ip address of your computer
-	final String IP_ADDRESS = "192.168.1.18";
+	final String IP_ADDRESS = "192.168.1.18:9092";
+	
+	QueueProducer qp = new QueueProducer(IP_ADDRESS);
 
 	public class Utils {
 
@@ -79,7 +81,6 @@ public class ExecuteQueries {
 			postEvent.setSuccess(true);
 			postEvent.setStartTime(startTime);
 			postEvent.setEndTime(endTime);
-			System.out.println(postEvent);
 			
 			// Publish PostEvent to POST queue
 			produce(postEvent);
@@ -87,8 +88,8 @@ public class ExecuteQueries {
 		}
 		
 		public void produce(PostEvent postEvent) throws Exception {
-			String kafkaConnection = IP_ADDRESS + ":29092";
-			QueueProducer qp = new QueueProducer(kafkaConnection);
+//			String kafkaConnection = IP_ADDRESS;
+//			QueueProducer qp = new QueueProducer(kafkaConnection);
 			qp.produce("POST", postEvent);
 		}
 	}

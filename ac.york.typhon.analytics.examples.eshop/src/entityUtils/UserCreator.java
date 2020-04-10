@@ -28,7 +28,6 @@ public class UserCreator {
 		str.append("paymentsDetails: [#" + creditCardId + "], ");
 		str.append("basket: [#" + basketId + "]");
 		str.append("}");
-		System.out.println(str.toString());
 //		String productId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
 		utils.createAndPublishPostEvent(str.toString());
 		String productId = UUID.randomUUID().toString();;

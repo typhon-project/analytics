@@ -15,7 +15,6 @@ public class InsertUserGenerator implements QueryGenerator {
 	@Override
 	public String generateQuery(Map<String, String> params) {
 		int seed = Integer.parseInt(params.get("seed"));
-		System.out.println(seed);
 		Faker faker = new Faker(new Random(seed));
 		StringBuilder str = new StringBuilder();
 		str.append("insert User {");
