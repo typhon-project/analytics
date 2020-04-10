@@ -66,8 +66,8 @@ services:
     depends_on: 
       - zookeeper
     ports:
-      - published: 9092
-        target: 9092
+      - published: 29092
+        target: 29092
     build: .
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

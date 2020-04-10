@@ -18,7 +18,6 @@ public class BuyerAgent extends Agent implements Runnable {
 		ExecuteQueries eq = new ExecuteQueries();
 		ExecuteQueries.Utils utils = eq.new Utils();
 
-
 		System.out.println("Buyer agent: " + this.uuid);
 		InsertOrderProductGenerator iopg = new InsertOrderProductGenerator();
 		Map<String,String> params = new HashMap<String, String>();

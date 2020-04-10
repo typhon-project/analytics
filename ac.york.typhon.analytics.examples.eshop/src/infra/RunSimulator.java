@@ -24,12 +24,21 @@ public class RunSimulator {
 		
 		init();
 		
+		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties");
+		Properties appProps = new Properties();
+		appProps.load(inputStream);
+		int numOfBuyerAgents = Integer.parseInt(appProps.getProperty("num_of_buyer_agents"));
+		ArrayList<Thread> allBuyerAgents = new ArrayList<Thread>();
 		Thread at1 = new Thread(new BuyerReviewerAgent());
-//		at1.start();
-		Thread at2 = new Thread(new BuyerAgent());
-//		at2.start();
+		at1.start();
+		for (int i=0; i<numOfBuyerAgents; i++) {
+			allBuyerAgents.add(new Thread(new BuyerAgent()));
+		}
+		for (Thread agent : allBuyerAgents) {
+			agent.start();
+		}
 		Thread at3 = new Thread(new ReviewerNoBuyerAgent());
-//		at3.start();
+		at3.start();
 	}
 	
 	public static void init() throws Exception {
@@ -44,12 +53,12 @@ public class RunSimulator {
 			System.out.println("Started user creation");
 			UserCreator uc = new UserCreator();
 			int seed = Integer.parseInt(appProps.getProperty("seed"));
-			ArrayList<String> userIds = new ArrayList<String>();
 			for (int i=0; i < Integer.parseInt(appProps.getProperty("num_of_users")); i++) {
 				String userId = uc.create(seed);
-				userIds.add(userId);
+				allUsers.add(userId);
 				seed++;
 			}
+			System.out.println(allUsers);
 			System.out.println("User creation finished.");
 		}
 
@@ -62,11 +71,10 @@ public class RunSimulator {
 			ProductCreator pc = new ProductCreator();
 			ArrayList<String> categoryIds = ProductCreator.createCategoryies();
 			// Create products
-			ArrayList<String> productIds = new ArrayList<String>();
 			int seed = Integer.parseInt(appProps.getProperty("seed"));
 			for (int i=0; i < Integer.parseInt(appProps.getProperty("num_of_products")); i++) {
 				String productId = pc.create(seed, categoryIds);
-				productIds.add(productId);
+				allProducts.add(productId);
 				seed++;
 			}
 			System.out.println("Product creation finished.");

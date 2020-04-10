@@ -2,11 +2,11 @@ package entityUtils;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.UUID;
 
 import com.github.javafaker.Faker;
 
 import utils.ExecuteQueries;
-import utils.ExecuteQueries.Utils;
 
 public class ProductCreator {
 
@@ -24,7 +24,9 @@ public class ProductCreator {
 		str.append("category: [#" + selectedId + "]");
 		str.append("}");
 		System.out.println(str.toString());
-		String productId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
+//		String productId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
+		utils.createAndPublishPostEvent(str.toString());
+		String productId = UUID.randomUUID().toString();
 		return productId;
 	}
 
@@ -33,6 +35,7 @@ public class ProductCreator {
 		System.out.println("Started Category Creation");
 		ExecuteQueries eq = new ExecuteQueries();
 		ExecuteQueries.Utils utils = eq.new Utils();
+		Random r = new Random();
 
 		ArrayList<String> categoryIds = new ArrayList<String>();
 		ArrayList<String> possibleCategories = new ArrayList<String>();
@@ -52,7 +55,9 @@ public class ProductCreator {
 			str.append("id: \"" + i + "\", ");
 			str.append("name: \"" + category + "\"");
 			str.append("}");
-			String categoryId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
+//			String categoryId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
+			utils.createAndPublishPostEvent(str.toString());
+			String categoryId = UUID.randomUUID().toString();
 			categoryIds.add(categoryId);
 		}
 		System.out.println("Finished Category Creation");

@@ -15,7 +15,7 @@ public class UserCreator {
 
 	public String create(int seed) throws Exception {
 		ExecuteQueries eq = new ExecuteQueries();
-		ExecuteQueries.Utils utils = eq.new Utils();	
+		ExecuteQueries.Utils utils = eq.new Utils();
 		String addressId = createAddress(seed);
 		String creditCardId = createCreditCard(seed);
 		String basketId = createBasket(seed);
@@ -29,7 +29,9 @@ public class UserCreator {
 		str.append("basket: [#" + basketId + "]");
 		str.append("}");
 		System.out.println(str.toString());
-		String productId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
+//		String productId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
+		utils.createAndPublishPostEvent(str.toString());
+		String productId = UUID.randomUUID().toString();;
 		return productId;
 	}
 
@@ -45,8 +47,9 @@ public class UserCreator {
 		str.append("street: \"" + faker.address().streetAddress() + "\", ");
 		str.append("country: \"" + faker.address().country() + "\"");
 		str.append("}");
-		String addressId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
-
+//		String addressId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
+		utils.createAndPublishPostEvent(str.toString());
+		String addressId = UUID.randomUUID().toString();;
 		return addressId;
 	}
 	
@@ -62,8 +65,9 @@ public class UserCreator {
 		str.append("number: \"" + faker.finance().creditCard() + "\", ");
 		str.append("expiryDate: \"" + LocalDateTime.now().plusYears(2) + "\"");
 		str.append("}");
-		String creditCardId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
-
+//		String creditCardId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
+		utils.createAndPublishPostEvent(str.toString());
+		String creditCardId = UUID.randomUUID().toString();;
 		return creditCardId;
 	}
 	
@@ -76,8 +80,9 @@ public class UserCreator {
 		str.append("insert Basket {");
 		str.append("id: \"" + seed + "\"");
 		str.append("}");
-		String basketId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
-
+//		String basketId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
+		utils.createAndPublishPostEvent(str.toString());
+		String basketId = UUID.randomUUID().toString();;
 		return basketId;
 	}
 }
