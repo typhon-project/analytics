@@ -5,16 +5,21 @@ import java.util.ArrayList;
 
 public class [%=entity.name%] extends Entity {
 [%
-for (anAttribute in entity.attributes) { 
-	%]
+var types = new Map();
+types.put("StringType", "String");
+types.put("IntType", "int");
+types.put("DateType", "Date");
 
-	private [%=anAttribute.type.name%] [%=anAttribute.name%];
+for (anAttribute in entity.attributes) { 
+	anAttribute.type.type.name.println();
+	%]
+	private [%=types.get(anAttribute.type.type.name)%] [%=anAttribute.name%];
 	
-	public [%=anAttribute.type.name%] get[%=anAttribute.name.firstToUpperCase()%]() {
+	public [%=types.get(anAttribute.type.type.name)%] get[%=anAttribute.name.firstToUpperCase()%]() {
 		return this.[%=anAttribute.name%];
 	}
 	
-	public void set[%=anAttribute.name.firstToUpperCase()%]([%=anAttribute.type.name%] [%=anAttribute.name%]) {
+	public void set[%=anAttribute.name.firstToUpperCase()%]([%=types.get(anAttribute.type.type.name)%] [%=anAttribute.name%]) {
 		this.[%=anAttribute.name%] = [%=anAttribute.name%];
 	}
 [%
