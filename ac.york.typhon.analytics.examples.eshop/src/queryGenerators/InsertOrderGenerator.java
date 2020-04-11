@@ -26,7 +26,7 @@ public class InsertOrderGenerator implements QueryGenerator {
 		str.append("id: \"" + seed + "\", ");
 		str.append("order_date: \"" + faker.date().future(3, TimeUnit.SECONDS) + "\", ");
 		str.append("totalAmount: \"" + r.nextInt(1000) + "\", ");
-		//FIXME: list of users is not correct
+		//FIXME: list of products is not correct
 		str.append("orderedProducts: \"" + parameters.get("orderedProducts") + "\", ");
 		str.append("users: [#" + parameters.get("userId") + ", ");
 		str.append("paidWith: #" + creditCard + ", ");

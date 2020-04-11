@@ -9,7 +9,7 @@ import commons.EShopTopics;
 public class AnalyticsRunner {
 
 	public static void main(String[] args) throws Exception {
-		ChannelBuilder.build(new TopUsers(), AnalyticTopicType.POST, UUID.randomUUID().toString());
+		ChannelBuilder.build(new TopReviewers(), AnalyticTopicType.POST, UUID.randomUUID().toString());
 	}
 
 }
