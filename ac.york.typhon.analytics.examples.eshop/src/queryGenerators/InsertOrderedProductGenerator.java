@@ -26,7 +26,7 @@ public class InsertOrderedProductGenerator implements QueryGenerator {
 		str.append("insert OrderedProduct {");
 		str.append("id: \"" + seed + "\", ");
 		str.append("quantity: \"" + faker.date().past(10, TimeUnit.SECONDS) + "\", ");
-		str.append("product: #" + productId + ", ");
+		str.append("product: [#" + productId + "]");
 		str.append("}");
 		return str.toString();
 	}
