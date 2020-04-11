@@ -1,0 +1,27 @@
+Scenarios:
+----------
+A1) products added/removed to the basket
+A2) indecisive user (one that adds and removes products from basket)
+A3) top reviewers
+	A3a) bought the product
+	A3b) hasn’t bought the product
+A4) users with products in basket for very long time -> issue reminder
+A5) products bought together in the same order
+
+Classic metrics
+B1) top selling products
+B2) top users
+B3) sales per country / month
+B4) top categories
+
+Notes:
+------
+A1)
+A2)
+A3a)
+A3b)
+A4)
+A5)
+B1) [DONE]
+B2) [DONE] -> Every user gets 1 as the Buyer agent buys only 1. 
+B3)
