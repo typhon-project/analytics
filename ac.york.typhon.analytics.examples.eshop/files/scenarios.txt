@@ -20,7 +20,8 @@ A1) This needs a change tracking mechanism
 A2) I believe it is A1
 A3) [DONE]
 A3a)
-A3b)
+A3b) How long do we wait? Do we assume that the review will *always* arrive after orderProduct? 
+	 Interesting scenario. I don't know how to do this efficiently.
 A4)
 A5)
 B1) [DONE]

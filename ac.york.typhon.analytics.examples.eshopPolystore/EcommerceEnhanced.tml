@@ -35,6 +35,7 @@ entity OrderedProduct {
 	id : string[64]
 	quantity : int
 	product -> Product[1]
+	users -> User[1]
 }
 
 // DONE
