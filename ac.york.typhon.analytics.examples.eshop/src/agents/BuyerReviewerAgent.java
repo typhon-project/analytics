@@ -54,10 +54,10 @@ public class BuyerReviewerAgent extends Agent implements Runnable {
 				try {
 //			utils.executeUpdateAndReturnPostvent(irg.generateQuery(null));
 					String orderedProductQuery = iopg.generateQuery(params);
-
+					String productId = orderedProductQuery.split("product: \\[\\#")[1].split("]")[0];
 					utils.createAndPublishPostEvent(orderedProductQuery);
 					// FIXME: Should pick randomly (with a seed) from all products
-					orderedProducts.add(String.valueOf(seed));
+					orderedProducts.add(productId);
 					this.randomSleep(1000, 5000);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
