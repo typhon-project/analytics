@@ -16,8 +16,9 @@ public class InsertOrderedProductGenerator implements QueryGenerator {
 		Faker faker = new Faker();
 		String productId = "";
 		String userId = parameters.get("userId");
+		Random r = new Random();
 		if (!parameters.containsKey("productId")) {
-			Random r = new Random();
+			
 			productId = RunSimulator.allProducts.get(r.nextInt(RunSimulator.allProducts.size()));
 		} else {
 			productId = parameters.get("productId");
@@ -26,7 +27,7 @@ public class InsertOrderedProductGenerator implements QueryGenerator {
 		StringBuilder str = new StringBuilder();
 		str.append("insert OrderedProduct {");
 		str.append("id: \"" + seed + "\", ");
-		str.append("quantity: \"" + faker.date().past(10, TimeUnit.SECONDS) + "\", ");
+		str.append("quantity: \"" + r.nextInt(5) + "\", ");
 		str.append("product: [#" + productId + "], ");
 		str.append("users: [#" + userId + "]");
 		str.append("}");
