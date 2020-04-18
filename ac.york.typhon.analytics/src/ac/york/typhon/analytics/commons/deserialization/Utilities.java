@@ -1,7 +1,6 @@
 package ac.york.typhon.analytics.commons.deserialization;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 import ac.york.typhon.analytics.commons.datatypes.Entity;
 import ac.york.typhon.analytics.commons.deserialization.insert.DeleteDeserializer;
@@ -18,7 +17,7 @@ public class Utilities {
 		ExecuteQueries eq = new ExecuteQueries();
 		ExecuteQueries.Utils utils = eq.new Utils();
 		
-		String query = "insert Category {name: \"cat 1\"}";
+		String query = "insert Category {name: \"cat 2\"}";
 		String resultSet = "";
 		Request request = null;
 		try {
@@ -36,7 +35,8 @@ public class Utilities {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			Entity insertedEntity = id.deserialize(query, resultSet).get(0);
+			ArrayList<Entity> insertedEntities = id.deserialize(query, resultSet);
+			System.out.println(insertedEntities);
 		} else if (request.hasStm() && request.getStm().isDelete()) {
 			DeleteDeserializer dd = new DeleteDeserializer();
 			
