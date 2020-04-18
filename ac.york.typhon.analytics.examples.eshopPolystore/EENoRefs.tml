@@ -1,31 +1,28 @@
 entity Review{
 	id : string[64] 
 	content : string[1024]
-	product -> Product[1]
-	comments :-> Comment."Comment.review"[0..*]
-	user -> User[1]
+	product : string[64]
+	comments : string[64]
+	user : string[64]
 }
 
-
-// DONE without Review ref
 entity Product {
 	id : string[64]
 	name : string[64]
 	description : string[1024]
-	category -> Category[1]
-	reviews :-> Review."Review.product"[0..*]
+	category : string[64]
+	reviews : string[64]
 }
 
 entity Order {
 	id : string[64]
 	order_date : date
 	totalAmount : int
-	orderedProducts -> OrderedProduct[0..*]
-	users -> User[1]
-	paidWith -> CreditCard[1]
+	orderedProducts : string[64]
+	users : string[64]
+	paidWith : string[64]
 }
 
-// DONE
 entity Category {
 	id: string[64]
 	name: string[32]
@@ -34,52 +31,48 @@ entity Category {
 entity OrderedProduct {
 	id : string[64]
 	quantity : int
-	product -> Product[1]
-	users -> User[1]
+	product : string[64]
+	users : string[64]
 }
 
-// DONE
 entity User {
 	id : string[64]
 	name : string[32]
-	address :-> Address[1]
-	comments :-> Comment[0..*]
-	paymentsDetails :-> CreditCard[0..*]
-	orders -> Order."Order.users"[0..*]
-	reviews -> Review."Review.product"[0..*]
-	basket :-> Basket[1]
+	address : string[64]
+	comments : string[64]
+	paymentsDetails : string[64]
+	orders : string[64]
+	reviews : string[64]
+	basket : string[64]
 }
 
-// DONE
 entity Address {
 	id: string[64]
 	street: string [256]
 	country: string [32]
 }
 
-// DONE without opposite
 entity Basket {
 	id : string[64]
-	items :-> BasketProduct[0..*]
-//	user -> User."User.basket"[1]
+	items: string[64]
+	user: string[64]
 }
 
 entity BasketProduct {
 	id: string[64]
 	quantity : int
 	date_added: date
-	product :-> Product[1]	
-	basket -> Basket."Basket.items"[1]
+	product: string[64]
+	basket : string[64]
 }
 
 entity Comment{
 	id : string[64]
 	content : string[1024]
-	review -> Review[1]
-	responses :-> Comment[0..*]
+	review : string[64]
+	responses : string[64]
 }
 
-// DONE
 entity CreditCard{
 	id : string[64]
 	number : string[32]
