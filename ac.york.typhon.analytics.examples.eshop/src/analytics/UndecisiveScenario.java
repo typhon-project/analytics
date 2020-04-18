@@ -12,7 +12,7 @@ import ac.york.typhon.analytics.commons.datatypes.events.PostEvent;
 public class UndecisiveScenario implements IAnalyzer {
 
 	@Override
-	public DataStream<Event> analyze(DataStream<Event> eventsStream) throws Exception {
+	public void analyze(DataStream<Event> eventsStream) throws Exception {
 		DataStream<String> deletedBasketProductIds = eventsStream.map(new MapFunction<Event, PostEvent>() {
 
 			@Override
@@ -62,7 +62,6 @@ public class UndecisiveScenario implements IAnalyzer {
 				return tuple;
 			}
 		});
-		return eventsStream;
 	}
 
 }

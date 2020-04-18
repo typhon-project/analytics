@@ -13,7 +13,7 @@ import datatypes.Review;
 public class ScenarioA3A implements IAnalyzer {
 
 	@Override
-	public DataStream<Event> analyze(DataStream<Event> eventsStream) throws Exception {
+	public void analyze(DataStream<Event> eventsStream) throws Exception {
 		DataStream<Review> reviewsStream = eventsStream.map(new MapFunction<Event, PostEvent>() {
 
 			@Override
@@ -70,7 +70,6 @@ public class ScenarioA3A implements IAnalyzer {
 			}
 		});
 		orderedProductStream.print();	
-		return eventsStream;
 	}
 
 }

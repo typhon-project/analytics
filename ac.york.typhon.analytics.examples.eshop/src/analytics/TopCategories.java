@@ -17,7 +17,7 @@ import analytics.utils.PostEventTimeAssigner;
 public class TopCategories implements IAnalyzer {
 
 	@Override
-	public DataStream<Event> analyze(DataStream<Event> eventsStream) throws Exception {
+	public void analyze(DataStream<Event> eventsStream) throws Exception {
 		
 		eventsStream
 		.map(new MapFunction<Event, PostEvent>() {
@@ -36,9 +36,6 @@ public class TopCategories implements IAnalyzer {
 			}
 		})
 		.print();
-		
-		
-		return eventsStream;
 	}
 
 }

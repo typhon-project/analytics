@@ -11,7 +11,7 @@ import ac.york.typhon.analytics.commons.datatypes.events.PostEvent;
 public class TestScenario implements IAnalyzer {
 
 	@Override
-	public DataStream<Event> analyze(DataStream<Event> eventsStream) throws Exception {
+	public void analyze(DataStream<Event> eventsStream) throws Exception {
 		eventsStream
 		.map(new MapFunction<Event, PostEvent>() {
 
@@ -28,7 +28,6 @@ public class TestScenario implements IAnalyzer {
 				return pe.getQuery().contains("insert BasketProduct {");
 			}
 		}).print();
-		return eventsStream;
 	}
 
 }

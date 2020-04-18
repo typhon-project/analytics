@@ -17,7 +17,7 @@ import analytics.utils.PostEventTimeAssigner;
 public class TopProducts implements IAnalyzer {
 
 	@Override
-	public DataStream<Event> analyze(DataStream<Event> eventsStream) throws Exception {
+	public void analyze(DataStream<Event> eventsStream) throws Exception {
 		
 		eventsStream
 		.map(new MapFunction<Event, PostEvent>() {
@@ -52,8 +52,6 @@ public class TopProducts implements IAnalyzer {
 		.sum(0)
 		.print();
 		
-		
-		return eventsStream;
 	}
 
 }
