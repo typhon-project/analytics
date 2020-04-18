@@ -4,13 +4,13 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
 
-public interface IAnalyzer {
+public interface IAuthAnalyzer {
 
 	/**
 	 * 
 	 */
 
-	public abstract void analyze(DataStream<Event> eventsStream)
+	public abstract DataStream<Event> analyze(DataStream<Event> eventsStream)
 			throws Exception;
 
 	public default String getLabel() {

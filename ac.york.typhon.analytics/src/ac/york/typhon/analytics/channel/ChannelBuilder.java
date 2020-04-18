@@ -3,6 +3,7 @@ package ac.york.typhon.analytics.channel;
 import org.apache.flink.streaming.api.datastream.DataStream;
 
 import ac.york.typhon.analytics.analyzer.IAnalyzer;
+import ac.york.typhon.analytics.analyzer.IAuthAnalyzer;
 import ac.york.typhon.analytics.commons.AppConfiguration;
 import ac.york.typhon.analytics.commons.Constants;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
@@ -11,7 +12,7 @@ import ac.york.typhon.analytics.streaming.StreamManager;
 
 public class ChannelBuilder {
 
-	public static void build(IAnalyzer topicController,
+	public static void build(IAuthAnalyzer topicController,
 			ITopicType sourceTopic,
 			ITopicType destinationTopic) throws Exception {
 
