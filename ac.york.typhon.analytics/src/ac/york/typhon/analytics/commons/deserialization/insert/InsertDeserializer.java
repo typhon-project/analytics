@@ -43,7 +43,6 @@ public class InsertDeserializer implements Deserializer {
 	}
 	
 	public Entity parseQuery(String query) throws Exception {
-		//TODO: This might be a list
 		Request request = null;
 		try {
 			request = TyphonQLASTParser.parseTyphonQLRequest((query).toCharArray());
@@ -51,7 +50,8 @@ public class InsertDeserializer implements Deserializer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String objType = request.getStm().getObjs().get(0).yieldTree().split(" ")[0];
+		//TODO: This might be a list
+		String objType = request.getStm().getObjs().get(0).getEntity().yieldTree();
 		Class<?> objClass = Class.forName("ac.york.typhon.analytics.commons.datatypes." + objType);
 		Entity entity = (Entity) objClass.newInstance();
 		ArrayList<KeyVal> keyVals = (ArrayList<KeyVal>) request.getStm().getObjs().get(0).getKeyVals();
