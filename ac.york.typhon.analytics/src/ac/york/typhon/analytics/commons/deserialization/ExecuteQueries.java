@@ -17,13 +17,13 @@ public class ExecuteQueries {
 	public static void main(String[] args) throws Exception {
 		ExecuteQueries eq = new ExecuteQueries();
 		ExecuteQueries.Utils utils = eq.new Utils();
-		utils.executeQueryAndReturnPostvent("from User v select v");
+		utils.executeQuery("from User v select v");
 //		utils.executeUpdateAndReturnPostvent("insert @vmd1277771325 VehicleMetadata {VIN: 1277771325, brand: \"Volkswagen\", model: \"Golf-7\", constr_year: 2015, color: \"black201\", t_sensor_h: 62, engine_type: \"combustion\"}");
 	}
 
 	public class Utils {
 		// Executes a select query
-		public String executeQueryAndReturnPostvent(String query) throws Exception {
+		public String executeQuery(String query) throws Exception {
 			// This is the REST url that executes a select query. Authentication is done
 			// using the polystore's credentials.
 			String url = "http://localhost:8080/api/query";
@@ -31,7 +31,6 @@ public class ExecuteQueries {
 			String password = "admin1@";
 			String authString = name + ":" + password;
 			String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
-			System.out.println("Base64 encoded auth string: " + authStringEnc);
 			Client restClient = Client.create();
 			WebResource webResource = restClient.resource(url);
 

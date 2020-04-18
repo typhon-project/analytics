@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import ac.york.typhon.analytics.commons.datatypes.Entity;
 import ac.york.typhon.analytics.commons.deserialization.insert.DeleteDeserializer;
 import ac.york.typhon.analytics.commons.deserialization.insert.InsertDeserializer;
+import ac.york.typhon.analytics.commons.deserialization.insert.SelectDeserializer;
 import ac.york.typhon.analytics.commons.deserialization.insert.UpdateDeserializer;
 import engineering.swat.typhonql.ast.ASTConversionException;
 import engineering.swat.typhonql.ast.Request;
@@ -17,7 +18,8 @@ public class Utilities {
 		ExecuteQueries eq = new ExecuteQueries();
 		ExecuteQueries.Utils utils = eq.new Utils();
 		
-		String query = "insert Category {name: \"cat 2\"}";
+//		String query = "insert Category {name: \"cat 2\"}";
+		String query = "from Category c select c.@id, c.name";
 		String resultSet = "";
 		Request request = null;
 		try {
@@ -42,6 +44,22 @@ public class Utilities {
 			
 		} else if (request.hasStm() && request.getStm().isUpdate()) {
 			UpdateDeserializer up = new UpdateDeserializer();
+		} else {
+			SelectDeserializer sd = new SelectDeserializer();
+//			resultSet = utils.executeQuery(query);
+			resultSet = "{\n" + 
+					"  \"columnNames\": [\n" + 
+					"    \"op.@id\",\n" + 
+					"    \"op.quantity\"\n" + 
+					"  ],\n" + 
+					"  \"values\": [\n" + 
+					"    [\n" + 
+					"      \"188e3758-6949-4bbd-b9f6-646cba02b772\",\n" + 
+					"      5\n" + 
+					"    ]\n" + 
+					"  ]\n" + 
+					"}";
+			sd.deserialize(query, resultSet);
 		}
 	}
 }
