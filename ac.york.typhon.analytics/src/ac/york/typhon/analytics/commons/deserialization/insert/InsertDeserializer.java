@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ac.york.typhon.analytics.commons.datatypes.Entity;
 
 import ac.york.typhon.analytics.commons.datatypes.Entity;
 import ac.york.typhon.analytics.commons.deserialization.Deserializer;
@@ -24,11 +25,11 @@ public class InsertDeserializer implements Deserializer {
 	@Override
 	public ArrayList<Entity> deserialize(String query, String resultSet) throws Exception {
 		ArrayList<Entity> insertedEntities = new ArrayList<Entity>();
-		Object entity = parseQuery(query);
-		System.out.println(entity);
+		Entity entity = parseQuery(query);
+//		System.out.println(entity);
 		String insertedUUID = getUUID(resultSet);
-//		entity.setUUID(insertedUUID);
-//		insertedEntities.add(entity);
+		entity.setUUID(insertedUUID);
+		insertedEntities.add(entity);
 		return insertedEntities;
 	}
 
@@ -41,9 +42,8 @@ public class InsertDeserializer implements Deserializer {
 		return UUID;
 	}
 	
-	public Object parseQuery(String query) throws Exception {
+	public Entity parseQuery(String query) throws Exception {
 		//TODO: This might be a list
-		ObjectMapper objectMapper = new ObjectMapper();
 		Request request = null;
 		try {
 			request = TyphonQLASTParser.parseTyphonQLRequest((query).toCharArray());
@@ -51,15 +51,14 @@ public class InsertDeserializer implements Deserializer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(request.getStm().getObjs().get(0).yieldTree());
 		String objType = request.getStm().getObjs().get(0).yieldTree().split(" ")[0];
-		Class objClass = Class.forName("ac.york.typhon.analytics.commons.datatypes." + objType);
-		Object entity = objClass.newInstance();
+		Class<?> objClass = Class.forName("ac.york.typhon.analytics.commons.datatypes." + objType);
+		Entity entity = (Entity) objClass.newInstance();
 		ArrayList<KeyVal> keyVals = (ArrayList<KeyVal>) request.getStm().getObjs().get(0).getKeyVals();
 		for(KeyVal kv : keyVals) {
-			Field field = objClass.getField(kv.getKey().yieldTree());
-			Class fieldTypeClass = field.getType();
-			System.out.println(kv.getKey().yieldTree() + kv.getValue().yieldTree());
+			Field field = objClass.getDeclaredField(kv.getKey().yieldTree());
+			field.setAccessible(true);
+			Class<?> fieldTypeClass = field.getType();
 			Method setter = objClass.getMethod("set" + kv.getKey().yieldTree().substring(0, 1).toUpperCase() + kv.getKey().yieldTree().substring(1), fieldTypeClass);
 			setter.invoke(entity, kv.getValue().yieldTree());
 		}

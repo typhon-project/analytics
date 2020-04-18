@@ -31,13 +31,12 @@ public class Utilities {
 		if (request.hasStm() && request.getStm().isInsert()) {
 			InsertDeserializer id = new InsertDeserializer();
 			try {
-//				resultSet = utils.executeUpdate(query);
+				resultSet = utils.executeUpdate(query);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			Entity insertedEntity = id.deserialize(query, resultSet).get(0);
-			System.out.println(insertedEntity.getUUID());
 		} else if (request.hasStm() && request.getStm().isDelete()) {
 			DeleteDeserializer dd = new DeleteDeserializer();
 			

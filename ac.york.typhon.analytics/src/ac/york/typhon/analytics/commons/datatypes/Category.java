@@ -3,7 +3,7 @@ package ac.york.typhon.analytics.commons.datatypes;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Category {
+public class Category extends Entity{
 	private String id;
 	
 	public String getId() {
@@ -13,7 +13,7 @@ public class Category {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String name;
+	private String name;
 	
 	public String getName() {
 		return this.name;
