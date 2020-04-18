@@ -19,7 +19,9 @@ public class Utilities {
 		ExecuteQueries.Utils utils = eq.new Utils();
 		
 //		String query = "insert Category {name: \"cat 2\"}";
+//		String query = "from OrderedProduct op select op.@id, op.quantity";
 		String query = "from Category c select c.@id, c.name";
+		
 		String resultSet = "";
 		Request request = null;
 		try {
@@ -46,19 +48,19 @@ public class Utilities {
 			UpdateDeserializer up = new UpdateDeserializer();
 		} else {
 			SelectDeserializer sd = new SelectDeserializer();
-//			resultSet = utils.executeQuery(query);
-			resultSet = "{\n" + 
-					"  \"columnNames\": [\n" + 
-					"    \"op.@id\",\n" + 
-					"    \"op.quantity\"\n" + 
-					"  ],\n" + 
-					"  \"values\": [\n" + 
-					"    [\n" + 
-					"      \"188e3758-6949-4bbd-b9f6-646cba02b772\",\n" + 
-					"      5\n" + 
-					"    ]\n" + 
-					"  ]\n" + 
-					"}";
+			resultSet = utils.executeQuery(query);
+//			resultSet = "{\n" + 
+//					"  \"columnNames\": [\n" + 
+//					"    \"op.@id\",\n" + 
+//					"    \"op.quantity\"\n" + 
+//					"  ],\n" + 
+//					"  \"values\": [\n" + 
+//					"    [\n" + 
+//					"      \"188e3758-6949-4bbd-b9f6-646cba02b772\",\n" + 
+//					"      5\n" + 
+//					"    ]\n" + 
+//					"  ]\n" + 
+//					"}";
 			sd.deserialize(query, resultSet);
 		}
 	}
