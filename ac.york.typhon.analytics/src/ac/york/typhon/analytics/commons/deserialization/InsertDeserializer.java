@@ -59,7 +59,7 @@ public class InsertDeserializer implements Deserializer {
 				setter.invoke(entity, kv.getValue().yieldTree());
 				
 			}
-			// FIXME: Find how UUID are given in buklk inserts. This is not working for more than one insert.
+			// FIXME: Find how UUID are given in bulk inserts. This is not working for more than one insert.
 			String insertedUUID = getUUID(resultSet);
 			entity.setUUID(insertedUUID);
 			insertedEntities.add(entity);

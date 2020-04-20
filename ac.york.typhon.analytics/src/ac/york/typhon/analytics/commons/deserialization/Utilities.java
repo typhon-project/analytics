@@ -25,7 +25,8 @@ public class Utilities {
 //		String query = "insert Category {name: \"cat 2\"}";
 //		String query = "from OrderedProduct op select op.@id, op.quantity";
 //		String query = "from Category c select c.@id, c.name";
-		String query = "delete Category c where c.@id == #93010045-fbbc-4f12-9c0b-3b1038f415f4";
+//		String query = "delete Category c where c.@id == #93010045-fbbc-4f12-9c0b-3b1038f415f4";
+		String query = "update Category c where c.@id == #93010045-fbbc-4f12-9c0b-3b1038f415f4 set {name: \"test 2\"}";
 
 		String resultSet = "";
 		Request request = null;
@@ -48,6 +49,8 @@ public class Utilities {
 			System.out.println(insertedEntities);
 		} else if (request.hasStm() && request.getStm().isDelete()) {
 			DeleteDeserializer dd = new DeleteDeserializer();
+			// This aactually creates the inverted select and deserialises it. It dooes do any deserialisation
+			// on the delete statement, as this is not needed.
 			dd.deserialize(query, resultSet);
 			// Execute delete.
 //			utils.executeQuery(query);
@@ -56,6 +59,7 @@ public class Utilities {
 			// TODO: Implement this (re use insert code - maybee rename to upsert - but also
 			// an inverted select)
 			UpdateDeserializer up = new UpdateDeserializer();
+			up.deserialize(query, resultSet);
 		} else {
 			// It is a Select.
 			resultSet = utils.executeQuery(query);

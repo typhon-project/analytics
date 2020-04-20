@@ -30,6 +30,7 @@ public class DeleteDeserializer implements Deserializer {
 		sd.deserialize(invertedSelect, invertedResultsSet);
 		// TODO: Get UUID
 //		String deletedUUID = getUUID(resultSet);
+		// FIXME: This should return something. Think what.
 		return null;
 	}
 
