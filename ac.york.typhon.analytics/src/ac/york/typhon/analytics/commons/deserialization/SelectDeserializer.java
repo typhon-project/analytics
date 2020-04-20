@@ -31,9 +31,11 @@ public class SelectDeserializer implements Deserializer {
 		}
 		ArrayList<ArrayList<Object>> returnedValues = getValues(resultSet);
 		for (ArrayList<Object> values : returnedValues) {
+			// TODO: This just prints. Needs to set the PostEvent
 			System.out.println(createEntity(columnNames, values, entityName, VId));
 
 		}
+		// FIXME: Thing how to deal with multiple entities returned
 		return null;
 	}
 

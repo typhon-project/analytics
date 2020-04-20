@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ac.york.typhon.analytics.commons.datatypes.Entity;
+import ac.york.typhon.analytics.commons.deserialization.ExecuteQueries.Utils;
 import engineering.swat.typhonql.ast.ASTConversionException;
 import engineering.swat.typhonql.ast.Request;
 import engineering.swat.typhonql.ast.TyphonQLASTParser;
@@ -18,10 +19,15 @@ public class DeleteDeserializer implements Deserializer {
 	
 	@Override
 	public ArrayList<Entity> deserialize(String query, String resultSet) throws Exception {
+		ExecuteQueries eq = new ExecuteQueries();
+		ExecuteQueries.Utils utils = eq.new Utils();
 		Utilities util = new Utilities();
 		Request request = TyphonQLASTParser.parseTyphonQLRequest((query).toCharArray());
 		String invertedSelect = util.createInvertedSelect(request);
 		System.out.println(invertedSelect);
+		SelectDeserializer sd = new SelectDeserializer();
+		String invertedResultsSet = utils.executeQuery(query);
+		sd.deserialize(invertedSelect, invertedResultsSet);
 //		String deletedUUID = getUUID(resultSet);
 		return null;
 	}
