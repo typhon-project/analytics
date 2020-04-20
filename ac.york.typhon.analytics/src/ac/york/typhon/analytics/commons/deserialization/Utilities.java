@@ -42,12 +42,14 @@ public class Utilities {
 			ArrayList<Entity> insertedEntities = id.deserialize(query, resultSet);
 			System.out.println(insertedEntities);
 		} else if (request.hasStm() && request.getStm().isDelete()) {
+			// TODO: Implement this (only query invertor I believe and maybe store UUID)
 			DeleteDeserializer dd = new DeleteDeserializer();
 			
 		} else if (request.hasStm() && request.getStm().isUpdate()) {
+			// TODO: Implement this (re use insert code - maybee rename to upsert - but also an inverted select)
 			UpdateDeserializer up = new UpdateDeserializer();
 		} else {
-			SelectDeserializer sd = new SelectDeserializer();
+			// It is a Select.
 			resultSet = utils.executeQuery(query);
 //			resultSet = "{\n" + 
 //					"  \"columnNames\": [\n" + 
@@ -61,7 +63,13 @@ public class Utilities {
 //					"    ]\n" + 
 //					"  ]\n" + 
 //					"}";
-			sd.deserialize(query, resultSet);
+			if (request.hasStm() && request.getQry().getBindings().size()>1 ) {
+				// TODO: This is a "join". We need to implement a "View" with slots
+			} else {
+				SelectDeserializer sd = new SelectDeserializer();
+				sd.deserialize(query, resultSet);
+			}
+			
 		}
 	}
 }
