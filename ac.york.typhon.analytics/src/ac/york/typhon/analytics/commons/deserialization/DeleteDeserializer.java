@@ -26,8 +26,9 @@ public class DeleteDeserializer implements Deserializer {
 		String invertedSelect = util.createInvertedSelect(request);
 		System.out.println(invertedSelect);
 		SelectDeserializer sd = new SelectDeserializer();
-		String invertedResultsSet = utils.executeQuery(query);
+		String invertedResultsSet = utils.executeQuery(invertedSelect);
 		sd.deserialize(invertedSelect, invertedResultsSet);
+		// TODO: Get UUID
 //		String deletedUUID = getUUID(resultSet);
 		return null;
 	}

@@ -25,7 +25,7 @@ public class Utilities {
 //		String query = "insert Category {name: \"cat 2\"}";
 //		String query = "from OrderedProduct op select op.@id, op.quantity";
 //		String query = "from Category c select c.@id, c.name";
-		String query = "delete Category c where c.@id == #c72af8e0-7db3-403c-ab4d-8356d2b26399";
+		String query = "delete Category c where c.@id == #93010045-fbbc-4f12-9c0b-3b1038f415f4";
 
 		String resultSet = "";
 		Request request = null;
@@ -47,9 +47,10 @@ public class Utilities {
 			ArrayList<Entity> insertedEntities = id.deserialize(query, resultSet);
 			System.out.println(insertedEntities);
 		} else if (request.hasStm() && request.getStm().isDelete()) {
-			// TODO: Implement this (only query invertor I believe and maybe store UUID)
 			DeleteDeserializer dd = new DeleteDeserializer();
 			dd.deserialize(query, resultSet);
+			// Execute delete.
+//			utils.executeQuery(query);
 
 		} else if (request.hasStm() && request.getStm().isUpdate()) {
 			// TODO: Implement this (re use insert code - maybee rename to upsert - but also
