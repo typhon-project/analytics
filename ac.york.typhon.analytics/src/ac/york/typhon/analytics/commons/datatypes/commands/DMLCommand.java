@@ -41,21 +41,20 @@ public abstract class DMLCommand {
 
 	// private Statement statement;
 
-	 List<String> piles;
-	 List<String> columns;
-	 String clause;
-	 Database targetDb;
+	List<String> entities;
+	List<String> columns;
+	String clause;
+	Database targetDb;
 
-	 public DMLCommand() {
-	 piles = new ArrayList<String>();
-	 columns = new ArrayList<String>();
-	
-	 }
+	public DMLCommand() {
+		entities = new ArrayList<String>();
+		columns = new ArrayList<String>();
+	}
 
-	 public abstract void populateFromSqlStatement(String sql);
+	public abstract void populateFromQLStatement(String query);
 
-	public List<String> getPiles() {
-		return piles;
+	public List<String> getEntities() {
+		return entities;
 	}
 
 	public List<String> getColumns() {
@@ -70,8 +69,8 @@ public abstract class DMLCommand {
 		return targetDb;
 	}
 
-	public void setPiles(ArrayList<String> piles) {
-		this.piles = piles;
+	public void setEntities(ArrayList<String> entities) {
+		this.entities = entities;
 	}
 
 	public void setColumns(ArrayList<String> columns) {
@@ -85,22 +84,5 @@ public abstract class DMLCommand {
 	public void setTargetDb(Database db) {
 		this.targetDb = db;
 	}
-
-	 protected Statement populatePilesFromSqlStatement(String sql) {
-	 Statement statement = null;
-	 try {
-	 statement = CCJSqlParserUtil.parse(sql);
-	 TablesNamesFinder tablesNamesFinder = new TablesNamesFinder();
-	 List<String> tableNamesList = tablesNamesFinder
-	 .getTableList(statement);
-	 this.piles = tableNamesList;
-	
-	 } catch (JSQLParserException e) {
-	 // TODO Auto-generated catch block
-	 e.printStackTrace();
-	 }
-	
-	 return statement;
-	 }
 
 }

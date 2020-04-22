@@ -9,7 +9,7 @@ import java.util.HashMap;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ac.york.typhon.analytics.commons.datatypes.Entity;
+import ac.york.typhon.analytics.commons.datatypes.events.Entity;
 import engineering.swat.typhonql.ast.ASTConversionException;
 import engineering.swat.typhonql.ast.Request;
 import engineering.swat.typhonql.ast.TyphonQLASTParser;

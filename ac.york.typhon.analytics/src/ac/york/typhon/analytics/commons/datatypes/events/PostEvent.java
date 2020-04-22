@@ -8,6 +8,15 @@ public class PostEvent extends Event {
 	private Date endTime;
 	private PreEvent preEvent;
 	private String resultSet;
+	private String invertedQueryResultSet;
+
+	public String getInvertedQueryResultSet() {
+		return invertedQueryResultSet;
+	}
+
+	public void setInvertedQueryResultSet(String invertedQueryResultSet) {
+		this.invertedQueryResultSet = invertedQueryResultSet;
+	}
 
 	public String getResultSet() {
 		return resultSet;
@@ -22,13 +31,14 @@ public class PostEvent extends Event {
 	}
 
 	public PostEvent(String id, String query, Boolean success, Date startTime,
-			Date endTime, PreEvent preEvent, String resultSet) {
+			Date endTime, PreEvent preEvent, String resultSet, String invertedQueryResultSet) {
 		super(id, query);
 		this.success = success;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.preEvent = preEvent;
 		this.resultSet = resultSet;
+		this.invertedQueryResultSet = invertedQueryResultSet;
 	}
 
 //	public PostEvent(String id, String query, Boolean success, Date startTime,

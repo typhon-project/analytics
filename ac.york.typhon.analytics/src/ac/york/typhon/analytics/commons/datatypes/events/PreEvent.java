@@ -18,6 +18,15 @@ public class PreEvent extends Event implements Serializable {
 	String user;
 	Date queryTime;
 	String dbUser;
+	String invertedQuery;
+	public String getInvertedQuery() {
+		return invertedQuery;
+	}
+
+	public void setInvertedQuery(String invertedQuery) {
+		this.invertedQuery = invertedQuery;
+	}
+
 	boolean authenticated;
 
 	@JsonIgnoreProperties(ignoreUnknown = true)

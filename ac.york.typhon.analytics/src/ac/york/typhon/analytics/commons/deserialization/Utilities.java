@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import ac.york.typhon.analytics.commons.datatypes.Entity;
+import ac.york.typhon.analytics.commons.datatypes.events.Entity;
 import engineering.swat.typhonql.ast.ASTConversionException;
 import engineering.swat.typhonql.ast.KeyVal;
 import engineering.swat.typhonql.ast.Request;
