@@ -28,8 +28,8 @@ public class DeleteCommand extends DMLCommand {
 
 	@Override
 	public String toString() {
-		return "DeleteCommand [deletedEntities=" + deletedEntities + ", piles="
-				+ entities + ", columns=" + columns + ", clause=" + clause
+		return "DeleteCommand [deletedEntities=" + deletedEntities + ", affected="
+				+ affected + ", clause=" + clause
 				+ ", targetDb=" + targetDb + "]";
 	}
 

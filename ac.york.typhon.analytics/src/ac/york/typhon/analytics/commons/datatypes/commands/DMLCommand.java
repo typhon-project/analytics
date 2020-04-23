@@ -1,7 +1,8 @@
 package ac.york.typhon.analytics.commons.datatypes.commands;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
@@ -41,24 +42,18 @@ public abstract class DMLCommand {
 
 	// private Statement statement;
 
-	List<String> entities;
-	List<String> columns;
+	Map<String, List<String>> affected;
 	String clause;
 	Database targetDb;
 
 	public DMLCommand() {
-		entities = new ArrayList<String>();
-		columns = new ArrayList<String>();
+		affected = new HashMap<String, List<String>>();
 	}
 
 	public abstract void populateFromQLStatement(String query);
 
-	public List<String> getEntities() {
-		return entities;
-	}
-
-	public List<String> getColumns() {
-		return columns;
+	public Map<String, List<String>> getAffected() {
+		return affected;
 	}
 
 	public String getClause() {
@@ -69,12 +64,12 @@ public abstract class DMLCommand {
 		return targetDb;
 	}
 
-	public void setEntities(ArrayList<String> entities) {
-		this.entities = entities;
+	public void putAffected(String element, List<String> fields) {
+		affected.put(element, fields);
 	}
 
-	public void setColumns(ArrayList<String> columns) {
-		this.columns = columns;
+	public void removeAffected(String element) {
+		affected.remove(element);
 	}
 
 	public void setClause(String clause) {

@@ -51,7 +51,7 @@ public class SelectCommand extends DMLCommand {
 	@Override
 	public String toString() {
 		return "SelectCommand [returnedEntities=" + returnedEntities
-				+ ", piles=" + entities + ", columns=" + columns + ", clause="
+				+ ", affected=" + affected + ", clause="
 				+ clause + ", targetDb=" + targetDb + "]";
 	}
 

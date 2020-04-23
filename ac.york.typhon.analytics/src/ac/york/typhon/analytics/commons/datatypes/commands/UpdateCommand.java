@@ -60,8 +60,8 @@ public class UpdateCommand extends DMLCommand {
 	@Override
 	public String toString() {
 		return "UpdateCommand [updatedEntities=" + updatedEntities
-				+ ", oldEntities=" + oldEntities + ", piles=" + entities
-				+ ", columns=" + columns + ", clause=" + clause + ", targetDb="
+				+ ", oldEntities=" + oldEntities + ", affected=" + affected
+				+ ", clause=" + clause + ", targetDb="
 				+ targetDb + "]";
 	}
 }

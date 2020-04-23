@@ -12,7 +12,7 @@ import sun.misc.BASE64Encoder;
 public class ExecuteQueries {
 	
 	// Make sure you put the local ip address of your computer
-	final String IP_ADDRESS = "192.168.1.3";
+	final String IP_ADDRESS = "localhost";
 
 	public static void main(String[] args) throws Exception {
 		ExecuteQueries eq = new ExecuteQueries();

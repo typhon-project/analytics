@@ -65,8 +65,8 @@ public class InsertCommand extends DMLCommand {
 	@Override
 	public String toString() {
 		return "InsertCommand [insertedEntities=" + insertedEntities
-				+ ", piles=" + entities
-				+ ", columns=" + columns + ", clause=" + clause + ", targetDb="
+				+ ", affected=" + affected
+				+ ", clause=" + clause + ", targetDb="
 				+ targetDb + "]";
 	}
 
