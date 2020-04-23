@@ -3,6 +3,8 @@ package ac.york.typhon.analytics.commons.datatypes;
 import java.util.ArrayList;
 import java.util.Date;
 
+import ac.york.typhon.analytics.commons.datatypes.events.Entity;
+
 public class OrderedProduct extends Entity {
 	private String id;
 	
