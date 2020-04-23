@@ -36,9 +36,10 @@ public class OrderedProduct extends Entity {
 	}
 
 	public String toString() { 
-		String result = "";
-	
+		String result = "Category:( ";
+		result += "UUID " + getUUID() + " previousValue " + getPreviousValue();
 		result = " id: " + id + " quantity: " + quantity;
+		result += " )";
 		return result;
 	}
 }

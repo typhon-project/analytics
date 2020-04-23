@@ -22,12 +22,19 @@ public class Utilities {
 		ExecuteQueries eq = new ExecuteQueries();
 		ExecuteQueries.Utils utils = eq.new Utils();
 
+		String query = "insert Category {name: \"cat 1\"}";		
 //		String query = "insert Category {name: \"cat 2\"}";
-//		String query = "from OrderedProduct op select op.@id, op.quantity";
 //		String query = "from Category c select c.@id, c.name";
-//		String query = "delete Category c where c.@id == #93010045-fbbc-4f12-9c0b-3b1038f415f4";
-		String query = "update Category c where c.@id == #93010045-fbbc-4f12-9c0b-3b1038f415f4 set {name: \"test 2\"}";
 
+//		String query = "delete Category c where c.@id == #93010045-fbbc-4f12-9c0b-3b1038f415f4";
+//		String query = "update Category c where c.@id == #93010045-fbbc-4f12-9c0b-3b1038f415f4 set {name: \"test 2\"}";
+		
+//		String query = "insert Product {name: \"Rustic\", category: [#c72af8e0-7db3-403c-ab4d-8356d2b26399]}";
+//		String query = "from Product p select p.@id, p.category";		
+		
+//		String query = "insert OrderedProduct {quantity: 5, product: [#9d6eee34-66d7-4edb-9771-18fe6f7b9215]}";		
+//		String query = "from OrderedProduct op select op.@id, op.quantity";
+		
 		String resultSet = "";
 		Request request = null;
 		try {

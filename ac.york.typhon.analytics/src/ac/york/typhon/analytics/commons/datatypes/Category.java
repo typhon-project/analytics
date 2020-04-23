@@ -26,9 +26,10 @@ public class Category extends Entity{
 	}
 
 	public String toString() { 
-		String result = "";
-	
-		result = " id: " + id + " name: " + name;
+		String result = "Category:( ";
+		result += "UUID " + getUUID() + " previousValue " + getPreviousValue();
+		result += " id: " + id + " name: " + name;
+		result += " )";
 		return result;
 	}
 }

@@ -3,14 +3,14 @@ package ac.york.typhon.analytics.commons.datatypes.events;
 public class Entity {
 	
 	private String UUID;
-	private Entity update;
+	private Entity previousValue;
 
-	public Entity getUpdate() {
-		return update;
+	public Entity getPreviousValue() {
+		return previousValue;
 	}
 
-	public void setUpdate(Entity update) {
-		this.update = update;
+	public void setPreviousValue(Entity previousValue) {
+		this.previousValue = previousValue;
 	}
 
 	public String getUUID() {
