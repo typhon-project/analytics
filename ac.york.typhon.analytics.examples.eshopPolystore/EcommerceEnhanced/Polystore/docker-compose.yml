@@ -1,6 +1,15 @@
 version: '3.7'
 
 services:
+  RelationalDatabase:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - target: 3306
+        published: 3306
+    hostname: RelationalDatabase
+    container_name : RelationalDatabase
   DocumentDatabase:
     image: mongo:latest
     environment:
@@ -11,15 +20,6 @@ services:
         published: 27018
     hostname: DocumentDatabase
     container_name : DocumentDatabase
-  RelationalDatabase:
-    image: mariadb:latest
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-    ports:
-      - target: 3306
-        published: 3306
-    hostname: RelationalDatabase
-    container_name : RelationalDatabase
   polystore-mongo:
     image: mongo:latest
     environment:
@@ -79,4 +79,5 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
       KAFKA_ADVERTISED_LISTENERS: OUTSIDE://192.168.1.18:29092, INSIDE://:9092
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_CREATE_TOPICS: "POST:3:1, PRE:3:1, AUTH:3:1"
     container_name : kafka

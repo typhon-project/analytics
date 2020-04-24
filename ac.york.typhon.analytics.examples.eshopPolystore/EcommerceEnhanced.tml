@@ -47,7 +47,7 @@ entity User {
 	paymentsDetails :-> CreditCard[0..*]
 	orders -> Order."Order.users"[0..*]
 	reviews -> Review."Review.product"[0..*]
-	basket :-> Basket[1]
+	basket -> Basket[1]
 }
 
 // DONE

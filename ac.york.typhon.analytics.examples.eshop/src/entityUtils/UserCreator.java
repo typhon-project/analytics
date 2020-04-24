@@ -8,11 +8,29 @@ import java.util.concurrent.TimeUnit;
 
 import com.github.javafaker.Faker;
 
+import infra.RunSimulator;
 import utils.ExecuteQueries;
 import utils.ExecuteQueries.Utils;
 
-public class UserCreator {
+public class UserCreator implements Runnable {
+	
+	int seed;
+	
+	public UserCreator(int seed) {
+	       this.seed = seed;
+	   }
 
+	@Override
+	public void run() {
+		try {
+			create(seed);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public String create(int seed) throws Exception {
 		ExecuteQueries eq = new ExecuteQueries();
 		ExecuteQueries.Utils utils = eq.new Utils();
@@ -28,10 +46,11 @@ public class UserCreator {
 		str.append("paymentsDetails: [#" + creditCardId + "], ");
 		str.append("basket: [#" + basketId + "]");
 		str.append("}");
-		String productId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
+		String userId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
 //		utils.createAndPublishPostEvent(str.toString());
 //		String productId = UUID.randomUUID().toString();;
-		return productId;
+		RunSimulator.allUsers.add(userId);
+		return userId;
 	}
 
 	public String createAddress(int seed) throws Exception {
@@ -84,4 +103,6 @@ public class UserCreator {
 //		String basketId = UUID.randomUUID().toString();;
 		return basketId;
 	}
+
+	
 }
