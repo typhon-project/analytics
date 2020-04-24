@@ -44,10 +44,6 @@ public class SelectCommand extends DMLCommand {
 		this.returnedEntities = returnedEntities;
 	}
 
-	public void populateFromQLStatement(String query) {
-		//TODO: Implement this
-	}
-
 	@Override
 	public String toString() {
 		return "SelectCommand [returnedEntities=" + returnedEntities

@@ -9,6 +9,8 @@ public class PostEvent extends Event {
 	private PreEvent preEvent;
 	private String resultSet;
 	private String invertedQueryResultSet;
+	//note: this will be subclassed by the analytics engine (DeserializedPostEvent)
+	//private List<DMLCommand> commands;
 
 	public String getInvertedQueryResultSet() {
 		return invertedQueryResultSet;
@@ -87,7 +89,8 @@ public class PostEvent extends Event {
 	public String toString() {
 		return "PostEvent [success=" + success + ", startTime=" + startTime
 				+ ", endTime=" + endTime + ", preEvent=" + preEvent + ", id="
-				+ eventId + ", query=" + query + "]";
+				+ eventId + ", query=" + query 
+				+ "]";
 	}
 
 	// @Override

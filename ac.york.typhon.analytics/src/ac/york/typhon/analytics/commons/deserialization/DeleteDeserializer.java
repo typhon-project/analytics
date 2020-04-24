@@ -18,16 +18,23 @@ public class DeleteDeserializer implements Deserializer {
 	public ArrayList<String> UUIDs = new ArrayList<String>();
 	
 	@Override
-	public ArrayList<Entity> deserialize(String query, String resultSet) throws Exception {
+	public ArrayList<Entity> deserialize(String query, String invertedSelectQuery, String resultSet,
+			String invertedResultSet) throws Exception {
 		ExecuteQueries eq = new ExecuteQueries();
 		ExecuteQueries.Utils utils = eq.new Utils();
 		Utilities util = new Utilities();
+		
 		Request request = TyphonQLASTParser.parseTyphonQLRequest((query).toCharArray());
-		String invertedSelect = util.createInvertedSelect(request);
-		System.out.println(invertedSelect);
+		
 		SelectDeserializer sd = new SelectDeserializer();
-		String invertedResultsSet = utils.executeQuery(invertedSelect);
-		sd.deserialize(invertedSelect, invertedResultsSet);
+		
+		//
+		invertedSelectQuery = util.createInvertedSelect(request);
+		System.out.println(invertedSelectQuery);
+		invertedResultSet = utils.executeQuery(invertedSelectQuery);
+		//
+		
+		sd.deserialize(invertedSelectQuery, null, invertedResultSet, null);
 		// TODO: Get UUID
 //		String deletedUUID = getUUID(resultSet);
 		// FIXME: This should return something. Think what.

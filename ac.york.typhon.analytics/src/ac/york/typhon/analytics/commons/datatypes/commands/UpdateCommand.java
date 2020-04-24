@@ -53,11 +53,6 @@ public class UpdateCommand extends DMLCommand {
 	}
 
 	@Override
-	public void populateFromQLStatement(String query) {
-		//TODO: Implement this
-	}
-
-	@Override
 	public String toString() {
 		return "UpdateCommand [updatedEntities=" + updatedEntities
 				+ ", oldEntities=" + oldEntities + ", affected=" + affected

@@ -50,12 +50,6 @@ public abstract class DMLCommand {
 		affected = new HashMap<String, List<String>>();
 	}
 
-	public abstract void populateFromQLStatement(String query);
-
-	public Map<String, List<String>> getAffected() {
-		return affected;
-	}
-
 	public String getClause() {
 		return clause;
 	}
@@ -64,12 +58,12 @@ public abstract class DMLCommand {
 		return targetDb;
 	}
 
-	public void putAffected(String element, List<String> fields) {
-		affected.put(element, fields);
+	public Map<String, List<String>> getAffected() {
+		return affected;
 	}
 
-	public void removeAffected(String element) {
-		affected.remove(element);
+	public void setAffected(Map<String, List<String>> affected) {
+		this.affected = affected;
 	}
 
 	public void setClause(String clause) {

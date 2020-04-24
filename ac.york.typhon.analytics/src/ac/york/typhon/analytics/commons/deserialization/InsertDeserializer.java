@@ -20,7 +20,8 @@ public class InsertDeserializer implements Deserializer {
 	public ArrayList<String> UUIDs = new ArrayList<String>();
 
 	@Override
-	public ArrayList<Entity> deserialize(String query, String resultSet) throws Exception {
+	public ArrayList<Entity> deserialize(String query, String invertedSelectQuery, String resultSet,
+			String invertedResultSet) throws Exception {
 		ArrayList<Entity> insertedEntities = new ArrayList<Entity>();
 		insertedEntities = parseQuery(query, resultSet);
 		return insertedEntities;

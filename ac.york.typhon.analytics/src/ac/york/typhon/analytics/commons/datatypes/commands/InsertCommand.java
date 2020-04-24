@@ -58,11 +58,6 @@ public class InsertCommand extends DMLCommand {
 //	}
 
 	@Override
-	public void populateFromQLStatement(String query) {
-		// TODO: Implement this
-	}
-
-	@Override
 	public String toString() {
 		return "InsertCommand [insertedEntities=" + insertedEntities
 				+ ", affected=" + affected

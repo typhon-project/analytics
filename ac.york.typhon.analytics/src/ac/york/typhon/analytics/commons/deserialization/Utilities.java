@@ -1,13 +1,10 @@
 package ac.york.typhon.analytics.commons.deserialization;
 
-import java.awt.List;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import ac.york.typhon.analytics.commons.datatypes.events.Entity;
 import engineering.swat.typhonql.ast.ASTConversionException;
-import engineering.swat.typhonql.ast.KeyVal;
 import engineering.swat.typhonql.ast.Request;
 import engineering.swat.typhonql.ast.Statement;
 import engineering.swat.typhonql.ast.Statement.Delete;
@@ -25,8 +22,9 @@ public class Utilities {
 		String query = "insert Category {name: \"cat 1\"}";		
 //		String query = "insert Category {name: \"cat 2\"}";
 //		String query = "from Category c select c.@id, c.name";
-
-//		String query = "delete Category c where c.@id == #93010045-fbbc-4f12-9c0b-3b1038f415f4";
+//		String query = "from Category c select c.name where c.name == \"cat 1\"";
+		
+//		String query = "delete Category c where c.@id == #92763cf5-cc23-4dbc-af4d-e98d2004c84e";
 //		String query = "update Category c where c.@id == #93010045-fbbc-4f12-9c0b-3b1038f415f4 set {name: \"test 2\"}";
 		
 //		String query = "insert Product {name: \"Rustic\", category: [#c72af8e0-7db3-403c-ab4d-8356d2b26399]}";
@@ -52,21 +50,21 @@ public class Utilities {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			ArrayList<Entity> insertedEntities = id.deserialize(query, resultSet);
+			ArrayList<Entity> insertedEntities = id.deserialize(query, null, resultSet, null);
 			System.out.println(insertedEntities);
 		} else if (request.hasStm() && request.getStm().isDelete()) {
 			DeleteDeserializer dd = new DeleteDeserializer();
-			// This aactually creates the inverted select and deserialises it. It dooes do any deserialisation
+			// This actually creates the inverted select and deserialises it. It does do any deserialisation
 			// on the delete statement, as this is not needed.
-			dd.deserialize(query, resultSet);
+			dd.deserialize(query, null, resultSet, null);
 			// Execute delete.
-//			utils.executeQuery(query);
+			utils.executeQuery(query);
 
 		} else if (request.hasStm() && request.getStm().isUpdate()) {
 			// TODO: Implement this (re use insert code - maybee rename to upsert - but also
 			// an inverted select)
 			UpdateDeserializer up = new UpdateDeserializer();
-			up.deserialize(query, resultSet);
+			up.deserialize(query, null, resultSet, null);
 		} else {
 			// It is a Select.
 			resultSet = utils.executeQuery(query);
@@ -86,7 +84,7 @@ public class Utilities {
 				// TODO: This is a "join". We need to implement a "View" with slots
 			} else {
 				SelectDeserializer sd = new SelectDeserializer();
-				sd.deserialize(query, resultSet);
+				sd.deserialize(query, null, resultSet, null);
 			}
 
 		}

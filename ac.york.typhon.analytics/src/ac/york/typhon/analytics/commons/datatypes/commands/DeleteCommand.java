@@ -22,11 +22,6 @@ public class DeleteCommand extends DMLCommand {
 	}
 
 	@Override
-	public void populateFromQLStatement(String query) {
-		//TODO: Implement this
-	}
-
-	@Override
 	public String toString() {
 		return "DeleteCommand [deletedEntities=" + deletedEntities + ", affected="
 				+ affected + ", clause=" + clause

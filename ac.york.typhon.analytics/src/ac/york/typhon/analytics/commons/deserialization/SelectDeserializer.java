@@ -14,13 +14,13 @@ import engineering.swat.typhonql.ast.ASTConversionException;
 import engineering.swat.typhonql.ast.Request;
 import engineering.swat.typhonql.ast.TyphonQLASTParser;
 
-
 public class SelectDeserializer implements Deserializer {
 
 	public ArrayList<String> UUIDs = new ArrayList<String>();
-	
+
 	@Override
-	public ArrayList<Entity> deserialize(String query, String resultSet) throws Exception {
+	public ArrayList<Entity> deserialize(String query, String invertedSelectQuery, String resultSet,
+			String invertedResultSet) throws Exception {
 		ArrayList<String> columnNames = getColunmNames(resultSet);
 		Request request = TyphonQLASTParser.parseTyphonQLRequest((query).toCharArray());
 		// FIXME: This is a list, we assume one entity only.
@@ -30,50 +30,54 @@ public class SelectDeserializer implements Deserializer {
 			VId = request.getQry().getBindings().get(0).getVar().yieldTree();
 		}
 		ArrayList<ArrayList<Object>> returnedValues = getValues(resultSet);
+
+		ArrayList<Entity> ret = new ArrayList<Entity>();
 		for (ArrayList<Object> values : returnedValues) {
-			// TODO: This just prints. Needs to set the PostEvent
-			System.out.println(createEntity(columnNames, values, entityName, VId));
-
+			Entity e = createEntity(columnNames, values, entityName, VId);
+			System.out.println(e);
+			ret.add(e);
 		}
-		// FIXME: Thing how to deal with multiple entities returned
-		return null;
+		return ret;
 	}
-
-	
 
 	public ArrayList<String> getColunmNames(String resultSet) throws IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonNode root = objectMapper.readTree(resultSet);
 		return new ObjectMapper().convertValue(root.path("columnNames"), ArrayList.class);
 	}
-	
+
 	public ArrayList<ArrayList<Object>> getValues(String resultSet) throws IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonNode root = objectMapper.readTree(resultSet);
 		return new ObjectMapper().convertValue(root.path("values"), ArrayList.class);
 	}
-	
-	public Entity createEntity(ArrayList<String> columnNames, ArrayList<Object> values, String entityType, String VId) throws Exception {
+
+	public Entity createEntity(ArrayList<String> columnNames, ArrayList<Object> values, String entityType, String VId)
+			throws Exception {
 		Class<?> objClass = Class.forName("ac.york.typhon.analytics.commons.datatypes." + entityType);
 		Entity entity = (Entity) objClass.newInstance();
+
 		for (int i = 0; i < columnNames.size(); i++) {
+
 			String fieldNameWithoutVId = columnNames.get(i).split(VId + ".")[1];
-			// Remove @
+
+			Field field;
 			if (fieldNameWithoutVId.contains("@id")) {
-				// FIXME: This implies that "id" field exists. It should though be UUID of the entity. Need to find a way to get super field.
-				fieldNameWithoutVId = fieldNameWithoutVId.substring(1, fieldNameWithoutVId.length()); 
-//				fieldNameWithoutVId = "UUID";
+				fieldNameWithoutVId = "UUID";
+				field = objClass.getSuperclass().getDeclaredField(fieldNameWithoutVId);
+			} else {
+				field = objClass.getDeclaredField(fieldNameWithoutVId);
 			}
-			Field field = objClass.getDeclaredField(fieldNameWithoutVId);
+
 			field.setAccessible(true);
 			Class<?> fieldTypeClass = field.getType();
-			Method setter = objClass.getMethod("set" + fieldNameWithoutVId.substring(0, 1).toUpperCase()
-					+ fieldNameWithoutVId.substring(1), fieldTypeClass);
+			Method setter = objClass.getMethod(
+					"set" + fieldNameWithoutVId.substring(0, 1).toUpperCase() + fieldNameWithoutVId.substring(1),
+					fieldTypeClass);
 			setter.invoke(entity, values.get(i));
+
 		}
 		return entity;
 	}
-	
-	
 
 }
