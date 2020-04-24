@@ -55,7 +55,8 @@ public class BuyerReviewerAgent extends Agent implements Runnable {
 //			utils.executeUpdateAndReturnPostvent(irg.generateQuery(null));
 					String orderedProductQuery = iopg.generateQuery(params);
 					String productId = orderedProductQuery.split("product: \\[\\#")[1].split("]")[0];
-					utils.createAndPublishPostEvent(orderedProductQuery);
+//					utils.createAndPublishPostEvent(orderedProductQuery);
+					utils.executeUpdate(orderedProductQuery);
 					// FIXME: Should pick randomly (with a seed) from all products
 					orderedProducts.add(productId);
 					this.randomSleep(1000, 5000);
@@ -69,7 +70,8 @@ public class BuyerReviewerAgent extends Agent implements Runnable {
 			params.put("productToReviewId", orderedProducts.get(r.nextInt(NUM_OF_PRODUCTS - 1)));
 			String orderQuery = iog.generateQuery(params);
 			try {
-				utils.createAndPublishPostEvent(orderQuery);
+//				utils.createAndPublishPostEvent(orderQuery);
+				utils.executeUpdate(orderQuery);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -78,7 +80,8 @@ public class BuyerReviewerAgent extends Agent implements Runnable {
 			// Write review
 			try {
 				InsertReviewGenerator irg = new InsertReviewGenerator();
-				utils.createAndPublishPostEvent(irg.generateQuery(params));
+//				utils.createAndPublishPostEvent(irg.generateQuery(params));
+				utils.executeUpdate(irg.generateQuery(params));
 				this.randomSleep(1000, 5000);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

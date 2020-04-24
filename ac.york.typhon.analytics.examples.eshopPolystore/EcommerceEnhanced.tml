@@ -22,7 +22,8 @@ entity Order {
 	totalAmount : int
 	orderedProducts -> OrderedProduct[0..*]
 	users -> User[1]
-	paidWith -> CreditCard[1]
+	// This should be [1] but I did 0..* to facilitate the eshop simulator
+	paidWith -> CreditCard[0..*]
 }
 
 // DONE

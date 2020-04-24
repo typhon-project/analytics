@@ -48,7 +48,8 @@ public class BuyerAgent extends Agent implements Runnable {
 //			utils.executeUpdateAndReturnPostvent(irg.generateQuery(null));
 					String orderedProductQuery = iopg.generateQuery(params);
 
-					utils.createAndPublishPostEvent(orderedProductQuery);
+//					utils.createAndPublishPostEvent(orderedProductQuery);
+					utils.executeUpdate(orderedProductQuery);
 					// FIXME: Should pick randomly (with a seed) from all products
 					orderedProducts.add(String.valueOf(seed));
 					this.randomSleep(1000, 5000);
@@ -61,7 +62,8 @@ public class BuyerAgent extends Agent implements Runnable {
 			params.put("orderedProducts", orderedProducts.toString());
 			String orderQuery = iog.generateQuery(params);
 			try {
-				utils.createAndPublishPostEvent(orderQuery);
+//				utils.createAndPublishPostEvent(orderQuery);
+				utils.executeUpdate(orderQuery);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

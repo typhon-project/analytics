@@ -36,10 +36,10 @@ public class UndecisiveAgent extends Agent implements Runnable {
 
 		String productUUID = RunSimulator.allProducts.get(r.nextInt(RunSimulator.allProducts.size()));
 		BasketPopulator bp = new BasketPopulator();
-		String bpUUID = "";
+		String bpUUID = RunSimulator.allBaskets.get(r.nextInt(RunSimulator.allBaskets.size()));
 		// FIXME: Basket UUID?
 		try {
-			bpUUID = bp.add(productUUID, "basketUUID", seed);
+			bpUUID = bp.add(productUUID, bpUUID, seed);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

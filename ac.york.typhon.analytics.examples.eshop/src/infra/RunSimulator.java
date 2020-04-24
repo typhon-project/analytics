@@ -20,6 +20,7 @@ import utils.ExecuteQueries;
 public class RunSimulator {
 	public static ArrayList<String> allUsers = new ArrayList<String>();
 	public static ArrayList<String> allProducts = new ArrayList<String>();
+	public static ArrayList<String> allBaskets = new ArrayList<String>();
 
 	public static void main(String[] args) throws Exception {
 
@@ -32,6 +33,7 @@ public class RunSimulator {
 		} else {
 			allUsers = getAlreadyCreatedUsers();
 			allProducts = getAlreadyCreatedProducts();
+			allBaskets = getAlreadyCreatedBaskets();
 			System.out.println(allUsers);
 			System.out.println(allProducts);
 			int numOfBuyerAgents = Integer.parseInt(appProps.getProperty("num_of_buyer_agents"));
@@ -185,15 +187,31 @@ public class RunSimulator {
 		String getAllProductsUUIDsQuery = "from Product p select p";
 		ExecuteQueries eq = new ExecuteQueries();
 		ExecuteQueries.Utils utils = eq.new Utils();
-		String usersResult = utils.executeQuery(getAllProductsUUIDsQuery);
+		String productsResult = utils.executeQuery(getAllProductsUUIDsQuery);
 		JSONParser parser = new JSONParser();
-		JSONObject jsonObject = (JSONObject) parser.parse(usersResult);
+		JSONObject jsonObject = (JSONObject) parser.parse(productsResult);
 		JSONArray msg = (JSONArray) jsonObject.get("values");
 		Iterator<JSONArray> iterator = msg.iterator();
         while (iterator.hasNext()) {
         	products.add((String) iterator.next().get(0));
         }
         return products;
+	}
+	
+	public static ArrayList<String> getAlreadyCreatedBaskets() throws Exception {
+		ArrayList<String> baskets = new ArrayList<String>();
+		String getAllBasketsUUIDsQuery = "from Basket b select b";
+		ExecuteQueries eq = new ExecuteQueries();
+		ExecuteQueries.Utils utils = eq.new Utils();
+		String basketsResult = utils.executeQuery(getAllBasketsUUIDsQuery);
+		JSONParser parser = new JSONParser();
+		JSONObject jsonObject = (JSONObject) parser.parse(basketsResult);
+		JSONArray msg = (JSONArray) jsonObject.get("values");
+		Iterator<JSONArray> iterator = msg.iterator();
+        while (iterator.hasNext()) {
+        	baskets.add((String) iterator.next().get(0));
+        }
+        return baskets;
 	}
 
 }

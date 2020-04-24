@@ -24,9 +24,10 @@ public class BasketPopulator {
 		str.append("product: [#" + productUUID + "], ");
 		str.append("basket: [#" + basketUUID + "]");
 		str.append("}");
-//		String basketProductId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
-		String basketProductId = UUID.randomUUID().toString();
-		utils.createAndPublishPostEvent(str.toString());
+		System.out.println(str.toString());
+		String basketProductId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
+//		String basketProductId = UUID.randomUUID().toString();
+//		utils.createAndPublishPostEvent(str.toString());
 		return basketProductId;
 	}
 
@@ -34,10 +35,9 @@ public class BasketPopulator {
 		ExecuteQueries eq = new ExecuteQueries();
 		ExecuteQueries.Utils utils = eq.new Utils();	
 		StringBuilder str = new StringBuilder();
-		// FIXME: Is this a correct delete syntax?
 		str.append("delete BasketProduct bp where ");
 		str.append("bp.@id == " + basketProductId);
-//		utils.executeUpdate(str.toString());
-		utils.createAndPublishPostEvent(str.toString());
+		utils.executeUpdate(str.toString());
+//		utils.createAndPublishPostEvent(str.toString());
 	}
 }

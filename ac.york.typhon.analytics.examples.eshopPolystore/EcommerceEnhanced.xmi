@@ -36,7 +36,7 @@
     </attributes>
     <relations name="orderedProducts" type="//@entities.4" cardinality="zero_many"/>
     <relations name="users" type="//@entities.5" cardinality="one"/>
-    <relations name="paidWith" type="//@entities.10" cardinality="one"/>
+    <relations name="paidWith" type="//@entities.10" cardinality="zero_many"/>
   </entities>
   <entities name="Category">
     <attributes xsi:type="typhonml:Attribute" name="id">
