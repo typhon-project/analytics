@@ -28,6 +28,7 @@ public class Category extends Entity{
 	public String toString() { 
 		String result = "Category:( ";
 		result += "UUID " + getUUID() + " previousValue " + getPreviousValue();
+		result += "db: " + getDb() + " isProxy: " + isProxy();
 		result += " id: " + id + " name: " + name;
 		result += " )";
 		return result;

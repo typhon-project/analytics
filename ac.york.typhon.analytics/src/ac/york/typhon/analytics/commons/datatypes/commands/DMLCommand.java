@@ -44,7 +44,6 @@ public abstract class DMLCommand {
 
 	Map<String, List<String>> affected;
 	String clause;
-	Database targetDb;
 
 	public DMLCommand() {
 		affected = new HashMap<String, List<String>>();
@@ -52,10 +51,6 @@ public abstract class DMLCommand {
 
 	public String getClause() {
 		return clause;
-	}
-
-	public Database getTargetDb() {
-		return targetDb;
 	}
 
 	public Map<String, List<String>> getAffected() {
@@ -68,10 +63,6 @@ public abstract class DMLCommand {
 
 	public void setClause(String clause) {
 		this.clause = clause;
-	}
-
-	public void setTargetDb(Database db) {
-		this.targetDb = db;
 	}
 
 }

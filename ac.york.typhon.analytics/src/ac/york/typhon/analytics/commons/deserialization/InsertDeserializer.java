@@ -1,12 +1,8 @@
 package ac.york.typhon.analytics.commons.deserialization;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ac.york.typhon.analytics.commons.datatypes.events.Entity;
 import engineering.swat.typhonql.ast.ASTConversionException;
@@ -17,23 +13,22 @@ import engineering.swat.typhonql.ast.TyphonQLASTParser;
 
 public class InsertDeserializer implements Deserializer {
 
-	public ArrayList<String> UUIDs = new ArrayList<String>();
+	//public ArrayList<String> UUIDs = new ArrayList<String>();
 
 	@Override
 	public ArrayList<Entity> deserialize(String query, String invertedSelectQuery, String resultSet,
 			String invertedResultSet) throws Exception {
+		
+		// TODO remove when this is done in the authentication chain
+		ExecuteQueries eq = new ExecuteQueries();
+		ExecuteQueries.Utils utils = eq.new Utils();
+		Utilities util = new Utilities();
+		resultSet = utils.executeUpdate(query);
+		//		
+				
 		ArrayList<Entity> insertedEntities = new ArrayList<Entity>();
 		insertedEntities = parseQuery(query, resultSet);
 		return insertedEntities;
-	}
-
-	public String getUUID(String resultSet) throws IOException {
-		// TODO: This might be a list
-		String UUID = "";
-		ObjectMapper objectMapper = new ObjectMapper();
-		JsonNode root = objectMapper.readTree(resultSet);
-		UUID = root.path("createdUuids").path("uuid").asText();
-		return UUID;
 	}
 
 	public ArrayList<Entity> parseQuery(String query, String resultSet) throws Exception {
@@ -42,7 +37,6 @@ public class InsertDeserializer implements Deserializer {
 		try {
 			request = TyphonQLASTParser.parseTyphonQLRequest((query).toCharArray());
 		} catch (ASTConversionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		// TODO: This might be a list
@@ -61,7 +55,7 @@ public class InsertDeserializer implements Deserializer {
 				
 			}
 			// FIXME: Find how UUID are given in bulk inserts. This is not working for more than one insert.
-			String insertedUUID = getUUID(resultSet);
+			String insertedUUID = Utilities.getUUID(resultSet);
 			entity.setUUID(insertedUUID);
 			insertedEntities.add(entity);
 		}

@@ -40,6 +40,7 @@ public class ExecuteQueries {
 					.header("Authorization", "Basic " + authStringEnc).post(ClientResponse.class, query);
 			if (resp.getStatus() != 200) {
 				System.err.println("Unable to connect to the server");
+				System.err.println("query: "+query);
 			}
 
 			return resp.getEntity(String.class);
@@ -64,6 +65,7 @@ public class ExecuteQueries {
 					.header("Authorization", "Basic " + authStringEnc).post(ClientResponse.class, query);
 			if (resp.getStatus() != 200) {
 				System.err.println("Unable to connect to the server");
+				System.err.println("update: "+query);
 			}
 
 			return resp.getEntity(String.class);

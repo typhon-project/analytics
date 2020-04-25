@@ -62,7 +62,7 @@ public class InsertCommand extends DMLCommand {
 		return "InsertCommand [insertedEntities=" + insertedEntities
 				+ ", affected=" + affected
 				+ ", clause=" + clause + ", targetDb="
-				+ targetDb + "]";
+				+ "]";
 	}
 
 }

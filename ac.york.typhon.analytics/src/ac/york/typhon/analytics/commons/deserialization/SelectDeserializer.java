@@ -4,13 +4,11 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ac.york.typhon.analytics.commons.datatypes.events.Entity;
-import engineering.swat.typhonql.ast.ASTConversionException;
 import engineering.swat.typhonql.ast.Request;
 import engineering.swat.typhonql.ast.TyphonQLASTParser;
 
@@ -21,9 +19,18 @@ public class SelectDeserializer implements Deserializer {
 	@Override
 	public ArrayList<Entity> deserialize(String query, String invertedSelectQuery, String resultSet,
 			String invertedResultSet) throws Exception {
+		
+		// TODO remove when this is done in the authentication chain
+		ExecuteQueries eq = new ExecuteQueries();
+		ExecuteQueries.Utils utils = eq.new Utils();
+		Utilities util = new Utilities();
+		if(resultSet == null)
+			resultSet = utils.executeQuery(query);
+		//		
+		
 		ArrayList<String> columnNames = getColunmNames(resultSet);
 		Request request = TyphonQLASTParser.parseTyphonQLRequest((query).toCharArray());
-		// FIXME: This is a list, we assume one entity only.
+		// XXX: This is a list, we assume one entity only.
 		String entityName = request.getQry().getBindings().get(0).getEntity().yieldTree();
 		String VId = "";
 		if (request.getQry().getBindings().get(0).hasVar()) {
@@ -34,7 +41,7 @@ public class SelectDeserializer implements Deserializer {
 		ArrayList<Entity> ret = new ArrayList<Entity>();
 		for (ArrayList<Object> values : returnedValues) {
 			Entity e = createEntity(columnNames, values, entityName, VId);
-			System.out.println(e);
+			//System.out.println(e);
 			ret.add(e);
 		}
 		return ret;
@@ -59,13 +66,17 @@ public class SelectDeserializer implements Deserializer {
 
 		for (int i = 0; i < columnNames.size(); i++) {
 
-			String fieldNameWithoutVId = columnNames.get(i).split(VId + ".")[1];
+			String vidWithDot = VId + "\\.";
+			String[] split = columnNames.get(i).split(vidWithDot);
+			//System.out.println(Arrays.toString(split));
+			String fieldNameWithoutVId = split[1];
 
 			Field field;
 			if (fieldNameWithoutVId.contains("@id")) {
 				fieldNameWithoutVId = "UUID";
 				field = objClass.getSuperclass().getDeclaredField(fieldNameWithoutVId);
 			} else {
+				//System.out.println("<"+fieldNameWithoutVId);
 				field = objClass.getDeclaredField(fieldNameWithoutVId);
 			}
 

@@ -25,7 +25,7 @@ public class DeleteCommand extends DMLCommand {
 	public String toString() {
 		return "DeleteCommand [deletedEntities=" + deletedEntities + ", affected="
 				+ affected + ", clause=" + clause
-				+ ", targetDb=" + targetDb + "]";
+				+ "]";
 	}
 
 }

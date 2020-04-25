@@ -48,7 +48,7 @@ public class SelectCommand extends DMLCommand {
 	public String toString() {
 		return "SelectCommand [returnedEntities=" + returnedEntities
 				+ ", affected=" + affected + ", clause="
-				+ clause + ", targetDb=" + targetDb + "]";
+				+ clause + "]";
 	}
 
 }

@@ -57,6 +57,6 @@ public class UpdateCommand extends DMLCommand {
 		return "UpdateCommand [updatedEntities=" + updatedEntities
 				+ ", oldEntities=" + oldEntities + ", affected=" + affected
 				+ ", clause=" + clause + ", targetDb="
-				+ targetDb + "]";
+				+ "]";
 	}
 }

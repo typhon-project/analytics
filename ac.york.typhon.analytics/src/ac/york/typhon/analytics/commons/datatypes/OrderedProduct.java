@@ -1,8 +1,5 @@
 package ac.york.typhon.analytics.commons.datatypes;
 
-import java.util.ArrayList;
-import java.util.Date;
-
 import ac.york.typhon.analytics.commons.datatypes.events.Entity;
 
 public class OrderedProduct extends Entity {
@@ -25,20 +22,21 @@ public class OrderedProduct extends Entity {
 		this.quantity = quantity;
 	}
 	
-	private String product;
+	private Product product;
 	
-	public String getProduct() {
+	public Product getProduct() {
 		return this.product;
 	}
 	
-	public void setProduct(String product) {
+	public void setProduct(Product product) {
 		this.product = product;
 	}
 
 	public String toString() { 
 		String result = "Category:( ";
 		result += "UUID " + getUUID() + " previousValue " + getPreviousValue();
-		result = " id: " + id + " quantity: " + quantity;
+		result += "db: " + getDb() + " isProxy: " + isProxy();
+		result += " id: " + id + " quantity: " + quantity;
 		result += " )";
 		return result;
 	}

@@ -1,7 +1,11 @@
 package ac.york.typhon.analytics.commons.deserialization;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ac.york.typhon.analytics.commons.datatypes.events.Entity;
 import engineering.swat.typhonql.ast.ASTConversionException;
@@ -19,8 +23,8 @@ public class Utilities {
 		ExecuteQueries eq = new ExecuteQueries();
 		ExecuteQueries.Utils utils = eq.new Utils();
 
-		String query = "insert Category {name: \"cat 1\"}";		
-//		String query = "insert Category {name: \"cat 2\"}";
+		String query = "update Address a where a.@id == #3c904a88-f416-461d-849c-390dffae5fb4 set { street: \"street 420\" }";		
+//		String query = "insert Category {name: \"cat 1\"}, Category {name: \"cat 2\"}";
 //		String query = "from Category c select c.@id, c.name";
 //		String query = "from Category c select c.name where c.name == \"cat 1\"";
 		
@@ -38,7 +42,6 @@ public class Utilities {
 		try {
 			request = TyphonQLASTParser.parseTyphonQLRequest((query).toCharArray());
 		} catch (ASTConversionException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -47,7 +50,6 @@ public class Utilities {
 			try {
 				resultSet = utils.executeUpdate(query);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			ArrayList<Entity> insertedEntities = id.deserialize(query, null, resultSet, null);
@@ -61,10 +63,10 @@ public class Utilities {
 			utils.executeQuery(query);
 
 		} else if (request.hasStm() && request.getStm().isUpdate()) {
-			// TODO: Implement this (re use insert code - maybee rename to upsert - but also
+			// Implement this (re use insert code - maybee rename to upsert - but also
 			// an inverted select)
 			UpdateDeserializer up = new UpdateDeserializer();
-			up.deserialize(query, null, resultSet, null);
+			System.out.println(up.deserialize(query, null, resultSet, null));
 		} else {
 			// It is a Select.
 			resultSet = utils.executeQuery(query);
@@ -103,7 +105,7 @@ public class Utilities {
 			for (Field field : allFields) {
 				selectFieldsWithVids.add(vid + "." + field.getName());
 			}
-			String select = String.join(", ", selectFieldsWithVids);
+			String select = vid + ".@id, " + String.join(", ", selectFieldsWithVids);
 			dmlCommand += "from " + eid + " " + vid + " select " + select + " ";
 
 			if (stm.hasWhere()) {
@@ -112,5 +114,20 @@ public class Utilities {
 			}
 		}
 		return dmlCommand;
+	}
+	
+	public static String getUUID(String resultSet) throws IOException {
+		// TODO: This might be a list
+		String UUID = "";
+		ObjectMapper objectMapper = new ObjectMapper();
+		JsonNode root = objectMapper.readTree(resultSet);
+		
+		UUID = null;
+		try {
+		UUID= root.path("createdUuids").path("uuid").asText();
+		}catch (Exception e) {
+			// this call did not have createdUuids set!
+		}
+		return UUID;
 	}
 }

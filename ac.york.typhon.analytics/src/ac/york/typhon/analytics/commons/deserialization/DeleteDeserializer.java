@@ -7,8 +7,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ac.york.typhon.analytics.commons.datatypes.events.Entity;
-import ac.york.typhon.analytics.commons.deserialization.ExecuteQueries.Utils;
-import engineering.swat.typhonql.ast.ASTConversionException;
 import engineering.swat.typhonql.ast.Request;
 import engineering.swat.typhonql.ast.TyphonQLASTParser;
 
@@ -20,36 +18,22 @@ public class DeleteDeserializer implements Deserializer {
 	@Override
 	public ArrayList<Entity> deserialize(String query, String invertedSelectQuery, String resultSet,
 			String invertedResultSet) throws Exception {
-		ExecuteQueries eq = new ExecuteQueries();
-		ExecuteQueries.Utils utils = eq.new Utils();
-		Utilities util = new Utilities();
 		
 		Request request = TyphonQLASTParser.parseTyphonQLRequest((query).toCharArray());
 		
 		SelectDeserializer sd = new SelectDeserializer();
 		
-		//
+		// TODO remove when this is done in the authentication chain
+		ExecuteQueries eq = new ExecuteQueries();
+		ExecuteQueries.Utils utils = eq.new Utils();
+		Utilities util = new Utilities();
 		invertedSelectQuery = util.createInvertedSelect(request);
 		System.out.println(invertedSelectQuery);
 		invertedResultSet = utils.executeQuery(invertedSelectQuery);
 		//
 		
-		sd.deserialize(invertedSelectQuery, null, invertedResultSet, null);
-		// TODO: Get UUID
-//		String deletedUUID = getUUID(resultSet);
-		// FIXME: This should return something. Think what.
-		return null;
-	}
+		return sd.deserialize(invertedSelectQuery, null, invertedResultSet, null);
 
-	
-
-	public String getUUID(String resultSet) throws IOException {
-		//TODO: This might be a list
-		String UUID = "";
-		ObjectMapper objectMapper = new ObjectMapper();
-		JsonNode root = objectMapper.readTree(resultSet);
-		UUID = root.path("createdUuids").path("uuid").asText();
-		return UUID;
 	}
 
 }
