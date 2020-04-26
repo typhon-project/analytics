@@ -7,6 +7,7 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 import ac.york.typhon.analytics.analyzer.IAnalyzer;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
 
+@Deprecated
 public class AuthorizationAnalyzer implements IAnalyzer {
 
 	@Override

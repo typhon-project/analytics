@@ -9,6 +9,9 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
 
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
+import ac.york.typhon.analytics.commons.deserialization.DeserializationMapper;
+import ac.york.typhon.analytics.commons.deserialization.InvertedSelectMapper;
+import ac.york.typhon.analytics.commons.enums.AnalyticTopicType;
 import ac.york.typhon.analytics.commons.enums.ITopicType;
 
 public class StreamManager {
@@ -94,6 +97,11 @@ public class StreamManager {
 	public static DataStream<Event> initializeSink(ITopicType topic,
 			DataStream<Event> dataStream) {
 
+		// This code adds the inverted query to the PreEvents
+		if (topic instanceof AnalyticTopicType
+				&& ((AnalyticTopicType) topic).equals(AnalyticTopicType.AUTH)) {
+			dataStream  = dataStream.map(new InvertedSelectMapper());
+		}
 		dataStream.addSink(TopicPublisher.retrieveStreamProducer(topic));
 
 		return dataStream;
