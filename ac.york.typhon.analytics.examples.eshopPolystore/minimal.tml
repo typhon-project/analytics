@@ -1,0 +1,30 @@
+entity Product {
+	id : string[64]
+	name : string[64]
+	description : string[1024]
+	category -> Category[1]
+}
+
+entity Category {
+	id: string[64]
+	name: string[32]
+}
+
+relationaldb RelationalDatabase{
+	tables{
+		
+		table {
+			ProductDB : Product
+			index productIndex{
+				attributes ('Product.name')
+			}
+			idSpec ('Product.name')
+		}
+	}
+}
+
+documentdb DocumentDatabase{
+	collections{
+			CategoryDB: Category
+	}
+}

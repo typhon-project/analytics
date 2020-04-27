@@ -1,0 +1,17 @@
+{
+  "eventMessage": {
+    "esp_signal": "esp_abs",
+    "data": [
+      {
+        "VIN": 1277000003,
+        "timestamp": "2020-03-31T00:09:00Z",
+        "geoposition": [
+          {
+            "lat": 52.525864,
+            "lon": 13.416836
+          }
+        ]
+      }
+    ]
+  }
+}

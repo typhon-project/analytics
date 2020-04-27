@@ -1,0 +1,71 @@
+package entities;
+
+import java.util.ArrayList;
+import java.util.Date;
+
+public class [%=entity.name%] {
+[%
+var types = new Map();
+types.put("StringType", "String");
+types.put("IntType", "int");
+types.put("DateType", "Date");
+
+for (anAttribute in entity.attributes) { 
+	%]
+	private [%=types.get(anAttribute.type.type.name)%] [%=anAttribute.name%];
+	
+	public [%=types.get(anAttribute.type.type.name)%] get[%=anAttribute.name.firstToUpperCase()%]() {
+		return this.[%=anAttribute.name%];
+	}
+	
+	public void set[%=anAttribute.name.firstToUpperCase()%]([%=types.get(anAttribute.type.type.name)%] [%=anAttribute.name%]) {
+		this.[%=anAttribute.name%] = [%=anAttribute.name%];
+	}
+[%
+}
+for (aRelation in entity.relations) {
+	if (aRelation.cardinality == Cardinality#zero_one or aRelation.cardinality == Cardinality#one) { %]
+	
+	private [%=aRelation.type.name%] [%=aRelation.name%];
+	
+	public [%=aRelation.type.name%] get[%=aRelation.name.firstToUpperCase()%]() {
+		return this.[%=aRelation.name%];
+	}
+	
+	public void set[%=aRelation.name.firstToUpperCase()%]([%=aRelation.type.name%] [%=aRelation.name%]) {
+		this.[%=aRelation.name%] = [%=aRelation.name%];
+	}
+	[%
+	} else { %]
+	
+	private ArrayList<[%=aRelation.type.name%]> [%=aRelation.name%];
+	
+	public ArrayList<[%=aRelation.type.name%]> get[%=aRelation.name.firstToUpperCase()%]() {
+		return this.[%=aRelation.name%];
+	}
+	
+	public void set[%=aRelation.name.firstToUpperCase()%](ArrayList<[%=aRelation.type.name%]> [%=aRelation.name%]) {
+		this.[%=aRelation.name%] = [%=aRelation.name%];
+	}
+	[%
+	}
+}
+%]
+
+	public String toString() { 
+		String result = "";
+		[%
+		var result = "";
+		for (anAttribute in entity.attributes) { 
+			result = result + "\" " + anAttribute.name + ": \" + " + anAttribute.name;
+			if(hasMore) {
+				result = result + " + ";
+			}
+		}	
+	
+	%]	
+		result = [%=result%];
+		return result;
+	}
+}
+

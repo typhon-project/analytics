@@ -23,7 +23,7 @@ public class ExecuteQueries {
 
 	public class Utils {
 		// Executes a select query
-		public void executeQueryAndReturnPostvent(String query) throws Exception {
+		public String executeQueryAndReturnPostvent(String query) throws Exception {
 			// This is the REST url that executes a select query. Authentication is done
 			// using the polystore's credentials.
 			String url = "http://localhost:8080/api/query";
@@ -43,12 +43,11 @@ public class ExecuteQueries {
 				System.err.println("Unable to connect to the server");
 			}
 
-			String output = resp.getEntity(String.class);
-
+			return resp.getEntity(String.class);
 		}
 
 		// Executes an insert/delete/update query
-		public void executeUpdateAndReturnPostvent(String query) throws Exception {
+		public String executeUpdateAndReturnPostvent(String query) throws Exception {
 			// This is the REST url that executes a select query. Authentication is done
 			// using the polystore's credentials.
 			String url = "http://localhost:8080/api/update";
@@ -56,7 +55,6 @@ public class ExecuteQueries {
 			String password = "admin1@";
 			String authString = name + ":" + password;
 			String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
-			System.out.println("Base64 encoded auth string: " + authStringEnc);
 			Client restClient = Client.create();
 			WebResource webResource = restClient.resource(url);
 
@@ -67,10 +65,7 @@ public class ExecuteQueries {
 			if (resp.getStatus() != 200) {
 				System.err.println("Unable to connect to the server");
 			}
-
-			String output = resp.getEntity(String.class);
-
-
+			return resp.getEntity(String.class);
 		}
 	}
 

@@ -1,0 +1,7 @@
+rule Entity2Class 
+  transform entity : TML!Entity {
+  
+  template : "entitiesGenerator.egl"
+  
+  target : "src/org/typhon/entities/" + entity.name + ".java" 
+}

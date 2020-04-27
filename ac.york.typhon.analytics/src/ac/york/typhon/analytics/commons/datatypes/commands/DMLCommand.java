@@ -1,7 +1,8 @@
 package ac.york.typhon.analytics.commons.datatypes.commands;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
@@ -41,66 +42,27 @@ public abstract class DMLCommand {
 
 	// private Statement statement;
 
-	 List<String> piles;
-	 List<String> columns;
-	 String clause;
-	 Database targetDb;
+	Map<String, List<String>> affected;
+	String clause;
 
-	 public DMLCommand() {
-	 piles = new ArrayList<String>();
-	 columns = new ArrayList<String>();
-	
-	 }
-
-	 public abstract void populateFromSqlStatement(String sql);
-
-	public List<String> getPiles() {
-		return piles;
-	}
-
-	public List<String> getColumns() {
-		return columns;
+	public DMLCommand() {
+		affected = new HashMap<String, List<String>>();
 	}
 
 	public String getClause() {
 		return clause;
 	}
 
-	public Database getTargetDb() {
-		return targetDb;
+	public Map<String, List<String>> getAffected() {
+		return affected;
 	}
 
-	public void setPiles(ArrayList<String> piles) {
-		this.piles = piles;
-	}
-
-	public void setColumns(ArrayList<String> columns) {
-		this.columns = columns;
+	public void setAffected(Map<String, List<String>> affected) {
+		this.affected = affected;
 	}
 
 	public void setClause(String clause) {
 		this.clause = clause;
 	}
-
-	public void setTargetDb(Database db) {
-		this.targetDb = db;
-	}
-
-	 protected Statement populatePilesFromSqlStatement(String sql) {
-	 Statement statement = null;
-	 try {
-	 statement = CCJSqlParserUtil.parse(sql);
-	 TablesNamesFinder tablesNamesFinder = new TablesNamesFinder();
-	 List<String> tableNamesList = tablesNamesFinder
-	 .getTableList(statement);
-	 this.piles = tableNamesList;
-	
-	 } catch (JSQLParserException e) {
-	 // TODO Auto-generated catch block
-	 e.printStackTrace();
-	 }
-	
-	 return statement;
-	 }
 
 }

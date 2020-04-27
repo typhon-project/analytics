@@ -1,0 +1,152 @@
+entity Review{
+	id : string[64] 
+	content : string[1024]
+	product -> Product[1]
+	comments :-> Comment."Comment.review"[0..*]
+	user -> User[1]
+}
+
+
+// DONE without Review ref
+entity Product {
+	id : string[64]
+	name : string[64]
+	description : string[1024]
+	category -> Category[1]
+	reviews :-> Review."Review.product"[0..*]
+}
+
+entity Order {
+	id : string[64]
+	order_date : date
+	totalAmount : int
+	orderedProducts -> OrderedProduct[0..*]
+	users -> User[1]
+	paidWith -> CreditCard[1]
+}
+
+// DONE
+entity Category {
+	id: string[64]
+	name: string[32]
+}
+
+entity OrderedProduct {
+	id : string[64]
+	quantity : int
+	product -> Product[1]
+}
+
+// DONE
+entity User {
+	id : string[64]
+	name : string[32]
+	address :-> Address[1]
+	comments :-> Comment[0..*]
+	paymentsDetails :-> CreditCard[0..*]
+	orders -> Order."Order.users"[0..*]
+	reviews -> Review."Review.product"[0..*]
+	basket :-> Basket[1]
+}
+
+// DONE
+entity Address {
+	id: string[64]
+	street: string [256]
+	country: string [32]
+}
+
+// DONE without opposite
+entity Basket {
+	id : string[64]
+	items :-> BasketProduct[0..*]
+	user -> User."User.basket"[1]
+}
+
+entity BasketProduct {
+	id: string[64]
+	quantity : int
+	date_added: date
+	product :-> Product[1]	
+	basket -> Basket."Basket.items"[1]
+}
+
+entity Comment{
+	id : string[64]
+	content : string[1024]
+	review -> Review[1]
+	responses :-> Comment[0..*]
+}
+
+// DONE
+entity CreditCard{
+	id : string[64]
+	number : string[32]
+	expiryDate : date
+} 
+
+relationaldb RelationalDatabase{
+	tables{
+		table {
+			OrderDB : Order
+			index orderIndex {
+				attributes ("Order.id")
+			}
+			idSpec ("OrderedProduct.id")
+		}
+		table {
+			UserDB : User
+			index  userIndex{
+				attributes ('User.name')
+				}
+			idSpec ('User.name')
+		}
+		table {
+			ProductDB : Product
+			index productIndex{
+				attributes ('Product.name')
+			}
+			idSpec ('Product.name')
+		}
+		table {
+			CreditCardDB : CreditCard
+			index creditCardIndex{
+				attributes ("CreditCard.number")
+			}
+			idSpec ("CreditCard.number")
+		}
+		table {
+			BasketDB : Basket
+			index BasketIndex{
+				attributes ("Basket.id")
+			}
+			idSpec ("Basket.id")
+		}
+		
+		table {
+			BasketProductDB : BasketProduct
+			index BasketProductIndex{
+				attributes ("BasketProduct.id")
+			}
+			idSpec ("BasketProduct.id")
+		}
+		
+		
+		table {
+			OrderedProductDB : OrderedProduct
+			index OrderedProductIndex{
+				attributes ("OrderedProduct.id")
+			}
+			idSpec ("OrderedProduct.id")
+		}
+	}
+}
+
+documentdb DocumentDatabase{
+	collections{
+			CommentsDB : Comment
+			ReviewDB : Review
+			AddressDB: Address
+			CategoryDB: Category
+	}
+}

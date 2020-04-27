@@ -11,6 +11,8 @@ import net.sf.jsqlparser.statement.insert.Insert;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
+import ac.york.typhon.analytics.commons.datatypes.events.Entity;
+
 @JsonTypeName("insert")
 public class InsertCommand extends DMLCommand {
 
@@ -38,7 +40,6 @@ public class InsertCommand extends DMLCommand {
 	// }
 
 	ArrayList<Entity> insertedEntities;
-	Map<String, String> columnValueMap;
 
 	public ArrayList<Entity> getInsertedEntities() {
 		return insertedEntities;
@@ -47,39 +48,21 @@ public class InsertCommand extends DMLCommand {
 	public void setInsertedEntities(ArrayList<Entity> insertedEntities) {
 		this.insertedEntities = insertedEntities;
 	}
-
-	public Map<String, String> getColumnValueMap() {
-		return columnValueMap;
-	}
-
-	public void setColumnValueMap(Map<String, String> columnValueMap) {
-		this.columnValueMap = columnValueMap;
-	}
-
-	@Override
-	public void populateFromSqlStatement(String sql) {
-		// Use this function to populate Insert related fields
-
-		Insert statement = (Insert) this.populatePilesFromSqlStatement(sql);
-
-		ExpressionList expressionList = (ExpressionList) statement
-				.getItemsList();
-		List<Expression> values = expressionList.getExpressions();
-		columnValueMap = new HashMap<String, String>();
-		for (int i = 0; i < expressionList.getExpressions().size(); i++) {
-			columnValueMap.put(statement.getColumns().get(i).getColumnName(),
-					values.get(i).toString());
-			System.out.println(values.get(i));
-		}
-
-	}
+//
+//	public Map<String, String> getColumnValueMap() {
+//		return columnValueMap;
+//	}
+//
+//	public void setColumnValueMap(Map<String, String> columnValueMap) {
+//		this.columnValueMap = columnValueMap;
+//	}
 
 	@Override
 	public String toString() {
 		return "InsertCommand [insertedEntities=" + insertedEntities
-				+ ", columnValueMap=" + columnValueMap + ", piles=" + piles
-				+ ", columns=" + columns + ", clause=" + clause + ", targetDb="
-				+ targetDb + "]";
+				+ ", affected=" + affected
+				+ ", clause=" + clause + ", targetDb="
+				+ "]";
 	}
 
 }

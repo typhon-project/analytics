@@ -1,5 +1,6 @@
 package queryGenerators;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -15,8 +16,7 @@ public class InsertCreditCardGenerator implements QueryGenerator {
 		str.append("insert CreditCard {");
 		str.append("id: \"" + parameters.get("CCUUID") + "\", ");
 		str.append("number: \"" + faker.finance().creditCard() + "\", ");
-		//FIXME: Check if date should be inside quotes or not
-		str.append("expiryDate: \"" + faker.date().future(730, TimeUnit.DAYS) + "\"");
+		str.append("expiryDate: \"" + LocalDateTime.now().plusYears(2) + "\"");
 		str.append("}");
 		return str.toString();
 	}

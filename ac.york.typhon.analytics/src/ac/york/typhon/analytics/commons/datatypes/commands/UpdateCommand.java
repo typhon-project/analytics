@@ -6,6 +6,8 @@ import net.sf.jsqlparser.statement.update.Update;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
+import ac.york.typhon.analytics.commons.datatypes.events.Entity;
+
 @JsonTypeName("update")
 public class UpdateCommand extends DMLCommand {
 
@@ -51,21 +53,10 @@ public class UpdateCommand extends DMLCommand {
 	}
 
 	@Override
-	public void populateFromSqlStatement(String sql) {
-		// Use this function to populate Update related fields
-
-		Update statement = (Update) this.populatePilesFromSqlStatement(sql);
-		// System.out.println("Event: Update  " + this.piles);
-
-		this.clause = statement.getWhere().toString();
-
-	}
-
-	@Override
 	public String toString() {
 		return "UpdateCommand [updatedEntities=" + updatedEntities
-				+ ", oldEntities=" + oldEntities + ", piles=" + piles
-				+ ", columns=" + columns + ", clause=" + clause + ", targetDb="
-				+ targetDb + "]";
+				+ ", oldEntities=" + oldEntities + ", affected=" + affected
+				+ ", clause=" + clause + ", targetDb="
+				+ "]";
 	}
 }

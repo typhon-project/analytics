@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Random;
 
 import infra.RunSimulator;
-import queryGenerators.InsertOrderProductGenerator;
+import queryGenerators.InsertOrderedProductGenerator;
 import queryGenerators.InsertReviewGenerator;
 import utils.ExecuteQueries;
 import utils.Utilities;
@@ -20,7 +20,7 @@ public class ReviewerNoBuyerAgent extends Agent implements Runnable {
 		ExecuteQueries.Utils utils = eq.new Utils();
 		Random r = new Random();
 		
-		System.out.println("Reviewer (no buyer) agent: " + this.uuid);
+//		System.out.println("Reviewer (no buyer) agent: " + this.uuid);
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("userId", this.uuid);
 
@@ -28,7 +28,7 @@ public class ReviewerNoBuyerAgent extends Agent implements Runnable {
 		try {
 			InsertReviewGenerator irg = new InsertReviewGenerator();
 //			utils.executeUpdateAndReturnPostvent(irg.generateQuery(null));
-			System.out.println(irg.generateQuery(params));
+//			System.out.println(irg.generateQuery(params));
 			this.randomSleep(1000, 5000);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

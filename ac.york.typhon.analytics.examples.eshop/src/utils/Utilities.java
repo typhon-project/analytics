@@ -9,8 +9,6 @@ import utils.ExecuteQueries.Utils;
 
 public class Utilities {
 
-	
-	
 	// Code taken from here:
 	// https://mkyong.com/java/java-generate-random-integers-in-a-range/
 	public static int getRandomNumberInRange(int min, int max) {

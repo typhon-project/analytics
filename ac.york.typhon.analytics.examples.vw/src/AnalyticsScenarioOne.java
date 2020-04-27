@@ -1,7 +1,5 @@
 import java.util.ArrayList;
-import java.util.Properties;
-import java.util.UUID;
-
+import java.util.Date;
 import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.streaming.api.datastream.DataStream;
@@ -13,36 +11,26 @@ import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
 import org.apache.flink.util.Collector;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 
+import ac.york.typhon.analytics.analyzer.IAnalyzer;
+import ac.york.typhon.analytics.commons.datatypes.events.Event;
+import ac.york.typhon.analytics.commons.datatypes.events.PostEvent;
 import ac.york.typhon.analytics.examples.vw.datatypes.ESP;
-import commons.Event;
-import commons.EventSchema;
-import commons.PostEvent;
 import utilities.Utilities;
 import engineering.swat.typhonql.ast.KeyVal;
 import engineering.swat.typhonql.ast.Request;
 import engineering.swat.typhonql.ast.TyphonQLASTParser;
 import engineering.swat.typhonql.ast.Statement.Insert;
 
-public class AnalyticsScenarioOne {
-
+public class AnalyticsScenarioOne implements IAnalyzer {
+	
 	final static double DISTANCE_THRESHOLD = 5000.0;
 	final static int COUNT_THRESHOLD = 2;
-	final static int WINDOW_LENGTH = 60;
-	final static int WINDOW_SLIDE = 20;
+	final static int WINDOW_LENGTH = 6;
+	final static int WINDOW_SLIDE = 2;
 
-	public static void main(String[] args) throws Exception {
-		
-		StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-
-		Properties properties = new Properties();
-		properties.setProperty("bootstrap.servers", "192.168.1.16:29092");
-		properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, UUID.randomUUID().toString());
-		properties.setProperty("auto.offset.reset", "earliest");
-
-		DataStream<Event> PostEventStream = env
-				.addSource(new FlinkKafkaConsumer<Event>("POST", new EventSchema(PostEvent.class), properties));
-
-		DataStream<ESP> espEvents = PostEventStream
+	@Override
+	public void analyze(DataStream<Event> eventsStream) throws Exception {
+		DataStream<ESP> espEvents = eventsStream
 				.filter(new FilterFunction<Event>() {
 
 					@Override
@@ -80,11 +68,11 @@ public class AnalyticsScenarioOne {
 						ESP espObj = new ESP();
 						for (KeyVal kv : keyValues) {
 							if (kv.getKey().getString().equalsIgnoreCase("VIN")) {
-								espObj.setVIN(Long.parseLong(kv.getValue().yieldTree()));
-							} else if (kv.getKey().getString().equalsIgnoreCase("timestamp")) {
+								espObj.setVIN(Integer.parseInt(kv.getValue().yieldTree()));
+							} else if (kv.getKey().getString().equalsIgnoreCase("timeStamp")) {
 								espObj.setTimestamp(kv.getValue().yieldTree());
 							} else if (kv.getKey().getString().equalsIgnoreCase("vehicle_position")) {
-								espObj.setPosition(kv.getValue().yieldTree());
+								espObj.setVehicle_position(kv.getValue().yieldTree());
 							}
 						}
 						System.out.println(espObj);
@@ -98,12 +86,13 @@ public class AnalyticsScenarioOne {
 					@Override
 					public void apply(TimeWindow timeWindow, Iterable<ESP> allEventsInWindow, Collector<ESP> result) throws Exception {
 						for (ESP espObj : allEventsInWindow) {
-							double la1 = Double.parseDouble(espObj.getPosition().split(" ")[0].substring(3, espObj.getPosition().split(" ")[0].length()));
-							double lo1 = Double.parseDouble(espObj.getPosition().split(" ")[1].substring(3, espObj.getPosition().split(" ")[1].length()-1));
+							double la1 = Double.parseDouble(espObj.getVehicle_position().split(" ")[0].substring(0, espObj.getVehicle_position().split(" ")[0].length()));
+							double lo1 = Double.parseDouble(espObj.getVehicle_position().split(" ")[1].substring(0, espObj.getVehicle_position().split(" ")[1].length()-1));
 							int count = 0;
+							System.out.println(la1 + " " + lo1);
 							for (ESP nestedESPObj : allEventsInWindow) {
-								double la2 = Double.parseDouble(nestedESPObj.getPosition().split(" ")[0].substring(3, nestedESPObj.getPosition().split(" ")[0].length()));
-								double lo2 = Double.parseDouble(nestedESPObj.getPosition().split(" ")[1].substring(3, nestedESPObj.getPosition().split(" ")[1].length()-1));
+								double la2 = Double.parseDouble(nestedESPObj.getVehicle_position().split(" ")[0].substring(0, nestedESPObj.getVehicle_position().split(" ")[0].length()));
+								double lo2 = Double.parseDouble(nestedESPObj.getVehicle_position().split(" ")[1].substring(0, nestedESPObj.getVehicle_position().split(" ")[1].length()-1));
 								double distance = Utilities.distance(la1, la2, lo1, lo2, 0.0, 0.0);
 								if(distance != 0.0 && distance <= DISTANCE_THRESHOLD) {
 									count++;
@@ -118,7 +107,7 @@ public class AnalyticsScenarioOne {
 					}
 				});
 		
-		DataStream<Event> vehicleMetaDataEvents = PostEventStream
+		DataStream<Event> vehicleMetaDataEvents = eventsStream
 				.filter(new FilterFunction<Event>() {
 
 					@Override
@@ -145,9 +134,7 @@ public class AnalyticsScenarioOne {
 						return false;
 					}
 				});
-
-		env.execute();
-
+		
 	}
 
 }

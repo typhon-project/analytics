@@ -1,7 +1,5 @@
 package utils;
 
-import sun.misc.BASE64Encoder;
-
 import java.util.Date;
 import java.util.UUID;
 
@@ -9,10 +7,15 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
+import ac.york.typhon.analytics.commons.datatypes.events.PostEvent;
+import sun.misc.BASE64Encoder;
+
 public class ExecuteQueries {
 
 	// Make sure you put the local ip address of your computer
-	final String IP_ADDRESS = "192.168.1.16";
+	final String IP_ADDRESS = "192.168.1.18:9092";
+	
+	QueueProducer qp = new QueueProducer(IP_ADDRESS);
 
 	public class Utils {
 
@@ -62,6 +65,32 @@ public class ExecuteQueries {
 			String output = resp.getEntity(String.class);
 
 			return output;
+		}
+
+		public void createAndPublishPostEvent(String query) throws Exception {
+
+			// Start timing for calculating execution time
+			Date startTime = new Date();
+
+			// Get date/time when query execution has finished
+			Date endTime = new Date();
+
+			PostEvent postEvent = new PostEvent();
+			postEvent.setId(UUID.randomUUID().toString());
+			postEvent.setQuery(query);
+			postEvent.setSuccess(true);
+			postEvent.setStartTime(startTime);
+			postEvent.setEndTime(endTime);
+			
+			// Publish PostEvent to POST queue
+			produce(postEvent);
+			
+		}
+		
+		public void produce(PostEvent postEvent) throws Exception {
+//			String kafkaConnection = IP_ADDRESS;
+//			QueueProducer qp = new QueueProducer(kafkaConnection);
+			qp.produce("POST", postEvent);
 		}
 	}
 }
