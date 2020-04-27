@@ -1,6 +1,6 @@
 package com.twicky;
 
-import ac.york.typhon.analytics.channel.ChannelBuilder;
+import ac.york.typhon.analytics.builder.AnalyticsJobBuilder;
 import ac.york.typhon.analytics.commons.enums.AnalyticTopicType;
 
 import com.twicky.analytics.AuthorizationAnalyzer;
@@ -11,7 +11,7 @@ public class B_PreEventAuthorizerCaller {
 		
 		// PreEventAuthorizer.main(null);
 
-		ChannelBuilder.build(new AuthorizationAnalyzer(),
+		AnalyticsJobBuilder.build(new AuthorizationAnalyzer(),
 				AnalyticTopicType.PRE, TwickyTopics.AUTHORIZATION);
 
 	}
