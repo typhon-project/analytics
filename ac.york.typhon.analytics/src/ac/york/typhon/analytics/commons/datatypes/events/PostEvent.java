@@ -89,7 +89,7 @@ public class PostEvent extends Event {
 	public String toString() {
 		return "PostEvent [success=" + success + ", startTime=" + startTime
 				+ ", endTime=" + endTime + ", preEvent=" + preEvent + ", id="
-				+ eventId + ", query=" + query 
+				+ eventId + ", query=" + query
 				+ "]";
 	}
 
