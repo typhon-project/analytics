@@ -23,10 +23,11 @@ public class Utilities {
 		ExecuteQueries eq = new ExecuteQueries();
 		ExecuteQueries.Utils utils = eq.new Utils();
 
-		String query = "update Address a where a.@id == #3c904a88-f416-461d-849c-390dffae5fb4 set { street: \"street 420\" }";		
+//		String query = "update Address a where a.@id == #3c904a88-f416-461d-849c-390dffae5fb4 set { street: \"street 420\" }";		
 //		String query = "insert Category {name: \"cat 1\"}, Category {name: \"cat 2\"}";
 //		String query = "from Category c select c.@id, c.name";
 //		String query = "from Category c select c.name where c.name == \"cat 1\"";
+		String query = "from Product p select p.@id, p.id, p.name, p.description, p.category where p.@id == #84e73cf1-dbb4-4b0c-8120-cdbe5c83634a";
 		
 //		String query = "delete Category c where c.@id == #92763cf5-cc23-4dbc-af4d-e98d2004c84e";
 //		String query = "update Category c where c.@id == #93010045-fbbc-4f12-9c0b-3b1038f415f4 set {name: \"test 2\"}";
@@ -83,7 +84,7 @@ public class Utilities {
 //					"  ]\n" + 
 //					"}";
 			if (request.hasStm() && request.getQry().getBindings().size() > 1) {
-				// TODO: This is a "join". We need to implement a "View" with slots
+				// This is a "join". We need to implement a "View" with slots -- done for impl
 			} else {
 				SelectDeserializer sd = new SelectDeserializer();
 				sd.deserialize(query, null, resultSet, null);
@@ -117,7 +118,7 @@ public class Utilities {
 	}
 	
 	public static String getUUID(String resultSet) throws IOException {
-		// TODO: This might be a list
+		// TODO: This might be a list if bulk inserts are possible
 		String UUID = "";
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonNode root = objectMapper.readTree(resultSet);
@@ -130,4 +131,5 @@ public class Utilities {
 		}
 		return UUID;
 	}
+
 }

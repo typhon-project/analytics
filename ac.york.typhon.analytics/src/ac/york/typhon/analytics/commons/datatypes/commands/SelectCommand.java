@@ -1,9 +1,7 @@
 package ac.york.typhon.analytics.commons.datatypes.commands;
 
 import java.util.ArrayList;
-
-import net.sf.jsqlparser.statement.select.PlainSelect;
-import net.sf.jsqlparser.statement.select.Select;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
@@ -34,13 +32,13 @@ public class SelectCommand extends DMLCommand {
 	// return "SelectCommand [statement=" + statement + "]";
 	// }
 
-	ArrayList<Entity> returnedEntities;
+	List<Entity> returnedEntities;
 
-	public ArrayList<Entity> getReturnedEntities() {
+	public List<Entity> getReturnedEntities() {
 		return returnedEntities;
 	}
 
-	public void setReturnedEntities(ArrayList<Entity> returnedEntities) {
+	public void setReturnedEntities(List<Entity> returnedEntities) {
 		this.returnedEntities = returnedEntities;
 	}
 

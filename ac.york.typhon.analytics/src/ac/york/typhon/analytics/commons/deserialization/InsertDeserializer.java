@@ -19,7 +19,6 @@ public class InsertDeserializer implements Deserializer {
 	public ArrayList<Entity> deserialize(String query, String invertedSelectQuery, String resultSet,
 			String invertedResultSet) throws Exception {
 		
-		// FIXME: String values are returned including quotes (e.g., ""a1"" instead of "a1")
 		// TODO remove when this is done in the authentication chain
 		ExecuteQueries eq = new ExecuteQueries();
 		ExecuteQueries.Utils utils = eq.new Utils();
@@ -40,7 +39,7 @@ public class InsertDeserializer implements Deserializer {
 		} catch (ASTConversionException e) {
 			e.printStackTrace();
 		}
-		// TODO: This might be a list
+
 		for (Obj obj : request.getStm().getObjs()) {
 			String objType = obj.getEntity().yieldTree();
 			Class<?> objClass = Class.forName("ac.york.typhon.analytics.commons.datatypes." + objType);

@@ -1,10 +1,7 @@
 package ac.york.typhon.analytics.commons.deserialization;
 
-import java.io.IOException;
 import java.util.ArrayList;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 
 import ac.york.typhon.analytics.commons.datatypes.events.Entity;
 import engineering.swat.typhonql.ast.Request;
@@ -16,7 +13,7 @@ public class DeleteDeserializer implements Deserializer {
 	public ArrayList<String> UUIDs = new ArrayList<String>();
 	
 	@Override
-	public ArrayList<Entity> deserialize(String query, String invertedSelectQuery, String resultSet,
+	public List<Entity> deserialize(String query, String invertedSelectQuery, String resultSet,
 			String invertedResultSet) throws Exception {
 		
 		Request request = TyphonQLASTParser.parseTyphonQLRequest((query).toCharArray());

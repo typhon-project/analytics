@@ -3,6 +3,7 @@ package ac.york.typhon.analytics.commons.deserialization;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 
 import ac.york.typhon.analytics.commons.datatypes.events.Entity;
 import engineering.swat.typhonql.ast.ASTConversionException;
@@ -15,7 +16,7 @@ public class UpdateDeserializer implements Deserializer {
 	// public ArrayList<String> UUIDs = new ArrayList<String>();
 
 	@Override
-	public ArrayList<Entity> deserialize(String query, String invertedSelectQuery, String resultSet,
+	public List<Entity> deserialize(String query, String invertedSelectQuery, String resultSet,
 			String invertedResultSet) throws Exception {
 
 		Request request = TyphonQLASTParser.parseTyphonQLRequest((query).toCharArray());
@@ -35,16 +36,16 @@ public class UpdateDeserializer implements Deserializer {
 		resultSet = utils.executeUpdate(query);
 		//
 
-		ArrayList<Entity> originalEntities = sd.deserialize(invertedSelectQuery, null, invertedResultSet, null);
+		List<Entity> originalEntities = sd.deserialize(invertedSelectQuery, null, invertedResultSet, null);
 
-		ArrayList<Entity> updatedEntities = new ArrayList<Entity>();
+		List<Entity> updatedEntities = new ArrayList<Entity>();
 		updatedEntities = parseQuery(query);
 
 		return createUpdatesFromOriginalEntities(originalEntities, updatedEntities);
 	}
 
-	private ArrayList<Entity> createUpdatesFromOriginalEntities(ArrayList<Entity> originalEntities,
-			ArrayList<Entity> updatedEntities) {
+	private List<Entity> createUpdatesFromOriginalEntities(List<Entity> originalEntities,
+			List<Entity> updatedEntities) {
 		//
 		for (int i = 0; i < originalEntities.size(); i++) {
 			Entity original = originalEntities.get(i);

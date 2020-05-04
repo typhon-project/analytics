@@ -1,8 +1,7 @@
 package ac.york.typhon.analytics.commons.datatypes.commands;
 
 import java.util.ArrayList;
-
-import net.sf.jsqlparser.statement.update.Update;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
@@ -34,17 +33,17 @@ public class UpdateCommand extends DMLCommand {
 	// return "UpdateCommand [statement=" + statement + "]";
 	// }
 
-	ArrayList<Entity> updatedEntities, oldEntities;
+	List<Entity> updatedEntities, oldEntities;
 
-	public ArrayList<Entity> getUpdatedEntities() {
+	public List<Entity> getUpdatedEntities() {
 		return updatedEntities;
 	}
 
-	public ArrayList<Entity> getOldEntities() {
+	public List<Entity> getOldEntities() {
 		return oldEntities;
 	}
 
-	public void setUpdatedEntities(ArrayList<Entity> updatedEntities) {
+	public void setUpdatedEntities(List<Entity> updatedEntities) {
 		this.updatedEntities = updatedEntities;
 	}
 
