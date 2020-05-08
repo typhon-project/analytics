@@ -21,12 +21,12 @@ public class DeleteDeserializer implements Deserializer {
 		SelectDeserializer sd = new SelectDeserializer();
 		
 		// TODO remove when this is done in the authentication chain
-		ExecuteQueries eq = new ExecuteQueries();
-		ExecuteQueries.Utils utils = eq.new Utils();
-		Utilities util = new Utilities();
-		invertedSelectQuery = util.createInvertedSelect(request);
-		System.out.println(invertedSelectQuery);
-		invertedResultSet = utils.executeQuery(invertedSelectQuery);
+//		ExecuteQueries eq = new ExecuteQueries();
+//		ExecuteQueries.Utils utils = eq.new Utils();
+//		Utilities util = new Utilities();
+//		invertedSelectQuery = util.createInvertedSelect(request);
+//		System.out.println(invertedSelectQuery);
+//		invertedResultSet = utils.executeQuery(invertedSelectQuery);
 		//
 		
 		return sd.deserialize(invertedSelectQuery, null, invertedResultSet, null);

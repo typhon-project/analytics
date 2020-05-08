@@ -27,11 +27,11 @@ public class SelectDeserializer implements Deserializer {
 			String invertedResultSet) throws Exception {
 
 		// TODO remove when this is done by atb
-		ExecuteQueries eq = new ExecuteQueries();
-		ExecuteQueries.Utils utils = eq.new Utils();
-		if (resultSet == null)
-			resultSet = utils.executeQuery(query);
-		//
+//		ExecuteQueries eq = new ExecuteQueries();
+//		ExecuteQueries.Utils utils = eq.new Utils();
+//		if (resultSet == null)
+//			resultSet = utils.executeQuery(query);
+//		//
 
 		ArrayList<String> columnNames = getColunmNames(resultSet);
 		Request request = TyphonQLASTParser.parseTyphonQLRequest((query).toCharArray());

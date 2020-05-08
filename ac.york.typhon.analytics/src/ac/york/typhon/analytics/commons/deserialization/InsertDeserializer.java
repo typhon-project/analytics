@@ -20,10 +20,10 @@ public class InsertDeserializer implements Deserializer {
 			String invertedResultSet) throws Exception {
 		
 		// TODO remove when this is done in the authentication chain
-		ExecuteQueries eq = new ExecuteQueries();
-		ExecuteQueries.Utils utils = eq.new Utils();
+//		ExecuteQueries eq = new ExecuteQueries();
+//		ExecuteQueries.Utils utils = eq.new Utils();
 		Utilities util = new Utilities();
-		resultSet = utils.executeUpdate(query);
+//		resultSet = utils.executeUpdate(query);
 		//		
 				
 		ArrayList<Entity> insertedEntities = new ArrayList<Entity>();

@@ -26,14 +26,14 @@ public class UpdateDeserializer implements Deserializer {
 		// TODO remove when this is done in the authentication chain -- note that this
 		// will not likely give previous values, as the update has already been executed
 		// for the post event to come here!!!
-		ExecuteQueries eq = new ExecuteQueries();
-		ExecuteQueries.Utils utils = eq.new Utils();
-		Utilities util = new Utilities();
-		invertedSelectQuery = util.createInvertedSelect(request);
-
-		invertedResultSet = utils.executeQuery(invertedSelectQuery);
-		//
-		resultSet = utils.executeUpdate(query);
+//		ExecuteQueries eq = new ExecuteQueries();
+//		ExecuteQueries.Utils utils = eq.new Utils();
+//		Utilities util = new Utilities();
+//		invertedSelectQuery = util.createInvertedSelect(request);
+//
+//		invertedResultSet = utils.executeQuery(invertedSelectQuery);
+//		//
+//		resultSet = utils.executeUpdate(query);
 		//
 
 		List<Entity> originalEntities = sd.deserialize(invertedSelectQuery, null, invertedResultSet, null);

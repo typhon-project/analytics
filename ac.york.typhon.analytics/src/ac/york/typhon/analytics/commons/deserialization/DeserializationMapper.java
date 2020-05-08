@@ -31,7 +31,7 @@ public class DeserializationMapper implements MapFunction<Event, Event> {
 		if (event instanceof PostEvent && !(event instanceof DeserializedPostEvent)) {
 
 			DeserializedPostEvent postEvent = new DeserializedPostEvent((PostEvent) event);
-			String query = postEvent.getQuery();
+			String query = postEvent.getPreEvent().getQuery();
 			String rs = postEvent.getResultSet();
 			String invertedQuery = postEvent.getPreEvent().getInvertedQuery();
 			String invertedResultSet = postEvent.getInvertedQueryResultSet();
