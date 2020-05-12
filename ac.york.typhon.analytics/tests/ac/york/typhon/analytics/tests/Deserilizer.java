@@ -89,6 +89,51 @@ public class Deserilizer {
         assertEquals("country 1", address.getCountry());
 	}
 	
+	@Test
+	public void testDeserilisedSelectResultSetMultiple() {
+		String query = "from Address a select a.@id, a.id, a.street, a.country";
+		String resultSet = "{\n" + 
+				"  \"columnNames\": [\n" + 
+				"    \"a.@id\",\n" + 
+				"    \"a.id\",\n" + 
+				"    \"a.street\",\n" + 
+				"    \"a.country\"\n" + 
+				"  ],\n" + 
+				"  \"values\": [\n" + 
+				"    [\n" + 
+				"      \"35fe9ab6-24f0-492c-98fb-feae87ca324c\",\n" + 
+				"      \"a1\",\n" + 
+				"      \"street 1\",\n" + 
+				"      \"country 1\"\n" + 
+				"    ],\n" + 
+				"    [\n" + 
+				"      \"50a29db2-061a-4015-8d10-f65991d72d5b\",\n" + 
+				"      \"a2\",\n" + 
+				"      \"street 2\",\n" + 
+				"      \"country 2\"\n" + 
+				"    ]\n" + 
+				"  ]\n" + 
+				"}";
+		SelectDeserializer sd = new SelectDeserializer();
+		Address address1 = null;
+		Address address2 = null;
+		try {
+			address1 = (Address) sd.deserialize(query, null, resultSet, null).get(0);
+			address2 = (Address) sd.deserialize(query, null, resultSet, null).get(1);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertEquals("35fe9ab6-24f0-492c-98fb-feae87ca324c", address1.getUUID());
+        assertEquals("a1", address1.getId());
+        assertEquals("street 1", address1.getStreet());
+        assertEquals("country 1", address1.getCountry());
+		assertEquals("50a29db2-061a-4015-8d10-f65991d72d5b", address2.getUUID());
+		assertEquals("a2", address2.getId());
+	    assertEquals("street 2", address2.getStreet());
+	    assertEquals("country 2", address2.getCountry());
+	}
+	
 	
 	// This test will fail until TYPHON integrates deserilizer as in the current implementation we query the DB
 	@Test
