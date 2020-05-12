@@ -17,14 +17,6 @@ public abstract class Event {
 		this.query = query;
 	}
 
-	public StatementType retrieveStatementType() {
-
-		// TODO use Regex instead of split
-//		System.out.println("getStatementType ############################ got called ");
-		return StatementType.valueOf(query.split(" ")[0].toUpperCase().trim());
-
-	}
-
 	public String getId() {
 		return eventId;
 	}
