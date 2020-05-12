@@ -73,10 +73,15 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_HOST_NAME: 192.168.1.18
+      KAFKA_ADVERTISED_HOST_NAME: localhost
       KAFKA_LISTENERS: OUTSIDE://:29092, INSIDE://:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT, OUTSIDE:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
-      KAFKA_ADVERTISED_LISTENERS: OUTSIDE://192.168.1.18:29092, INSIDE://:9092
+      KAFKA_ADVERTISED_LISTENERS: OUTSIDE://localhost:29092, INSIDE://:9092
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
     container_name : kafka
+
+  authAll:
+    image: zolotas4/typhon-analytics-auth-all
+    container_name : authAll
+    

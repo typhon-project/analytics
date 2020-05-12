@@ -6,7 +6,6 @@ entity Review{
 	user -> User[1]
 }
 
-
 // DONE without Review ref
 entity Product {
 	id : string[64]
