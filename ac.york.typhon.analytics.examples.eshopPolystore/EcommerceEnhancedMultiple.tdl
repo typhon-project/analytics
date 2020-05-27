@@ -1,4 +1,4 @@
-import EcommerceEnhanced.xmi
+import EcommerceEnhancedMultiple.xmi
 import DocumentDatabase.tdl
 import RelationalDatabase.tdl
 import dbTypes.tdl
@@ -12,14 +12,12 @@ platform platformName : localhost {
 				deploys DocumentDatabase
 				ports {
 					target = 27017 ;
-					published = 27018 ;
 				}
 			}
 			container RelationalDatabase : Docker {
 				deploys RelationalDatabase
 				ports {
 					target = 3306 ;
-					published = 3306 ;
 				}
 			}
 		}
