@@ -23,9 +23,9 @@ public class ProductCreator {
 		str.append("description: \"" + faker.lorem().paragraph() + "\", ");
 		str.append("category: [#" + selectedId + "]");
 		str.append("}");
-//		String productId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
-		utils.createAndPublishPostEvent(str.toString());
-		String productId = UUID.randomUUID().toString();
+		String productId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
+//		utils.createAndPublishPostEvent(str.toString());
+//		String productId = UUID.randomUUID().toString();
 		return productId;
 	}
 
@@ -54,9 +54,9 @@ public class ProductCreator {
 			str.append("id: \"" + i + "\", ");
 			str.append("name: \"" + category + "\"");
 			str.append("}");
-//			String categoryId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
-			utils.createAndPublishPostEvent(str.toString());
-			String categoryId = UUID.randomUUID().toString();
+			String categoryId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
+//			utils.createAndPublishPostEvent(str.toString());
+//			String categoryId = UUID.randomUUID().toString();
 			categoryIds.add(categoryId);
 		}
 		System.out.println("Finished Category Creation");

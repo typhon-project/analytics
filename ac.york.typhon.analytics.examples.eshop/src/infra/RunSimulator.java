@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import agents.BrowsingAgent;
 import agents.BuyerAgent;
 import agents.BuyerReviewerAgent;
 import agents.ReviewerNoBuyerAgent;
@@ -28,6 +29,16 @@ public class RunSimulator {
 		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties");
 		Properties appProps = new Properties();
 		appProps.load(inputStream);
+		
+		int numOfBrowsingAgents = Integer.parseInt(appProps.getProperty("num_of_browsing_agents"));
+		ArrayList<Thread> allBrowsingAgents = new ArrayList<Thread>();
+		for (int i=0; i<numOfBrowsingAgents; i++) {
+			allBrowsingAgents.add(new Thread(new BrowsingAgent()));
+		}
+		for (Thread agent : allBrowsingAgents) {
+			agent.start();
+		}
+		
 		int numOfBuyerAgents = Integer.parseInt(appProps.getProperty("num_of_buyer_agents"));
 		ArrayList<Thread> allBuyerAgents = new ArrayList<Thread>();
 		for (int i=0; i<numOfBuyerAgents; i++) {
@@ -74,6 +85,10 @@ public class RunSimulator {
 				seed++;
 			}
 			System.out.println("User creation finished.");
+		} else {
+			System.out.println("Getting already created users from DB.");
+			allUsers = Utilities.getAllUserUUIDs();
+			System.out.println("Got " + allUsers.size() + " users from DB.");
 		}
 
 		System.out.println("Create products? " + appProps.getProperty("generate_products"));
@@ -92,6 +107,10 @@ public class RunSimulator {
 				seed++;
 			}
 			System.out.println("Product creation finished.");
+		} else {
+			System.out.println("Getting already created products from DB.");
+			allProducts = Utilities.getAllProductUUIDs();
+			System.out.println("Got " + allProducts.size() + " products from DB.");
 		}
 	}
 	
