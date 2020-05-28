@@ -20,6 +20,7 @@ public class ExecuteQueries {
 	public class Utils {
 
 		public String executeQuery(String query) throws Exception {
+			System.out.println(query);
 			// This is the REST url that executes a select query. Authentication is done
 			// using the polystore's credentials.
 			String url = "http://localhost:8080/api/query";
@@ -31,7 +32,6 @@ public class ExecuteQueries {
 			WebResource webResource = restClient.resource(url);
 
 			// Start timing for calculating execution time
-			Date startTime = new Date();
 			ClientResponse resp = webResource.accept("application/json")
 					.header("Authorization", "Basic " + authStringEnc).post(ClientResponse.class, query);
 			if (resp.getStatus() != 200) {

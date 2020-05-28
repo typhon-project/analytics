@@ -18,7 +18,7 @@ public class SelectProductGenerator implements QueryGenerator {
 		Random r = new Random(seed);
 		String productUUID = RunSimulator.allProducts.get(r.nextInt(RunSimulator.allProducts.size()));
 		StringBuilder str = new StringBuilder();
-		str.append("select Product p where ");
+		str.append("from Product p select p where ");
 		str.append("p.@id == #" + productUUID);
 		return str.toString();
 	}

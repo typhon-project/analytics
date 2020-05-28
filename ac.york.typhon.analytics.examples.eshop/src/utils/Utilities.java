@@ -26,7 +26,6 @@ public class Utilities {
 		ExecuteQueries.Utils utils = eq.new Utils();
 		
 		String resultSet = utils.executeQuery("from User u select u");
-		System.out.println(resultSet);
 		ArrayList<String> allUUIDsWithPattern  = getPatternGroupsFromResultSet(resultSet, "\\b[0-9a-f]{8}\\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\\b[0-9a-f]{12}\\b");
 //		ArrayList<String> allUUIDs = new ArrayList<String>();
 //		for (String uuidWithPattern : allUUIDsWithPattern) {
