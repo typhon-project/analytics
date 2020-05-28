@@ -28,7 +28,7 @@ public class InsertOrderGenerator implements QueryGenerator {
 		str.append("totalAmount: \"" + r.nextInt(1000) + "\", ");
 		//FIXME: list of users is not correct
 		str.append("orderedProducts: \"" + parameters.get("orderedProducts") + "\", ");
-		str.append("users: [#" + parameters.get("userId") + ", ");
+		str.append("users: [#" + parameters.get("userId") + "], ");
 		str.append("paidWith: #" + creditCard + ", ");
 		str.append("}");
 		return str.toString();

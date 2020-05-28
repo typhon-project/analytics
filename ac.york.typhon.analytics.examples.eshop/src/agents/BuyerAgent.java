@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 
+import infra.RunSimulator;
 import queryGenerators.InsertOrderGenerator;
 import queryGenerators.InsertOrderedProductGenerator;
 import utils.ExecuteQueries;
@@ -19,14 +20,15 @@ public class BuyerAgent extends Agent implements Runnable {
 
 		ExecuteQueries eq = new ExecuteQueries();
 		ExecuteQueries.Utils utils = eq.new Utils();
-		
+
 		InsertOrderedProductGenerator iopg = new InsertOrderedProductGenerator();
 		InsertOrderGenerator iog = new InsertOrderGenerator();
 
-		Map<String,String> params = new HashMap<String, String>();
+		Map<String, String> params = new HashMap<String, String>();
 		ArrayList<String> orderedProducts = new ArrayList<String>();
 		params.put("userId", this.uuid);
-		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties");
+		InputStream inputStream = Thread.currentThread().getContextClassLoader()
+				.getResourceAsStream("config.properties");
 		Properties appProps = new Properties();
 		try {
 			appProps.load(inputStream);
@@ -41,12 +43,15 @@ public class BuyerAgent extends Agent implements Runnable {
 		for (int i = 0; i < 3; i++) {
 			params.put("seed", String.valueOf(seed));
 			try {
-//			utils.executeUpdateAndReturnPostvent(irg.generateQuery(null));
 				String orderedProductQuery = iopg.generateQuery(params);
-				
-				utils.createAndPublishPostEvent(orderedProductQuery);
-				// FIXME: Should pick randomly (with a seed) from all products
-				orderedProducts.add(String.valueOf(seed));
+				if (RunSimulator.goThroughPolystore) {
+					// TODO: Write the code, the following might be wrong, not tested.
+//					utils.executeUpdateAndReturnPostvent(irg.generateQuery(null));
+				} else {
+					utils.createAndPublishPostEvent(orderedProductQuery);
+					// FIXME: Should pick randomly (with a seed) from all products
+					orderedProducts.add(String.valueOf(seed));
+				}
 				this.randomSleep(1000, 5000);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -57,7 +62,11 @@ public class BuyerAgent extends Agent implements Runnable {
 		params.put("orderedProducts", orderedProducts.toString());
 		String orderQuery = iog.generateQuery(params);
 		try {
-			utils.createAndPublishPostEvent(orderQuery);
+			if (RunSimulator.goThroughPolystore) {
+				// TODO: Write the code
+			} else {
+				utils.createAndPublishPostEvent(orderQuery);
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

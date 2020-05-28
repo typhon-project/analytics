@@ -43,15 +43,15 @@ public class RunSimulator {
 		for (Thread agent : allBrowsingAgents) {
 			agent.start();
 		}
-//		
-//		int numOfBuyerAgents = Integer.parseInt(appProps.getProperty("num_of_buyer_agents"));
-//		ArrayList<Thread> allBuyerAgents = new ArrayList<Thread>();
-//		for (int i=0; i<numOfBuyerAgents; i++) {
-//			allBuyerAgents.add(new Thread(new BuyerAgent()));
-//		}
-//		for (Thread agent : allBuyerAgents) {
-//			agent.start();
-//		}
+		
+		int numOfBuyerAgents = Integer.parseInt(appProps.getProperty("num_of_buyer_agents"));
+		ArrayList<Thread> allBuyerAgents = new ArrayList<Thread>();
+		for (int i=0; i<numOfBuyerAgents; i++) {
+			allBuyerAgents.add(new Thread(new BuyerAgent()));
+		}
+		for (Thread agent : allBuyerAgents) {
+			agent.start();
+		}
 //		
 //		int numOfBuyerReviewerAgents = Integer.parseInt(appProps.getProperty("num_of_buyer_reviewer_agents"));
 //		ArrayList<Thread> allBuyerReviewerAgents = new ArrayList<Thread>();
