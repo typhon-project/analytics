@@ -31,18 +31,18 @@ public class RunSimulator {
 		
 		init();
 		
-//		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties");
-//		Properties appProps = new Properties();
-//		appProps.load(inputStream);
-//		
-//		int numOfBrowsingAgents = Integer.parseInt(appProps.getProperty("num_of_browsing_agents"));
-//		ArrayList<Thread> allBrowsingAgents = new ArrayList<Thread>();
-//		for (int i=0; i<numOfBrowsingAgents; i++) {
-//			allBrowsingAgents.add(new Thread(new BrowsingAgent()));
-//		}
-//		for (Thread agent : allBrowsingAgents) {
-//			agent.start();
-//		}
+		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties");
+		Properties appProps = new Properties();
+		appProps.load(inputStream);
+		
+		int numOfBrowsingAgents = Integer.parseInt(appProps.getProperty("num_of_browsing_agents"));
+		ArrayList<Thread> allBrowsingAgents = new ArrayList<Thread>();
+		for (int i=0; i<numOfBrowsingAgents; i++) {
+			allBrowsingAgents.add(new Thread(new BrowsingAgent()));
+		}
+		for (Thread agent : allBrowsingAgents) {
+			agent.start();
+		}
 //		
 //		int numOfBuyerAgents = Integer.parseInt(appProps.getProperty("num_of_buyer_agents"));
 //		ArrayList<Thread> allBuyerAgents = new ArrayList<Thread>();

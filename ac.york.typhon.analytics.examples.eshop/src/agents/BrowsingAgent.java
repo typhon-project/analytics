@@ -21,17 +21,18 @@ public class BrowsingAgent extends Agent implements Runnable {
 
 	@Override
 	public void run() {
-		
+
 		final int MAX_NUM_OF_PRODUCTS = 10;
-		
+
 		// This is code from BuyerAgent
 		ExecuteQueries eq = new ExecuteQueries();
 		ExecuteQueries.Utils utils = eq.new Utils();
-		
+
 		SelectProductGenerator spg = new SelectProductGenerator();
 
-		Map<String,String> params = new HashMap<String, String>();
-		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties");
+		Map<String, String> params = new HashMap<String, String>();
+		InputStream inputStream = Thread.currentThread().getContextClassLoader()
+				.getResourceAsStream("config.properties");
 		Properties appProps = new Properties();
 		try {
 			appProps.load(inputStream);
@@ -45,15 +46,29 @@ public class BrowsingAgent extends Agent implements Runnable {
 		// Buy i products and put them in an order
 		for (int i = 0; i < MAX_NUM_OF_PRODUCTS; i++) {
 			params.put("seed", String.valueOf(seed));
+			if (RunSimulator.goThroughPolystore) {
+				try {
+					utils.executeQuery(spg.generateQuery(params));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else {
+				String query = spg.generateQuery(params);
+				try {
+					utils.createAndPublishPostEvent(query);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			try {
-			utils.executeQuery(spg.generateQuery(params));
-//				String orderedProductQuery = iopg.generateQuery(params);
-//				utils.createAndPublishPostEvent(orderedProductQuery);
 				this.randomSleep(1000, 5000);
-			} catch (Exception e) {
+			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
 			seed++;
 		}
 	}
