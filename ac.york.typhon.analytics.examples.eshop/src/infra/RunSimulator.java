@@ -16,55 +16,60 @@ import entityUtils.UserCreator;
 import queryGenerators.InsertAddressGenerator;
 import queryGenerators.InsertUserGenerator;
 import utils.ExecuteQueries;
+import utils.QueueProducer;
 import utils.Utilities;
 
 public class RunSimulator {
 	public static ArrayList<String> allUsers = new ArrayList<String>();
 	public static ArrayList<String> allProducts = new ArrayList<String>();
-	
+	public static Boolean goThroughPolystore = false;
+	// Make sure you put the local ip address of your computer
+	final static String IP_ADDRESS = "localhost:29092";
+		
+	public static QueueProducer qp = new QueueProducer(IP_ADDRESS);
 	public static void main(String[] args) throws Exception {
 		
 		init();
 		
-		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties");
-		Properties appProps = new Properties();
-		appProps.load(inputStream);
-		
-		int numOfBrowsingAgents = Integer.parseInt(appProps.getProperty("num_of_browsing_agents"));
-		ArrayList<Thread> allBrowsingAgents = new ArrayList<Thread>();
-		for (int i=0; i<numOfBrowsingAgents; i++) {
-			allBrowsingAgents.add(new Thread(new BrowsingAgent()));
-		}
-		for (Thread agent : allBrowsingAgents) {
-			agent.start();
-		}
-		
-		int numOfBuyerAgents = Integer.parseInt(appProps.getProperty("num_of_buyer_agents"));
-		ArrayList<Thread> allBuyerAgents = new ArrayList<Thread>();
-		for (int i=0; i<numOfBuyerAgents; i++) {
-			allBuyerAgents.add(new Thread(new BuyerAgent()));
-		}
-		for (Thread agent : allBuyerAgents) {
-			agent.start();
-		}
-		
-		int numOfBuyerReviewerAgents = Integer.parseInt(appProps.getProperty("num_of_buyer_reviewer_agents"));
-		ArrayList<Thread> allBuyerReviewerAgents = new ArrayList<Thread>();
-		for (int i=0; i<numOfBuyerReviewerAgents; i++) {
-			allBuyerReviewerAgents.add(new Thread(new BuyerReviewerAgent()));
-		}
-		for (Thread agent : allBuyerReviewerAgents) {
-			agent.start();
-		}
-		
-		int numOfUndecisiveAgents = Integer.parseInt(appProps.getProperty("num_of_undecisive_agents"));
-		ArrayList<Thread> allUndecisiveAgents = new ArrayList<Thread>();
-		for (int i=0; i<numOfUndecisiveAgents; i++) {
-			allUndecisiveAgents.add(new Thread(new UndecisiveAgent()));
-		}
-		for (Thread agent : allUndecisiveAgents) {
-			agent.start();
-		}
+//		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties");
+//		Properties appProps = new Properties();
+//		appProps.load(inputStream);
+//		
+//		int numOfBrowsingAgents = Integer.parseInt(appProps.getProperty("num_of_browsing_agents"));
+//		ArrayList<Thread> allBrowsingAgents = new ArrayList<Thread>();
+//		for (int i=0; i<numOfBrowsingAgents; i++) {
+//			allBrowsingAgents.add(new Thread(new BrowsingAgent()));
+//		}
+//		for (Thread agent : allBrowsingAgents) {
+//			agent.start();
+//		}
+//		
+//		int numOfBuyerAgents = Integer.parseInt(appProps.getProperty("num_of_buyer_agents"));
+//		ArrayList<Thread> allBuyerAgents = new ArrayList<Thread>();
+//		for (int i=0; i<numOfBuyerAgents; i++) {
+//			allBuyerAgents.add(new Thread(new BuyerAgent()));
+//		}
+//		for (Thread agent : allBuyerAgents) {
+//			agent.start();
+//		}
+//		
+//		int numOfBuyerReviewerAgents = Integer.parseInt(appProps.getProperty("num_of_buyer_reviewer_agents"));
+//		ArrayList<Thread> allBuyerReviewerAgents = new ArrayList<Thread>();
+//		for (int i=0; i<numOfBuyerReviewerAgents; i++) {
+//			allBuyerReviewerAgents.add(new Thread(new BuyerReviewerAgent()));
+//		}
+//		for (Thread agent : allBuyerReviewerAgents) {
+//			agent.start();
+//		}
+//		
+//		int numOfUndecisiveAgents = Integer.parseInt(appProps.getProperty("num_of_undecisive_agents"));
+//		ArrayList<Thread> allUndecisiveAgents = new ArrayList<Thread>();
+//		for (int i=0; i<numOfUndecisiveAgents; i++) {
+//			allUndecisiveAgents.add(new Thread(new UndecisiveAgent()));
+//		}
+//		for (Thread agent : allUndecisiveAgents) {
+//			agent.start();
+//		}
 	}
 	
 	public static void init() throws Exception {

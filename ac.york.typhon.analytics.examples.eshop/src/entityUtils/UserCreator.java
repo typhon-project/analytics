@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.github.javafaker.Faker;
 
+import infra.RunSimulator;
 import utils.ExecuteQueries;
 import utils.ExecuteQueries.Utils;
 
@@ -28,9 +29,13 @@ public class UserCreator {
 		str.append("paymentsDetails: [#" + creditCardId + "], ");
 		str.append("basket: [#" + basketId + "]");
 		str.append("}");
-		String productId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
-//		utils.createAndPublishPostEvent(str.toString());
-//		String productId = UUID.randomUUID().toString();;
+		String productId = "";
+		if (RunSimulator.goThroughPolystore) {
+			productId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
+		} else {
+			utils.createAndPublishPostEvent(str.toString());
+			productId = UUID.randomUUID().toString();
+		}
 		return productId;
 	}
 
@@ -46,9 +51,13 @@ public class UserCreator {
 		str.append("street: \"" + faker.address().streetAddress() + "\", ");
 		str.append("country: \"" + faker.address().country() + "\"");
 		str.append("}");
-		String addressId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
-//		utils.createAndPublishPostEvent(str.toString());
-//		String addressId = UUID.randomUUID().toString();;
+		String addressId = "";
+		if (RunSimulator.goThroughPolystore) {
+			addressId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
+		} else {
+			utils.createAndPublishPostEvent(str.toString());
+			addressId = UUID.randomUUID().toString();
+		}
 		return addressId;
 	}
 	
@@ -64,9 +73,13 @@ public class UserCreator {
 		str.append("number: \"" + faker.finance().creditCard() + "\", ");
 		str.append("expiryDate: \"" + LocalDateTime.now().plusYears(2) + "\"");
 		str.append("}");
-		String creditCardId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
-//		utils.createAndPublishPostEvent(str.toString());
-//		String creditCardId = UUID.randomUUID().toString();;
+		String creditCardId = "";
+		if (RunSimulator.goThroughPolystore) {
+			creditCardId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
+		} else { 
+			utils.createAndPublishPostEvent(str.toString());
+			creditCardId = UUID.randomUUID().toString();
+		}
 		return creditCardId;
 	}
 	
@@ -79,9 +92,13 @@ public class UserCreator {
 		str.append("insert Basket {");
 		str.append("id: \"" + seed + "\"");
 		str.append("}");
-		String basketId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
-//		utils.createAndPublishPostEvent(str.toString());
-//		String basketId = UUID.randomUUID().toString();;
+		String basketId = "";
+		if (RunSimulator.goThroughPolystore) {
+			basketId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
+		} else {
+			utils.createAndPublishPostEvent(str.toString());
+			basketId = UUID.randomUUID().toString();
+		}
 		return basketId;
 	}
 }

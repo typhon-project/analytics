@@ -8,14 +8,15 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
 import ac.york.typhon.analytics.commons.datatypes.events.PostEvent;
+import infra.RunSimulator;
 import sun.misc.BASE64Encoder;
 
 public class ExecuteQueries {
 
 	// Make sure you put the local ip address of your computer
-	final String IP_ADDRESS = "192.168.1.18:9092";
-	
-	QueueProducer qp = new QueueProducer(IP_ADDRESS);
+//	final String IP_ADDRESS = "localhost:29092";
+//	
+//	QueueProducer qp = new QueueProducer(IP_ADDRESS);
 
 	public class Utils {
 
@@ -90,7 +91,7 @@ public class ExecuteQueries {
 		public void produce(PostEvent postEvent) throws Exception {
 //			String kafkaConnection = IP_ADDRESS;
 //			QueueProducer qp = new QueueProducer(kafkaConnection);
-			qp.produce("POST", postEvent);
+			RunSimulator.qp.produce("POST", postEvent);
 		}
 	}
 }
