@@ -10,6 +10,7 @@ import ac.york.typhon.analytics.analyzer.IAnalyzer;
 import ac.york.typhon.analytics.commons.datatypes.Product;
 import ac.york.typhon.analytics.commons.datatypes.events.DeserializedPostEvent;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
+import analytics.utilities.BoundedOutOfOrdernessGenerator;
 
 public class TopBrowsedProduct implements IAnalyzer {
 
@@ -31,6 +32,7 @@ public class TopBrowsedProduct implements IAnalyzer {
 				return pe.getQuery().contains("from Product p select p ");
 			}
 		})
+		.assignTimestampsAndWatermarks(new BoundedOutOfOrdernessGenerator())
 		.map(new MapFunction<DeserializedPostEvent, Tuple2<String, Integer>>() {
 
 			@Override
