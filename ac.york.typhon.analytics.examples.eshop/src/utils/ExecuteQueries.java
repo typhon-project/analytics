@@ -8,6 +8,7 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
 import ac.york.typhon.analytics.commons.datatypes.events.PostEvent;
+import ac.york.typhon.analytics.commons.datatypes.events.PreEvent;
 import infra.RunSimulator;
 import sun.misc.BASE64Encoder;
 
@@ -70,6 +71,8 @@ public class ExecuteQueries {
 
 		public void createAndPublishPostEvent(String query) throws Exception {
 
+			PreEvent preEvent = new PreEvent();
+			preEvent.setQuery(query);
 			// Start timing for calculating execution time
 			Date startTime = new Date();
 
@@ -82,7 +85,14 @@ public class ExecuteQueries {
 			postEvent.setSuccess(true);
 			postEvent.setStartTime(startTime);
 			postEvent.setEndTime(endTime);
-			
+			postEvent.setPreEvent(preEvent);
+			// XXX: This is fake. We only do it to cheat the deserialiser in the case we don't go through the Polystore. It's ok.
+			postEvent.setResultSet("{\n" + 
+					"  \"affectedEntities\": -1,\n" + 
+					"  \"createdUuids\": {\n" + 
+					"    \"uuid\": \"e1910e20-75c2-4f3e-b886-d99a6db50520\"\n" + 
+					"  }\n" + 
+					"}");
 			// Publish PostEvent to POST queue
 			produce(postEvent);
 			

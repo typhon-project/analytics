@@ -25,9 +25,9 @@ public class UserCreator {
 		str.append("insert User {");
 		str.append("id: \"" + seed + "\", ");
 		str.append("name: \"" + faker.name().fullName() + "\", ");
-		str.append("address: [#" + addressId + "], ");
-		str.append("paymentsDetails: [#" + creditCardId + "], ");
-		str.append("basket: [#" + basketId + "]");
+		str.append("address: #" + addressId + ", ");
+		str.append("paymentsDetails: #" + creditCardId + ", ");
+		str.append("basket: #" + basketId);
 		str.append("}");
 		String productId = "";
 		if (RunSimulator.goThroughPolystore) {

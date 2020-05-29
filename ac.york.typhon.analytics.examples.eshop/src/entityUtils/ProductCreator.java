@@ -22,7 +22,7 @@ public class ProductCreator {
 		str.append("insert Product {");
 		str.append("name: \"" + faker.commerce().productName() + "\", ");
 		str.append("description: \"" + faker.lorem().paragraph() + "\", ");
-		str.append("category: [#" + selectedId + "]");
+		str.append("category: #" + selectedId);
 		str.append("}");
 		String productId = "";
 		if (RunSimulator.goThroughPolystore) {
