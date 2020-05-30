@@ -5,7 +5,7 @@ import java.util.Date;
 
 import ac.york.typhon.analytics.commons.datatypes.events.Entity;
 
-public class OrderedProduct extends Entity {
+public class BasketProduct extends Entity {
 	private String id;
 	
 	public String getId() {
@@ -24,6 +24,15 @@ public class OrderedProduct extends Entity {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+	private Date date_added;
+	
+	public Date getDate_added() {
+		return this.date_added;
+	}
+	
+	public void setDate_added(Date date_added) {
+		this.date_added = date_added;
+	}
 	
 	private ArrayList<Product> product;
 	
@@ -34,11 +43,21 @@ public class OrderedProduct extends Entity {
 	public void setProduct(ArrayList<Product> product) {
 		this.product = product;
 	}
+	
+	private ArrayList<Basket> basket;
+	
+	public ArrayList<Basket> getBasket() {
+		return this.basket;
+	}
+	
+	public void setBasket(ArrayList<Basket> basket) {
+		this.basket = basket;
+	}
 
 	public String toString() { 
 		String result = "";
 	
-		result = " id: " + id + " quantity: " + quantity;
+		result = " id: " + id + " quantity: " + quantity + " date_added: " + date_added;
 		return result;
 	}
 }

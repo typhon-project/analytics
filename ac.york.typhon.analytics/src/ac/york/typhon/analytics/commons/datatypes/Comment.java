@@ -5,7 +5,7 @@ import java.util.Date;
 
 import ac.york.typhon.analytics.commons.datatypes.events.Entity;
 
-public class Review extends Entity {
+public class Comment extends Entity {
 	private String id;
 	
 	public String getId() {
@@ -25,34 +25,24 @@ public class Review extends Entity {
 		this.content = content;
 	}
 	
-	private ArrayList<Product> product;
+	private ArrayList<Review> review;
 	
-	public ArrayList<Product> getProduct() {
-		return this.product;
+	public ArrayList<Review> getReview() {
+		return this.review;
 	}
 	
-	public void setProduct(ArrayList<Product> product) {
-		this.product = product;
+	public void setReview(ArrayList<Review> review) {
+		this.review = review;
 	}
 	
-	private ArrayList<Comment> comments;
+	private ArrayList<Comment> responses;
 	
-	public ArrayList<Comment> getComments() {
-		return this.comments;
+	public ArrayList<Comment> getResponses() {
+		return this.responses;
 	}
 	
-	public void setComments(ArrayList<Comment> comments) {
-		this.comments = comments;
-	}
-	
-	private ArrayList<User> user;
-	
-	public ArrayList<User> getUser() {
-		return this.user;
-	}
-	
-	public void setUser(ArrayList<User> user) {
-		this.user = user;
+	public void setResponses(ArrayList<Comment> responses) {
+		this.responses = responses;
 	}
 
 	public String toString() { 

@@ -5,7 +5,7 @@ import java.util.Date;
 
 import ac.york.typhon.analytics.commons.datatypes.events.Entity;
 
-public class Category extends Entity{
+public class Category extends Entity {
 	private String id;
 	
 	public String getId() {
@@ -26,11 +26,9 @@ public class Category extends Entity{
 	}
 
 	public String toString() { 
-		String result = "Category:( ";
-		result += "UUID " + getUUID() + " previousValue " + getPreviousValue();
-		result += "db: " + getDb() + " isProxy: " + isProxy();
-		result += " id: " + id + " name: " + name;
-		result += " )";
+		String result = "";
+	
+		result = " id: " + id + " name: " + name;
 		return result;
 	}
 }

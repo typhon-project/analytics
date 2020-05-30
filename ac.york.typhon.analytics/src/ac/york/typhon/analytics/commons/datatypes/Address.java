@@ -1,11 +1,13 @@
 package ac.york.typhon.analytics.commons.datatypes;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 import ac.york.typhon.analytics.commons.datatypes.events.Entity;
 
-//TODO make generator excend entity class
-public class Address extends Entity{
+public class Address extends Entity {
 	private String id;
-	
+
 	public String getId() {
 		return this.id;
 	}
@@ -32,13 +34,10 @@ public class Address extends Entity{
 		this.country = country;
 	}
 
-	public String toString() {
-		//XXX update generator for nicer output (from base-class, uuid etc)
-		String result = "Address:( ";
-		result += "UUID: " + getUUID() + " previousValue: " + getPreviousValue();
-		result += "db: " + getDb() + " isProxy: " + isProxy();
-		result += " id: " + id + " street: " + street + " country: " + country;
-		result += " )";
+	public String toString() { 
+		String result = "";
+	
+		result = " id: " + id + " street: " + street + " country: " + country;
 		return result;
 	}
 }

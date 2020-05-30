@@ -51,7 +51,19 @@ public class InsertDeserializer implements Deserializer {
 				Class<?> fieldTypeClass = field.getType();
 				Method setter = objClass.getMethod("set" + kv.getKey().yieldTree().substring(0, 1).toUpperCase()
 						+ kv.getKey().yieldTree().substring(1), fieldTypeClass);
-				setter.invoke(entity, kv.getValue().yieldTree());
+				Object value = kv.getValue().yieldTree();
+				if (value instanceof String) {
+					String valueString = ((String) value);
+					if (valueString.matches("(#[a-f0-9]{8}(-[a-f0-9]{4}){4}[a-f0-9]{8})")) {
+						//
+						Entity proxy = (Entity) field.getType().newInstance();
+						proxy.setProxy(true);
+						proxy.setUUID(valueString);
+						value = proxy;
+					}
+				}
+				
+				setter.invoke(entity, value);
 				
 			}
 			// FIXME: Find how UUID are given in bulk inserts. This is not working for more than one insert.
