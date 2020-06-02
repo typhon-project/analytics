@@ -85,7 +85,6 @@
       <type xsi:type="typhonml:StringType" maxSize="64"/>
     </attributes>
     <relations name="items" type="//@entities.8" cardinality="zero_many" isContainment="true"/>
-    <relations name="user" type="//@entities.5" cardinality="zero_many" opposite="//@entities.5/@relations.5"/>
   </entities>
   <entities name="BasketProduct">
     <attributes xsi:type="typhonml:Attribute" name="id">
@@ -97,7 +96,7 @@
     <attributes xsi:type="typhonml:Attribute" name="date_added">
       <type xsi:type="typhonml:DateType"/>
     </attributes>
-    <relations name="product" type="//@entities.1" cardinality="one" isContainment="true"/>
+    <relations name="product" type="//@entities.1" cardinality="zero_many" isContainment="true"/>
     <relations name="basket" type="//@entities.7" cardinality="zero_many" opposite="//@entities.7/@relations.0"/>
   </entities>
   <entities name="Comment">

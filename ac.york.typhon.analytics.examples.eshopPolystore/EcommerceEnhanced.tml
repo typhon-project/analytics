@@ -59,7 +59,7 @@ entity Address {
 entity Basket {
 	id : string[64]
 	items :-> BasketProduct[0..*]
-	user -> User."User.basket"[1]
+//	user -> User."User.basket"[1]
 }
 
 entity BasketProduct {
@@ -67,7 +67,7 @@ entity BasketProduct {
 	quantity : int
 	date_added: date
 	product :-> Product[1]	
-	basket -> Basket."Basket.items"[1]
+//	basket -> Basket."Basket.items"[1]
 }
 
 entity Comment{
