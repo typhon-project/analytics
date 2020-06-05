@@ -1,0 +1,86 @@
+[% var chain = AuthChain.all().first(); %]
+package [%=AuthChain.all().first().package%];
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.flink.streaming.api.collector.selector.OutputSelector;
+import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.datastream.JoinedStreams;
+import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
+import org.apache.flink.streaming.api.datastream.SplitStream;
+import org.apache.flink.util.OutputTag;
+
+import ac.york.typhon.analytics.commons.datatypes.events.Event;
+import ac.york.typhon.analytics.commons.datatypes.events.PreEvent;
+import ac.york.typhon.analytics.commons.enums.AnalyticTopicType;
+import ac.york.typhon.analytics.streaming.StreamManager;
+
+import com.alphabank.typhon.authorization.filters.EventFilter;
+import com.alphabank.typhon.authorization.filters.FinancialEventInsertFilter;
+import com.alphabank.typhon.authorization.filters.GenericEventFilter;
+import com.alphabank.typhon.authorization.filters.NonFinancialEventInsertFilter;
+import com.alphabank.typhon.authorization.filters.TestingSerialAuthTask1;
+import com.alphabank.typhon.authorization.filters.TestingSerialAuthTask2;
+import com.alphabank.typhon.commons.AlphaEnum;
+
+
+public class PreEventAuthorizer {
+
+	public static void main(String[] args) throws Exception {
+
+		DataStream<Event> dataStream = StreamManager.initializeSource(AnalyticTopicType.PRE, PreEvent.class);
+		
+		OutputTag<Event> rejectedOutputTag = new OutputTag<Event>("Rejected") {};
+		
+		[% for (task in  chain.tasks) { %]
+			[%=task.name%] [%=task.name.ftlc()%]  = new [%=task.name%](); 
+			OutputTag<Event> [%=task.name.ftlc()%]OutputTag = new OutputTag<Event>([%=task.name.ftlc()%].getLabel()) {};
+		
+		[%}
+		%]
+		
+	
+		[% 
+		var firstTask = AuthTask.all().selectOne(t|not(AuthTask.all().next.contains(t)));
+		firstTask.println();
+		var currentTask = firstTask; 
+		var previousTask = null;
+		%]
+		SingleOutputStreamOperator<Event> [%=currentTask.name.ftlc()%]SplitStream = [%=currentTask.name.ftlc()%].run(dataStream, [%=currentTask.name.ftlc()%])
+		
+		[%
+		while (not (currentTask.next == null)) {
+			previousTask = currentTask;
+			currentTask = currentTask.next; %]
+			SingleOutputStreamOperator<Event> [%=currentTask.name.ftlc()%]SplitStream = [%=currentTask.name.ftlc()%].run([%=previousTask.name.ftlc()%]SplitStream.getSideOutput([%=previousTask.name.ftlc()%]OutputTag), [%=currentTask.name.ftlc()%])
+			
+		[%
+		}
+		%]
+		
+		DataStream<Event> finalStream = [%=currentTask.name.ftlc()%]SplitStream.getSideOutput([%=currentTask.name.ftlc()%]OutputTag);
+
+		[% 
+		var finalRejectedStream = "";
+		for (task in  chain.tasks) { 
+			finalRejectedStream = finalRejectedStream + task.name.ftlc() + "SplitStream.getSideOutput(rejectedOutputTag)";
+			if (hasMore) {
+				finalRejectedStream = finalRejectedStream + ".union(";
+			} else {
+				finalRejectedStream = finalRejectedStream + ");";
+			}
+		}
+		%]
+		
+		DataStream<Event> finalRejectedStream = [%=finalRejectedStream%]
+		
+		StreamManager.initializeSink(AlphaEnum.AUTHORIZATION,
+				finalStream);
+		StreamManager.initializeSink(AlphaEnum.AUTHORIZATION,
+				finalRejectedStream);
+		StreamManager.startExecutionEnvironment(AnalyticTopicType.PRE);
+		
+
+	}
+}

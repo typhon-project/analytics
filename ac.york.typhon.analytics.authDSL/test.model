@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="ASCII"?>
+<authDSL:AuthChain xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:authDSL="authDSL" xmi:id="_5FKSsKcVEeqgj7WXrpiBzA" package="Test">
+  <tasks xmi:id="_6OhHcKcVEeqgj7WXrpiBzA" name="TestingSerialAuthTask1" next="_8TpA4KcVEeqgj7WXrpiBzA"/>
+  <tasks xmi:id="_8TpA4KcVEeqgj7WXrpiBzA" name="TestingSerialAuthTask2"/>
+</authDSL:AuthChain>
