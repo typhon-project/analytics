@@ -1,6 +1,7 @@
 package utils;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.UUID;
 
 import com.sun.jersey.api.client.Client;
@@ -9,6 +10,7 @@ import com.sun.jersey.api.client.WebResource;
 
 import ac.york.typhon.analytics.commons.datatypes.events.PostEvent;
 import ac.york.typhon.analytics.commons.datatypes.events.PreEvent;
+import ac.york.typhon.analytics.commons.datatypes.events.Slot;
 import infra.RunSimulator;
 import sun.misc.BASE64Encoder;
 
@@ -73,6 +75,39 @@ public class ExecuteQueries {
 
 			PreEvent preEvent = new PreEvent();
 			preEvent.setQuery(query);
+			// Start timing for calculating execution time
+			Date startTime = new Date();
+
+			// Get date/time when query execution has finished
+			Date endTime = new Date();
+
+			PostEvent postEvent = new PostEvent();
+			postEvent.setId(UUID.randomUUID().toString());
+			postEvent.setQuery(query);
+			postEvent.setSuccess(true);
+			postEvent.setStartTime(startTime);
+			postEvent.setEndTime(endTime);
+			postEvent.setPreEvent(preEvent);
+			// XXX: This is fake. We only do it to cheat the deserialiser in the case we don't go through the Polystore. It's ok.
+			postEvent.setResultSet("{\n" + 
+					"  \"affectedEntities\": -1,\n" + 
+					"  \"createdUuids\": {\n" + 
+					"    \"uuid\": \"e1910e20-75c2-4f3e-b886-d99a6db50520\"\n" + 
+					"  }\n" + 
+					"}");
+			// Publish PostEvent to POST queue
+			produce(postEvent);
+			
+		}
+		
+		public void createAndPublishPostEvent(String query, String user) throws Exception {
+
+			PreEvent preEvent = new PreEvent();
+			preEvent.setQuery(query);
+			HashSet<Slot> slots = new HashSet<Slot>();
+			Slot userSlot = new Slot("String", "user", user);
+			slots.add(userSlot);
+			preEvent.setSlots(slots);
 			// Start timing for calculating execution time
 			Date startTime = new Date();
 

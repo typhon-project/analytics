@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import agents.BrowsingAgent;
+import agents.BrowsingWithCommentAgent;
 import agents.BuyerAgent;
 import agents.BuyerReviewerAgent;
 import agents.ReviewerNoBuyerAgent;
@@ -45,6 +46,15 @@ public class RunSimulator {
 			allBrowsingAgents.add(new Thread(new BrowsingAgent()));
 		}
 		for (Thread agent : allBrowsingAgents) {
+			agent.start();
+		}
+		
+		int numOfBrowsingWithCommentAgents = Integer.parseInt(appProps.getProperty("num_of_browsing_with_comment_agents"));
+		ArrayList<Thread> allBrowsingWithCommentAgents = new ArrayList<Thread>();
+		for (int i=0; i<numOfBrowsingWithCommentAgents; i++) {
+			allBrowsingWithCommentAgents.add(new Thread(new BrowsingWithCommentAgent()));
+		}
+		for (Thread agent : allBrowsingWithCommentAgents) {
 			agent.start();
 		}
 		
