@@ -15,15 +15,6 @@ import ac.york.typhon.analytics.commons.datatypes.events.PreEvent;
 import ac.york.typhon.analytics.commons.enums.AnalyticTopicType;
 import ac.york.typhon.analytics.streaming.StreamManager;
 
-import com.alphabank.typhon.authorization.filters.EventFilter;
-import com.alphabank.typhon.authorization.filters.FinancialEventInsertFilter;
-import com.alphabank.typhon.authorization.filters.GenericEventFilter;
-import com.alphabank.typhon.authorization.filters.NonFinancialEventInsertFilter;
-import com.alphabank.typhon.authorization.filters.TestingSerialAuthTask1;
-import com.alphabank.typhon.authorization.filters.TestingSerialAuthTask2;
-import com.alphabank.typhon.commons.AlphaEnum;
-
-
 public class PreEventAuthorizer {
 
 	public static void main(String[] args) throws Exception {
@@ -32,27 +23,32 @@ public class PreEventAuthorizer {
 		
 		OutputTag<Event> rejectedOutputTag = new OutputTag<Event>("Rejected") {};
 		
-			AddressAuthTask addressAuthTask  = new AddressAuthTask(); 
-			OutputTag<Event> addressAuthTaskOutputTag = new OutputTag<Event>(addressAuthTask.getLabel()) {};
+			CCNullAuthTask cCNullAuthTask  = new CCNullAuthTask(); 
+			OutputTag<Event> cCNullAuthTaskOutputTag = new OutputTag<Event>(cCNullAuthTask.getLabel()) {};
 		
-			CategoryAuthTask categoryAuthTask  = new CategoryAuthTask(); 
-			OutputTag<Event> categoryAuthTaskOutputTag = new OutputTag<Event>(categoryAuthTask.getLabel()) {};
+			CCDateAuthTask cCDateAuthTask  = new CCDateAuthTask(); 
+			OutputTag<Event> cCDateAuthTaskOutputTag = new OutputTag<Event>(cCDateAuthTask.getLabel()) {};
+		
+			CCNumAuthTask cCNumAuthTask  = new CCNumAuthTask(); 
+			OutputTag<Event> cCNumAuthTaskOutputTag = new OutputTag<Event>(cCNumAuthTask.getLabel()) {};
 		
 		
 	
-		SingleOutputStreamOperator<Event> addressAuthTaskSplitStream = addressAuthTask.run(dataStream, addressAuthTask)
+		SingleOutputStreamOperator<Event> cCNullAuthTaskSplitStream = cCNullAuthTask.run(dataStream, cCNullAuthTask);
 		
-			SingleOutputStreamOperator<Event> categoryAuthTaskSplitStream = categoryAuthTask.run(addressAuthTaskSplitStream.getSideOutput(addressAuthTaskOutputTag), categoryAuthTask)
+			SingleOutputStreamOperator<Event> cCNumAuthTaskSplitStream = cCNumAuthTask.run(cCNullAuthTaskSplitStream.getSideOutput(cCNullAuthTaskOutputTag), cCNumAuthTask);
+			
+			SingleOutputStreamOperator<Event> cCDateAuthTaskSplitStream = cCDateAuthTask.run(cCNumAuthTaskSplitStream.getSideOutput(cCNumAuthTaskOutputTag), cCDateAuthTask);
 			
 		
-		DataStream<Event> finalStream = categoryAuthTaskSplitStream.getSideOutput(categoryAuthTaskOutputTag);
+		DataStream<Event> finalStream = cCDateAuthTaskSplitStream.getSideOutput(cCDateAuthTaskOutputTag);
 
 		
-		DataStream<Event> finalRejectedStream = addressAuthTaskSplitStream.getSideOutput(rejectedOutputTag).union(categoryAuthTaskSplitStream.getSideOutput(rejectedOutputTag));
+		DataStream<Event> finalRejectedStream = cCNullAuthTaskSplitStream.getSideOutput(rejectedOutputTag).union(cCDateAuthTaskSplitStream.getSideOutput(rejectedOutputTag).union(cCNumAuthTaskSplitStream.getSideOutput(rejectedOutputTag));
 		
-		StreamManager.initializeSink(AlphaEnum.AUTHORIZATION,
+		StreamManager.initializeSink(AnalyticTopicType.AUTH,
 				finalStream);
-		StreamManager.initializeSink(AlphaEnum.AUTHORIZATION,
+		StreamManager.initializeSink(AnalyticTopicType.AUTH,
 				finalRejectedStream);
 		StreamManager.startExecutionEnvironment(AnalyticTopicType.PRE);
 		

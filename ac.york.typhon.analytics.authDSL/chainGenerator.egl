@@ -57,6 +57,7 @@ public class PreEventAuthorizer {
 		for (task in  chain.tasks) { 
 			finalRejectedStream = finalRejectedStream + task.name.ftlc() + "SplitStream.getSideOutput(rejectedOutputTag)";
 			if (hasMore) {
+				//TODO: Here we should print one parenthesis at the end to close the union but in all except the first
 				finalRejectedStream = finalRejectedStream + ".union(";
 			} else {
 				finalRejectedStream = finalRejectedStream + ");";
