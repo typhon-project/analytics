@@ -1,14 +1,15 @@
-package com.alphabank.typhon.authorization.filters;
+package auth;
 
 import ac.york.typhon.analytics.authorizer.GenericAuthorisationTask;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
 
 // This example task rejects all the DEBIT FNC_EV
-public class TestingSerialAuthTask2 extends GenericAuthorisationTask {
+public class CategoryAuthTask extends GenericAuthorisationTask {
 
 	@Override
 	public boolean checkCondition(Event event) {
-		if (event.getQuery().toLowerCase().contains("Address")) {
+		if (event.getQuery().toLowerCase().contains("category")) {
+			System.out.println("It is category");
 			return true;
 		} else {
 			return false;
@@ -17,11 +18,11 @@ public class TestingSerialAuthTask2 extends GenericAuthorisationTask {
 
 	@Override
 	public boolean shouldIReject(Event event) {
-		if (!event.getQuery().contains("Greece")) {
-			System.out.println("It is Greece and I reject");
+		if (event.getQuery().contains("Computer")) {
+			System.out.println("It is Computer so I reject");
 			return true;
 		}
-		System.out.println("It is not Greece I approve");
+		System.out.println("It is not Computer so I approve");
 		return false;
 	}
 }

@@ -36,8 +36,6 @@ public abstract class GenericAuthorisationTask implements Serializable {
 					// so the next filter can check it.
 					// In other words, no matter what, unless an event is rejected, it always goes
 					// to a topic with my name so the next auth task can consume it
-					// TODO: Some of the code here can be further abstracted so we don't ask
-					// analytics devs to write it.
 				} else {
 					System.out.println(task.getLabel() + " is responsible for this event (" + event.getId() + ") "
 							+ event.getQuery());
@@ -49,6 +47,7 @@ public abstract class GenericAuthorisationTask implements Serializable {
 					} else {
 						System.out.println(
 								task.getLabel() + " approves this event (" + event.getId() + ") " + event.getQuery());
+						((PreEvent) event).setAuthenticated(true);
 						ctx.output(taskOutputTag, event);
 					}
 				}

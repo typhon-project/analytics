@@ -1,5 +1,4 @@
-package Test;
-
+package auth;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,15 +13,6 @@ import ac.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.york.typhon.analytics.commons.datatypes.events.PreEvent;
 import ac.york.typhon.analytics.commons.enums.AnalyticTopicType;
 import ac.york.typhon.analytics.streaming.StreamManager;
-
-import com.alphabank.typhon.authorization.filters.EventFilter;
-import com.alphabank.typhon.authorization.filters.FinancialEventInsertFilter;
-import com.alphabank.typhon.authorization.filters.GenericEventFilter;
-import com.alphabank.typhon.authorization.filters.NonFinancialEventInsertFilter;
-import com.alphabank.typhon.authorization.filters.TestingSerialAuthTask1;
-import com.alphabank.typhon.authorization.filters.TestingSerialAuthTask2;
-import com.alphabank.typhon.commons.AlphaEnum;
-
 
 public class PreEventAuthorizer {
 
@@ -40,19 +30,20 @@ public class PreEventAuthorizer {
 		
 		
 	
-		SingleOutputStreamOperator<Event> addressAuthTaskSplitStream = addressAuthTask.run(dataStream, addressAuthTask)
+		SingleOutputStreamOperator<Event> addressAuthTaskSplitStream = addressAuthTask.run(dataStream, addressAuthTask);
 		
-			SingleOutputStreamOperator<Event> categoryAuthTaskSplitStream = categoryAuthTask.run(addressAuthTaskSplitStream.getSideOutput(addressAuthTaskOutputTag), categoryAuthTask)
+			SingleOutputStreamOperator<Event> categoryAuthTaskSplitStream = categoryAuthTask.run(addressAuthTaskSplitStream.getSideOutput(addressAuthTaskOutputTag), categoryAuthTask);
 			
 		
 		DataStream<Event> finalStream = categoryAuthTaskSplitStream.getSideOutput(categoryAuthTaskOutputTag);
-
+		finalStream.print();
 		
 		DataStream<Event> finalRejectedStream = addressAuthTaskSplitStream.getSideOutput(rejectedOutputTag).union(categoryAuthTaskSplitStream.getSideOutput(rejectedOutputTag));
+		finalRejectedStream.print();
 		
-		StreamManager.initializeSink(AlphaEnum.AUTHORIZATION,
+		StreamManager.initializeSink(AnalyticTopicType.AUTH,
 				finalStream);
-		StreamManager.initializeSink(AlphaEnum.AUTHORIZATION,
+		StreamManager.initializeSink(AnalyticTopicType.AUTH,
 				finalRejectedStream);
 		StreamManager.startExecutionEnvironment(AnalyticTopicType.PRE);
 		

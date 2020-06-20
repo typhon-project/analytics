@@ -24,13 +24,13 @@ public class Basket {
 		this.items = items;
 	}
 	
-	private User user;
+	private ArrayList<User> user;
 	
-	public User getUser() {
+	public ArrayList<User> getUser() {
 		return this.user;
 	}
 	
-	public void setUser(User user) {
+	public void setUser(ArrayList<User> user) {
 		this.user = user;
 	}
 

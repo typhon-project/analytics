@@ -11,6 +11,15 @@ public class PreEvent extends Event implements Serializable {
 	boolean authenticated = true;
 	String invertedQuery;
 	boolean invertedNeeded;
+	boolean resultSetNeeded;
+	
+	public boolean isResultSetNeeded() {
+		return resultSetNeeded;
+	}
+
+	public void setResultSetNeeded(boolean resultSetNeeded) {
+		this.resultSetNeeded = resultSetNeeded;
+	}
 
 	public boolean isInvertedNeeded() {
 		return invertedNeeded;

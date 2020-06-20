@@ -24,18 +24,22 @@ public class RunSimulator {
 	public static ArrayList<String> allProducts = new ArrayList<String>();
 	public static Boolean goThroughPolystore = false;
 	// Make sure you put the local ip address of your computer
-	final static String IP_ADDRESS = "localhost:29092";
-		
+//	final static String IP_ADDRESS = "localhost:9092";
+//	final static String IP_ADDRESS = "localhost:29092";
+	final static String IP_ADDRESS = "localhost:9092";
+
 	public static QueueProducer qp = new QueueProducer(IP_ADDRESS);
 	public static void main(String[] args) throws Exception {
-		
-		init();
 		
 		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties");
 		Properties appProps = new Properties();
 		appProps.load(inputStream);
-		
+		System.out.println(appProps.getProperty("num_of_browsing_agents"));
+
 		int numOfBrowsingAgents = Integer.parseInt(appProps.getProperty("num_of_browsing_agents"));
+	
+		init();
+		
 		ArrayList<Thread> allBrowsingAgents = new ArrayList<Thread>();
 		for (int i=0; i<numOfBrowsingAgents; i++) {
 			allBrowsingAgents.add(new Thread(new BrowsingAgent()));
@@ -82,9 +86,10 @@ public class RunSimulator {
 		System.out.println("Create users? " + appProps.getProperty("generate_users"));
 		if(Boolean.parseBoolean(appProps.getProperty("generate_users"))) {
 			System.out.println("Started user creation");
+			int num_of_users = Integer.parseInt(appProps.getProperty("num_of_users"));
 			UserCreator uc = new UserCreator();
 			int seed = Integer.parseInt(appProps.getProperty("seed"));
-			for (int i=0; i < Integer.parseInt(appProps.getProperty("num_of_users")); i++) {
+			for (int i=0; i < num_of_users; i++) {
 				String userId = uc.create(seed);
 				allUsers.add(userId);
 				seed++;

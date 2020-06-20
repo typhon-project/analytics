@@ -23,13 +23,13 @@ public class OrderedProduct {
 		this.quantity = quantity;
 	}
 	
-	private Product product;
+	private ArrayList<Product> product;
 	
-	public Product getProduct() {
+	public ArrayList<Product> getProduct() {
 		return this.product;
 	}
 	
-	public void setProduct(Product product) {
+	public void setProduct(ArrayList<Product> product) {
 		this.product = product;
 	}
 

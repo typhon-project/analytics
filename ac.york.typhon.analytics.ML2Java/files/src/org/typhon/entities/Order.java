@@ -42,23 +42,23 @@ public class Order {
 		this.orderedProducts = orderedProducts;
 	}
 	
-	private User users;
+	private ArrayList<User> users;
 	
-	public User getUsers() {
+	public ArrayList<User> getUsers() {
 		return this.users;
 	}
 	
-	public void setUsers(User users) {
+	public void setUsers(ArrayList<User> users) {
 		this.users = users;
 	}
 	
-	private CreditCard paidWith;
+	private ArrayList<CreditCard> paidWith;
 	
-	public CreditCard getPaidWith() {
+	public ArrayList<CreditCard> getPaidWith() {
 		return this.paidWith;
 	}
 	
-	public void setPaidWith(CreditCard paidWith) {
+	public void setPaidWith(ArrayList<CreditCard> paidWith) {
 		this.paidWith = paidWith;
 	}
 

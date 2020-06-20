@@ -23,13 +23,13 @@ public class Comment {
 		this.content = content;
 	}
 	
-	private Review review;
+	private ArrayList<Review> review;
 	
-	public Review getReview() {
+	public ArrayList<Review> getReview() {
 		return this.review;
 	}
 	
-	public void setReview(Review review) {
+	public void setReview(ArrayList<Review> review) {
 		this.review = review;
 	}
 	

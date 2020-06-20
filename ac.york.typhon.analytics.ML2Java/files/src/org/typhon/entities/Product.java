@@ -32,13 +32,13 @@ public class Product {
 		this.description = description;
 	}
 	
-	private Category category;
+	private ArrayList<Category> category;
 	
-	public Category getCategory() {
+	public ArrayList<Category> getCategory() {
 		return this.category;
 	}
 	
-	public void setCategory(Category category) {
+	public void setCategory(ArrayList<Category> category) {
 		this.category = category;
 	}
 	

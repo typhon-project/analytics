@@ -22,7 +22,7 @@ public class BrowsingAgent extends Agent implements Runnable {
 	@Override
 	public void run() {
 
-		final int MAX_NUM_OF_PRODUCTS = 10;
+		final int MAX_NUM_OF_PRODUCTS = 50;
 
 		// This is code from BuyerAgent
 		ExecuteQueries eq = new ExecuteQueries();
@@ -63,7 +63,7 @@ public class BrowsingAgent extends Agent implements Runnable {
 				}
 			}
 			try {
-				this.randomSleep(1000, 5000);
+				this.randomSleep(2000, 2001);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

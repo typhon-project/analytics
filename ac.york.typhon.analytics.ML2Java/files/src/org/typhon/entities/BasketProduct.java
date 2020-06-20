@@ -32,23 +32,23 @@ public class BasketProduct {
 		this.date_added = date_added;
 	}
 	
-	private Product product;
+	private ArrayList<Product> product;
 	
-	public Product getProduct() {
+	public ArrayList<Product> getProduct() {
 		return this.product;
 	}
 	
-	public void setProduct(Product product) {
+	public void setProduct(ArrayList<Product> product) {
 		this.product = product;
 	}
 	
-	private Basket basket;
+	private ArrayList<Basket> basket;
 	
-	public Basket getBasket() {
+	public ArrayList<Basket> getBasket() {
 		return this.basket;
 	}
 	
-	public void setBasket(Basket basket) {
+	public void setBasket(ArrayList<Basket> basket) {
 		this.basket = basket;
 	}
 

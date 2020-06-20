@@ -43,5 +43,5 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
       KAFKA_ADVERTISED_LISTENERS: OUTSIDE://localhost:29092, INSIDE://:9092
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
-  authAll:
-    image: zolotas4/typhon-analytics-auth-all
+  #authAll:
+  #  image: zolotas4/typhon-analytics-auth-all

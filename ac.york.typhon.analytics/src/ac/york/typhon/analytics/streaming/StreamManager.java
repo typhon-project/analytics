@@ -98,10 +98,11 @@ public class StreamManager {
 			DataStream<Event> dataStream) {
 
 		// This code adds the inverted query to the PreEvents
-		if (topic instanceof AnalyticTopicType
-				&& ((AnalyticTopicType) topic).equals(AnalyticTopicType.AUTH)) {
-			dataStream  = dataStream.map(new InvertedSelectMapper());
-		}
+//		if (topic instanceof AnalyticTopicType
+//				&& ((AnalyticTopicType) topic).equals(AnalyticTopicType.AUTH)) {
+//			dataStream  = dataStream.map(new InvertedSelectMapper());
+//		}
+		
 		dataStream.addSink(TopicPublisher.retrieveStreamProducer(topic));
 
 		return dataStream;

@@ -23,13 +23,13 @@ public class User {
 		this.name = name;
 	}
 	
-	private Address address;
+	private ArrayList<Address> address;
 	
-	public Address getAddress() {
+	public ArrayList<Address> getAddress() {
 		return this.address;
 	}
 	
-	public void setAddress(Address address) {
+	public void setAddress(ArrayList<Address> address) {
 		this.address = address;
 	}
 	
@@ -73,13 +73,13 @@ public class User {
 		this.reviews = reviews;
 	}
 	
-	private Basket basket;
+	private ArrayList<Basket> basket;
 	
-	public Basket getBasket() {
+	public ArrayList<Basket> getBasket() {
 		return this.basket;
 	}
 	
-	public void setBasket(Basket basket) {
+	public void setBasket(ArrayList<Basket> basket) {
 		this.basket = basket;
 	}
 
