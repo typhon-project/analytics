@@ -20,8 +20,7 @@ import analytics.utilities.BoundedOutOfOrdernessGeneratorUserSpam;
 
 public class UserSpammingScenario implements IAnalyzer {
 
-	final OutputTag<Tuple3<String, String, Integer>> outputTagSpammers = new OutputTag<Tuple3<String, String, Integer>>(
-			"spammers");
+	
 
 	@Override
 	public void analyze(DataStream<Event> eventsStream) throws Exception {
@@ -68,6 +67,10 @@ public class UserSpammingScenario implements IAnalyzer {
 				.timeWindow(Time.seconds(15))
 				.sum(2);
 
+		final OutputTag<Tuple3<String, String, Integer>> outputTagSpammers = new OutputTag<Tuple3<String, String, Integer>>(
+				"spammers") {
+		};
+		
 		SingleOutputStreamOperator<Tuple3<String, String, Integer>> mainDataStream = sumPerUserProductStream
 				.process(new ProcessFunction<Tuple3<String, String, Integer>, Tuple3<String, String, Integer>>() {
 

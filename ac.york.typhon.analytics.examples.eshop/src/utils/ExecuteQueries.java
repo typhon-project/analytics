@@ -1,7 +1,7 @@
 package utils;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.UUID;
 
 import com.sun.jersey.api.client.Client;
@@ -104,7 +104,7 @@ public class ExecuteQueries {
 
 			PreEvent preEvent = new PreEvent();
 			preEvent.setQuery(query);
-			HashSet<Slot> slots = new HashSet<Slot>();
+			ArrayList<Slot> slots = new ArrayList<Slot>();
 			Slot userSlot = new Slot("String", "user", user);
 			slots.add(userSlot);
 			preEvent.setSlots(slots);

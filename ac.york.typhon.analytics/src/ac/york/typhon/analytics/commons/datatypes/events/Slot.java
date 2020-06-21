@@ -5,6 +5,8 @@ public class Slot {
 	private String type;
 	private String fieldName;
 	private Object value;
+	
+	public Slot() {};
 
 	public Slot(String type, String fieldName, Object value) {
 		this.type = type;

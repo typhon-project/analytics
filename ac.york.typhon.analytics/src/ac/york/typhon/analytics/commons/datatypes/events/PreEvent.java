@@ -1,19 +1,19 @@
 package ac.york.typhon.analytics.commons.datatypes.events;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 
 public class PreEvent extends Event implements Serializable {
 
-	HashSet<Slot> slots = new HashSet<Slot>();
+	ArrayList<Slot> slots = new ArrayList<Slot>();
 	
-	public HashSet<Slot> getSlots() {
+	public ArrayList<Slot> getSlots() {
 		return slots;
 	}
 
-	public void setSlots(HashSet<Slot> slots) {
+	public void setSlots(ArrayList<Slot> slots) {
 		this.slots = slots;
 	}
 
@@ -35,7 +35,7 @@ public class PreEvent extends Event implements Serializable {
 		super();
 	}
 
-	public PreEvent(String id, String query, HashSet<Slot> slots, Date queryTime,
+	public PreEvent(String id, String query, ArrayList<Slot> slots, Date queryTime,
 			String dbUser, String invertedQuery) {
 		super(id, query);
 		this.slots = slots;
