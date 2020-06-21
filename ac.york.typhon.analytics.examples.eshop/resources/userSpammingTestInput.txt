@@ -9,3 +9,4 @@ product3,thanos,1592665308000
 product3,thanos,1592665310000
 product3,thanos,1592665312000
 product5,thanos,1592665312000
+product3,thanos,1592665512000
