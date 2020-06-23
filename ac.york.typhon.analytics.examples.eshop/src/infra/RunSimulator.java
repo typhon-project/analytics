@@ -35,7 +35,6 @@ public class RunSimulator {
 		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties");
 		Properties appProps = new Properties();
 		appProps.load(inputStream);
-		System.out.println(appProps.getProperty("num_of_browsing_agents"));
 
 		int numOfBrowsingAgents = Integer.parseInt(appProps.getProperty("num_of_browsing_agents"));
 	
