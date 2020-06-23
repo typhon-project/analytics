@@ -105,7 +105,7 @@ public class ExecuteQueries {
 			PreEvent preEvent = new PreEvent();
 			preEvent.setQuery(query);
 			ArrayList<Slot> slots = new ArrayList<Slot>();
-			Slot userSlot = new Slot("String", "user", user);
+			Slot userSlot = new Slot("String", "userId", user);
 			slots.add(userSlot);
 			preEvent.setSlots(slots);
 			// Start timing for calculating execution time
