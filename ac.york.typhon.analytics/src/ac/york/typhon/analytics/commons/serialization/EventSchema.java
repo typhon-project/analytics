@@ -97,12 +97,12 @@ public class EventSchema implements KafkaDeserializationSchema<Event>, Deseriali
 		this.eventClass = eventClass;
 	}
 
-	private byte[] convertObjectToByteArray(Object obj) {
+	public byte[] convertObjectToByteArray(Object obj) {
 		byte[] serializedDataArray = null;
 		try {
 			if (obj != null) {
 				serializedDataArray = objectMapper.writeValueAsBytes(obj);
-				// System.out.println(gson.toJson(obj));
+//				 System.out.println(gson.toJson(serializedDataArray));
 				// serializedDataArray = gson.toJson(obj).getBytes();
 			}
 		} catch (JsonProcessingException e) {
@@ -192,7 +192,7 @@ public class EventSchema implements KafkaDeserializationSchema<Event>, Deseriali
 
 	@Override
 	public ProducerRecord<byte[], byte[]> serialize(Event element, Long timestamp) {
-		return new ProducerRecord<byte[],byte[]>("test", convertObjectToByteArray(element));
+		return new ProducerRecord<byte[],byte[]>("AUTH", convertObjectToByteArray(element));
 	}
 
 	@Override
