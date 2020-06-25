@@ -15,7 +15,7 @@ public class SelectProductGenerator implements QueryGenerator {
 	@Override
 	public String generateQuery(Map<String, String> parameters) {
 		int seed = Integer.parseInt(parameters.get("seed"));
-		Random r = new Random(seed);
+		Random r = new Random();
 		String productUUID = RunSimulator.allProducts.get(r.nextInt(RunSimulator.allProducts.size()));
 		StringBuilder str = new StringBuilder();
 		str.append("from Product p select p where ");

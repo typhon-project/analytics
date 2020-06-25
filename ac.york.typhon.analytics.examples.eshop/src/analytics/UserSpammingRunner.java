@@ -9,6 +9,8 @@ public class UserSpammingRunner {
 	
 	public static void main(String[] args) throws Exception {
 		AnalyticsJobBuilder.build(new UserSpammingScenario(), AnalyticTopicType.POST, UUID.randomUUID().toString());
+//		AnalyticsJobBuilder.build(new UserSpammingScenarioTesting(), AnalyticTopicType.POST, UUID.randomUUID().toString());
+
 	}
 
 }

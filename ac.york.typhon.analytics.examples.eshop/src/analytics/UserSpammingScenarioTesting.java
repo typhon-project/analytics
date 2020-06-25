@@ -4,6 +4,9 @@ import java.util.Date;
 
 import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.MapFunction;
+import org.apache.flink.api.java.tuple.Tuple;
+import org.apache.flink.api.java.tuple.Tuple1;
+import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.api.java.tuple.Tuple4;
 import org.apache.flink.streaming.api.datastream.DataStream;
@@ -12,6 +15,7 @@ import org.apache.flink.streaming.api.functions.AscendingTimestampExtractor;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
 import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrdernessTimestampExtractor;
 import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction;
+import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction.Context;
 import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
@@ -22,9 +26,10 @@ import ac.york.typhon.analytics.analyzer.IAnalyzer;
 import ac.york.typhon.analytics.commons.datatypes.events.DeserializedPostEvent;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.york.typhon.analytics.commons.datatypes.events.Slot;
+import akka.stream.impl.fusing.Map;
 import analytics.utilities.BoundedOutOfOrdernessGeneratorUserSpam;
 
-public class UserSpammingScenario implements IAnalyzer {
+public class UserSpammingScenarioTesting implements IAnalyzer {
 
 	@Override
 	public void analyze(DataStream<Event> eventsStream) throws Exception {
@@ -32,7 +37,7 @@ public class UserSpammingScenario implements IAnalyzer {
 		final OutputTag<Tuple3<String, String, Integer>> outputTagSpammers = new OutputTag<Tuple3<String, String, Integer>>(
 				"spammers") {
 		};
-		
+
 		SingleOutputStreamOperator<Tuple3<String, String, Integer>> sumPerUserProductStream = eventsStream
 				.map(new MapFunction<Event, DeserializedPostEvent>() {
 
@@ -64,8 +69,7 @@ public class UserSpammingScenario implements IAnalyzer {
 						return tuple;
 					}
 
-				})
-				.assignTimestampsAndWatermarks(new BoundedOutOfOrdernessGeneratorUserSpam())
+				}).assignTimestampsAndWatermarks(new BoundedOutOfOrdernessGeneratorUserSpam())
 ////				.assignTimestampsAndWatermarks(new BoundedOutOfOrdernessTimestampExtractor<Tuple3<String, String, Date>>(Time.minutes(10)) {
 //
 //			        @Override
@@ -83,8 +87,8 @@ public class UserSpammingScenario implements IAnalyzer {
 
 				})
 				.keyBy(0, 1)
-				.timeWindow(Time.seconds(7))
 				.sum(2);
+
 
 		SingleOutputStreamOperator<Tuple3<String, String, Integer>> mainDataStream = sumPerUserProductStream
 				.process(new ProcessFunction<Tuple3<String, String, Integer>, Tuple3<String, String, Integer>>() {
@@ -93,7 +97,7 @@ public class UserSpammingScenario implements IAnalyzer {
 					public void processElement(Tuple3<String, String, Integer> value,
 							ProcessFunction<Tuple3<String, String, Integer>, Tuple3<String, String, Integer>>.Context ctx,
 							Collector<Tuple3<String, String, Integer>> out) throws Exception {
-						if (value.f2 <= 2) {
+						if (value.f2 <= 5) {
 							out.collect(value);
 						} else {
 							ctx.output(outputTagSpammers, value);
@@ -104,7 +108,24 @@ public class UserSpammingScenario implements IAnalyzer {
 		// Legit print -> 3rd task in Flink graph
 		mainDataStream
 		.keyBy(0)
-		.timeWindow(Time.seconds(7))
+		.timeWindow(Time.seconds(10))
+		// This is used to print winowinginfo
+//		.process(
+//				new ProcessWindowFunction<Tuple3<String, String, Integer>, Tuple3<String, String, Integer>, Tuple, TimeWindow>() {
+//
+//					@Override
+//					public void process(Tuple key,
+//							ProcessWindowFunction<Tuple3<String, String, Integer>, Tuple3<String, String, Integer>, Tuple, TimeWindow>.Context ctx,
+//							Iterable<Tuple3<String, String, Integer>> input,
+//							Collector<Tuple3<String, String, Integer>> output) throws Exception {
+//						
+//						long count = 0;
+//					    for (Tuple3<String, String, Integer> in: input) {
+//					      count++;
+//					    }
+//						System.out.println("Window start: " + new Date(ctx.window().getStart()) + " end: " + new Date(ctx.window().getEnd()) + " count: " + count);
+//					}
+//				});
 		.sum(2)
 		.print();
 
@@ -121,6 +142,4 @@ public class UserSpammingScenario implements IAnalyzer {
 		.print();
 
 	}
-
-	
 }

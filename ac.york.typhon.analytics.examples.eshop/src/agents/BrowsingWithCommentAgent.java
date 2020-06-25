@@ -41,7 +41,6 @@ public class BrowsingWithCommentAgent extends Agent implements Runnable {
 			e1.printStackTrace();
 		}
 		int seed = Integer.parseInt(appProps.get("seed").toString());
-		Random r = new Random(seed);
 
 		// Buy i products and put them in an order
 		for (int i = 0; i < MAX_NUM_OF_PRODUCTS; i++) {
@@ -55,6 +54,7 @@ public class BrowsingWithCommentAgent extends Agent implements Runnable {
 				}
 			} else {
 				String query = spg.generateQuery(params);
+
 				try {
 					utils.createAndPublishPostEvent(query, user);
 				} catch (Exception e) {
@@ -63,7 +63,7 @@ public class BrowsingWithCommentAgent extends Agent implements Runnable {
 				}
 			}
 			try {
-				this.randomSleep(1000, 1001);
+				this.randomSleep(100, 2001);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

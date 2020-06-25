@@ -14,7 +14,7 @@ import ac.york.typhon.analytics.commons.datatypes.events.PreEvent;
 import ac.york.typhon.analytics.commons.enums.AnalyticTopicType;
 import ac.york.typhon.analytics.streaming.StreamManager;
 
-public class PreEventAuthorizer {
+public class PreEventRunner {
 
 	public static void main(String[] args) throws Exception {
 
@@ -28,6 +28,8 @@ public class PreEventAuthorizer {
 			CategoryAuthTask categoryAuthTask  = new CategoryAuthTask(); 
 			OutputTag<Event> categoryAuthTaskOutputTag = new OutputTag<Event>(categoryAuthTask.getLabel()) {};
 		
+		
+	
 		SingleOutputStreamOperator<Event> addressAuthTaskSplitStream = addressAuthTask.run(dataStream, addressAuthTask);
 		
 			SingleOutputStreamOperator<Event> categoryAuthTaskSplitStream = categoryAuthTask.run(addressAuthTaskSplitStream.getSideOutput(addressAuthTaskOutputTag), categoryAuthTask);

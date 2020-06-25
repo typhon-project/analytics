@@ -8,7 +8,7 @@ import org.apache.flink.streaming.api.watermark.Watermark;
 
 public class BoundedOutOfOrdernessGeneratorUserSpam implements AssignerWithPeriodicWatermarks<Tuple3<String, String, Date>> { 
 	
-	private final long maxOutOfOrderness = 1000;
+	private final long maxOutOfOrderness = 3000;
 	private long currentMaxTimestamp; 
 	
 	@Override 

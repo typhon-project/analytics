@@ -1,7 +1,9 @@
 package infra;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -19,11 +21,13 @@ import queryGenerators.InsertUserGenerator;
 import utils.ExecuteQueries;
 import utils.QueueProducer;
 import utils.Utilities;
+import utils.ExecuteQueries.Utils;
 
 public class RunSimulator {
 	public static ArrayList<String> allUsers = new ArrayList<String>();
 	public static ArrayList<String> allProducts = new ArrayList<String>();
 	public static Boolean goThroughPolystore = false;
+	public static Date PreviousDate;
 	// Make sure you put the local ip address of your computer
 //	final static String IP_ADDRESS = "localhost:9092";
 //	final static String IP_ADDRESS = "localhost:29092";
@@ -32,10 +36,12 @@ public class RunSimulator {
 	public static QueueProducer qp = new QueueProducer(IP_ADDRESS);
 	public static void main(String[] args) throws Exception {
 		
+		ExecuteQueries eq = new ExecuteQueries();
+		ExecuteQueries.Utils utils = eq.new Utils();
 		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties");
 		Properties appProps = new Properties();
 		appProps.load(inputStream);
-
+		goThroughPolystore = Boolean.parseBoolean(appProps.get("goThroughPolystore").toString());
 		int numOfBrowsingAgents = Integer.parseInt(appProps.getProperty("num_of_browsing_agents"));
 	
 		init();
@@ -83,6 +89,9 @@ public class RunSimulator {
 //		for (Thread agent : allUndecisiveAgents) {
 //			agent.start();
 //		}
+		
+		// TODO: Wait until all threads have finished to create closing window post event. 
+		
 	}
 	
 	public static void init() throws Exception {
