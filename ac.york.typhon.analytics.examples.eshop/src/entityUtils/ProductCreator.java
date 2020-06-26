@@ -28,7 +28,11 @@ public class ProductCreator {
 		if (RunSimulator.goThroughPolystore) {
 			productId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
 		} else {
-			utils.createAndPublishPostEvent(str.toString());
+			if (RunSimulator.topic.equalsIgnoreCase("POST")) {
+				utils.createAndPublishPostEvent(str.toString());
+			} else {
+				utils.createAndPublishPreEvent(str.toString());
+			}
 			productId = UUID.randomUUID().toString();
 		}
 		return productId;
@@ -62,7 +66,11 @@ public class ProductCreator {
 			if (RunSimulator.goThroughPolystore) {
 				categoryId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
 			} else {
-				utils.createAndPublishPostEvent(str.toString());
+				if (RunSimulator.topic.equalsIgnoreCase("POST")) {
+					utils.createAndPublishPostEvent(str.toString());
+				} else {
+					utils.createAndPublishPreEvent(str.toString());
+				}
 				categoryId = UUID.randomUUID().toString();
 			}
 			categoryIds.add(categoryId);

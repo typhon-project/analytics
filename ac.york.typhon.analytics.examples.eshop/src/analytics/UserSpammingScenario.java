@@ -34,6 +34,7 @@ public class UserSpammingScenario implements IAnalyzer {
 		};
 		
 		SingleOutputStreamOperator<Tuple3<String, String, Integer>> sumPerUserProductStream = eventsStream
+				// TODO: We think we don't need this need this?
 				.map(new MapFunction<Event, DeserializedPostEvent>() {
 
 					@Override
@@ -59,7 +60,7 @@ public class UserSpammingScenario implements IAnalyzer {
 						}
 						Tuple3<String, String, Date> tuple = new Tuple3<String, String, Date>(productId, userId,
 								timestamp);
-//						System.out.println("UserId: " + userId + " Product " + productId + " time: " + event.getStartTime());
+//						System.out.println("+UserId: " + userId + " Product " + productId + " time: " + event.getStartTime());
 
 						return tuple;
 					}
@@ -83,7 +84,7 @@ public class UserSpammingScenario implements IAnalyzer {
 
 				})
 				.keyBy(0, 1)
-				.timeWindow(Time.seconds(7))
+				.timeWindow(Time.seconds(15))
 				.sum(2);
 
 		SingleOutputStreamOperator<Tuple3<String, String, Integer>> mainDataStream = sumPerUserProductStream
@@ -104,8 +105,16 @@ public class UserSpammingScenario implements IAnalyzer {
 		// Legit print -> 3rd task in Flink graph
 		mainDataStream
 		.keyBy(0)
-		.timeWindow(Time.seconds(7))
+		.timeWindow(Time.seconds(15))
 		.sum(2)
+		.map(new MapFunction<Tuple3<String,String,Integer>, String>() {
+
+			@Override
+			public String map(Tuple3<String, String, Integer> value) throws Exception {
+				// TODO Auto-generated method stub
+				return "Product " + value.f1 + " visited " + value.f2 + ". Finished this at: " + new Date();
+			}
+		})
 		.print();
 
 		// Spammers print -> 2nd task in Flink graph
@@ -114,8 +123,7 @@ public class UserSpammingScenario implements IAnalyzer {
 
 			@Override
 			public String map(Tuple3<String, String, Integer> value) throws Exception {
-				// TODO Auto-generated method stub
-				return "User " + value.f1 + " is spamming product " + value.f0 + " (" + value.f2 + " times)";
+				return "User " + value.f1 + " is spamming product " + value.f0 + " (" + value.f2 + " times). Finish this at: " + new Date();
 			}
 		})
 		.print();

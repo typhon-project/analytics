@@ -23,12 +23,13 @@ public abstract class GenericAuthorisationTask implements Serializable {
 			@Override
 			public void processElement(Event event, Context ctx, Collector<Event> out) throws Exception {
 				// emit data to regular output
-				out.collect(event);
+//				out.collect(event);
+				((PreEvent) event).setAuthenticated(true);
 				// If I am not responsible for such event, just put them into the topic named by
 				// my name so the next AuthTask can consume it.
 				if (!task.checkCondition(event)) {
-					System.out.println(task.getLabel() + " is not responsible for this event (" + event.getId() + ") "
-							+ event.getQuery());
+//					System.out.println(task.getLabel() + " is not responsible for this event (" + event.getId() + ") "
+//							+ event.getQuery());
 					ctx.output(taskOutputTag, event);
 					// Else (if I am responsible for such events) call my shouldIReject method. If
 					// shouldIReject says reject, then put it in the rejected topic.
@@ -37,17 +38,17 @@ public abstract class GenericAuthorisationTask implements Serializable {
 					// In other words, no matter what, unless an event is rejected, it always goes
 					// to a topic with my name so the next auth task can consume it
 				} else {
-					System.out.println(task.getLabel() + " is responsible for this event (" + event.getId() + ") "
-							+ event.getQuery());
+//					System.out.println(task.getLabel() + " is responsible for this event (" + event.getId() + ") "
+//							+ event.getQuery());
 					if (task.shouldIReject(event)) {
-						System.out.println(
-								task.getLabel() + " rejects this event (" + event.getId() + ") " + event.getQuery());
+//						System.out.println(
+//								task.getLabel() + " rejects this event (" + event.getId() + ") " + event.getQuery());
 						((PreEvent) event).setAuthenticated(false);
 						ctx.output(rejectedOutputTag, event);
 					} else {
-						System.out.println(
-								task.getLabel() + " approves this event (" + event.getId() + ") " + event.getQuery());
-						((PreEvent) event).setAuthenticated(true);
+//						System.out.println(
+//								task.getLabel() + " approves this event (" + event.getId() + ") " + event.getQuery());
+//						((PreEvent) event).setAuthenticated(true);
 						ctx.output(taskOutputTag, event);
 					}
 				}

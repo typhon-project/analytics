@@ -11,6 +11,7 @@ import java.util.Properties;
 import agents.BrowsingAgent;
 import agents.BrowsingWithCommentAgent;
 import agents.BuyerAgent;
+import agents.BuyerAgentToPre;
 import agents.BuyerReviewerAgent;
 import agents.ReviewerNoBuyerAgent;
 import agents.UndecisiveAgent;
@@ -28,6 +29,7 @@ public class RunSimulator {
 	public static ArrayList<String> allProducts = new ArrayList<String>();
 	public static Boolean goThroughPolystore = false;
 	public static Date PreviousDate;
+	public static String topic = "";
 	// Make sure you put the local ip address of your computer
 //	final static String IP_ADDRESS = "localhost:9092";
 //	final static String IP_ADDRESS = "localhost:29092";
@@ -35,7 +37,6 @@ public class RunSimulator {
 
 	public static QueueProducer qp = new QueueProducer(IP_ADDRESS);
 	public static void main(String[] args) throws Exception {
-		
 		ExecuteQueries eq = new ExecuteQueries();
 		ExecuteQueries.Utils utils = eq.new Utils();
 		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties");
@@ -43,7 +44,7 @@ public class RunSimulator {
 		appProps.load(inputStream);
 		goThroughPolystore = Boolean.parseBoolean(appProps.get("goThroughPolystore").toString());
 		int numOfBrowsingAgents = Integer.parseInt(appProps.getProperty("num_of_browsing_agents"));
-	
+		topic = appProps.get("topic").toString();
 		init();
 		
 		ArrayList<Thread> allBrowsingAgents = new ArrayList<Thread>();
@@ -71,6 +72,16 @@ public class RunSimulator {
 		for (Thread agent : allBuyerAgents) {
 			agent.start();
 		}
+		
+		int numOfBuyerAgentToPre = Integer.parseInt(appProps.getProperty("num_of_buyer_to_pre_agents"));
+		ArrayList<Thread> allBuyerAgentToPre = new ArrayList<Thread>();
+		for (int i=0; i<numOfBuyerAgentToPre; i++) {
+			allBuyerAgentToPre.add(new Thread(new BuyerAgentToPre()));
+		}
+		for (Thread agent : allBuyerAgentToPre) {
+			agent.start();
+		}
+		
 //		
 //		int numOfBuyerReviewerAgents = Integer.parseInt(appProps.getProperty("num_of_buyer_reviewer_agents"));
 //		ArrayList<Thread> allBuyerReviewerAgents = new ArrayList<Thread>();

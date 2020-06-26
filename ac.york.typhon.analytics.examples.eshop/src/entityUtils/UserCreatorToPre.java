@@ -1,25 +1,22 @@
 package entityUtils;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 import com.github.javafaker.Faker;
 
 import infra.RunSimulator;
 import utils.ExecuteQueries;
-import utils.ExecuteQueries.Utils;
 
-public class UserCreator {
+public class UserCreatorToPre {
 
 	public String create(int seed) throws Exception {
 		ExecuteQueries eq = new ExecuteQueries();
 		ExecuteQueries.Utils utils = eq.new Utils();
 		String addressId = createAddress(seed);
 		String creditCardId = createCreditCard(seed);
-		String basketId = createBasket(seed);
+		String basketId = createBasket(seed);	
 		Faker faker = new Faker(new Random(seed));
 		StringBuilder str = new StringBuilder();
 		str.append("insert User {");
@@ -33,16 +30,12 @@ public class UserCreator {
 		if (RunSimulator.goThroughPolystore) {
 			productId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
 		} else {
-			if (RunSimulator.topic.equalsIgnoreCase("POST")) {
-				utils.createAndPublishPostEvent(str.toString());
-			} else {
-				utils.createAndPublishPreEvent(str.toString());
-			}
+			utils.createAndPublishPostEvent(str.toString());
 			productId = UUID.randomUUID().toString();
 		}
 		return productId;
 	}
-
+	
 	public String createAddress(int seed) throws Exception {
 
 		ExecuteQueries eq = new ExecuteQueries();
@@ -59,11 +52,7 @@ public class UserCreator {
 		if (RunSimulator.goThroughPolystore) {
 			addressId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
 		} else {
-			if (RunSimulator.topic.equalsIgnoreCase("POST")) {
-				utils.createAndPublishPostEvent(str.toString());
-			} else {
-				utils.createAndPublishPreEvent(str.toString());
-			}
+			utils.createAndPublishPostEvent(str.toString());
 			addressId = UUID.randomUUID().toString();
 		}
 		return addressId;
@@ -78,18 +67,16 @@ public class UserCreator {
 		StringBuilder str = new StringBuilder();
 		str.append("insert CreditCard {");
 		str.append("id: \"" + seed + "\", ");
+		//TODO rip number x%
 		str.append("number: \"" + faker.finance().creditCard() + "\", ");
+		//TODO rip expiry date x%
 		str.append("expiryDate: \"" + LocalDateTime.now().plusYears(2) + "\"");
 		str.append("}");
 		String creditCardId = "";
 		if (RunSimulator.goThroughPolystore) {
 			creditCardId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
 		} else { 
-			if (RunSimulator.topic.equalsIgnoreCase("POST")) {
-				utils.createAndPublishPostEvent(str.toString());
-			} else {
-				utils.createAndPublishPreEvent(str.toString());
-			}
+			utils.createAndPublishPostEvent(str.toString());
 			creditCardId = UUID.randomUUID().toString();
 		}
 		return creditCardId;
@@ -108,11 +95,7 @@ public class UserCreator {
 		if (RunSimulator.goThroughPolystore) {
 			basketId = utils.executeUpdate(str.toString()).split("\\{\"uuid\":\"")[1].split("\"\\}}")[0];
 		} else {
-			if (RunSimulator.topic.equalsIgnoreCase("POST")) {
-				utils.createAndPublishPostEvent(str.toString());
-			} else {
-				utils.createAndPublishPreEvent(str.toString());
-			}
+			utils.createAndPublishPostEvent(str.toString());
 			basketId = UUID.randomUUID().toString();
 		}
 		return basketId;

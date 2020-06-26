@@ -73,6 +73,17 @@ public class ExecuteQueries {
 
 			return output;
 		}
+		
+		public void createAndPublishPreEvent(String query) throws Exception {
+
+			//TODO: Implement logic for queryTime. See createAndPublishPostEvent.
+			PreEvent preEvent = new PreEvent();
+			preEvent.setQuery(query);
+
+			// Publish PostEvent to PRE queue
+			producePre(preEvent);
+			
+		}
 
 		public void createAndPublishPostEvent(String query) throws Exception {
 
@@ -129,6 +140,7 @@ public class ExecuteQueries {
 					+ "    \"uuid\": \"e1910e20-75c2-4f3e-b886-d99a6db50520\"\n" + "  }\n" + "}");
 			// Publish PostEvent to POST queue
 			produce(postEvent);
+			inputStream.close();
 
 		}
 
@@ -193,6 +205,7 @@ public class ExecuteQueries {
 			}
 			// Publish PostEvent to POST queue
 			produce(postEvent);
+			inputStream.close();
 
 		}
 
@@ -207,6 +220,12 @@ public class ExecuteQueries {
 		    calendar.setTime(date);
 		    calendar.add(Calendar.SECOND, seconds);
 		    return calendar.getTime();
+		}
+		
+		public void producePre(PreEvent preEvent) throws Exception {
+//			String kafkaConnection = IP_ADDRESS;
+//			QueueProducer qp = new QueueProducer(kafkaConnection);
+			RunSimulator.qp.produce("PRE", preEvent);
 		}
 	}
 }
