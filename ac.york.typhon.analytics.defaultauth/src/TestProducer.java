@@ -7,6 +7,8 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.LongSerializer;
 
+import ac.york.typhon.analytics.commons.datatypes.events.PreEvent;
+
 public class TestProducer {
 
 	public static void main(String[] args) {
@@ -20,7 +22,7 @@ public class TestProducer {
 		KafkaProducer<Long, PreEvent> producer = new KafkaProducer<Long, PreEvent>(prodProps);
 
 		PreEvent event = new PreEvent();
-		event.setUser("Nick");
+		event.setDbUser("Nick");
 		ProducerRecord<Long, PreEvent> proRecord = new ProducerRecord<Long, PreEvent>("PRE", event);
 		try {
 			producer.send(proRecord).get();

@@ -5,6 +5,8 @@ import org.apache.kafka.common.serialization.Serializer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ac.york.typhon.analytics.commons.datatypes.events.PreEvent;
+
 public class EventSchema implements Serializer<PreEvent>, Deserializer<PreEvent> {
 	private static ObjectMapper objectMapper = new ObjectMapper();
 
