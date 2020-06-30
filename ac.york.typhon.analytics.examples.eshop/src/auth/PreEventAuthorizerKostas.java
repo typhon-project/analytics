@@ -1,5 +1,6 @@
 package auth;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -17,10 +18,12 @@ import ac.york.typhon.analytics.streaming.StreamManager;
 public class PreEventAuthorizerKostas {
 
 	public static void main(String[] args) throws Exception {
-		System.out.println("Started At: " + new Date());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
+		System.out.println("Started At: " + sdf.format(new Date()));
 		DataStream<Event> dataStream = StreamManager.initializeSource(AnalyticTopicType.PRE, PreEvent.class,
 				UUID.randomUUID().toString());
-
+		System.out.println("Source Finished Initialisation At: " + sdf.format(new Date()));
 		OutputTag<Event> rejectedOutputTag = new OutputTag<Event>("Rejected") {
 		};
 
@@ -55,21 +58,35 @@ public class PreEventAuthorizerKostas {
 
 			@Override
 			public Event map(Event event) throws Exception {
-				System.out.println("Finished this at: " + new Date());
+				System.out.println("Finished this at: " + sdf.format(new Date()));
 				return event;
 			}
 		});
 		finalRejectedStream = finalRejectedStream.map(new MapFunction<Event, Event>() {
 			@Override
 			public Event map(Event event) throws Exception {
-				System.out.println("Finished this at: " + new Date());
+				System.out.println("Finished this at: " + sdf.format(new Date()));
 				return event;
 			}
 		});
 
-//		finalStream.print();
-
-		// finalRejectedStream.print();
+//		DataStream<String> newfinalStream = finalStream.map(new MapFunction<Event, String>() {
+//
+//			@Override
+//			public String map(Event value) throws Exception {
+//				return "Finished this at: " + sdf.format(new Date());
+//			}
+//		});
+//		newfinalStream.print();
+//
+//		DataStream<String> newfinalRejectedStream = finalRejectedStream.map(new MapFunction<Event, String>() {
+//
+//				@Override
+//				public String map(Event value) throws Exception {
+//					return "Finished this at: " + sdf.format(new Date());
+//				}
+//			});
+//		newfinalRejectedStream.print();
 
 		StreamManager.initializeSink(AnalyticTopicType.AUTH, finalStream);
 		StreamManager.initializeSink(AnalyticTopicType.AUTH, finalRejectedStream);

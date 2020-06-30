@@ -40,9 +40,9 @@ public class BuyerAgentToPre extends Agent implements Runnable {
 		}
 		int seed = Integer.parseInt(appProps.get("seed").toString());
 		Random r = new Random(seed);
-		for (int y = 0; y < 25; y++) {
+		for (int y = 0; y < 75; y++) {
 			// Buy i products and put them in an order
-//			for (int i = 0; i < 1; i++) {
+			for (int i = 0; i < 1; i++) {
 				orderedProducts.clear();
 				params.put("seed", String.valueOf(seed));
 				try {
@@ -60,7 +60,7 @@ public class BuyerAgentToPre extends Agent implements Runnable {
 					e.printStackTrace();
 				}
 				seed++;
-//			}
+			}
 			params.put("orderedProducts", orderedProducts.toString());
 			String orderQuery = iog.generateQuery(params);
 			try {

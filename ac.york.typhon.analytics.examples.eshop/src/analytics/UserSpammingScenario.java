@@ -1,5 +1,6 @@
 package analytics;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.flink.api.common.functions.FilterFunction;
@@ -28,6 +29,7 @@ public class UserSpammingScenario implements IAnalyzer {
 
 	@Override
 	public void analyze(DataStream<Event> eventsStream) throws Exception {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
 		final OutputTag<Tuple3<String, String, Integer>> outputTagSpammers = new OutputTag<Tuple3<String, String, Integer>>(
 				"spammers") {
@@ -112,7 +114,7 @@ public class UserSpammingScenario implements IAnalyzer {
 			@Override
 			public String map(Tuple3<String, String, Integer> value) throws Exception {
 				// TODO Auto-generated method stub
-				return "Product " + value.f1 + " visited " + value.f2 + ". Finished this at: " + new Date();
+				return "Finished this at: " + sdf.format(new Date()) + " Product " + value.f1 + " visited " + value.f2 + ".";
 			}
 		})
 		.print();
@@ -123,7 +125,7 @@ public class UserSpammingScenario implements IAnalyzer {
 
 			@Override
 			public String map(Tuple3<String, String, Integer> value) throws Exception {
-				return "User " + value.f1 + " is spamming product " + value.f0 + " (" + value.f2 + " times). Finish this at: " + new Date();
+				return "Finish this at: " + sdf.format(new Date()) + " User " + value.f1 + " is spamming product " + value.f0 + " (" + value.f2 + " times).";
 			}
 		})
 		.print();

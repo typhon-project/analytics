@@ -74,7 +74,7 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<mainClass>auth.PreEventAuthorizerKostas</mainClass>
+							<mainClass>analytics.UserSpammingRunner</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

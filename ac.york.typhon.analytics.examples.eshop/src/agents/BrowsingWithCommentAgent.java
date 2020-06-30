@@ -22,7 +22,7 @@ public class BrowsingWithCommentAgent extends Agent implements Runnable {
 	@Override
 	public void run() {
 
-		final int MAX_NUM_OF_PRODUCTS = 50;
+		final int MAX_NUM_OF_PRODUCTS = 150;
 		String user = this.uuid;
 		// This is code from BuyerAgent
 		ExecuteQueries eq = new ExecuteQueries();
