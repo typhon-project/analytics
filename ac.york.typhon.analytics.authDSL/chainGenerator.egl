@@ -34,7 +34,6 @@ public class PreEventAuthorizer {
 	
 		[% 
 		var firstTask = AuthTask.all().selectOne(t|not(AuthTask.all().next.contains(t)));
-		firstTask.println();
 		var currentTask = firstTask; 
 		var previousTask = null;
 		%]
@@ -54,14 +53,19 @@ public class PreEventAuthorizer {
 
 		[% 
 		var finalRejectedStream = "";
-		for (task in  chain.tasks) { 
+		var  first = true;
+		for (task in chain.tasks) { 
 			finalRejectedStream = finalRejectedStream + task.name.ftlc() + "SplitStream.getSideOutput(rejectedOutputTag)";
+			if (not first) {
+				finalRejectedStream = finalRejectedStream + ")";
+			}
 			if (hasMore) {
 				//TODO: Here we should print one parenthesis at the end to close the union but in all except the first
 				finalRejectedStream = finalRejectedStream + ".union(";
 			} else {
-				finalRejectedStream = finalRejectedStream + ");";
+				finalRejectedStream = finalRejectedStream + ";";
 			}
+			first = false;
 		}
 		%]
 		
