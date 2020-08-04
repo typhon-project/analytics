@@ -6,12 +6,12 @@
 	<artifactId>ac.york.typhon.analytics</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-	<distributionManagement>
+	<repositories>
 		<repository>
 			<id>internal</id>
 			<url>http://archiva.clmsuk.com:8090/repository/internal/</url>
 		</repository>
-	</distributionManagement>
+	</repositories>
 
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
@@ -134,6 +134,25 @@
 				  </execution>
 				</executions>
 			</plugin>
+
+			<!-- build a jar-with-dependencies, to be included in the build output folder -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 	    </plugins>
 	  </build>
 
