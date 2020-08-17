@@ -3,5 +3,5 @@ rule Entity2Class
   
   template : "entitiesGenerator.egl"
   
-  target : "src/org/typhon/entities/" + entity.name + ".java" 
+  target : path + "/src-gen/ac/york/typhon/analytics/commons/datatypes/" + entity.name + ".java" 
 }

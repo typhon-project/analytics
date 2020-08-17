@@ -1,18 +1,38 @@
-package entities;
+package ac.york.typhon.analytics.commons.datatypes;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class [%=entity.name%] {
+import ac.york.typhon.analytics.commons.datatypes.*;
+import ac.york.typhon.analytics.commons.datatypes.events.Entity;
+
+public class [%=entity.name.println%] extends Entity{
 [%
 var types = new Map();
 types.put("StringType", "String");
-types.put("IntType", "int");
-types.put("DateType", "Date");
+types.put("IntType", "Integer");
+types.put("BoolType", "Boolean");
+types.put("FloatType", "Float");
+types.put("RealType", "Double");
+
+types.put("FreetextType", "String");
+types.put("TextType", "String");
+
+types.put("BlobType","String");
+
+//the ql ast should be updated to use their datetime objects instead in the future
+types.put("DateType", "String");
+//the ql ast should be updated to use their datetime objects instead in the future
+types.put("DatetimeType", "String");
+
+types.put("PointType", "Point");
+types.put("PolygonType", "engineering.swat.typhonql.ast.Polygon");
+
+//TODO for cursom types we would need to somehow find out their names
 
 for (anAttribute in entity.attributes) { 
 	%]
-	private [%=types.get(anAttribute.type.type.name)%] [%=anAttribute.name%];
+	private [%=types.get(anAttribute.type.type.name.println)%] [%=anAttribute.name%];
 	
 	public [%=types.get(anAttribute.type.type.name)%] get[%=anAttribute.name.firstToUpperCase()%]() {
 		return this.[%=anAttribute.name%];

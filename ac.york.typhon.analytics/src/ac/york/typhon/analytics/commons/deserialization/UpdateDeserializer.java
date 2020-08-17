@@ -17,26 +17,11 @@ public class UpdateDeserializer implements Deserializer {
 
 	@Override
 	public List<Entity> deserialize(String query, String invertedSelectQuery, String resultSet,
-			String invertedResultSet) throws Exception {
-
-		Request request = TyphonQLASTParser.parseTyphonQLRequest((query).toCharArray());
+			String invertedResultSet, Boolean resultSetNeeded, Boolean invertedResultSetNeeded) throws Exception {
 
 		SelectDeserializer sd = new SelectDeserializer();
-
-		// TODO remove when this is done in the authentication chain -- note that this
-		// will not likely give previous values, as the update has already been executed
-		// for the post event to come here!!!
-//		ExecuteQueries eq = new ExecuteQueries();
-//		ExecuteQueries.Utils utils = eq.new Utils();
-//		Utilities util = new Utilities();
-//		invertedSelectQuery = util.createInvertedSelect(request);
-//
-//		invertedResultSet = utils.executeQuery(invertedSelectQuery);
-//		//
-//		resultSet = utils.executeUpdate(query);
-		//
-
-		List<Entity> originalEntities = sd.deserialize(invertedSelectQuery, null, invertedResultSet, null);
+		List<Entity> originalEntities = sd.deserialize(invertedSelectQuery, null, invertedResultSet, null,
+				invertedResultSetNeeded, null);
 
 		List<Entity> updatedEntities = new ArrayList<Entity>();
 		updatedEntities = parseQuery(query);
@@ -75,7 +60,10 @@ public class UpdateDeserializer implements Deserializer {
 			Class<?> fieldTypeClass = field.getType();
 			Method setter = objClass.getMethod("set" + kv.getKey().yieldTree().substring(0, 1).toUpperCase()
 					+ kv.getKey().yieldTree().substring(1), fieldTypeClass);
-			setter.invoke(entity, kv.getValue().yieldTree());
+
+			Object value = Utilities.getExprValue(kv.getValue(), field);
+
+			setter.invoke(entity, value);
 
 		}
 		updatedEntities.add(entity);

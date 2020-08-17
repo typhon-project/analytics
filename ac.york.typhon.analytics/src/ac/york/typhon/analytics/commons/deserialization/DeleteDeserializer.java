@@ -7,19 +7,18 @@ import ac.york.typhon.analytics.commons.datatypes.events.Entity;
 import engineering.swat.typhonql.ast.Request;
 import engineering.swat.typhonql.ast.TyphonQLASTParser;
 
-
 public class DeleteDeserializer implements Deserializer {
 
 	public ArrayList<String> UUIDs = new ArrayList<String>();
-	
+
 	@Override
 	public List<Entity> deserialize(String query, String invertedSelectQuery, String resultSet,
-			String invertedResultSet) throws Exception {
-		
+			String invertedResultSet, Boolean resultSetNeeded, Boolean invertedResultSetNeeded) throws Exception {
+
 		Request request = TyphonQLASTParser.parseTyphonQLRequest((query).toCharArray());
-		
+
 		SelectDeserializer sd = new SelectDeserializer();
-		
+
 		// TODO remove when this is done in the authentication chain
 //		ExecuteQueries eq = new ExecuteQueries();
 //		ExecuteQueries.Utils utils = eq.new Utils();
@@ -28,8 +27,8 @@ public class DeleteDeserializer implements Deserializer {
 //		System.out.println(invertedSelectQuery);
 //		invertedResultSet = utils.executeQuery(invertedSelectQuery);
 		//
-		
-		return sd.deserialize(invertedSelectQuery, null, invertedResultSet, null);
+
+		return sd.deserialize(invertedSelectQuery, null, invertedResultSet, null, invertedResultSetNeeded, null);
 
 	}
 
