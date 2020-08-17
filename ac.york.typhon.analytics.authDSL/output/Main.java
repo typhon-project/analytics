@@ -23,28 +23,28 @@ public class PreEventAuthorizer {
 		
 		OutputTag<Event> rejectedOutputTag = new OutputTag<Event>("Rejected") {};
 		
-			CCNullAuthTask cCNullAuthTask  = new CCNullAuthTask(); 
-			OutputTag<Event> cCNullAuthTaskOutputTag = new OutputTag<Event>(cCNullAuthTask.getLabel()) {};
+			AuthTaskProduct2 authTaskProduct2  = new AuthTaskProduct2(); 
+			OutputTag<Event> authTaskProduct2OutputTag = new OutputTag<Event>(authTaskProduct2.getLabel()) {};
 		
-			CCDateAuthTask cCDateAuthTask  = new CCDateAuthTask(); 
-			OutputTag<Event> cCDateAuthTaskOutputTag = new OutputTag<Event>(cCDateAuthTask.getLabel()) {};
+			AuthTaskCategory1 authTaskCategory1  = new AuthTaskCategory1(); 
+			OutputTag<Event> authTaskCategory1OutputTag = new OutputTag<Event>(authTaskCategory1.getLabel()) {};
 		
-			CCNumAuthTask cCNumAuthTask  = new CCNumAuthTask(); 
-			OutputTag<Event> cCNumAuthTaskOutputTag = new OutputTag<Event>(cCNumAuthTask.getLabel()) {};
+			AuthTaskAddress3 authTaskAddress3  = new AuthTaskAddress3(); 
+			OutputTag<Event> authTaskAddress3OutputTag = new OutputTag<Event>(authTaskAddress3.getLabel()) {};
 		
 		
 	
-		SingleOutputStreamOperator<Event> cCNullAuthTaskSplitStream = cCNullAuthTask.run(dataStream, cCNullAuthTask);
+		SingleOutputStreamOperator<Event> authTaskCategory1SplitStream = authTaskCategory1.run(dataStream, authTaskCategory1);
 		
-			SingleOutputStreamOperator<Event> cCNumAuthTaskSplitStream = cCNumAuthTask.run(cCNullAuthTaskSplitStream.getSideOutput(cCNullAuthTaskOutputTag), cCNumAuthTask);
+			SingleOutputStreamOperator<Event> authTaskProduct2SplitStream = authTaskProduct2.run(authTaskCategory1SplitStream.getSideOutput(authTaskCategory1OutputTag), authTaskProduct2);
 			
-			SingleOutputStreamOperator<Event> cCDateAuthTaskSplitStream = cCDateAuthTask.run(cCNumAuthTaskSplitStream.getSideOutput(cCNumAuthTaskOutputTag), cCDateAuthTask);
+			SingleOutputStreamOperator<Event> authTaskAddress3SplitStream = authTaskAddress3.run(authTaskProduct2SplitStream.getSideOutput(authTaskProduct2OutputTag), authTaskAddress3);
 			
 		
-		DataStream<Event> finalStream = cCDateAuthTaskSplitStream.getSideOutput(cCDateAuthTaskOutputTag);
+		DataStream<Event> finalStream = authTaskAddress3SplitStream.getSideOutput(authTaskAddress3OutputTag);
 
 		
-		DataStream<Event> finalRejectedStream = cCNullAuthTaskSplitStream.getSideOutput(rejectedOutputTag).union(cCDateAuthTaskSplitStream.getSideOutput(rejectedOutputTag).union(cCNumAuthTaskSplitStream.getSideOutput(rejectedOutputTag));
+		DataStream<Event> finalRejectedStream = authTaskProduct2SplitStream.getSideOutput(rejectedOutputTag).union(authTaskCategory1SplitStream.getSideOutput(rejectedOutputTag)).union(authTaskAddress3SplitStream.getSideOutput(rejectedOutputTag));
 		
 		StreamManager.initializeSink(AnalyticTopicType.AUTH,
 				finalStream);
