@@ -20,10 +20,12 @@ import org.apache.flink.util.Collector;
 import org.apache.flink.util.OutputTag;
 
 import ac.york.typhon.analytics.analyzer.IAnalyzer;
+import ac.york.typhon.analytics.commons.datatypes.commands.SelectCommand;
 import ac.york.typhon.analytics.commons.datatypes.events.DeserializedPostEvent;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.york.typhon.analytics.commons.datatypes.events.Slot;
 import analytics.utilities.BoundedOutOfOrdernessGeneratorUserSpam;
+import net.sf.jsqlparser.statement.select.Select;
 
 public class UserSpammingScenario implements IAnalyzer {
 
