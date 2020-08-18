@@ -8,7 +8,7 @@ public class TestingSerialAuthTask2 extends GenericAuthorisationTask {
 
 	@Override
 	public boolean checkCondition(Event event) {
-		if (event.getQuery().toLowerCase().contains("insert into non_fnc_ev")) {
+		if (event.getQuery().toLowerCase().contains("Address")) {
 			return true;
 		} else {
 			return false;
@@ -17,11 +17,11 @@ public class TestingSerialAuthTask2 extends GenericAuthorisationTask {
 
 	@Override
 	public boolean shouldIReject(Event event) {
-//		if (!event.getQuery().contains("OOA")) {
-//			System.out.println("It is not OOA so I reject");
-//			return true;
-//		}
-//		System.out.println("It is OAA so I approve");
+		if (!event.getQuery().contains("Greece")) {
+			System.out.println("It is Greece and I reject");
+			return true;
+		}
+		System.out.println("It is not Greece I approve");
 		return false;
 	}
 }

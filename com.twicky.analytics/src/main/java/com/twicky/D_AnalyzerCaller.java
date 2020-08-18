@@ -12,7 +12,7 @@ import com.twicky.analytics.TweetsOverTimeAnalyzer;
 import com.twicky.analytics.TweetsPerWindowAnalyzer;
 import com.twicky.commons.TwickyTopics;
 
-import ac.york.typhon.analytics.channel.ChannelBuilder;
+import ac.york.typhon.analytics.builder.AnalyticsJobBuilder;
 import ac.york.typhon.analytics.commons.datatypes.events.PostEvent;
 import ac.york.typhon.analytics.commons.enums.AnalyticTopicType;
 
@@ -45,7 +45,7 @@ public class D_AnalyzerCaller {
 //		ChannelBuilder.build(new MostPopularDayAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
 		
 		//Similar Accounts
-		ChannelBuilder.build(new SimilarAccountsAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
+		AnalyticsJobBuilder.build(new SimilarAccountsAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);
 		
 		//Non Monitored Accounts
 //		ChannelBuilder.build(new NonMonitoredWithSubstantialActivityAnalyzer(), AnalyticTopicType.POST, TwickyTopics.TWICKY);

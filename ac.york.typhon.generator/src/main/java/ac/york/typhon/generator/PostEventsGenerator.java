@@ -7,7 +7,7 @@ import java.util.Random;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.streaming.api.datastream.DataStream;
 
-import ac.york.typhon.analytics.channel.ChannelBuilder;
+import ac.york.typhon.analytics.builder.AnalyticsJobBuilder;
 import ac.york.typhon.analytics.commons.datatypes.commands.DMLCommand;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.york.typhon.analytics.commons.datatypes.events.PostEvent;
@@ -42,7 +42,7 @@ public class PostEventsGenerator {
 
 	public static void main(String[] args) throws Exception {
 
-		ChannelBuilder.build(new PostEventGenerationAnalyzer(),
+		AnalyticsJobBuilder.build(new PostEventGenerationAnalyzer(),
 				QueryLanguageTopicType.AUTHORIZATION, AnalyticTopicType.POST);
 
 		// DataStream<Event> dataStream = StreamManager.initializeSource(

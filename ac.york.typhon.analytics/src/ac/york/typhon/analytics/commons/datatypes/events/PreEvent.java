@@ -1,16 +1,36 @@
 package ac.york.typhon.analytics.commons.datatypes.events;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 
 public class PreEvent extends Event implements Serializable {
 
-	String user;
+	ArrayList<Slot> slots = new ArrayList<Slot>();
+	
+	public ArrayList<Slot> getSlots() {
+		return slots;
+	}
+
+	public void setSlots(ArrayList<Slot> slots) {
+		this.slots = slots;
+	}
+
 	Date queryTime;
 	String dbUser;
 	boolean authenticated;
 	String invertedQuery;
 	boolean invertedNeeded;
+	boolean resultSetNeeded;
+	
+	public boolean isResultSetNeeded() {
+		return resultSetNeeded;
+	}
+
+	public void setResultSetNeeded(boolean resultSetNeeded) {
+		this.resultSetNeeded = resultSetNeeded;
+	}
 
 	public boolean isInvertedNeeded() {
 		return invertedNeeded;
@@ -24,10 +44,10 @@ public class PreEvent extends Event implements Serializable {
 		super();
 	}
 
-	public PreEvent(String id, String query, String user, Date queryTime,
+	public PreEvent(String id, String query, ArrayList<Slot> slots, Date queryTime,
 			String dbUser, String invertedQuery) {
 		super(id, query);
-		this.user = user;
+		this.slots = slots;
 		this.queryTime = queryTime;
 		this.dbUser = dbUser;
 		this.authenticated = true;
@@ -43,9 +63,6 @@ public class PreEvent extends Event implements Serializable {
 		this.invertedQuery = invertedQuery;
 	}
 
-	public String getUser() {
-		return user;
-	}
 
 	public Date getQueryTime() {
 		return queryTime;
@@ -57,10 +74,6 @@ public class PreEvent extends Event implements Serializable {
 
 	public boolean isAuthenticated() {
 		return authenticated;
-	}
-
-	public void setUser(String user) {
-		this.user = user;
 	}
 
 	public void setQueryTime(Date queryTime) {
@@ -77,7 +90,7 @@ public class PreEvent extends Event implements Serializable {
 
 	@Override
 	public String toString() {
-		return "PreEvent [user=" + user + ", queryTime=" + queryTime
+		return "PreEvent [slots=" + slots + ", queryTime=" + queryTime
 				+ ", dbUser=" + dbUser + ", authenticated=" + authenticated
 				+ ", id=" + eventId + ", query="
 				+ query + ", invertedQuery=" + invertedQuery

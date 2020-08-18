@@ -6,8 +6,6 @@ entity Review{
 	user -> User[1]
 }
 
-
-// DONE without Review ref
 entity Product {
 	id : string[64]
 	name : string[64]
@@ -25,7 +23,6 @@ entity Order {
 	paidWith -> CreditCard[1]
 }
 
-// DONE
 entity Category {
 	id: string[64]
 	name: string[32]
@@ -37,7 +34,6 @@ entity OrderedProduct {
 	product -> Product[1]
 }
 
-// DONE
 entity User {
 	id : string[64]
 	name : string[32]
@@ -49,18 +45,16 @@ entity User {
 	basket :-> Basket[1]
 }
 
-// DONE
 entity Address {
 	id: string[64]
 	street: string [256]
 	country: string [32]
 }
 
-// DONE without opposite
 entity Basket {
 	id : string[64]
 	items :-> BasketProduct[0..*]
-	user -> User."User.basket"[1]
+//	user -> User."User.basket"[1]
 }
 
 entity BasketProduct {
@@ -68,7 +62,7 @@ entity BasketProduct {
 	quantity : int
 	date_added: date
 	product :-> Product[1]	
-	basket -> Basket."Basket.items"[1]
+//	basket -> Basket."Basket.items"[1]
 }
 
 entity Comment{

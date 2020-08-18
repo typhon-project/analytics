@@ -4,11 +4,16 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class ESP {
-	//FIXME: Some example VINs are out of bound for int. Thus I changed this to long but in ML is int.
+	// FIXME: VW ML model does not have VIN for ESP but a reference you get it from a reference to VehicleMetadata.
+	// Their simulator/generator though has VIN as part of the ESP datastructure. 
+	// In scenario 1 VIM is not needed. Thus, I leave the value empty. VW needs to most probably change their generator
+	// To produce data consistent to their final ML model.
 	int VIN;
 	String timestamp;
-	String vehicle_position;
+	// FIXME: I use ElasticSearch's GeoPoint as a datatype here, until I got an update from ML/QL on which is the appropriate one.
+	GeoPoint vehicle_position;
 	boolean esp_edl;
+	// FIXME: VW's simulator/generator doesn't produce vehicle metadata as part of the ESP json object. I leave this empty as Scenario 1 does not need this.
 	ArrayList<VehicleMetadata> metadata;
 	
 	public ArrayList<VehicleMetadata> getMetadata() {
@@ -51,10 +56,10 @@ public class ESP {
 	public void setTimestamp(String timestamp) {
 		this.timestamp = timestamp;
 	}
-	public String getVehicle_position() {
+	public GeoPoint getVehicle_position() {
 		return vehicle_position;
 	}
-	public void setVehicle_position(String vehicle_position) {
+	public void setVehicle_position(GeoPoint vehicle_position) {
 		this.vehicle_position = vehicle_position;
 	}
 	

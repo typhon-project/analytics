@@ -10,7 +10,7 @@ import ac.york.typhon.analytics.commons.datatypes.events.PostEvent;
 public class HowToExampleClassWithSomeLogic implements IAnalyzer {
 
 	@Override
-	public DataStream<Event> analyze(DataStream<Event> eventsStream) throws Exception {
+	public void analyze(DataStream<Event> eventsStream) throws Exception {
 		
 		eventsStream.filter(new FilterFunction<Event>() {
 			
@@ -56,7 +56,6 @@ public class HowToExampleClassWithSomeLogic implements IAnalyzer {
 		})
 		// Print the tuples number and expiry year. That's why we carried the number as well in the tuple.
 		.print();
-		return null;
 	}
 
 }

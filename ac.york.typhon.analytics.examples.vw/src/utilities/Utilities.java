@@ -13,6 +13,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+
+import sun.misc.BASE64Encoder;
+
 public class Utilities {
 
 	/**
@@ -76,7 +82,7 @@ public class Utilities {
 		str.append("VIN: " + VIN + ", ");
 		str.append("timeStamp: \"" + timestamp + "\", ");
 		// FIXME: How to represent a point?
-		str.append("vehicle_position: \"" + lat + " " + lon + "\", ");
+		str.append("vehicle_position: #point(" + lat + " " + lon + "), ");
 		str.append("esp_edl: " + esp_edl + ", ");
 		str.append("esp_idd: " + esp_idd + ", ");
 		str.append("esp_abs: " + esp_abs);
@@ -169,6 +175,24 @@ public class Utilities {
 			}
 		}
 		return allQueries;
+	}
+	
+	// Executes an insert/delete/update query
+	public static void executeUpdate(String query) throws Exception {
+		// This is the REST url that executes a select query. Authentication is done
+		// using the polystore's credentials.
+		String url = "http://localhost:8080/api/update";
+		String name = "admin";
+		String password = "admin1@";
+		String authString = name + ":" + password;
+		String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
+		Client restClient = Client.create();
+		WebResource webResource = restClient.resource(url);
+		ClientResponse resp = webResource.accept("application/json")
+				.header("Authorization", "Basic " + authStringEnc).post(ClientResponse.class, query);
+		if (resp.getStatus() != 200) {
+			System.err.println("Unable to connect to the server");
+		}
 	}
 
 }

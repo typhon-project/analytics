@@ -1,20 +1,8 @@
 package ac.york.typhon.analytics.commons.deserialization;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.flink.api.common.functions.MapFunction;
 
-import ac.york.typhon.analytics.commons.datatypes.commands.DeleteCommand;
-import ac.york.typhon.analytics.commons.datatypes.commands.InsertCommand;
-import ac.york.typhon.analytics.commons.datatypes.commands.SelectCommand;
-import ac.york.typhon.analytics.commons.datatypes.commands.UpdateCommand;
-import ac.york.typhon.analytics.commons.datatypes.events.DeserializedPostEvent;
-import ac.york.typhon.analytics.commons.datatypes.events.Entity;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
-import ac.york.typhon.analytics.commons.datatypes.events.PostEvent;
 import ac.york.typhon.analytics.commons.datatypes.events.PreEvent;
 import engineering.swat.typhonql.ast.ASTConversionException;
 import engineering.swat.typhonql.ast.Request;
@@ -40,6 +28,7 @@ public class InvertedSelectMapper implements MapFunction<Event, Event> {
 			}
 			Utilities util = new Utilities();
 			String invertedQuery = util.createInvertedSelect(request);
+			System.out.println(invertedQuery);
 			((PreEvent) event).setInvertedQuery(invertedQuery);
 		}
 

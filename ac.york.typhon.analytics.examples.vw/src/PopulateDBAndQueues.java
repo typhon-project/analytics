@@ -9,12 +9,11 @@ public class PopulateDBAndQueues {
 	public static void main(String[] args) throws Exception {
 
 		ExecuteQueries eq = new ExecuteQueries();
-		ExecuteQueries.Utils utils = eq.new Utils();
-		
 		final File folder = new File("files/VolkswagenSimulatedData/");
 		for (File file : folder.listFiles()) {
 			if (file.getName().contains("ESP")) {
-				System.out.println(utils.executeUpdateAndReturnPostvent(Utilities.fromESPJsonToQuery(file)));
+				String query = Utilities.fromESPJsonToQuery(file);
+				Utilities.executeUpdate(query);
 			} 
 //			else if (file.getName().contains("Metadata_")) {
 //				Utilities.fromMetadataJsonToQuery(file);

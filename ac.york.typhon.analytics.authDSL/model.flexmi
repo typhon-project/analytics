@@ -1,0 +1,5 @@
+<?nsuri authDSL?>
+<chain package="test">
+	<task name="Task1" next="Task2"/>
+	<task name="Task2"/>
+</chain>

@@ -4,9 +4,9 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            defaultHandler="net.zolotas.typhon.generation.plugin.GenerateHandler"
-            id="net.zolotas.typhon.generation.plugin.Generate"
-            name="Generate">
+            defaultHandler="net.zolotas.typhon.generation.plugin.UpdateProjectHandler"
+            id="net.zolotas.typhon.generation.plugin.UpdateProject"
+            name="UpdateProject">
       </command>
    </extension>
    <extension
@@ -18,7 +18,7 @@
                icon="icons/logo.png"
                label="TYPHON">
             <command
-                  commandId="net.zolotas.typhon.generation.plugin.Generate"
+                  commandId="net.zolotas.typhon.generation.plugin.UpdateProject"
                   icon="icons/newFolderIcon.png"
                   label="Generate Analytics Code"
                   style="push"

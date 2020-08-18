@@ -13,7 +13,7 @@ public class InsertOrderedProductGenerator implements QueryGenerator {
 
 	@Override
 	public String generateQuery(Map<String, String> parameters) {
-		Faker faker = new Faker();
+//		Faker faker = new Faker();
 		String productId = "";
 		if (!parameters.containsKey("productId")) {
 			Random r = new Random();
@@ -25,7 +25,9 @@ public class InsertOrderedProductGenerator implements QueryGenerator {
 		StringBuilder str = new StringBuilder();
 		str.append("insert OrderedProduct {");
 		str.append("id: \"" + seed + "\", ");
-		str.append("quantity: \"" + faker.date().past(10, TimeUnit.SECONDS) + "\", ");
+//		str.append("quantity: \"" + faker.date().past(10, TimeUnit.SECONDS) + "\", ");
+		str.append("quantity: \"" + 5 + "\", ");
+
 		str.append("product: #" + productId + ", ");
 		str.append("}");
 		return str.toString();

@@ -1,0 +1,12 @@
+product1,thanos,1592664986000
+product2,thanos,1592664991000
+product1,thanos,1592664996000
+product1,thanos,1592665296000
+product1,kostas,1592665296000
+product2,kostas,1592665306000
+product4,marios,1592665308000
+product3,thanos,1592665308000
+product3,thanos,1592665310000
+product3,thanos,1592665312000
+product5,thanos,1592665312000
+product3,thanos,1592665512000

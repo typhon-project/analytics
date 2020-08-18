@@ -8,12 +8,7 @@ public class TestAnalyticScenario implements IAnalyzer {
 	// private static Connection connection;
 
 	@Override
-	public DataStream<Event> analyze(DataStream<Event> eventsStream)
-			throws Exception {
-
+	public void analyze(DataStream<Event> eventsStream) throws Exception {
 		eventsStream.print();
-
-		return eventsStream;
 	}
-
 }

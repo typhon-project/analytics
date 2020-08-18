@@ -28,26 +28,29 @@ public class DeserializationMapper implements MapFunction<Event, Event> {
 	@Override
 	public Event map(Event event) throws Exception {
 
-		if (event instanceof PostEvent &&  !(event instanceof DeserializedPostEvent)) {
+		if (event instanceof PostEvent && !(event instanceof DeserializedPostEvent)) {
 
 			DeserializedPostEvent postEvent = new DeserializedPostEvent((PostEvent) event);
-			String query = postEvent.getQuery();
+			String query = postEvent.getPreEvent().getQuery();
 			String rs = postEvent.getResultSet();
 			String invertedQuery = postEvent.getPreEvent().getInvertedQuery();
 			String invertedResultSet = postEvent.getInvertedQueryResultSet();
+			boolean resultSetNeeded = postEvent.getPreEvent().isResultSetNeeded();
+			boolean invertedResultSetNeeded = postEvent.getPreEvent().isInvertedNeeded();
 			//
+			System.out.println((query).toCharArray());
 			Request request = TyphonQLASTParser.parseTyphonQLRequest((query).toCharArray());
 			String clause = null;
 			try {
-				clause = request.getQry().getWhere().yieldTree();			
-			}catch (Exception e) {
+				clause = request.getQry().getWhere().yieldTree();
+			} catch (Exception e) {
 				// no where clause
 			}
-			
+
 			if (request.hasStm() && request.getStm().isInsert()) {
 				InsertDeserializer id = new InsertDeserializer();
-				ArrayList<Entity> insertedEntities = id.deserialize(query, null, rs, null);
-				//System.out.println(insertedEntities);
+				ArrayList<Entity> insertedEntities = id.deserialize(query, null, rs, null, resultSetNeeded, null);
+				// System.out.println(insertedEntities);
 				InsertCommand c = new InsertCommand();
 				c.setAffected(discoverAffected(request));
 				c.setInsertedEntities(insertedEntities);
@@ -55,8 +58,9 @@ public class DeserializationMapper implements MapFunction<Event, Event> {
 				postEvent.addCommand(c);
 			} else if (request.hasStm() && request.getStm().isDelete()) {
 				DeleteDeserializer dd = new DeleteDeserializer();
-				ArrayList<Entity> deletedEntities = dd.deserialize(query, invertedQuery, rs, invertedResultSet);
-				//System.out.println(deletedEntities);
+				List<Entity> deletedEntities = dd.deserialize(query, invertedQuery, rs, invertedResultSet,
+						resultSetNeeded, invertedResultSetNeeded);
+				// System.out.println(deletedEntities);
 				DeleteCommand c = new DeleteCommand();
 				c.setAffected(discoverAffected(request));
 				c.setDeletedEntities(deletedEntities);
@@ -64,8 +68,9 @@ public class DeserializationMapper implements MapFunction<Event, Event> {
 				postEvent.addCommand(c);
 			} else if (request.hasStm() && request.getStm().isUpdate()) {
 				UpdateDeserializer up = new UpdateDeserializer();
-				ArrayList<Entity> updatedEntities = up.deserialize(query, invertedQuery, rs, invertedResultSet);
-				//System.out.println(updatedEntities);
+				List<Entity> updatedEntities = up.deserialize(query, invertedQuery, rs, invertedResultSet,
+						resultSetNeeded, invertedResultSetNeeded);
+				// System.out.println(updatedEntities);
 				UpdateCommand c = new UpdateCommand();
 				c.setAffected(discoverAffected(request));
 				c.setUpdatedEntities(updatedEntities);
@@ -73,23 +78,18 @@ public class DeserializationMapper implements MapFunction<Event, Event> {
 				postEvent.addCommand(c);
 			} else {
 				// It is a Select.
-				if (request.hasStm() && request.getQry().getBindings().size() > 1) {
-					// TODO: This is a "join". We need to implement a "View" with slots
-				} else {
-					SelectDeserializer sd = new SelectDeserializer();
-					ArrayList<Entity> selectedEntities = sd.deserialize(query, null, rs, null);
-					//System.out.println(">>"+selectedEntities);
-					SelectCommand c = new SelectCommand();
-					c.setAffected(discoverAffected(request));
-					c.setReturnedEntities(selectedEntities);
-					c.setClause(clause);
-					postEvent.addCommand(c);
-				}
-
+				SelectDeserializer sd = new SelectDeserializer();
+				List<Entity> selectedEntities = sd.deserialize(query, null, rs, null, resultSetNeeded, null);
+				// System.out.println(">>"+selectedEntities);
+				SelectCommand c = new SelectCommand();
+				c.setAffected(discoverAffected(request));
+				c.setReturnedEntities(selectedEntities);
+				c.setClause(clause);
+				postEvent.addCommand(c);
 			}
 			//
 			return postEvent;
-			
+
 		}
 
 		return event;
@@ -100,9 +100,10 @@ public class DeserializationMapper implements MapFunction<Event, Event> {
 
 		Map<String, List<String>> ret = new HashMap<>();
 
-		//
-		// TODO populate affected types + fields
-		//
+		// parse the query and discover the entity and the fields in it that are
+		// affected
+		// NB: for views (such as select with >1 entity you need to map the fields with
+		// their respective entities using vid
 
 		return ret;
 	}

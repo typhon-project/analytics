@@ -1,12 +1,12 @@
 package com.alphabank.typhon;
 
-import com.alphabank.typhon.authorization.PreEventAuthorizer;
+import com.alphabank.typhon.authorization.PreEventAuthorizerCorrect;
 
 
 
 public class B_PreEventAuthorizerCaller_Alpha {
 	public static void main(String[] args) throws Exception {
-		PreEventAuthorizer.main(null);
+		PreEventAuthorizerCorrect.main(null);
 
 	}
 
