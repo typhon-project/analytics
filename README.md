@@ -17,3 +17,4 @@
 | Change tracking mechanism (Inverted Selects) | In progress | Capture and store changes introduced by update/delete DML commands into Post Event objects |
 | Use of latest Flink/Kafka version | Future | Flink/Kafka hav mad some changes in their latest version which affect the analytics engine. Update the methods used to support the latest version |
 
+
