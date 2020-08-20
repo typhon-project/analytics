@@ -1,0 +1,21 @@
+import minimal.xmi
+import RelationalDatabase.tdl
+import DocumentDatabase.tdl
+import dbTypes.tdl
+containertype Docker
+clustertype DockerCompose
+platformtype localhost
+platform platformName : localhost {
+	cluster clusterName : DockerCompose {
+		application Polystore {
+			container relationaldatabase : Docker {
+				deploys RelationalDatabase
+				uri = relationaldatabase:3306 ;
+			}
+			container documentdatabase : Docker {
+				deploys DocumentDatabase
+				uri = documentdatabase:27017 ;
+			}
+		}
+	}
+}

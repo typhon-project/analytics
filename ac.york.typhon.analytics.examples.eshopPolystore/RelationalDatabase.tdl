@@ -1,5 +1,6 @@
 database RelationalDatabase : MariaDB {
-	environment {
-		MYSQL_ROOT_PASSWORD = password ;
+	credentials {
+		username = root ;
+		password = 4J3A1Xcq1shZeWdv ;
 	}
 }

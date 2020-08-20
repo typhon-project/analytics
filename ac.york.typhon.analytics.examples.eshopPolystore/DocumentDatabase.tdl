@@ -1,6 +1,6 @@
 database DocumentDatabase : Mongo {
-	environment {
-		MONGO_INITDB_ROOT_USERNAME = username ;
-		MONGO_INITDB_ROOT_PASSWORD = password ;
+	credentials {
+		username = admin ;
+		password = H13w0NNDUgltQ4k3 ;
 	}
 }

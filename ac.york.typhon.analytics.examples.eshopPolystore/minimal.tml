@@ -16,9 +16,9 @@ relationaldb RelationalDatabase{
 		table {
 			ProductDB : Product
 			index productIndex{
-				attributes ('Product.name')
+				attributes ('name')
 			}
-			idSpec ('Product.name')
+			idSpec ('name')
 		}
 	}
 }
