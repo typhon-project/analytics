@@ -12,8 +12,8 @@ var types = new Map();
 types.put("StringType", "String");
 types.put("IntType", "Integer");
 types.put("BoolType", "Boolean");
-types.put("FloatType", "Float");
-types.put("RealType", "Double");
+types.put("FloatType", "Double");
+types.put("BigintType", "Integer");
 
 types.put("FreetextType", "String");
 types.put("TextType", "String");
@@ -26,7 +26,7 @@ types.put("DateType", "String");
 types.put("DatetimeType", "String");
 
 types.put("PointType", "Point");
-types.put("PolygonType", "engineering.swat.typhonql.ast.Polygon");
+types.put("PolygonType", "Polygon");
 
 //TODO for cursom types we would need to somehow find out their names
 
@@ -75,7 +75,7 @@ for (aRelation in entity.relations) {
 	public String toString() { 
 		String result = "";
 		[%
-		var result = "";
+		var result = "\""+entity.name+"(\"+";
 		for (anAttribute in entity.attributes) { 
 			result = result + "\" " + anAttribute.name + ": \" + " + anAttribute.name;
 			if(hasMore) {
@@ -84,7 +84,7 @@ for (aRelation in entity.relations) {
 		}	
 	
 	%]	
-		result = [%=result%];
+		result = [%=result%] + " previousvalue: " + getPreviousValue() + " uuid: " + getUUID() + ")";
 		return result;
 	}
 }

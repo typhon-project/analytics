@@ -33,4 +33,4 @@ Bundle-ClassPath: .,
  lib/jersey-core-1.19.4.jar,
  lib/jsr311-api-1.1.1.jar,
  lib/json-simple-1.1.1.jar
-Bundle-Activator: net.zolotas.typhon.generation.plugin.Activator
+Bundle-Activator: ac.york.typhon.analytics.generation.plugin.Activator

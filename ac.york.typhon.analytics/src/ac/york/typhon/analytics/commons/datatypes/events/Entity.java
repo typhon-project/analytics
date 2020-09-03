@@ -1,6 +1,6 @@
 package ac.york.typhon.analytics.commons.datatypes.events;
 
-public class Entity {
+public class Entity implements Cloneable{
 	
 	/**
 	 * A proxy Entity will only contain a UUID field set.
@@ -11,6 +11,11 @@ public class Entity {
 	private Entity previousValue;
 	private String database;
 
+	@Override
+	public Entity clone() throws CloneNotSupportedException {
+		return (Entity) super.clone();
+	}
+	
 	public Entity getPreviousValue() {
 		return previousValue;
 	}

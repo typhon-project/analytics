@@ -30,7 +30,10 @@ public class DeserializedPostEvent extends PostEvent {
 	@Override
 	public String toString() {
 		return "DeserializedPostEvent [success=" + getSuccess() + ", startTime=" + getStartTime() + ", endTime=" + getEndTime()
-				+ ", preEvent=" + getPreEvent() + ", id=" + eventId + ", query=" + query + "\ncommands=" + commands
+				+ ", preEvent=" + getPreEvent()
+				+ ", resultSet=" + getResultSet()
+				+ ", invertedResultSet=" + getInvertedQueryResultSet()
+				+ ", id=" + eventId + ", query=" + query + "\ncommands=" + commands
 				+ "]";
 	}
 

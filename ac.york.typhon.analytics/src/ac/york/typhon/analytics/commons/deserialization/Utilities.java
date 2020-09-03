@@ -2,23 +2,30 @@ package ac.york.typhon.analytics.commons.deserialization;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ac.york.typhon.analytics.commons.datatypes.Point;
+import ac.york.typhon.analytics.commons.datatypes.Polygon;
 import ac.york.typhon.analytics.commons.datatypes.events.Entity;
 import engineering.swat.typhonql.ast.ASTConversionException;
 import engineering.swat.typhonql.ast.Expr;
 import engineering.swat.typhonql.ast.Request;
+import engineering.swat.typhonql.ast.Segment;
 import engineering.swat.typhonql.ast.Statement;
 import engineering.swat.typhonql.ast.Statement.Delete;
 import engineering.swat.typhonql.ast.Statement.Update;
 import engineering.swat.typhonql.ast.TyphonQLASTParser;
 import engineering.swat.typhonql.ast.Where;
+import engineering.swat.typhonql.ast.XY;
 
 public class Utilities {
 
@@ -164,14 +171,28 @@ public class Utilities {
 			System.out.println(expr.getObjValue().yieldTree());
 			throw new UnsupportedOperationException("Deserializer does not support ObjValue");
 		} else if (expr.hasPointValue()) {
-			value = expr.getPointValue().yieldTree();
-			System.out.println(value);
-			// FIXME get the string and parse into point?
-
-			Point p = new Point(0, 0);
+			engineering.swat.typhonql.ast.Point point = expr.getPointValue();
+			XY co = point.getCoordinate();
+			Point p = new Point(Double.parseDouble(co.getX().yieldTree()), Double.parseDouble(co.getY().yieldTree()));
+			// System.out.println(p);
 			value = p;
 		} else if (expr.hasPolygonValue()) {
-			value = expr.getPolygonValue();
+
+			engineering.swat.typhonql.ast.Polygon poly = expr.getPolygonValue();
+			List<Segment> segments = poly.getSegments();
+
+			Polygon p = new Polygon();
+
+			for (Segment s : segments) {
+				for (XY co : s.getPoints()) {
+					Point po = new Point(Double.parseDouble(co.getX().yieldTree()),
+							Double.parseDouble(co.getY().yieldTree()));
+					p.addPoint(po);
+				}
+			}
+
+			value = p;
+
 		} else if (expr.hasRealValue())
 			value = Double.parseDouble(expr.getRealValue().getString());
 		else if (expr.hasStrValue())
@@ -186,6 +207,84 @@ public class Utilities {
 			throw new UnsupportedOperationException("Deserializer does not support this type of value");
 		//
 		return value;
+	}
+
+	private static final String[] patterns = { "yyyy-MM-dd", "yyyy-MM-dd'T'HH:mm:ss'Z'" };
+
+	private static boolean isDateOrDateTime(String s) {
+		for (String pattern : patterns) {
+			try {
+				// System.out.println("parsing: " + s + " with: " + pattern);
+				new SimpleDateFormat(pattern).parse(s);
+				return true;
+			} catch (ParseException e) {
+			}
+		}
+		return false;
+	}
+
+	public static Object getExprValue(String value) {
+		Object rvalue = value;
+		// TODO: converts the json values into objects where possible
+		if (value.startsWith("TODO CUSTOM")) {
+			// value = expr.getCustomValue();
+			// TODO need to somehow get custom types defined in ml
+			// System.out.println(expr.getCustomValue().yieldTree());
+			throw new UnsupportedOperationException("Deserializer does not support CustomValue");
+		} else if (value.startsWith("TODO OBJ")) {
+			// value = expr.getObjValue();
+			// TODO unsupported by ql so far
+			// System.out.println(expr.getObjValue().yieldTree());
+			throw new UnsupportedOperationException("Deserializer does not support ObjValue");
+		} else if (isDateOrDateTime(value)) {
+			// return as is for date and datetime
+		} else if (value.startsWith("POINT (")) {
+			int i = value.indexOf("POINT (") + 7;
+			int j = value.lastIndexOf(" ");
+			int k = value.indexOf(")");
+			// System.out.println(i + " " + j + " " + k);
+			String x = value.substring(i, j);
+			String y = value.substring(j, k);
+			Point p = new Point(Double.parseDouble(x), Double.parseDouble(y));
+			// System.out.println(">POINT: " + p);
+			rvalue = p;
+		} else if (value.startsWith("POLYGON (")) {
+			System.out.println(">polygon found: " + value);
+
+			int i = value.indexOf("POLYGON (") + 9;
+			int j = value.lastIndexOf(")");
+
+			String segmentString = value.substring(i, j);
+
+			System.out.println(segmentString);
+
+			String[] segments;
+			try {
+				// TOOD: test multiple segments
+				segments = segmentString.split(")(");
+			} catch (Exception e) {
+				segments = new String[1];
+				segments[0] = segmentString.replace("(", "").replace(")", "");
+			}
+
+			Polygon p = new Polygon();
+
+			for (String s : segments) {
+				System.out.println(s);
+				String[] points = s.split(", ");
+				for (String co : points) {
+					String[] point = co.split(" ");
+					Point po = new Point(Double.parseDouble(point[0]), Double.parseDouble(point[1]));
+					p.addPoint(po);
+				}
+			}
+
+			rvalue = p;
+
+		}
+		//
+
+		return rvalue;
 	}
 
 }

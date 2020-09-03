@@ -19,31 +19,40 @@ public class UpdateDeserializer implements Deserializer {
 	public List<Entity> deserialize(String query, String invertedSelectQuery, String resultSet,
 			String invertedResultSet, Boolean resultSetNeeded, Boolean invertedResultSetNeeded) throws Exception {
 
+		System.out.println(query);
+		System.out.println(invertedSelectQuery);
+		System.out.println(resultSet);
+		System.out.println(invertedResultSet);
+		System.out.println(resultSetNeeded);
+		System.out.println(invertedResultSetNeeded);
+		
 		SelectDeserializer sd = new SelectDeserializer();
 		List<Entity> originalEntities = sd.deserialize(invertedSelectQuery, null, invertedResultSet, null,
 				invertedResultSetNeeded, null);
 
-		List<Entity> updatedEntities = new ArrayList<Entity>();
-		updatedEntities = parseQuery(query);
+		Entity updatedEntity = parseQuery(query);
 
-		return createUpdatesFromOriginalEntities(originalEntities, updatedEntities);
+		return createUpdatesFromOriginalEntities(originalEntities, updatedEntity);
 	}
 
 	private List<Entity> createUpdatesFromOriginalEntities(List<Entity> originalEntities,
-			List<Entity> updatedEntities) {
+			Entity updatedEntity) throws CloneNotSupportedException {
+		
+		ArrayList<Entity> updatedEntities = new ArrayList<>();
 		//
 		for (int i = 0; i < originalEntities.size(); i++) {
+			Entity updated = updatedEntity.clone();
 			Entity original = originalEntities.get(i);
-			Entity updated = updatedEntities.get(i);
+			//
 			updated.setPreviousValue(original);
 			updated.setUUID(original.getUUID());
+			updatedEntities.add(updated);
 		}
 		//
 		return updatedEntities;
 	}
 
-	public ArrayList<Entity> parseQuery(String query) throws Exception {
-		ArrayList<Entity> updatedEntities = new ArrayList<Entity>();
+	public Entity parseQuery(String query) throws Exception {
 		Request request = null;
 		try {
 			request = TyphonQLASTParser.parseTyphonQLRequest((query).toCharArray());
@@ -66,8 +75,7 @@ public class UpdateDeserializer implements Deserializer {
 			setter.invoke(entity, value);
 
 		}
-		updatedEntities.add(entity);
-		return updatedEntities;
+		return entity;
 	}
 
 }

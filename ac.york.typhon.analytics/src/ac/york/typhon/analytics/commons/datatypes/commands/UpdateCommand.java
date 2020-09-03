@@ -33,29 +33,21 @@ public class UpdateCommand extends DMLCommand {
 	// return "UpdateCommand [statement=" + statement + "]";
 	// }
 
-	List<Entity> updatedEntities, oldEntities;
+	List<Entity> updatedEntities;
 
 	public List<Entity> getUpdatedEntities() {
 		return updatedEntities;
-	}
-
-	public List<Entity> getOldEntities() {
-		return oldEntities;
 	}
 
 	public void setUpdatedEntities(List<Entity> updatedEntities) {
 		this.updatedEntities = updatedEntities;
 	}
 
-	public void setOldEntities(ArrayList<Entity> oldEntities) {
-		this.oldEntities = oldEntities;
-	}
-
 	@Override
 	public String toString() {
 		return "UpdateCommand [updatedEntities=" + updatedEntities
-				+ ", oldEntities=" + oldEntities + ", affected=" + affected
-				+ ", clause=" + clause + ", targetDb="
+				+ ", affected=" + affected
+				+ ", clause=" + clause
 				+ "]";
 	}
 }

@@ -103,7 +103,7 @@ public class SelectDeserializer implements Deserializer {
 						}
 
 				}
-				
+
 				return Collections.singletonList(new View(slots));
 
 			} else {
@@ -184,10 +184,11 @@ public class SelectDeserializer implements Deserializer {
 					proxy.setProxy(true);
 					proxy.setUUID(valueString);
 					value = proxy;
-				}
+				} else
+					value = Utilities.getExprValue((String) value);
 			}
 
-			// System.out.println("invoking: " + entity + " | " + value);
+			System.out.println("invoking: " + entity + " | " + value + " (" + value.getClass() + ")");
 			setter.invoke(entity, value);
 
 		}
