@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -176,19 +177,66 @@ public class SelectDeserializer implements Deserializer {
 			Object value = values.get(i);
 
 			// System.out.println("reference found: " + parsedField + " " + value);
-			if (value instanceof String && !fieldNameWithoutVId.equals("UUID")) {
-				String valueString = ((String) value);
-				if (valueString.matches("([a-f0-9]{8}(-[a-f0-9]{4}){4}[a-f0-9]{8})")) {
-					//
-					Entity proxy = (Entity) field.getType().newInstance();
-					proxy.setProxy(true);
-					proxy.setUUID(valueString);
-					value = proxy;
-				} else
-					value = Utilities.getExprValue((String) value);
+			if (!fieldNameWithoutVId.equals("UUID")) {
+
+				String valueString = null;
+
+				if (value != null)
+					valueString = value.toString();
+
+				if (value instanceof ArrayList) {
+
+					if (valueString.startsWith("[") && valueString.endsWith("]")) {
+
+						valueString = valueString.replace("[", "").replace("]", "").replace(" ", "");
+
+						String[] possibleProxies = null;
+
+						try {
+							possibleProxies = valueString.split(",");
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						if (possibleProxies == null) {
+							possibleProxies = new String[1];
+							possibleProxies[0] = valueString;
+						}
+
+						LinkedList<Entity> proxies = new LinkedList<Entity>();
+						for (String p : possibleProxies) {
+							if (p.matches("([a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12})")) {
+								//
+								Entity proxy = (Entity) field.getType().newInstance();
+								proxy.setProxy(true);
+								proxy.setUUID(p);
+								proxies.add(proxy);
+								value = proxies;
+							}
+						}
+					}
+				}
+
+				if (value instanceof String) {
+
+					if (valueString.matches("([a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12})")) {
+						//
+						Entity proxy = (Entity) field.getType().newInstance();
+						proxy.setProxy(true);
+						proxy.setUUID(valueString);
+						value = proxy;
+					} else
+						value = Utilities.getExprValue((String) value);
+
+				}
+
 			}
 
-			System.out.println("invoking: " + entity + " | " + value + " (" + value.getClass() + ")");
+			value = Utilities.listToSingleProxy(value, fieldTypeClass);
+
+			System.out.println("invoking: " + entity + " | " + value + " ("
+					+ (value != null ? value.getClass() : "(null value)") + ")");
+
 			setter.invoke(entity, value);
 
 		}

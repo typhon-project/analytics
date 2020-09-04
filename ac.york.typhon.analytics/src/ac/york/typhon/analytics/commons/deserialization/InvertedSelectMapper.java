@@ -24,6 +24,7 @@ public class InvertedSelectMapper implements MapFunction<Event, Event> {
 			try {
 				request = TyphonQLASTParser.parseTyphonQLRequest((query).toCharArray());
 			} catch (ASTConversionException e1) {
+				System.err.println("cannot create request:");
 				e1.printStackTrace();
 			}
 			Utilities util = new Utilities();

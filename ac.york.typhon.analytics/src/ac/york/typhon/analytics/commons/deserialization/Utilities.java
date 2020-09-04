@@ -10,6 +10,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.rascalmpl.tasks.RefFactPolicy;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -24,6 +26,7 @@ import engineering.swat.typhonql.ast.Statement;
 import engineering.swat.typhonql.ast.Statement.Delete;
 import engineering.swat.typhonql.ast.Statement.Update;
 import engineering.swat.typhonql.ast.TyphonQLASTParser;
+import engineering.swat.typhonql.ast.UUID;
 import engineering.swat.typhonql.ast.Where;
 import engineering.swat.typhonql.ast.XY;
 
@@ -203,9 +206,21 @@ public class Utilities {
 			proxy.setProxy(true);
 			proxy.setUUID(valueString);
 			value = proxy;
-		} else
+		} else if (expr.hasRefs()) {
+			// multi valued refs
+			List<UUID> refIds = expr.getRefs();
+			LinkedList<Entity> proxies = new LinkedList<Entity>();
+			for (UUID valueString : refIds) {
+				Entity proxy = (Entity) field.getType().newInstance();
+				proxy.setProxy(true);
+				proxy.setUUID(valueString.getString());
+				proxies.add(proxy);
+			}
+			value = proxies;
+		} else {
+			// System.out.println(expr.hasRefs());
 			throw new UnsupportedOperationException("Deserializer does not support this type of value");
-		//
+		} //
 		return value;
 	}
 
@@ -249,14 +264,14 @@ public class Utilities {
 			// System.out.println(">POINT: " + p);
 			rvalue = p;
 		} else if (value.startsWith("POLYGON (")) {
-			System.out.println(">polygon found: " + value);
+			// System.out.println(">polygon found: " + value);
 
 			int i = value.indexOf("POLYGON (") + 9;
 			int j = value.lastIndexOf(")");
 
 			String segmentString = value.substring(i, j);
 
-			System.out.println(segmentString);
+			// System.out.println(segmentString);
 
 			String[] segments;
 			try {
@@ -270,7 +285,7 @@ public class Utilities {
 			Polygon p = new Polygon();
 
 			for (String s : segments) {
-				System.out.println(s);
+				// System.out.println(s);
 				String[] points = s.split(", ");
 				for (String co : points) {
 					String[] point = co.split(" ");
@@ -285,6 +300,21 @@ public class Utilities {
 		//
 
 		return rvalue;
+	}
+
+	protected static Object listToSingleProxy(Object value, Class<?> fieldTypeClass) {
+
+		if (value instanceof List && fieldTypeClass != ArrayList.class && ((List) value).size() <= 1
+				&& ((List) value).get(0) instanceof Entity && ((Entity) ((List) value).get(0)).isProxy()) {
+
+			// System.out.println(">"+value);
+			if (((List<Entity>) value).size() == 0)
+				return null;
+			return ((List<Entity>) value).get(0);
+
+		}
+
+		return value;
 	}
 
 }

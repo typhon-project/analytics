@@ -81,6 +81,15 @@ for (aRelation in entity.relations) {
 			if(hasMore) {
 				result = result + " + ";
 			}
+		}
+		if(not entity.relations.isEmpty()){
+			result = result + " + ";
+		}
+		for (aRel in entity.relations) { 
+			result = result + "\" " + aRel.name + ": \" + " + aRel.name;
+			if(hasMore) {
+				result = result + " + ";
+			}
 		}	
 	
 	%]	

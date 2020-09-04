@@ -62,9 +62,14 @@ public class InsertDeserializer implements Deserializer {
 
 				Object value = Utilities.getExprValue(expr, field);
 
-				System.out.println(entity.getClass());
-				System.out.println(value.getClass());
-				System.out.println("invoking: " + entity + " : " + value);
+				//System.out.println(entity.getClass());
+				//System.out.println(value.getClass());
+				//
+				value = Utilities.listToSingleProxy(value, fieldTypeClass);
+				//
+				System.out.println("invoking: " + entity + " | " + value + " ("
+						+ (value != null ? value.getClass() : "(null value)") + ")");
+				//
 				setter.invoke(entity, value);
 
 			}

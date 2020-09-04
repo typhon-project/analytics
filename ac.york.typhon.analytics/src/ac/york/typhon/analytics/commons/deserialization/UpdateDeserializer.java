@@ -25,7 +25,7 @@ public class UpdateDeserializer implements Deserializer {
 		System.out.println(invertedResultSet);
 		System.out.println(resultSetNeeded);
 		System.out.println(invertedResultSetNeeded);
-		
+
 		SelectDeserializer sd = new SelectDeserializer();
 		List<Entity> originalEntities = sd.deserialize(invertedSelectQuery, null, invertedResultSet, null,
 				invertedResultSetNeeded, null);
@@ -35,9 +35,9 @@ public class UpdateDeserializer implements Deserializer {
 		return createUpdatesFromOriginalEntities(originalEntities, updatedEntity);
 	}
 
-	private List<Entity> createUpdatesFromOriginalEntities(List<Entity> originalEntities,
-			Entity updatedEntity) throws CloneNotSupportedException {
-		
+	private List<Entity> createUpdatesFromOriginalEntities(List<Entity> originalEntities, Entity updatedEntity)
+			throws CloneNotSupportedException {
+
 		ArrayList<Entity> updatedEntities = new ArrayList<>();
 		//
 		for (int i = 0; i < originalEntities.size(); i++) {
@@ -71,6 +71,11 @@ public class UpdateDeserializer implements Deserializer {
 					+ kv.getKey().yieldTree().substring(1), fieldTypeClass);
 
 			Object value = Utilities.getExprValue(kv.getValue(), field);
+
+			value = Utilities.listToSingleProxy(value, fieldTypeClass);
+
+			System.out.println("invoking: " + entity + " | " + value + " ("
+					+ (value != null ? value.getClass() : "(null value)") + ")");
 
 			setter.invoke(entity, value);
 
