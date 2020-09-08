@@ -12,13 +12,21 @@ public class DefaultPOM {
 				"	<version>0.0.1</version>\r\n" + 
 				"	<name>example name</name>\r\n" + 
 				"\r\n" + 
+				"	<repositories>\r\n" + 
+				"		<repository>\r\n" + 
+				"			<id>internal</id>\r\n" + 
+				"			<url>http://archiva.clmsuk.com:8090/repository/internal/</url>\r\n" + 
+				"		</repository>\r\n" + 
+				"	</repositories>\r\n" + 
+				"\r\n" + 
 				"	<dependencies>\r\n" + 
+				"\r\n" + 
 				"		<dependency>\r\n" + 
 				"			<groupId>typhon</groupId>\r\n" + 
 				"			<artifactId>ac.york.typhon.analytics</artifactId>\r\n" + 
 				"			<version>0.0.1-SNAPSHOT</version>\r\n" + 
-				"			<scope>provided</scope>\r\n" + 
 				"		</dependency>\r\n" + 
+				"		\r\n" + 
 				"		<dependency>\r\n" + 
 				"			<groupId>org.apache.flink</groupId>\r\n" + 
 				"			<artifactId>flink-java</artifactId>\r\n" + 
