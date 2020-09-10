@@ -7,11 +7,15 @@ public class [%=authTask.name%] extends GenericAuthorisationTask {
 
 	@Override
 	public boolean checkCondition(Event event) {
+		[%=out.startPreserve("//", "", authTask.name + "CheckConditionId", true)%]
 		
+		[%=out.stopPreserve()%]
 	}
 
 	@Override
 	public boolean shouldIReject(Event event) {
+		[%=out.startPreserve("//", "", authTask.name + "ShouldIRejectId", true)%]
 		
+		[%=out.stopPreserve()%]
 	}
 }
