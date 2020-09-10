@@ -1,0 +1,17 @@
+package [%=packageName%];
+
+import ac.york.typhon.analytics.authorizer.GenericAuthorisationTask;
+import ac.york.typhon.analytics.commons.datatypes.events.Event;
+
+public class [%=authTask.name%] extends GenericAuthorisationTask {
+
+	@Override
+	public boolean checkCondition(Event event) {
+		
+	}
+
+	@Override
+	public boolean shouldIReject(Event event) {
+		
+	}
+}

@@ -8,6 +8,11 @@
             id="ac.york.typhon.analytics.generation.plugin.UpdateProject"
             name="UpdateProject">
       </command>
+      <command
+            defaultHandler="ac.york.typhon.analytics.generation.plugin.UpdateProjectHandlerAuth"
+            id="ac.york.typhon.analytics.generation.plugin.UpdateProjectAuth"
+            name="UpdateAuthProject">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -21,6 +26,13 @@
                   commandId="ac.york.typhon.analytics.generation.plugin.UpdateProject"
                   icon="icons/newFolderIcon.png"
                   label="Generate Analytics Code"
+                  style="push"
+                  tooltip="Generate Typhon">
+            </command>
+            <command
+                  commandId="ac.york.typhon.analytics.generation.plugin.UpdateProjectAuth"
+                  icon="icons/newFolderIcon.png"
+                  label="Generate Auth Analytics Code"
                   style="push"
                   tooltip="Generate Typhon">
             </command>
