@@ -1,12 +1,15 @@
 pre {
 	var packageName = AuthChain.all().first().package;
+	packageName.println();
+	var packageNameSlashes = packageName.replace("\\.","/");
+	packageNameSlashes.println();
 }
 rule AuthChain2Class
 	transform authChain : M!AuthChain {
 	
 		template: "chainGenerator.egl"
 		
-		target: path + "/src/Runner.java"
+		target: path + "/src/" + packageNameSlashes + "/PreEventAuthorizer.java"
 	}
 
 rule AuthTask2Class
@@ -14,7 +17,7 @@ rule AuthTask2Class
 	
 		template: "authTaskClassGenerator.egl"
 		
-		target: path + "/src/" + authTask.name + ".java"
+		target: path + "/src/" + packageNameSlashes + "/" + authTask.name + ".java"
 		
 		parameters : Map {
     		"packageName" = packageName
