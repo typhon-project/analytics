@@ -8,9 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Pattern;
-
-import org.rascalmpl.tasks.RefFactPolicy;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,13 +17,13 @@ import ac.york.typhon.analytics.commons.datatypes.Polygon;
 import ac.york.typhon.analytics.commons.datatypes.events.Entity;
 import engineering.swat.typhonql.ast.ASTConversionException;
 import engineering.swat.typhonql.ast.Expr;
+import engineering.swat.typhonql.ast.PlaceHolderOrUUID;
 import engineering.swat.typhonql.ast.Request;
 import engineering.swat.typhonql.ast.Segment;
 import engineering.swat.typhonql.ast.Statement;
 import engineering.swat.typhonql.ast.Statement.Delete;
 import engineering.swat.typhonql.ast.Statement.Update;
 import engineering.swat.typhonql.ast.TyphonQLASTParser;
-import engineering.swat.typhonql.ast.UUID;
 import engineering.swat.typhonql.ast.Where;
 import engineering.swat.typhonql.ast.XY;
 
@@ -208,9 +205,9 @@ public class Utilities {
 			value = proxy;
 		} else if (expr.hasRefs()) {
 			// multi valued refs
-			List<UUID> refIds = expr.getRefs();
+			List<PlaceHolderOrUUID> refIds = expr.getRefs();
 			LinkedList<Entity> proxies = new LinkedList<Entity>();
-			for (UUID valueString : refIds) {
+			for (PlaceHolderOrUUID valueString : refIds) {
 				Entity proxy = (Entity) field.getType().newInstance();
 				proxy.setProxy(true);
 				proxy.setUUID(valueString.getString());

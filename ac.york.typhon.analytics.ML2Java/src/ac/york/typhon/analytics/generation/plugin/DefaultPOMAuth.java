@@ -1,6 +1,6 @@
 package ac.york.typhon.analytics.generation.plugin;
 
-public class DefaultPOM {
+public class DefaultPOMAuth {
 
 	public static String contents() {
 		return "<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\r\n" + 

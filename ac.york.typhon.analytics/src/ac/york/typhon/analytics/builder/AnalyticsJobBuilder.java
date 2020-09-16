@@ -38,7 +38,7 @@ public class AnalyticsJobBuilder {
 
 		if (sourceTopic instanceof AnalyticTopicType
 				&& ((AnalyticTopicType) sourceTopic).equals(AnalyticTopicType.POST))
-			dataStream = dataStream.map(new DeserializationMapper());
+			dataStream = dataStream.flatMap(new DeserializationMapper());
 
 		topicController.analyze(dataStream);
 
@@ -55,7 +55,7 @@ public class AnalyticsJobBuilder {
 
 		if (sourceTopic instanceof AnalyticTopicType
 				&& ((AnalyticTopicType) sourceTopic).equals(AnalyticTopicType.POST))
-			dataStream = dataStream.map(new DeserializationMapper());
+			dataStream = dataStream.flatMap(new DeserializationMapper());
 
 		topicController.analyze(dataStream);
 

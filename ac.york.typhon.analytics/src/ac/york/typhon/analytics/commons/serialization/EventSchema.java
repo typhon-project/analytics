@@ -1,16 +1,7 @@
 package ac.york.typhon.analytics.commons.serialization;
 
-import java.io.IOException;
 import java.util.Map;
 
-import net.sf.jsqlparser.statement.Statement;
-import net.sf.jsqlparser.statement.delete.Delete;
-import net.sf.jsqlparser.statement.insert.Insert;
-import net.sf.jsqlparser.statement.select.Select;
-import net.sf.jsqlparser.statement.update.Update;
-
-import org.apache.flink.api.common.serialization.DeserializationSchema;
-import org.apache.flink.api.common.serialization.SerializationSchema;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.java.typeutils.TypeExtractor;
 import org.apache.flink.streaming.connectors.kafka.KafkaDeserializationSchema;
@@ -20,8 +11,6 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.Serializer;
 
-import ac.york.typhon.analytics.commons.datatypes.events.Event;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -30,6 +19,13 @@ import com.fasterxml.jackson.databind.module.SimpleAbstractTypeResolver;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.gson.Gson;
+
+import ac.york.typhon.analytics.commons.datatypes.events.Event;
+import net.sf.jsqlparser.statement.Statement;
+import net.sf.jsqlparser.statement.delete.Delete;
+import net.sf.jsqlparser.statement.insert.Insert;
+import net.sf.jsqlparser.statement.select.Select;
+import net.sf.jsqlparser.statement.update.Update;
 
 public class EventSchema implements KafkaDeserializationSchema<Event>, Deserializer,
 		KafkaSerializationSchema<Event>, Serializer {
@@ -149,27 +145,6 @@ public class EventSchema implements KafkaDeserializationSchema<Event>, Deseriali
 
 	}
 
-//	@Override
-//	public Event deserialize(byte[] message) throws IOException {
-//		// Flink Deserializer
-//
-//		Event event = null;
-//		try {
-//
-//			if (message != null) {
-////				event = (Event) gson.fromJson(message.toString(),
-////						this.eventClass);
-//
-//				 event = (Event) objectMapper
-//				 .readValue(message, this.eventClass);
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return event;
-//
-//	}
-
 	@Override
 	public boolean isEndOfStream(Event nextElement) {
 		// TODO Auto-generated method stub
@@ -182,13 +157,6 @@ public class EventSchema implements KafkaDeserializationSchema<Event>, Deseriali
 
 		return convertObjectToByteArray(data);
 	}
-
-//	@Override
-//	public byte[] serialize(Event element) {
-//		// Flink serializer
-//
-//		return convertObjectToByteArray(element);
-//	}
 
 	@Override
 	public ProducerRecord<byte[], byte[]> serialize(Event element, Long timestamp) {
