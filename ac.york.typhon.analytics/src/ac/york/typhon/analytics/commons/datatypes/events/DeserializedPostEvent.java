@@ -8,7 +8,8 @@ import ac.york.typhon.analytics.commons.datatypes.commands.DMLCommand;
 public class DeserializedPostEvent extends PostEvent {
 
 	private List<DMLCommand> commands;
-
+	private JSONQuery jsonquery;
+	
 	public DeserializedPostEvent(PostEvent event) {
 		super(event.eventId, event.query, event.getSuccess(), event.getStartTime(), event.getEndTime(),
 				event.getPreEvent(), event.getResultSet(), event.getInvertedQueryResultSet());
@@ -35,6 +36,14 @@ public class DeserializedPostEvent extends PostEvent {
 				+ ", invertedResultSet=" + getInvertedQueryResultSet()
 				+ ", id=" + eventId + ", query=" + query + "\ncommands=" + commands
 				+ "]";
+	}
+
+	public JSONQuery getJsonquery() {
+		return jsonquery;
+	}
+
+	public void setJsonquery(JSONQuery jsonquery) {
+		this.jsonquery = jsonquery;
 	}
 
 }
