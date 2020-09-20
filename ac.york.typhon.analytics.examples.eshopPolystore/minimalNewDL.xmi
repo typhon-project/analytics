@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <typhonDL:DeploymentModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:typhonDL="http://www.typhon.org/dsls/xtext/TyphonDL">
-  <guiMetaInformation xsi:type="typhonDL:Import" relativePath="minimal.xmi"/>
+  <guiMetaInformation xsi:type="typhonDL:Import" relativePath="minimalWithInt.xmi"/>
   <guiMetaInformation xsi:type="typhonDL:Import" relativePath="RelationalDatabase.tdl"/>
   <guiMetaInformation xsi:type="typhonDL:Import" relativePath="DocumentDatabase.tdl"/>
   <guiMetaInformation xsi:type="typhonDL:Import" relativePath="dbTypes.tdl"/>
@@ -67,9 +67,6 @@
             <key_values name="target" value="29092"/>
           </ports>
           <uri value="localhost:29092"/>
-          <properties xsi:type="typhonDL:Key_ValueArray" name="volumes">
-            <values>/var/run/docker.sock:/var/run/docker.sock</values>
-          </properties>
         </containers>
         <containers name="authAll" type="//@elements.0">
           <deploys reference="//@elements.16"/>
@@ -106,10 +103,10 @@
     </clusters>
   </elements>
   <elements xsi:type="typhonDL:DB" name="RelationalDatabase" type="//@elements.6">
-    <credentials username="root" password="4J3A1Xcq1shZeWdv"/>
+    <credentials username="root" password="31LK5V0ZeZmx4jqZ"/>
   </elements>
   <elements xsi:type="typhonDL:DB" name="DocumentDatabase" type="//@elements.7">
-    <credentials username="admin" password="H13w0NNDUgltQ4k3"/>
+    <credentials username="chooseUsername" password="2mimYb82u7iPP46q"/>
   </elements>
   <elements xsi:type="typhonDL:DBType" name="MariaDB">
     <image value="mariadb:latest"/>
@@ -129,8 +126,8 @@
   <elements xsi:type="typhonDL:Software" name="polystore_ui">
     <image value="clms/typhon-polystore-ui:latest"/>
     <environment>
-      <parameters name="API_PORT" value="8080"/>
-      <parameters name="API_HOST" value="localhost"/>
+      <parameters name="API_PORT" value="&quot;8080&quot;"/>
+      <parameters name="API_HOST" value="&quot;localhost&quot;"/>
     </environment>
   </elements>
   <elements xsi:type="typhonDL:Software" name="polystore_ql">
