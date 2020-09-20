@@ -4,6 +4,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="AuthTask">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="next" eType="#//AuthTask"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="asStream" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AuthChain">
     <eStructuralFeatures xsi:type="ecore:EReference" name="tasks" upperBound="-1"

@@ -1,0 +1,99 @@
+[% var chain = AuthChain.all().first(); %]
+package [%=AuthChain.all().first().package%];
+
+import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
+import org.apache.flink.util.OutputTag;
+
+import ac.york.typhon.analytics.commons.datatypes.events.Event;
+import ac.york.typhon.analytics.commons.datatypes.events.PreEvent;
+import ac.york.typhon.analytics.commons.enums.AnalyticTopicType;
+import ac.york.typhon.analytics.streaming.StreamManager;
+
+public class PreEventAuthorizer {
+
+	public static void main(String[] args) throws Exception {
+
+		DataStream<Event> dataStream = StreamManager.initializeSource(AnalyticTopicType.PRE, PreEvent.class);
+		
+		OutputTag<Event> rejectedOutputTag = new OutputTag<Event>("Rejected") {};
+		
+		[% for (task in  chain.tasks) { %]
+			[%=task.name%] [%=task.name.ftlc()%]  = new [%=task.name%](); 
+			OutputTag<Event> [%=task.name.ftlc()%]NotResponsibleOrApprovedTag = new OutputTag<Event>([%=task.name.ftlc()%].getLabel()) {};
+			[%
+			if (task.asStream) {%]
+			OutputTag<Event> [%=task.name.ftlc()%]ResponsibleTag = new OutputTag<Event>([%=task.name.ftlc()%].getLabel()+"Responsible") {};
+			[%}
+			%]
+		
+		[%}
+		%]
+		
+	
+		[% 
+		var firstTask = AuthTask.all().selectOne(t|not(AuthTask.all().next.contains(t)));
+		var currentTask = firstTask; 
+		var previousTask = null;
+		
+		if (currentTask.asStream) {%]
+				SingleOutputStreamOperator<Event> [%=currentTask.name.ftlc()%]ResponsibleOrNotResponsibleSplitStream = [%=currentTask.name.ftlc()%].run(dataStream, [%=currentTask.name.ftlc()%]);
+				DataStream<Event> [%=currentTask.name.ftlc()%]ResponsibleStream = [%=currentTask.name.ftlc()%]ResponsibleOrNotResponsibleSplitStream.getSideOutput([%=currentTask.name.ftlc()%]ResponsibleTag);
+				DataStream<Event> [%=currentTask.name.ftlc()%]RejectedAndApprovedStream = [%=currentTask.name.ftlc()%].shouldIRejectAsStream([%=currentTask.name.ftlc()%]ResponsibleStream);
+				SingleOutputStreamOperator<Event> [%=currentTask.name.ftlc()%]RejectedOrApprovedSplitStream = [%=currentTask.name.ftlc()%].moveToRejected([%=currentTask.name.ftlc()%]RejectedAndApprovedStream,[%=currentTask.name.ftlc()%]);
+		[%
+			} else { %]
+				SingleOutputStreamOperator<Event> [%=currentTask.name.ftlc()%]RejectedOrApprovedSplitStream = [%=currentTask.name.ftlc()%].run(dataStream, [%=currentTask.name.ftlc()%]);
+		[%	
+			}
+		%]
+		
+		
+		[%
+		while (not (currentTask.next == null)) {
+			previousTask = currentTask;
+			currentTask = currentTask.next; 
+			if (currentTask.asStream) {%]
+				SingleOutputStreamOperator<Event> [%=currentTask.name.ftlc()%]ResponsibleOrNotResponsibleSplitStream = [%=currentTask.name.ftlc()%].run([%=previousTask.name.ftlc()%]RejectedOrApprovedSplitStream.getSideOutput([%=previousTask.name.ftlc()%]NotResponsibleOrApprovedTag), [%=currentTask.name.ftlc()%]);
+				DataStream<Event> [%=currentTask.name.ftlc()%]ResponsibleStream = [%=currentTask.name.ftlc()%]ResponsibleOrNotResponsibleSplitStream.getSideOutput([%=currentTask.name.ftlc()%]ResponsibleTag);
+				DataStream<Event> [%=currentTask.name.ftlc()%]RejectedAndApprovedStream = [%=currentTask.name.ftlc()%].shouldIRejectAsStream([%=currentTask.name.ftlc()%]ResponsibleStream);
+				SingleOutputStreamOperator<Event> [%=currentTask.name.ftlc()%]RejectedOrApprovedSplitStream = [%=currentTask.name.ftlc()%].moveToRejected([%=currentTask.name.ftlc()%]RejectedAndApprovedStream,[%=currentTask.name.ftlc()%]);
+		[%
+			} else { %]
+				SingleOutputStreamOperator<Event> [%=currentTask.name.ftlc()%]RejectedOrApprovedSplitStream = [%=currentTask.name.ftlc()%].run([%=previousTask.name.ftlc()%]RejectedOrApprovedSplitStream.getSideOutput([%=previousTask.name.ftlc()%]NotResponsibleOrApprovedTag), [%=currentTask.name.ftlc()%]);
+		[%	
+			}
+		}
+		%]
+		
+		DataStream<Event> finalStream = [%=currentTask.name.ftlc()%]RejectedOrApprovedSplitStream.getSideOutput([%=currentTask.name.ftlc()%]NotResponsibleOrApprovedTag);
+
+		[% 
+		var finalRejectedStream = "";
+		var  first = true;
+		for (task in chain.tasks) { 
+			finalRejectedStream = finalRejectedStream + task.name.ftlc() + "RejectedOrApprovedSplitStream.getSideOutput(rejectedOutputTag)";
+			if (not first) {
+				finalRejectedStream = finalRejectedStream + ")";
+			}
+			if (hasMore) {
+				//TODO: Here we should print one parenthesis at the end to close the union but in all except the first
+				finalRejectedStream = finalRejectedStream + ".union(";
+			} else {
+				finalRejectedStream = finalRejectedStream + ";";
+			}
+			first = false;
+		}
+		%]
+		
+		DataStream<Event> finalRejectedStream = [%=finalRejectedStream%]
+		
+		StreamManager.initializeSink(AnalyticTopicType.AUTH,
+				finalStream);
+		StreamManager.initializeSink(AnalyticTopicType.AUTH,
+				finalRejectedStream);
+		StreamManager.startExecutionEnvironment(AnalyticTopicType.PRE);
+		
+
+	}
+}
