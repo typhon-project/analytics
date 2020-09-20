@@ -1,6 +1,6 @@
 database RelationalDatabase : MariaDB {
 	credentials {
 		username = root ;
-		password = 4J3A1Xcq1shZeWdv ;
+		password = 31LK5V0ZeZmx4jqZ ;
 	}
 }

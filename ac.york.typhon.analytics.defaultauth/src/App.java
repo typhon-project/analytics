@@ -12,6 +12,7 @@ import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.LongSerializer;
 
 import ac.york.typhon.analytics.commons.datatypes.events.PreEvent;
+import ac.york.typhon.analytics.commons.datatypes.events.Slot;
 import ac.york.typhon.analytics.commons.deserialization.Utilities;
 import engineering.swat.typhonql.ast.ASTConversionException;
 import engineering.swat.typhonql.ast.Request;
@@ -24,6 +25,7 @@ public class App {
 	public static void main(String[] args) {
 
 		Properties consProps = new Properties();
+		// Change both IPs to kafka:9092 for docker deployment (before exporting to push to Docker-hub)
 		consProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092");
 		consProps.put(ConsumerConfig.GROUP_ID_CONFIG, IKafkaConstants.GROUP_ID_CONFIG);
 		consProps.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
@@ -69,8 +71,13 @@ public class App {
 						}
 					}
 					// This is an authorise all so here we authorise everything
+//					consumedRecord.setInvertedNeeded(true);
+					consumedRecord.setResultSetNeeded(true);
 					consumedRecord.setAuthenticated(true);
-					System.out.println(consumedRecord);
+//					consumedRecord.setInvertedQuery("from Product p select p.p_price, p.name, p.@id");
+//					Slot slot = new Slot("Thanos Type", "Thanos Field", null);
+//					consumedRecord.getSlots().add(slot);
+//					System.out.println(consumedRecord);
 					ProducerRecord<Long, PreEvent> proRecord = new ProducerRecord<Long, PreEvent>("AUTH",
 							consumedRecord);
 					producer.send(proRecord).get();

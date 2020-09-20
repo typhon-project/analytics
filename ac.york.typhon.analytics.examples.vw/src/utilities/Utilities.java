@@ -59,15 +59,15 @@ public class Utilities {
 
 		// Find ESP event type
 		String espSignal = (String) eventMessage.get("esp_signal");
-		String esp_edl = "false";
-		String esp_idd = "false";
-		String esp_abs = "false";
+		boolean esp_edl = false;
+		boolean esp_idd = false;
+		boolean esp_abs = false;
 		if (espSignal.equalsIgnoreCase("esp_edl")) {
-			esp_edl = "true";
+			esp_edl = true;
 		} else if (espSignal.equalsIgnoreCase("esp_idd")) {
-			esp_idd = "true";
+			esp_idd = true;
 		} else if (espSignal.equalsIgnoreCase("esp_abs")) {
-			esp_abs = "true";
+			esp_abs = true;
 		}
 
 		Map data = (Map) ((JSONArray) eventMessage.get("data")).get(0);
@@ -79,7 +79,7 @@ public class Utilities {
 
 		StringBuilder str = new StringBuilder();
 		str.append("insert ESP {");
-		str.append("VIN: " + VIN + ", ");
+//		str.append("VIN: " + VIN + ", ");
 		str.append("timeStamp: \"" + timestamp + "\", ");
 		// FIXME: How to represent a point?
 		str.append("vehicle_position: #point(" + lat + " " + lon + "), ");

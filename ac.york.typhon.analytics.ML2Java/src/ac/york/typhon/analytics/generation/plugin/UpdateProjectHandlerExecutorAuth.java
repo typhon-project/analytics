@@ -77,7 +77,7 @@ public class UpdateProjectHandlerExecutorAuth implements IRunnableWithProgress {
 			egxModule.getContext().getFrameStack().put(new Variable("path", theIProjectPath, new EolAnyType()));
 
 			System.out.println(Activator.getDefault());
-			java.net.URI EgxFile = Activator.getDefault().getBundle().getResource("files/authOrchestrator.egx").toURI();
+			java.net.URI EgxFile = Activator.getDefault().getBundle().getResource("files/authAsStreamOrchestrator.egx").toURI();
 			java.net.URI mm = Activator.getDefault().getBundle().getResource("models/authDSL.ecore").toURI();
 			egxModule.parse(EgxFile);
 

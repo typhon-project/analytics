@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ASCII"?>
+<typhonml:Model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:typhonml="http://org.typhon.dsls.typhonml.sirius">
+  <entities name="Product">
+    <attributes xsi:type="typhonml:Attribute" name="id">
+      <type xsi:type="typhonml:StringType" maxSize="64"/>
+    </attributes>
+    <attributes xsi:type="typhonml:Attribute" name="name">
+      <type xsi:type="typhonml:StringType" maxSize="64"/>
+    </attributes>
+    <attributes xsi:type="typhonml:Attribute" name="p_price">
+      <type xsi:type="typhonml:IntType"/>
+    </attributes>
+    <attributes xsi:type="typhonml:Attribute" name="description">
+      <type xsi:type="typhonml:StringType" maxSize="1024"/>
+    </attributes>
+    <relations name="category" type="//@entities.1" cardinality="one"/>
+  </entities>
+  <entities name="Category">
+    <attributes xsi:type="typhonml:Attribute" name="id">
+      <type xsi:type="typhonml:StringType" maxSize="64"/>
+    </attributes>
+    <attributes xsi:type="typhonml:Attribute" name="name">
+      <type xsi:type="typhonml:StringType" maxSize="32"/>
+    </attributes>
+  </entities>
+  <databases xsi:type="typhonml:RelationalDB" name="RelationalDatabase">
+    <tables name="ProductDB" entity="//@entities.0">
+      <indexSpec name="productIndex" attributes="//@entities.0/@attributes.1"/>
+      <idSpec attributes="//@entities.0/@attributes.1"/>
+    </tables>
+  </databases>
+  <databases xsi:type="typhonml:DocumentDB" name="DocumentDatabase">
+    <collections name="CategoryDB" entity="//@entities.1"/>
+  </databases>
+</typhonml:Model>

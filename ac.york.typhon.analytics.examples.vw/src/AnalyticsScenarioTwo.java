@@ -10,8 +10,8 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 import ac.york.typhon.analytics.analyzer.IAnalyzer;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.york.typhon.analytics.commons.datatypes.events.PostEvent;
-import ac.york.typhon.analytics.examples.vw.datatypes.ESP;
-import ac.york.typhon.analytics.examples.vw.datatypes.VehicleMetadata;
+import ac.york.typhon.analytics.examples.vw.datatypes.ESP_old;
+import ac.york.typhon.analytics.examples.vw.datatypes.VehicleMetadata_old;
 import engineering.swat.typhonql.ast.KeyVal;
 import engineering.swat.typhonql.ast.Request;
 import engineering.swat.typhonql.ast.Statement.Insert;
@@ -23,7 +23,7 @@ public class AnalyticsScenarioTwo implements IAnalyzer {
 	@Override
 	public void analyze(
 			DataStream<Event> eventsStream) throws Exception {
-		DataStream<ESP> espEvents = eventsStream.filter(new FilterFunction<Event>() {
+		DataStream<ESP_old> espEvents = eventsStream.filter(new FilterFunction<Event>() {
 
 			@Override
 			public boolean filter(Event event) throws Exception {
@@ -47,15 +47,15 @@ public class AnalyticsScenarioTwo implements IAnalyzer {
 				}
 				return false;
 			}
-		}).map(new MapFunction<Event, ESP>() {
+		}).map(new MapFunction<Event, ESP_old>() {
 
 			@Override
-			public ESP map(Event event) throws Exception {
+			public ESP_old map(Event event) throws Exception {
 				PostEvent postEvent = (PostEvent) event;
 				String query = postEvent.getQuery();
 				Request request = TyphonQLASTParser.parseTyphonQLRequest((query).toCharArray());
 				ArrayList<KeyVal> keyValues = (ArrayList<KeyVal>) request.getStm().getObjs().get(0).getKeyVals();
-				ESP espObj = new ESP();
+				ESP_old espObj = new ESP_old();
 				for (KeyVal kv : keyValues) {
 					if (kv.getKey().getString().equalsIgnoreCase("VIN")) {
 						espObj.setVIN(Integer.parseInt(kv.getValue().yieldTree()));
@@ -71,7 +71,7 @@ public class AnalyticsScenarioTwo implements IAnalyzer {
 
 		}).keyBy("VIN");
 
-		DataStream<VehicleMetadata> vehicleMetaDataEvents = eventsStream.filter(new FilterFunction<Event>() {
+		DataStream<VehicleMetadata_old> vehicleMetaDataEvents = eventsStream.filter(new FilterFunction<Event>() {
 
 			@Override
 			public boolean filter(Event event) throws Exception {
@@ -96,15 +96,15 @@ public class AnalyticsScenarioTwo implements IAnalyzer {
 				}
 				return false;
 			}
-		}).map(new MapFunction<Event, VehicleMetadata>() {
+		}).map(new MapFunction<Event, VehicleMetadata_old>() {
 
 			@Override
-			public VehicleMetadata map(Event event) throws Exception {
+			public VehicleMetadata_old map(Event event) throws Exception {
 				PostEvent postEvent = (PostEvent) event;
 				String query = postEvent.getQuery();
 				Request request = TyphonQLASTParser.parseTyphonQLRequest((query).toCharArray());
 				ArrayList<KeyVal> keyValues = (ArrayList<KeyVal>) request.getStm().getObjs().get(0).getKeyVals();
-				VehicleMetadata metadataObj = new VehicleMetadata();
+				VehicleMetadata_old metadataObj = new VehicleMetadata_old();
 				for (KeyVal kv : keyValues) {
 					if (kv.getKey().getString().equalsIgnoreCase("VIN")) {
 						metadataObj.setVIN(Long.parseLong(kv.getValue().yieldTree()));
@@ -127,7 +127,7 @@ public class AnalyticsScenarioTwo implements IAnalyzer {
 			}
 		}).keyBy("VIN");
 
-		DataStream<Tuple2<ESP, VehicleMetadata>> enrichedEvents = espEvents.connect(vehicleMetaDataEvents)
+		DataStream<Tuple2<ESP_old, VehicleMetadata_old>> enrichedEvents = espEvents.connect(vehicleMetaDataEvents)
 				.flatMap(new EnrichmentFunction());
 
 		enrichedEvents.print();

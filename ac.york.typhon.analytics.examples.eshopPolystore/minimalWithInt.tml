@@ -1,6 +1,7 @@
 entity Product {
 	id : string[64]
 	name : string[64]
+	p_price: int
 	description : string[1024]
 	category -> Category[1]
 }

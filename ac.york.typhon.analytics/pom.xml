@@ -100,6 +100,7 @@
 			<artifactId>flink-connector-kafka_2.11</artifactId>
 			<version>1.10.0</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>

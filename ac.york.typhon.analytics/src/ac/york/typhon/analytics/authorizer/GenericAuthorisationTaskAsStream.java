@@ -5,20 +5,23 @@ import java.io.Serializable;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
+import org.apache.flink.streaming.api.functions.ProcessFunction.Context;
 import org.apache.flink.util.Collector;
 import org.apache.flink.util.OutputTag;
 
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.york.typhon.analytics.commons.datatypes.events.PreEvent;
 
-public abstract class GenericAuthorisationTask implements Serializable {
+public abstract class GenericAuthorisationTaskAsStream implements Serializable {
 
-	public SingleOutputStreamOperator<Event> run(DataStream<Event> preEvents, GenericAuthorisationTask task) {
+	public SingleOutputStreamOperator<Event> run(DataStream<Event> preEvents, GenericAuthorisationTaskAsStream task) {
 
 		SingleOutputStreamOperator<Event> sideOutputStream = preEvents.process(new ProcessFunction<Event, Event>() {
 
-			OutputTag<Event> rejectedOutputTag = new OutputTag<Event>("Rejected") {};
-			OutputTag<Event> taskOutputTag = new OutputTag<Event>(task.getLabel()) {};
+			OutputTag<Event> taskOutputTag = new OutputTag<Event>(task.getLabel()) {
+			};
+			OutputTag<Event> taskOutputTagResponsible = new OutputTag<Event>(task.getLabel() + "Responsible") {
+			};
 
 			@Override
 			public void processElement(Event event, Context ctx, Collector<Event> out) throws Exception {
@@ -40,26 +43,39 @@ public abstract class GenericAuthorisationTask implements Serializable {
 				} else {
 					System.out.println(task.getLabel() + " is responsible for this event (" + event.getId() + ") "
 							+ event.getQuery());
-					if (task.shouldIReject(event)) {
-						System.out.println(
-								task.getLabel() + " rejects this event (" + event.getId() + ") " + event.getQuery());
-						((PreEvent) event).setAuthenticated(false);
-						ctx.output(rejectedOutputTag, event);
-					} else {
-						System.out.println(
-								task.getLabel() + " approves this event (" + event.getId() + ") " + event.getQuery());
-//						((PreEvent) event).setAuthenticated(true);
-						ctx.output(taskOutputTag, event);
-					}
+					ctx.output(taskOutputTagResponsible, event);
 				}
 			}
 		});
 		return sideOutputStream;
 	}
+	
+	public SingleOutputStreamOperator<Event> moveToRejected(DataStream<Event> preEvents, GenericAuthorisationTaskAsStream task) {
+
+		SingleOutputStreamOperator<Event> sideOutputStream = preEvents.process(new ProcessFunction<Event, Event>() {
+
+			OutputTag<Event> rejectedOutputTag = new OutputTag<Event>("Rejected") {};
+			OutputTag<Event> taskOutputTag = new OutputTag<Event>(task.getLabel()) {};
+
+			@Override
+			public void processElement(Event event, Context ctx, Collector<Event> out) throws Exception {
+				if (!((PreEvent) event).isAuthenticated()) {
+					System.out.println(
+							task.getLabel() + " rejects this event (" + event.getId() + ") " + event.getQuery());
+					ctx.output(rejectedOutputTag, event);
+				} else {
+					System.out.println(
+							task.getLabel() + " approves this event (" + event.getId() + ") " + event.getQuery());
+					ctx.output(taskOutputTag, event);
+				}
+			}
+		});
+		return sideOutputStream;
+	} 
 
 	public abstract boolean checkCondition(Event event);
 
-	public abstract boolean shouldIReject(Event event);
+	public abstract DataStream<Event> shouldIRejectAsStream(DataStream<Event> event);
 
 	public String getLabel() {
 		return this.getClass().getName();

@@ -4,12 +4,12 @@ services:
   relationaldatabase:
     image: mariadb:latest
     environment:
-      MYSQL_ROOT_PASSWORD: 4J3A1Xcq1shZeWdv
+      MYSQL_ROOT_PASSWORD: 31LK5V0ZeZmx4jqZ
   documentdatabase:
     image: mongo:latest
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: H13w0NNDUgltQ4k3
+      MONGO_INITDB_ROOT_USERNAME: chooseUsername
+      MONGO_INITDB_ROOT_PASSWORD: 2mimYb82u7iPP46q
   polystore-mongo:
     image: mongo:latest
     environment:
@@ -19,7 +19,7 @@ services:
     volumes:
       - ./models/:/docker-entrypoint-initdb.d
   typhon-polystore-service:
-    image: clms/typhon-polystore-api:latest
+    image: clms/typhon-polystore-api:dev
     ports:
       - target: 8080
         published: 8080
@@ -37,15 +37,15 @@ services:
   polystore-ui:
     image: clms/typhon-polystore-ui:latest
     environment:
-      API_PORT: 8080
-      API_HOST: localhost
+      API_PORT: "8080"
+      API_HOST: "typhon-polystore-service"
     depends_on:
       - typhon-polystore-service
     ports:
       - target: 4200
         published: 4200
   typhonql-server:
-    image: swatengineering/typhonql-server
+    image: swatengineering/typhonql-server:latest
     restart: always
   kafka:
     image: wurstmeister/kafka:2.12-2.4.0
@@ -62,10 +62,8 @@ services:
     ports:
       - target: 29092
         published: 29092
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-  authAll:
-    image: zolotas4/typhon-analytics-auth-all
+  #authAll:
+    #image: zolotas4/typhon-analytics-auth-all
   zookeeper:
     image: wurstmeister/zookeeper
     ports:
