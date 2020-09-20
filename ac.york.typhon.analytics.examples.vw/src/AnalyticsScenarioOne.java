@@ -14,8 +14,8 @@ import org.apache.kafka.clients.consumer.ConsumerConfig;
 import ac.york.typhon.analytics.analyzer.IAnalyzer;
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
 import ac.york.typhon.analytics.commons.datatypes.events.PostEvent;
-import ac.york.typhon.analytics.examples.vw.datatypes.ESP;
-import ac.york.typhon.analytics.examples.vw.datatypes.GeoPoint;
+import ac.york.typhon.analytics.examples.vw.datatypes.ESP_old;
+import ac.york.typhon.analytics.examples.vw.datatypes.GeoPoint_old;
 import utilities.Utilities;
 import engineering.swat.typhonql.ast.KeyVal;
 import engineering.swat.typhonql.ast.Request;
@@ -31,7 +31,7 @@ public class AnalyticsScenarioOne implements IAnalyzer {
 
 	@Override
 	public void analyze(DataStream<Event> eventsStream) throws Exception {
-		DataStream<ESP> espEvents = eventsStream.filter(new FilterFunction<Event>() {
+		DataStream<ESP_old> espEvents = eventsStream.filter(new FilterFunction<Event>() {
 
 			@Override
 			public boolean filter(Event event) throws Exception {
@@ -55,15 +55,15 @@ public class AnalyticsScenarioOne implements IAnalyzer {
 				}
 				return false;
 			}
-		}).map(new MapFunction<Event, ESP>() {
+		}).map(new MapFunction<Event, ESP_old>() {
 
 			@Override
-			public ESP map(Event event) throws Exception {
+			public ESP_old map(Event event) throws Exception {
 				PostEvent postEvent = (PostEvent) event;
 				String query = postEvent.getQuery();
 				Request request = TyphonQLASTParser.parseTyphonQLRequest((query).toCharArray());
 				ArrayList<KeyVal> keyValues = (ArrayList<KeyVal>) request.getStm().getObjs().get(0).getKeyVals();
-				ESP espObj = new ESP();
+				ESP_old espObj = new ESP_old();
 				for (KeyVal kv : keyValues) {
 //					if (kv.getKey().getString().equalsIgnoreCase("VIN")) {
 //						espObj.setVIN(Integer.parseInt(kv.getValue().yieldTree()));
@@ -71,7 +71,7 @@ public class AnalyticsScenarioOne implements IAnalyzer {
 					if (kv.getKey().getString().equalsIgnoreCase("timeStamp")) {
 						espObj.setTimestamp(kv.getValue().yieldTree());
 					} else if (kv.getKey().getString().equalsIgnoreCase("vehicle_position")) {
-						GeoPoint gp = new GeoPoint();
+						GeoPoint_old gp = new GeoPoint_old();
 						System.out.println(kv.getValue().yieldTree());
 //						espObj.setVehicle_position(kv.getValue().yieldTree());
 					}

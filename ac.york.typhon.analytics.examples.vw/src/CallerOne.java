@@ -8,6 +8,6 @@ public class CallerOne {
 
 	public static void main(String[] args) throws Exception {
 		Random r = new Random();
-		AnalyticsJobBuilder.build(new AnalyticsScenarioOne(), AnalyticTopicType.POST, String.valueOf(r.nextFloat()));
+		AnalyticsJobBuilder.build(new AnalyticsScenarioOneDes(), AnalyticTopicType.POST, String.valueOf(r.nextFloat()));
 	}
 }
