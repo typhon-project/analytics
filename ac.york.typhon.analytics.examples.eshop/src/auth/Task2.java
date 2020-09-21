@@ -9,7 +9,7 @@ public class Task2 extends GenericAuthorisationTask {
 	@Override
 	public boolean checkCondition(Event event) {
 		// protected region Task2CheckConditionId on begin
-		return ((PreEvent) event).getQuery().contains("insert Product");
+		return ((PreEvent) event).getQuery().contains("insert Category");
 		// protected region Task2CheckConditionId end
 	}
 
