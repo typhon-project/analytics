@@ -204,6 +204,28 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>1.8.0</version>
+				<configuration>
+                    <skip>false</skip>
+					<from>
+						<image>adoptopenjdk:8-jdk-hotspot</image>
+					</from>
+                    <container>
+                        <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+                        <mainClass>ac.york.typhon.analytics.commons.deserialization.ExecuteQueries</mainClass>
+                    </container>
+					<to>
+						<image>docker.io/patrickneubauer/analytics</image>
+                        <auth>
+                            <username>${env.REGISTRY_USERNAME}</username>
+                            <password>${env.REGISTRY_PASSWORD}</password>
+                        </auth>
+					</to>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 </project>
