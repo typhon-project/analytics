@@ -22,9 +22,8 @@ node {
         if (env.BRANCH_NAME == "master") {
             configFileProvider(
                 [configFile(fileId: 'c262b5dc-6fc6-40eb-a271-885950d8cf70', variable: 'MAVEN_SETTINGS')]) {
-                sh 'docker build -t typhon-analytics .'
-                //sh 'docker login --username=patrickneubauer'
-                //sh 'docker push patrickneubauer/typhon-analytics:latest'
+                sh 'docker build -t universityofyork/typhon-analytics .'
+                sh 'docker push universityofyork/typhon-analytics:latest'
             }
         }
 
