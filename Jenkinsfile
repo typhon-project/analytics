@@ -23,6 +23,7 @@ node {
             configFileProvider(
                 [configFile(fileId: 'c262b5dc-6fc6-40eb-a271-885950d8cf70', variable: 'MAVEN_SETTINGS')]) {
                 sh 'docker build -t universityofyork/typhon-analytics .'
+                sh 'docker login --username USER_WITH_PUSH_RIGHTS_TO_TYPHON_ANALYTICS_DOCKER_HUB_REPO'
                 sh 'docker push universityofyork/typhon-analytics:latest'
             }
         }
