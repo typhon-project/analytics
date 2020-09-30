@@ -19,7 +19,7 @@ node {
     }
 
     stage('Deploying') {
-        if (env.BRANCH_NAME == "master") {
+        if (env.BRANCH_NAME == "feature/jenkinsfile-and-dockerfile") {
             configFileProvider(
                 [configFile(fileId: 'c262b5dc-6fc6-40eb-a271-885950d8cf70', variable: 'MAVEN_SETTINGS')]) {
                 sh 'docker build -t universityofyork/typhon-analytics .'
