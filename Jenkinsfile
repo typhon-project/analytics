@@ -18,6 +18,7 @@ node {
         notifyBuild(currentBuild.result)
     }
 }
+}
     
     stages {
     stage('Clone') {
@@ -44,6 +45,7 @@ node {
     }
 }
     
+}
 
 def notifyBuild(String buildStatus ='STARTED'){
     buildStatus = buildStatus ?: 'SUCCESS'
