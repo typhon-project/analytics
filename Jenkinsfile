@@ -1,4 +1,5 @@
-agent { dockerfile true }
+pipeline {
+    agent { dockerfile true }
 node {
   env.JAVA_HOME="${tool 'adopt-openjdk8'}"
   env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
