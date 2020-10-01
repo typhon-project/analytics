@@ -1,5 +1,7 @@
 pipeline {
-    agent { dockerfile true }
+    agent { 
+        dockerfile true 
+
 node {
   env.JAVA_HOME="${tool 'adopt-openjdk8'}"
   env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
@@ -8,6 +10,14 @@ node {
   }
     try{
     notifyBuild()
+
+        }catch (e){
+        currentBuild.result = "FAILED"
+        throw e
+    } finally {
+        notifyBuild(currentBuild.result)
+    }
+}
     
     stages {
     stage('Clone') {
@@ -34,14 +44,6 @@ node {
     }
 }
     
-    }catch (e){
-        currentBuild.result = "FAILED"
-        throw e
-    } finally {
-        notifyBuild(currentBuild.result)
-    }
-}
-}
 
 def notifyBuild(String buildStatus ='STARTED'){
     buildStatus = buildStatus ?: 'SUCCESS'
