@@ -9,6 +9,7 @@ node {
     try{
     notifyBuild()
     
+    stages {
     stage('Clone') {
         checkout scm
     }
@@ -31,6 +32,7 @@ node {
         }
 
     }
+}
     
     }catch (e){
         currentBuild.result = "FAILED"
