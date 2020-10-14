@@ -27,21 +27,6 @@ public class DefaultPOMAuth {
 				"			<version>0.0.1-SNAPSHOT</version>\r\n" + 
 				"		</dependency>\r\n" + 
 				"		\r\n" + 
-				"		<dependency>\r\n" + 
-				"			<groupId>org.apache.flink</groupId>\r\n" + 
-				"			<artifactId>flink-java</artifactId>\r\n" + 
-				"			<version>1.10.0</version>\r\n" + 
-				"		</dependency>\r\n" + 
-				"		<dependency>\r\n" + 
-				"			<groupId>org.apache.flink</groupId>\r\n" + 
-				"			<artifactId>flink-streaming-java_2.11</artifactId>\r\n" + 
-				"			<version>1.10.0</version>\r\n" + 
-				"		</dependency>\r\n" + 
-				"		<dependency>\r\n" + 
-				"			<groupId>org.apache.kafka</groupId>\r\n" + 
-				"			<artifactId>kafka-clients</artifactId>\r\n" + 
-				"			<version>2.4.0</version>\r\n" + 
-				"		</dependency>\r\n" + 
 				"	</dependencies>\r\n" + 
 				"\r\n" + 
 				"	<build>\r\n" + 

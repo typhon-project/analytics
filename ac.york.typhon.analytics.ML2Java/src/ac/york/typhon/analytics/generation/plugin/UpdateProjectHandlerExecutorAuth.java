@@ -85,7 +85,7 @@ public class UpdateProjectHandlerExecutorAuth implements IRunnableWithProgress {
 			ResourceSet resSet = new ResourceSetImpl();
 			resSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("flexmi", new XMIResourceFactoryImpl());
 			resSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new XMIResourceFactoryImpl());
-			InputStream inputStream = UpdateProjectHandlerAuth.class.getResourceAsStream("/authDSL.ecore");
+			InputStream inputStream = UpdateProjectHandlerExecutorAuth.class.getResourceAsStream("/models/authDSL.ecore");
 			Resource resource = resSet.createResource(URI.createURI("auth"));
 			System.out.println(resource);
 			System.out.println("inputStream" + inputStream);

@@ -8,6 +8,7 @@ public class JSONQuery {
 	private String[] parameterTypes;
 	private String[] parameterNames;
 	private Object[] boundRows;
+	private String resolvedQuery;
 
 	public String getQuery() {
 		return query;
@@ -41,8 +42,18 @@ public class JSONQuery {
 		this.boundRows = boundRows;
 	}
 
+	public String getResolvedQuery() {
+		return resolvedQuery;
+	}
+
+	public void setResolvedQuery(String resolvedQuery) {
+		this.resolvedQuery = resolvedQuery;
+	}
+
 	public String toString() {
 		return "query: " + query + "\r\nparameterTypes: " + Arrays.toString(parameterTypes) + "\r\nparameterNames: "
-				+ Arrays.toString(parameterNames) + "\r\nboundRows: " + Arrays.toString(boundRows);
+				+ Arrays.toString(parameterNames) + "\r\nboundRows: " + Arrays.toString(boundRows)
+				+ "\r\nresolvedQuery: " + resolvedQuery;
 	}
+
 }

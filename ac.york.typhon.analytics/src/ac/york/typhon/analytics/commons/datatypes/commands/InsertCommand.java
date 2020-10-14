@@ -39,13 +39,13 @@ public class InsertCommand extends DMLCommand {
 	// return "InsertCommand [statement=" + statement + "]";
 	// }
 
-	ArrayList<Entity> insertedEntities;
+	List<Entity> insertedEntities;
 
-	public ArrayList<Entity> getInsertedEntities() {
+	public List<Entity> getInsertedEntities() {
 		return insertedEntities;
 	}
 
-	public void setInsertedEntities(ArrayList<Entity> insertedEntities) {
+	public void setInsertedEntities(List<Entity> insertedEntities) {
 		this.insertedEntities = insertedEntities;
 	}
 //
