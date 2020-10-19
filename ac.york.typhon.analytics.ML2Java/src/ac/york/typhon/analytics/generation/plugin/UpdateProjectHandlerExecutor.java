@@ -196,6 +196,32 @@ public class UpdateProjectHandlerExecutor implements IRunnableWithProgress {
 				System.out.println("project pom updated, please run an update in maven if needed.");
 			}
 
+			//
+
+			File defaultanalyticsrunner = new File(theIProjectPath + "/src/analytics/DefaultAnalyticsRunner.java");
+			if (!defaultanalyticsrunner.exists()) {
+				defaultanalyticsrunner.createNewFile();
+				FileWriter fw2 = new FileWriter(defaultanalyticsrunner);
+				fw2.write(DefaultAnalyticsRunner.contents());
+				fw2.close();
+
+				UtilityMethods.refresh(theIProject);
+			}
+
+			//
+
+			File defaultanalytics = new File(theIProjectPath + "/src/analytics/DefaultAnalytics.java");
+			if (!defaultanalytics.exists()) {
+				defaultanalytics.createNewFile();
+				FileWriter fw2 = new FileWriter(defaultanalytics);
+				fw2.write(DefaultAnalytics.contents());
+				fw2.close();
+
+				UtilityMethods.refresh(theIProject);
+			}
+
+			//
+
 		} catch (Exception ex) {
 			LogUtil.log(ex);
 			PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
