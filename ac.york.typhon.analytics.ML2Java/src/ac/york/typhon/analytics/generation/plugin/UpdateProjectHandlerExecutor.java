@@ -200,6 +200,8 @@ public class UpdateProjectHandlerExecutor implements IRunnableWithProgress {
 
 			File defaultanalyticsrunner = new File(theIProjectPath + "/src/analytics/DefaultAnalyticsRunner.java");
 			if (!defaultanalyticsrunner.exists()) {
+				File dirs = new File(theIProjectPath + "/src/analytics/");
+				dirs.mkdirs();						
 				defaultanalyticsrunner.createNewFile();
 				FileWriter fw2 = new FileWriter(defaultanalyticsrunner);
 				fw2.write(DefaultAnalyticsRunner.contents());
@@ -212,6 +214,8 @@ public class UpdateProjectHandlerExecutor implements IRunnableWithProgress {
 
 			File defaultanalytics = new File(theIProjectPath + "/src/analytics/DefaultAnalytics.java");
 			if (!defaultanalytics.exists()) {
+				File dirs = new File(theIProjectPath + "/src/analytics/");
+				dirs.mkdirs();
 				defaultanalytics.createNewFile();
 				FileWriter fw2 = new FileWriter(defaultanalytics);
 				fw2.write(DefaultAnalytics.contents());
