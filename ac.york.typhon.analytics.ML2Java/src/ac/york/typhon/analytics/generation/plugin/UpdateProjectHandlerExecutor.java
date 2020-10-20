@@ -1,12 +1,11 @@
 package ac.york.typhon.analytics.generation.plugin;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Base64;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.resources.IProject;
@@ -41,7 +40,6 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
 import it.univaq.disim.typhon.TyphonMLStandaloneSetupGenerated;
-import sun.misc.BASE64Encoder;
 
 public class UpdateProjectHandlerExecutor implements IRunnableWithProgress {
 
@@ -83,8 +81,8 @@ public class UpdateProjectHandlerExecutor implements IRunnableWithProgress {
 			String name = "admin";
 			String password = "admin1@";
 			String authString = name + ":" + password;
-			String authStringEnc = new BASE64Encoder().encode(authString.getBytes());
-
+			String authStringEnc = Base64.getEncoder().encodeToString(authString.getBytes());
+						
 			// open wizard for changing the url of the typhon polystore
 
 			AnalyticsWizard w = new AnalyticsWizard(this, defaulturl);
@@ -113,7 +111,7 @@ public class UpdateProjectHandlerExecutor implements IRunnableWithProgress {
 
 			String output = resp.getEntity(String.class);
 
-			// System.out.println(output);
+			System.out.println(output);
 
 			Object obj = new JSONParser().parse(output);
 
