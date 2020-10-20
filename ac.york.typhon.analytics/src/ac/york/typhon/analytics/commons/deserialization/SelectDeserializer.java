@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ac.york.typhon.analytics.commons.datatypes.events.Entity;
+import ac.york.typhon.analytics.commons.datatypes.events.JSONQuery;
 import ac.york.typhon.analytics.commons.datatypes.events.Slot;
 import ac.york.typhon.analytics.commons.datatypes.events.View;
 import engineering.swat.typhonql.ast.Binding;
@@ -24,13 +25,13 @@ public class SelectDeserializer implements Deserializer {
 	public ArrayList<String> UUIDs = new ArrayList<String>();
 
 	@Override
-	public List<Entity> deserialize(String query, String invertedSelectQuery, String resultSet,
+	public List<Entity> deserialize(JSONQuery query, JSONQuery invertedSelectQuery, String resultSet,
 			String invertedResultSet, Boolean resultSetNeeded, Boolean invertedResultSetNeeded) throws Exception {
 
 		if (resultSetNeeded) {
 
 			ArrayList<String> columnNames = getColunmNames(resultSet);
-			Request request = TyphonQLASTParser.parseTyphonQLRequest((query).toCharArray());
+			Request request = TyphonQLASTParser.parseTyphonQLRequest((query.getQuery()).toCharArray());
 
 			List<Binding> bindings = request.getQry().getBindings();
 			if (bindings.size() > 1) {
@@ -61,8 +62,13 @@ public class SelectDeserializer implements Deserializer {
 								// current field is of the entity being iterated upon
 								if (VId.equals(feildVId)) {
 
-									Class<?> objClass = Class
-											.forName("ac.york.typhon.analytics.commons.datatypes." + entityName);
+									Class<?> objClass = null;
+									for (String ep : Entity.ENTITYPACKAGES)
+										try {
+											objClass = Class.forName(ep + "." + entityName);
+											break;
+										} catch (Exception e) {
+										}
 
 									Field field;
 									if (fieldNameWithoutVId.contains("@id")) {
@@ -148,7 +154,15 @@ public class SelectDeserializer implements Deserializer {
 
 	public Entity createEntity(ArrayList<String> columnNames, ArrayList<Object> values, String entityType, String VId)
 			throws Exception {
-		Class<?> objClass = Class.forName("ac.york.typhon.analytics.commons.datatypes." + entityType);
+		
+		Class<?> objClass = null;
+		for (String ep : Entity.ENTITYPACKAGES)
+			try {
+				objClass = Class.forName(ep + "." + entityType);
+				break;
+			} catch (Exception e) {
+			}
+		
 		Entity entity = (Entity) objClass.newInstance();
 
 		for (int i = 0; i < columnNames.size(); i++) {
@@ -234,8 +248,8 @@ public class SelectDeserializer implements Deserializer {
 
 			value = Utilities.listToSingleProxy(value, fieldTypeClass);
 
-			System.out.println("invoking: " + entity + " | " + value + " ("
-					+ (value != null ? value.getClass() : "(null value)") + ")");
+			if(Utilities.debug)
+				System.out.println("invoking: " + entity + " | " + value + " ("	+ (value != null ? value.getClass() : "(null value)") + ")");
 
 			setter.invoke(entity, value);
 

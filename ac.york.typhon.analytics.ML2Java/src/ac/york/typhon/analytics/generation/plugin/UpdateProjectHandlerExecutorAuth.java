@@ -1,8 +1,6 @@
 package ac.york.typhon.analytics.generation.plugin;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -27,28 +25,15 @@ import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EgxModule;
-import org.eclipse.epsilon.emc.emf.EmfMetaModel;
 import org.eclipse.epsilon.emc.emf.EmfModel;
-import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-
-import sun.misc.BASE64Encoder;
 
 public class UpdateProjectHandlerExecutorAuth implements IRunnableWithProgress {
 
@@ -85,7 +70,7 @@ public class UpdateProjectHandlerExecutorAuth implements IRunnableWithProgress {
 			ResourceSet resSet = new ResourceSetImpl();
 			resSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("flexmi", new XMIResourceFactoryImpl());
 			resSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new XMIResourceFactoryImpl());
-			InputStream inputStream = UpdateProjectHandlerAuth.class.getResourceAsStream("/authDSL.ecore");
+			InputStream inputStream = UpdateProjectHandlerExecutorAuth.class.getResourceAsStream("/models/authDSL.ecore");
 			Resource resource = resSet.createResource(URI.createURI("auth"));
 			System.out.println(resource);
 			System.out.println("inputStream" + inputStream);

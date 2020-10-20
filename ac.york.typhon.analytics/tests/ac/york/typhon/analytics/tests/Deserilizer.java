@@ -2,8 +2,13 @@ package ac.york.typhon.analytics.tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import ac.york.typhon.analytics.commons.datatypes.events.Entity;
+import ac.york.typhon.analytics.commons.datatypes.events.JSONQuery;
 import ac.york.typhon.analytics.commons.datatypes.examples.Address;
 import ac.york.typhon.analytics.commons.deserialization.InsertDeserializer;
 import ac.york.typhon.analytics.commons.deserialization.SelectDeserializer;
@@ -14,6 +19,11 @@ import engineering.swat.typhonql.ast.TyphonQLASTParser;
 
 public class Deserilizer {
 
+	@BeforeEach
+	public void setup() {
+		Entity.ENTITYPACKAGES.add("ac.york.typhon.analytics.commons.datatypes.examples");
+	}
+	
 	@Test
 	public void testInvertedSelectUpdate() {
 		String query = "update Address a where a.@id == #3c904a88-f416-461d-849c-390dffae5fb4 set { street: \"street 420\" }";
@@ -57,8 +67,9 @@ public class Deserilizer {
 	}
 
 	@Test
-	public void testDeserilisedSelectResultSetSingle() {
-		String query = "from Address a select a.@id, a.id, a.street, a.country where a.@id == #b49d44dc-e2b8-456c-a832-3d0acc2e7ff4";
+	public void testDeserilisedSelectResultSetSingle() throws Exception {
+		String q = "{\"query\" : \"from Address a select a.@id, a.id, a.street, a.country where a.@id == #b49d44dc-e2b8-456c-a832-3d0acc2e7ff4\"}";
+		JSONQuery query = new ObjectMapper().readValue(q, JSONQuery.class);
 		String resultSet = "{\n" + "  \"columnNames\": [\n" + "    \"a.@id\",\n" + "    \"a.id\",\n"
 				+ "    \"a.street\",\n" + "    \"a.country\"\n" + "  ],\n" + "  \"values\": [\n" + "    [\n"
 				+ "      \"b49d44dc-e2b8-456c-a832-3d0acc2e7ff4\",\n" + "      \"a1\",\n" + "      \"street 1\",\n"
@@ -78,8 +89,9 @@ public class Deserilizer {
 	}
 
 	@Test
-	public void testDeserilisedSelectResultSetMultiple() {
-		String query = "from Address a select a.@id, a.id, a.street, a.country";
+	public void testDeserilisedSelectResultSetMultiple() throws Exception {
+		String q = "{\"query\" : \"from Address a select a.@id, a.id, a.street, a.country\"}";
+		JSONQuery query = new ObjectMapper().readValue(q, JSONQuery.class);
 		String resultSet = "{\n" + "  \"columnNames\": [\n" + "    \"a.@id\",\n" + "    \"a.id\",\n"
 				+ "    \"a.street\",\n" + "    \"a.country\"\n" + "  ],\n" + "  \"values\": [\n" + "    [\n"
 				+ "      \"35fe9ab6-24f0-492c-98fb-feae87ca324c\",\n" + "      \"a1\",\n" + "      \"street 1\",\n"
@@ -108,8 +120,12 @@ public class Deserilizer {
 	// This test will fail until TYPHON integrates deserilizer as in the current
 	// implementation we query the DB
 	@Test
-	public void testDeserilisedInsertParsingSingle() {
-		String query = "insert Address {id: \"a1\", street: \"street 1\", country: \"country 1\"}";
+	public void testDeserilisedInsertParsingSingle() throws Exception {
+		String q = "{"
+				+ "\"query\" : "
+				+ "\"insert Address {id: \\\"a1\\\", street: \\\"street 1\\\", country: \\\"country 1\\\"}\""
+				+ "}";
+		JSONQuery query = new ObjectMapper().readValue(q, JSONQuery.class);
 		String resultSet = "{\n" + "  \"affectedEntities\": -1,\n" + "  \"createdUuids\": {\n"
 				+ "    \"uuid\": \"b49d44dc-e2b8-456c-a832-3d0acc2e7ff4\"\n" + "  }\n" + "}";
 		InsertDeserializer id = new InsertDeserializer();
@@ -120,6 +136,7 @@ public class Deserilizer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println(address);
 		assertEquals("b49d44dc-e2b8-456c-a832-3d0acc2e7ff4", address.getUUID());
 		assertEquals("a1", address.getId());
 		assertEquals("street 1", address.getStreet());
