@@ -1,0 +1,5 @@
+<?nsuri authDSL?>
+<chain package="ecommerceAuth">
+	<task name="ValidateUsers" next="ValidateReviews"/>
+	<task name="ValidateReviews"/>
+</chain>
