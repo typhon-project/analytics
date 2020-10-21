@@ -35,6 +35,8 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+import it.univaq.disim.typhon.TyphonMLStandaloneSetupGenerated;
+
 public class UpdateProjectHandlerExecutorAuth implements IRunnableWithProgress {
 
 	private ExecutionEvent event;
@@ -63,7 +65,6 @@ public class UpdateProjectHandlerExecutorAuth implements IRunnableWithProgress {
 
 			System.out.println(Activator.getDefault());
 			java.net.URI EgxFile = Activator.getDefault().getBundle().getResource("files/authAsStreamOrchestrator.egx").toURI();
-			java.net.URI mm = Activator.getDefault().getBundle().getResource("models/authDSL.ecore").toURI();
 			egxModule.parse(EgxFile);
 
 			factory.setOutputRoot(new File(theIProjectPath).toURI().toString());
@@ -71,11 +72,12 @@ public class UpdateProjectHandlerExecutorAuth implements IRunnableWithProgress {
 			resSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("flexmi", new XMIResourceFactoryImpl());
 			resSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new XMIResourceFactoryImpl());
 			InputStream inputStream = UpdateProjectHandlerExecutorAuth.class.getResourceAsStream("/models/authDSL.ecore");
-			Resource resource = resSet.createResource(URI.createURI("auth"));
+			
+			Resource resource = resSet.createResource(URI.createURI("auth"),"org.eclipse.emf.ecore");
 			System.out.println(resource);
 			System.out.println("inputStream" + inputStream);
 			resource.load(inputStream, new HashMap<>());	
-//			res.load(null);
+
 			for(EObject o : resource.getContents()) {
 				if (o instanceof EPackage) {
 					EPackage.Registry.INSTANCE.put(((EPackage) o).getNsURI(), o);
@@ -144,6 +146,9 @@ public class UpdateProjectHandlerExecutorAuth implements IRunnableWithProgress {
 		properties.put(EmfModel.PROPERTY_NAME, modelName);
 		properties.put(EmfModel.PROPERTY_READONLOAD, readOnLoad);
 		properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, storeOnDisposal);
+		//
+		properties.put(EmfModel.PROPERTY_CACHED, "false");
+		//
 		theModel.load(properties, (IRelativePathResolver) null);
 		return theModel;
 	}
