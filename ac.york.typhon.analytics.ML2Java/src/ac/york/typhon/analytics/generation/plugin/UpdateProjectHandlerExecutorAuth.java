@@ -146,6 +146,9 @@ public class UpdateProjectHandlerExecutorAuth implements IRunnableWithProgress {
 		properties.put(EmfModel.PROPERTY_NAME, modelName);
 		properties.put(EmfModel.PROPERTY_READONLOAD, readOnLoad);
 		properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, storeOnDisposal);
+		//
+		properties.put(EmfModel.PROPERTY_CACHED, "false");
+		//
 		theModel.load(properties, (IRelativePathResolver) null);
 		return theModel;
 	}
