@@ -54,6 +54,8 @@ public class DefaultPOMAuth {
 				"				<artifactId>maven-compiler-plugin</artifactId>\r\n" + 
 				"				<version>3.3</version>\r\n" + 
 				"				<configuration>\r\n" + 
+				"					<source>1.8</source>\r\n" + 
+				"					<target>1.8</target>\r\n" +					
 				"					<generatedSourcesDirectory>src-gen</generatedSourcesDirectory>\r\n" + 
 				"				</configuration>\r\n" + 
 				"			</plugin>\r\n" + 
