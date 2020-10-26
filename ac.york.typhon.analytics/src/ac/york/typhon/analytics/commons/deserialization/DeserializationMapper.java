@@ -193,14 +193,21 @@ public class DeserializationMapper implements FlatMapFunction<Event, Event> {
 
 			Query query = request.getQry();
 			for (Binding b : query.getBindings()) {
+				System.err.println(b.getEntity().getString());
+				System.err.println(b.getVar());
 				for (Result r : query.getSelected()) {
+					System.err.print("--- ");
+					System.err.print(r.getExpr().getVar());
+					System.err.println(" "+r.getExpr().yieldTree());
 					if (r.getExpr().getVar().equals(b.getVar())) {
+						System.err.println("<>");
 						String field = r.getExpr().yieldTree();
 						field = field.substring(field.indexOf(".") + 1);
 						fields.add(field);
 					}
 				}
 				ret.put(b.getEntity().yieldTree(), fields);
+				fields = new LinkedList<String>();
 			}
 		}
 		if(Utilities.debug)
