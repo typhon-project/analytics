@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.util.Collector;
@@ -64,10 +65,17 @@ public class DeserializationMapper implements FlatMapFunction<Event, Event> {
 							String value = ((List) jsonquery.getBoundRows()[i]).get(j).toString();
 							// XXX converting json value to ql value -- WIP
 							value = value.replace("POLYGON", "#polygon").replace("POINT", "#point");
-							//
+							// XXX converting datetime ie: 2020-10-26T16:00:05.100Z
+							// $2020-10-26T16:00:05Z$
+							if (Pattern.matches("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.*", value)) {
+								if (value.contains("."))
+									value = value.substring(0, value.indexOf(".")) + "Z";
+								value = "$" + value + "$";
+							}
+
 							query = query.replace("??" + name, value);
 						}
-
+						
 						jsonquery.setResolvedQuery(query);
 						//
 					}
@@ -83,7 +91,7 @@ public class DeserializationMapper implements FlatMapFunction<Event, Event> {
 					boolean resultSetNeeded = postEvent.getPreEvent().isResultSetNeeded();
 					boolean invertedResultSetNeeded = postEvent.getPreEvent().isInvertedNeeded();
 					//
-					if(Utilities.debug)
+					if (Utilities.debug)
 						System.out.println((jsonquery));
 					//
 					Request request = TyphonQLASTParser.parseTyphonQLRequest((jsonquery.getQuery()).toCharArray());
@@ -193,14 +201,8 @@ public class DeserializationMapper implements FlatMapFunction<Event, Event> {
 
 			Query query = request.getQry();
 			for (Binding b : query.getBindings()) {
-				System.err.println(b.getEntity().getString());
-				System.err.println(b.getVar());
 				for (Result r : query.getSelected()) {
-					System.err.print("--- ");
-					System.err.print(r.getExpr().getVar());
-					System.err.println(" "+r.getExpr().yieldTree());
 					if (r.getExpr().getVar().equals(b.getVar())) {
-						System.err.println("<>");
 						String field = r.getExpr().yieldTree();
 						field = field.substring(field.indexOf(".") + 1);
 						fields.add(field);
@@ -210,7 +212,7 @@ public class DeserializationMapper implements FlatMapFunction<Event, Event> {
 				fields = new LinkedList<String>();
 			}
 		}
-		if(Utilities.debug)
+		if (Utilities.debug)
 			System.out.println("> " + ret);
 
 		return ret;

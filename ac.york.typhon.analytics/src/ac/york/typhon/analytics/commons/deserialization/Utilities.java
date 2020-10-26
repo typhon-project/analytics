@@ -155,9 +155,9 @@ public class Utilities {
 				value = expr.getDtValue().getDate().getString();
 			else if (expr.getDtValue().hasDateTime())
 				value = expr.getDtValue().getDateTime().getString();
-			SimpleDateFormat sdf = new SimpleDateFormat();
-			Date date = sdf.parse(value.toString());
-			value = date;
+//			SimpleDateFormat sdf = new SimpleDateFormat();
+//			Date date = sdf.parse(value.toString());
+//			value = date;
 		} else if (expr.hasIntValue())
 			value = Integer.parseInt(expr.getIntValue().getString());
 		else if (expr.hasObjValue()) {
