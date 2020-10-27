@@ -72,10 +72,16 @@ public class DeserializationMapper implements FlatMapFunction<Event, Event> {
 									value = value.substring(0, value.indexOf(".")) + "Z";
 								value = "$" + value + "$";
 							}
+							if (Pattern.matches("\\d{4}-\\d{2}-\\d{2}", value)) {
+								value = "$" + value + "$";
+							}					
+							// XXX add back quotes for strings
+							if (jsonquery.getParameterTypes()[j].equals("string"))
+								value = "\"" + value + "\"";
 
 							query = query.replace("??" + name, value);
 						}
-						
+
 						jsonquery.setResolvedQuery(query);
 						//
 					}
