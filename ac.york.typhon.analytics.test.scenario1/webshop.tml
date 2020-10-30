@@ -1,0 +1,76 @@
+entity Feedback {
+	id: string[32] 
+	content: string[32] 
+	item -> Item[1]
+}
+
+entity Item {
+	id: string[32]
+	name: string[32]
+	description: string[32]
+	basketItems -> BasketItem[0..*]
+	feedback:-> Feedback."Feedback.item"[0..*]
+}
+
+entity BasketItem {
+	id: string[32]
+	product_date: datetime
+	totalAmount: bigint
+	paidWith: string[32]
+	items -> Item.items[0..*]
+	customers -> Customer."Customer.basketItems"[1]
+}
+
+entity Customer {
+	id: string[32]
+	name: string[32]
+	comments: string[32]
+	paymentsDetails: string[32]
+	basketItems -> BasketItem[0..*]
+	address -> Address[1]
+}
+
+entity Address {
+	streetName: string[32]
+	streetNumber: bigint
+	zipcode: string[32]
+	city: string[32]
+	country: string[32]
+	customer -> Customer."Customer.address"[1]
+}
+
+relationaldb RelationalDatabase {
+	tables {
+		table {
+			BasketDB: BasketItem
+			index basketIndex {
+				attributes (id)
+			}
+			idSpec (id)
+		}
+		table {
+			CustomerDB: Customer
+			index  customerIndex {
+				attributes (name)
+				}
+			idSpec (name)
+		}
+		table {
+			AddressDB: Address
+		}
+		table {
+			ItemDB: Item
+			index itemIndex {
+				attributes (name)
+			}
+			idSpec (name)
+		}
+		
+	}
+}
+
+documentdb DocumentDatabase {
+	collections {
+			FeedbackDB: Feedback
+	}
+}

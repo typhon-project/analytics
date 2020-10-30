@@ -60,7 +60,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>fully.qualified.MainClass</mainClass>
+							<mainClass>ac.york.typhon.analytics.test.scenario1.analytics.DefaultAnalyticsRunner</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>

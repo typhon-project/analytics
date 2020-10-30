@@ -1,0 +1,6 @@
+database DocumentDatabase : Mongo {
+	credentials {
+		username = chooseUsername ;
+		password = choosePassword ;
+	}
+}

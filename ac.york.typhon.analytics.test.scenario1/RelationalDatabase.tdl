@@ -1,0 +1,6 @@
+database RelationalDatabase : MariaDB {
+	credentials {
+		username = root ;
+		password = choosePassword ;
+	}
+}

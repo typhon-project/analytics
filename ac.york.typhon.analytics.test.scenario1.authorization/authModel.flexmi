@@ -1,5 +1,5 @@
 <?nsuri authDSL?>
-<chain package="ecommerceAuth">
-	<task name="ValidateUsers" next="ValidateReviews"/>
-	<task name="ValidateReviews"/>
+<chain package="ac.york.typhon.analytics.test.scenario1.authorization">
+	<task name="ValidateCustomers" next="ValidateFeedbacks"/>
+	<task name="ValidateFeedbacks"/>
 </chain>
