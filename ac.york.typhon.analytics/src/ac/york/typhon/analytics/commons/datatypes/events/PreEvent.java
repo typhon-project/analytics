@@ -3,7 +3,6 @@ package ac.york.typhon.analytics.commons.datatypes.events;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 
 public class PreEvent extends Event implements Serializable {
 

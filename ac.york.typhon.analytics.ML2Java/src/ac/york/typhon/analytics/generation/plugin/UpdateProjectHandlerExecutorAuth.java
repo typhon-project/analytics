@@ -1,8 +1,6 @@
 package ac.york.typhon.analytics.generation.plugin;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -27,28 +25,17 @@ import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EgxModule;
-import org.eclipse.epsilon.emc.emf.EmfMetaModel;
 import org.eclipse.epsilon.emc.emf.EmfModel;
-import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-
-import sun.misc.BASE64Encoder;
+import it.univaq.disim.typhon.TyphonMLStandaloneSetupGenerated;
 
 public class UpdateProjectHandlerExecutorAuth implements IRunnableWithProgress {
 
@@ -78,19 +65,19 @@ public class UpdateProjectHandlerExecutorAuth implements IRunnableWithProgress {
 
 			System.out.println(Activator.getDefault());
 			java.net.URI EgxFile = Activator.getDefault().getBundle().getResource("files/authAsStreamOrchestrator.egx").toURI();
-			java.net.URI mm = Activator.getDefault().getBundle().getResource("models/authDSL.ecore").toURI();
 			egxModule.parse(EgxFile);
 
 			factory.setOutputRoot(new File(theIProjectPath).toURI().toString());
 			ResourceSet resSet = new ResourceSetImpl();
 			resSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("flexmi", new XMIResourceFactoryImpl());
 			resSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new XMIResourceFactoryImpl());
-			InputStream inputStream = UpdateProjectHandlerAuth.class.getResourceAsStream("/authDSL.ecore");
-			Resource resource = resSet.createResource(URI.createURI("auth"));
+			InputStream inputStream = UpdateProjectHandlerExecutorAuth.class.getResourceAsStream("/models/authDSL.ecore");
+			
+			Resource resource = resSet.createResource(URI.createURI("auth"),"org.eclipse.emf.ecore");
 			System.out.println(resource);
 			System.out.println("inputStream" + inputStream);
 			resource.load(inputStream, new HashMap<>());	
-//			res.load(null);
+
 			for(EObject o : resource.getContents()) {
 				if (o instanceof EPackage) {
 					EPackage.Registry.INSTANCE.put(((EPackage) o).getNsURI(), o);
@@ -159,6 +146,9 @@ public class UpdateProjectHandlerExecutorAuth implements IRunnableWithProgress {
 		properties.put(EmfModel.PROPERTY_NAME, modelName);
 		properties.put(EmfModel.PROPERTY_READONLOAD, readOnLoad);
 		properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, storeOnDisposal);
+		//
+		properties.put(EmfModel.PROPERTY_CACHED, "false");
+		//
 		theModel.load(properties, (IRelativePathResolver) null);
 		return theModel;
 	}

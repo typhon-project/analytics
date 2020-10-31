@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ac.york.typhon.analytics.commons.datatypes.events.Entity;
+import ac.york.typhon.analytics.commons.datatypes.events.JSONQuery;
 import engineering.swat.typhonql.ast.ASTConversionException;
 import engineering.swat.typhonql.ast.KeyVal;
 import engineering.swat.typhonql.ast.Request;
@@ -16,21 +17,23 @@ public class UpdateDeserializer implements Deserializer {
 	// public ArrayList<String> UUIDs = new ArrayList<String>();
 
 	@Override
-	public List<Entity> deserialize(String query, String invertedSelectQuery, String resultSet,
+	public List<Entity> deserialize(JSONQuery query, JSONQuery invertedSelectQuery, String resultSet,
 			String invertedResultSet, Boolean resultSetNeeded, Boolean invertedResultSetNeeded) throws Exception {
 
-		System.out.println(query);
-		System.out.println(invertedSelectQuery);
-		System.out.println(resultSet);
-		System.out.println(invertedResultSet);
-		System.out.println(resultSetNeeded);
-		System.out.println(invertedResultSetNeeded);
-
+		if(Utilities.debug) {
+			System.out.println(query);
+			System.out.println(invertedSelectQuery);
+			System.out.println(resultSet);
+			System.out.println(invertedResultSet);
+			System.out.println(resultSetNeeded);
+			System.out.println(invertedResultSetNeeded);
+		}
+		
 		SelectDeserializer sd = new SelectDeserializer();
-		List<Entity> originalEntities = sd.deserialize(invertedSelectQuery, null, invertedResultSet, null,
+		List<Entity> originalEntities = sd.deserialize(invertedSelectQuery, (JSONQuery)null, invertedResultSet, null,
 				invertedResultSetNeeded, null);
 
-		Entity updatedEntity = parseQuery(query);
+		Entity updatedEntity = parseQuery(query.getQuery());
 
 		return createUpdatesFromOriginalEntities(originalEntities, updatedEntity);
 	}
@@ -60,7 +63,15 @@ public class UpdateDeserializer implements Deserializer {
 			e.printStackTrace();
 		}
 		String objType = request.getStm().getBinding().getEntity().yieldTree();
-		Class<?> objClass = Class.forName("ac.york.typhon.analytics.commons.datatypes." + objType);
+
+		Class<?> objClass = null;
+		for (String ep : Entity.ENTITYPACKAGES)
+			try {
+				objClass = Class.forName(ep + "." + objType);
+				break;
+			} catch (Exception e) {
+			}
+		
 		Entity entity = (Entity) objClass.newInstance();
 		ArrayList<KeyVal> keyVals = (ArrayList<KeyVal>) request.getStm().getKeyVals();
 		for (KeyVal kv : keyVals) {
@@ -74,8 +85,8 @@ public class UpdateDeserializer implements Deserializer {
 
 			value = Utilities.listToSingleProxy(value, fieldTypeClass);
 
-			System.out.println("invoking: " + entity + " | " + value + " ("
-					+ (value != null ? value.getClass() : "(null value)") + ")");
+			if(Utilities.debug)
+				System.out.println("invoking: " + entity + " | " + value + " ("	+ (value != null ? value.getClass() : "(null value)") + ")");
 
 			setter.invoke(entity, value);
 

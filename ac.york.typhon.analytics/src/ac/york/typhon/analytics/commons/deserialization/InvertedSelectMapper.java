@@ -43,7 +43,8 @@ public class InvertedSelectMapper implements MapFunction<Event, Event> {
 				}
 				Utilities util = new Utilities();
 				String invertedQuery = util.createInvertedSelect(request);
-				System.out.println(invertedQuery);
+				if(Utilities.debug)
+					System.out.println(invertedQuery);
 				((PreEvent) event).setInvertedQuery(invertedQuery);
 			}
 

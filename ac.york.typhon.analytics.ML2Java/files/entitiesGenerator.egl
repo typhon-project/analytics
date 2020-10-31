@@ -75,7 +75,10 @@ for (aRelation in entity.relations) {
 	public String toString() { 
 		String result = "";
 		[%
-		var result = "\""+entity.name+"(\"+";
+		var result = "\""+entity.name+"(\"";
+		if(not entity.attributes.isEmpty()){
+			result = result + " + ";
+		}
 		for (anAttribute in entity.attributes) { 
 			result = result + "\" " + anAttribute.name + ": \" + " + anAttribute.name;
 			if(hasMore) {
