@@ -37,6 +37,8 @@ public class InsertDeserializer implements Deserializer {
 		ArrayList<Entity> insertedEntities = new ArrayList<Entity>();
 		Request request = null;
 		try {
+			//System.out.println(query.getQuery());
+			//System.out.println(query.getResolvedQuery());
 			request = TyphonQLASTParser.parseTyphonQLRequest(
 					(query.getResolvedQuery() != null ? query.getResolvedQuery() : query.getQuery()).toCharArray());
 		} catch (ASTConversionException e) {

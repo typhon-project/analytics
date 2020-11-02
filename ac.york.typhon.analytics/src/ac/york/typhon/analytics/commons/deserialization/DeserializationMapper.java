@@ -78,6 +78,8 @@ public class DeserializationMapper implements FlatMapFunction<Event, Event> {
 							// XXX add back quotes for strings
 							if (jsonquery.getParameterTypes()[j].equals("string"))
 								value = "\"" + value + "\"";
+							if (jsonquery.getParameterTypes()[j].equals("uuid"))
+								value = "#" + value;
 
 							query = query.replace("??" + name, value);
 						}
