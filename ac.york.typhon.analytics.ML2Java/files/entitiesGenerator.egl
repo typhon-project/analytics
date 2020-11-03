@@ -5,6 +5,7 @@ import java.util.Date;
 
 import ac.york.typhon.analytics.commons.datatypes.*;
 import ac.york.typhon.analytics.commons.datatypes.events.Entity;
+import org.apache.flink.api.java.functions.KeySelector;
 
 public class [%=entity.name.println%] extends Entity{
 [%
@@ -98,6 +99,11 @@ for (aRelation in entity.relations) {
 	%]	
 		result = [%=result%] + " previousvalue: " + getPreviousValue() + " uuid: " + getUUID() + ")";
 		return result;
+	}
+	
+	public static KeySelector<[%=entity.name%], String> getKeySelector(String keyName) {
+		
+		return new [%=entity.name%]KeySelector(keyName);
 	}
 }
 

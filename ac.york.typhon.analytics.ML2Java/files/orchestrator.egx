@@ -5,3 +5,11 @@ rule Entity2Class
   
   target : path + "/src-gen/ac/york/typhon/analytics/commons/datatypes/" + entity.name + ".java" 
 }
+
+rule Entity2KeySelector 
+  transform entity : TML!Entity {
+  
+  template : "entitiesKeySelectorGenerator.egl"
+  
+  target : path + "/src-gen/ac/york/typhon/analytics/commons/datatypes/" + entity.name + "KeySelector.java" 
+}

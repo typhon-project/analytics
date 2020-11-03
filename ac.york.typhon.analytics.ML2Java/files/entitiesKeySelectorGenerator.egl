@@ -1,0 +1,26 @@
+package ac.york.typhon.analytics.commons.datatypes;
+
+import java.lang.reflect.Field;
+
+import org.apache.flink.api.java.functions.KeySelector;
+
+public class [%=entity.name%]KeySelector implements KeySelector<[%=entity.name%], String>{
+
+	String requestedKey = "";
+	
+	
+	public [%=entity.name%]KeySelector(String requestedKey) {
+		super();
+		this.requestedKey = requestedKey;
+	}
+
+
+	@Override
+	public String getKey([%=entity.name%] value) throws Exception {
+		
+		Field field = value.getClass().getDeclaredField(requestedKey); 
+		field.setAccessible(true); 
+		return field.get(value).toString();
+	}
+	
+}
