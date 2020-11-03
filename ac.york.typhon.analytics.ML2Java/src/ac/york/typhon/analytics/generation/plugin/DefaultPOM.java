@@ -24,13 +24,19 @@ public class DefaultPOM {
 				"		<dependency>\r\n" + 
 				"			<groupId>typhon</groupId>\r\n" + 
 				"			<artifactId>ac.york.typhon.analytics</artifactId>\r\n" + 
-				"			<version>0.0.1-SNAPSHOT</version>\r\n" + 
+				"			<version>0.0.1-SNAPSHOT</version>\r\n" +
+				"			<scope>provided</scope>\r\n" +
 				"		</dependency>\r\n" + 
 				"		\r\n" + 
 				"	</dependencies>\r\n" + 
 				"\r\n" + 
 				"	<build>\r\n" + 
 				"		<sourceDirectory>src</sourceDirectory>\r\n" + 
+				"			<resources>\r\n" +
+				"				<resource>\r\n" +
+				"					<directory>resources</directory>\r\n" +
+				"				</resource>\r\n" +
+				"			</resources>\r\n" +
 				"		<plugins>\r\n" + 
 				"			<plugin>\r\n" + 
 				"				<groupId>org.codehaus.mojo</groupId>\r\n" + 
@@ -59,6 +65,28 @@ public class DefaultPOM {
 				"					<generatedSourcesDirectory>src-gen</generatedSourcesDirectory>\r\n" + 
 				"				</configuration>\r\n" + 
 				"			</plugin>\r\n" + 
+				"			<plugin>\r\n" +
+				"				<artifactId>maven-assembly-plugin</artifactId>\r\n" +
+				"				<configuration>\r\n" +
+				"					<archive>\r\n" +
+				"						<manifest>\r\n" +
+				"							<mainClass>DefaultAnalyticsRunner</mainClass>\r\n" +
+				"						</manifest>\r\n" +
+				"					</archive>\r\n" +
+				"					<descriptorRefs>\r\n" +
+				"						<descriptorRef>jar-with-dependencies</descriptorRef>\r\n" +
+				"					</descriptorRefs>\r\n" +
+				"				</configuration>\r\n" +
+				"				<executions>\r\n" +
+				"					<execution>\r\n" +
+				"						<id>make-assembly</id>\r\n" +
+				"						<phase>package</phase>\r\n" +
+				"						<goals>\r\n" +
+				"							<goal>single</goal>\r\n" +
+				"						</goals>\r\n" +
+				"					</execution>\r\n" +
+				"				</executions>\r\n" +
+				"			</plugin>\r\n" +
 				"		</plugins>\r\n" + 
 				"	</build>\r\n" + 
 				"\r\n" + 

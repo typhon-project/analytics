@@ -40,7 +40,7 @@ public class AnalyticsJobBuilder {
 				&& ((AnalyticTopicType) sourceTopic).equals(AnalyticTopicType.POST))
 			dataStream = dataStream.flatMap(new DeserializationMapper());
 
-		topicController.analyze(dataStream);
+		topicController.wrappedAnalyze(dataStream);
 
 		StreamManager.startExecutionEnvironment(sourceTopic);
 
@@ -57,7 +57,7 @@ public class AnalyticsJobBuilder {
 				&& ((AnalyticTopicType) sourceTopic).equals(AnalyticTopicType.POST))
 			dataStream = dataStream.flatMap(new DeserializationMapper());
 
-		topicController.analyze(dataStream);
+		topicController.wrappedAnalyze(dataStream);
 
 		StreamManager.startExecutionEnvironment(sourceTopic);
 

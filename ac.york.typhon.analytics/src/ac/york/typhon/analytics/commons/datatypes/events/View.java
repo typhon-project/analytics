@@ -38,7 +38,7 @@ public class View extends Entity {
 		return ret;
 	}
 
-	public List<Slot> getSlots(String key) {
+	public List<Slot> getSlots() {
 		return slots;
 	}
 

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.util.Collector;
@@ -64,7 +65,22 @@ public class DeserializationMapper implements FlatMapFunction<Event, Event> {
 							String value = ((List) jsonquery.getBoundRows()[i]).get(j).toString();
 							// XXX converting json value to ql value -- WIP
 							value = value.replace("POLYGON", "#polygon").replace("POINT", "#point");
-							//
+							// XXX converting datetime ie: 2020-10-26T16:00:05.100Z
+							// $2020-10-26T16:00:05Z$
+							if (Pattern.matches("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.*", value)) {
+								if (value.contains("."))
+									value = value.substring(0, value.indexOf(".")) + "Z";
+								value = "$" + value + "$";
+							}
+							if (Pattern.matches("\\d{4}-\\d{2}-\\d{2}", value)) {
+								value = "$" + value + "$";
+							}					
+							// XXX add back quotes for strings
+							if (jsonquery.getParameterTypes()[j].equals("string"))
+								value = "\"" + value + "\"";
+							if (jsonquery.getParameterTypes()[j].equals("uuid"))
+								value = "#" + value;
+
 							query = query.replace("??" + name, value);
 						}
 
@@ -83,7 +99,7 @@ public class DeserializationMapper implements FlatMapFunction<Event, Event> {
 					boolean resultSetNeeded = postEvent.getPreEvent().isResultSetNeeded();
 					boolean invertedResultSetNeeded = postEvent.getPreEvent().isInvertedNeeded();
 					//
-					if(Utilities.debug)
+					if (Utilities.debug)
 						System.out.println((jsonquery));
 					//
 					Request request = TyphonQLASTParser.parseTyphonQLRequest((jsonquery.getQuery()).toCharArray());
@@ -201,9 +217,10 @@ public class DeserializationMapper implements FlatMapFunction<Event, Event> {
 					}
 				}
 				ret.put(b.getEntity().yieldTree(), fields);
+				fields = new LinkedList<String>();
 			}
 		}
-		if(Utilities.debug)
+		if (Utilities.debug)
 			System.out.println("> " + ret);
 
 		return ret;

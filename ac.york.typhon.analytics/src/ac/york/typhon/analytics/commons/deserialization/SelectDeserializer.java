@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,19 +39,22 @@ public class SelectDeserializer implements Deserializer {
 
 				List<Slot> slots = new LinkedList<>();
 
-				// XXX factor out common code
+				ArrayList<ArrayList<Object>> returnedValues = getValues(resultSet);
+
+				HashMap<String, String> bindingsCache = new HashMap<String, String>();
 				for (Binding b : bindings) {
-
 					String entityName = b.getEntity().yieldTree();
-					String VId = "";
-					if (b.hasVar()) {
-						VId = b.getVar().yieldTree();
-					}
-					ArrayList<ArrayList<Object>> returnedValues = getValues(resultSet);
-
+				String VId = "";
+				if (b.hasVar()) {
+					VId = b.getVar().yieldTree();
+				}
+				if(VId.length()>0)
+					bindingsCache.put(VId, entityName);
+				}
+				
 					if (returnedValues != null)
 						for (ArrayList<Object> values : returnedValues) {
-
+							
 							//
 							for (int i = 0; i < columnNames.size(); i++) {
 
@@ -60,12 +64,12 @@ public class SelectDeserializer implements Deserializer {
 								String fieldNameWithoutVId = split[1];
 
 								// current field is of the entity being iterated upon
-								if (VId.equals(feildVId)) {
+								if (bindingsCache.containsKey(feildVId)) {
 
 									Class<?> objClass = null;
 									for (String ep : Entity.ENTITYPACKAGES)
 										try {
-											objClass = Class.forName(ep + "." + entityName);
+											objClass = Class.forName(ep + "." + bindingsCache.get(feildVId));
 											break;
 										} catch (Exception e) {
 										}
@@ -106,8 +110,6 @@ public class SelectDeserializer implements Deserializer {
 							}
 
 							//
-
-						}
 
 				}
 
