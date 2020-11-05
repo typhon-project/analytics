@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.UUID;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -50,6 +51,19 @@ public class Utilities {
 		return Math.sqrt(distance);
 	}
 
+	/*
+	 * 
+	 entity ESPData{
+		VIN: int	
+		timeStamp : datetime
+		vehicle_position : point
+		esp_edl: bool
+		esp_idd: bool
+		esp_abs: bool
+		vehicleWeatherData -> VehicleWeatherData[0..*] 
+	 }
+	 * 
+	 * */
 	public static String fromESPJsonToQuery(File jsonFile) throws FileNotFoundException, IOException, ParseException {
 		String query = "";
 		Object obj = new JSONParser().parse(new FileReader(jsonFile));
@@ -77,26 +91,45 @@ public class Utilities {
 		String lat = geoposition.get("lat").toString();
 		String lon = geoposition.get("lon").toString();
 
+//		create the id of the entry
+		UUID myuuid = UUID.nameUUIDFromBytes(VIN.getBytes());
+		
 		StringBuilder str = new StringBuilder();
-		str.append("insert ESP {");
-//		str.append("VIN: " + VIN + ", ");
-		str.append("timeStamp: \"" + timestamp + "\", ");
+		//FIXME this is the old QL query form we have to change to the new one { "query" : "insert ..." }
+		str.append("{ \"query\" : \" insert ESPData  { ");
+//		str.append("insert ESPData {");
+		
+		str.append("id: " + myuuid + ", ");
+		str.append("VIN: " + VIN + ", ");
+		//TODO 04.11.2020 check if $ is the correct thing as @ https://github.com/typhon-project/typhonql/blob/master/typhonql/doc/typhonql.md 
+		str.append("timeStamp: $" + timestamp + "$, ");
 		// FIXME: How to represent a point?
+		// TODO check if this is correct like so:
 		str.append("vehicle_position: #point(" + lat + " " + lon + "), ");
+				
 		str.append("esp_edl: " + esp_edl + ", ");
 		str.append("esp_idd: " + esp_idd + ", ");
-		str.append("esp_abs: " + esp_abs);
-		str.append("}");
-		// TODO: What about weather reference?
+		str.append("esp_abs: " + esp_abs + ", ");
 
+		// TODO: What about weather reference? 
+		// TODO: check if this is correct
+		str.append("vehicleWeatherData: #" + myuuid);
+
+		//FIXME end of the new query form - like so? 
+		str.append("} \"");
+		
+		str.append("}");
+		
 		query = str.toString();
 		System.out.println(query);
+//		output -> { "query" : " insert VehicleMetadata VIN: 1277000000, timeStamp: $2020-03-31T00:00:00Z$, vehicle_position: #point(52.525861 13.416833), esp_edl: true, esp_idd: false, esp_abs: false, vehicleWeatherData: #1277000000"}
 		return query;
 	}
-
+	
 	public static String fromMetadataJsonToQuery(File jsonFile)
 			throws FileNotFoundException, IOException, ParseException {
 		String query = "";
+		
 		Object obj = new JSONParser().parse(new FileReader(jsonFile));
 		JSONObject jo = (JSONObject) obj;
 
@@ -111,17 +144,33 @@ public class Utilities {
 		String t_sensor_h = ignitionOn.get("t_sensor_h").toString();
 		String engine_type = ignitionOn.get("engine_type").toString();
 
+//		create the id of the entry
+		UUID myuuid = UUID.nameUUIDFromBytes(VIN.getBytes());
+		
 		StringBuilder str = new StringBuilder();
-		str.append("insert VehicleMetadata {");
+		//FIXME this is the old QL query form we have to change to the new one { "query" : "insert ..." }
+		str.append("{ \"query\" : \" insert VehicleMetadata  { ");
+//		str.append("insert VehicleMetadata {");
+		
+		//adding the id explicitely to the insert statement
+		str.append("id: " + myuuid + ", ");
 		str.append("VIN: " + VIN + ", ");
 		str.append("brand: \"" + brand + "\", ");
 		str.append("model: \"" + model + "\", ");
 		str.append("constr_year: " + constr_year + ", ");
 		str.append("color: \"" + color + "\", ");
 		str.append("t_sensor_h: " + t_sensor_h + ", ");
-		str.append("engine_type: \"" + engine_type + "\"");
-		str.append("}");
+		str.append("engine_type: \"" + engine_type + "\", ");
 
+		// TODO: What about weather reference? 
+		// TODO: check if this is correct
+		str.append("vehicleWeatherData: #" + myuuid);
+		
+		//FIXME end of the new query form - like so? 
+		str.append("} \"");
+		
+		str.append("}");
+		
 		query = str.toString();
 		System.out.println(query);
 		return query;
@@ -146,20 +195,39 @@ public class Utilities {
 					String timestamp = tokens[1];
 					String lat = tokens[2];
 					String lon = tokens[3];
-					String temprature = tokens[4];
+					String temperature = tokens[4];
 					String rain_intensity = tokens[5];
 					String solar_intensity = tokens[6];
 
+//					create the id of the entry
+					UUID myuuid = UUID.nameUUIDFromBytes(VIN.getBytes());
+
 					StringBuilder str = new StringBuilder();
-					str.append("insert VehicleWeatherData {");
-					str.append("timestamp: " + timestamp + ", ");
-					// FIXME: How to store Point?
-					str.append("vehicle_position: " + lat + " " + lon + ", ");
-					str.append("temperature: " + temprature + ", ");
+					//FIXME this is the old QL query form we have to change to the new one { "query" : "insert ..." }
+					str.append("{ \"query\" : \" insert VehicleWeatherData { ");
+//					str.append("insert VehicleWeatherData {");
+
+					//adding the id explicitely to the insert statement
+					str.append("id: " + myuuid + ", ");
+					str.append("VIN: " + VIN + ", ");
+					str.append("timeStamp: $" + timestamp + "$, ");
+					// FIXME: How to represent a point?
+					// TODO check if this is correct like so:
+					str.append("vehicle_position: #point(" + lat + " " + lon + "), ");
+
+					str.append("temperature: " + temperature + ", ");
 					str.append("rain_Intensity: " + rain_intensity + ", ");
-					str.append("solar_Intensity: " + solar_intensity + "");
+					str.append("solar_Intensity: " + solar_intensity + ", ");
+					
 					// TODO: Think about how to store vehicle metadata here
+					
+					// TODO: check if this is correct
+					str.append("ESPData: #" + myuuid);
+					//FIXME end of the new query form - like so? 
+					str.append("} \"");
+					
 					str.append("}");
+					
 					query = str.toString();
 					System.out.println(query);
 					allQueries.add(query);
@@ -181,6 +249,7 @@ public class Utilities {
 	public static void executeUpdate(String query) throws Exception {
 		// This is the REST url that executes a select query. Authentication is done
 		// using the polystore's credentials.
+		//TODO check if these are the proper current credentials
 		String url = "http://localhost:8080/api/update";
 		String name = "admin";
 		String password = "admin1@";

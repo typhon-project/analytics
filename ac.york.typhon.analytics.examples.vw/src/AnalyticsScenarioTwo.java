@@ -62,7 +62,7 @@ public class AnalyticsScenarioTwo implements IAnalyzer {
 					} else if (kv.getKey().getString().equalsIgnoreCase("timestamp")) {
 						espObj.setTimestamp(kv.getValue().yieldTree());
 					} else if (kv.getKey().getString().equalsIgnoreCase("vehicle_position")) {
-						espObj.setVehicle_position(kv.getValue().yieldTree());
+//						espObj.setVehicle_position(kv.getValue().yieldTree());
 					}
 				}
 //						System.out.println(espObj);
