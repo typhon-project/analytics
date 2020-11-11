@@ -78,7 +78,6 @@ To run the authorisation chain on your local machine, you execute the main metho
 
 ![Default authoriser in docker-compose](/HowTo/images/defaultAuth.png)
 
-
 # Current Development Status
 | Task | Status | Description |
 | ---- | ------ | ----------- |
