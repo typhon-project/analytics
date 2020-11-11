@@ -25,6 +25,12 @@ public class SelectDeserializer implements Deserializer {
 
 	public ArrayList<String> UUIDs = new ArrayList<String>();
 
+	ClassLoader engineClassLoader;
+
+	public SelectDeserializer(ClassLoader engineClassLoader) {
+		this.engineClassLoader = engineClassLoader;
+	}
+	
 	@Override
 	public List<Entity> deserialize(JSONQuery query, JSONQuery invertedSelectQuery, String resultSet,
 			String invertedResultSet, Boolean resultSetNeeded, Boolean invertedResultSetNeeded) throws Exception {
@@ -69,7 +75,7 @@ public class SelectDeserializer implements Deserializer {
 									Class<?> objClass = null;
 									for (String ep : Entity.ENTITYPACKAGES)
 										try {
-											objClass = Class.forName(ep + "." + bindingsCache.get(feildVId));
+											objClass = engineClassLoader.loadClass(ep + "." + bindingsCache.get(feildVId)); //Class.forName(ep + "." + bindingsCache.get(feildVId));
 											break;
 										} catch (Exception e) {
 										}
@@ -160,7 +166,7 @@ public class SelectDeserializer implements Deserializer {
 		Class<?> objClass = null;
 		for (String ep : Entity.ENTITYPACKAGES)
 			try {
-				objClass = Class.forName(ep + "." + entityType);
+				objClass = engineClassLoader.loadClass(ep + "." + entityType);
 				break;
 			} catch (Exception e) {
 			}

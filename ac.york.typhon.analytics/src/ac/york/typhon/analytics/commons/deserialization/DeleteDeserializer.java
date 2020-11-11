@@ -12,13 +12,19 @@ public class DeleteDeserializer implements Deserializer {
 
 	public ArrayList<String> UUIDs = new ArrayList<String>();
 
+	ClassLoader engineClassLoader;
+
+	public DeleteDeserializer(ClassLoader engineClassLoader) {
+		this.engineClassLoader = engineClassLoader;
+	}
+	
 	@Override
 	public List<Entity> deserialize(JSONQuery query, JSONQuery invertedSelectQuery, String resultSet,
 			String invertedResultSet, Boolean resultSetNeeded, Boolean invertedResultSetNeeded) throws Exception {
 
 		//Request request = TyphonQLASTParser.parseTyphonQLRequest((query.getQuery()).toCharArray());
 
-		SelectDeserializer sd = new SelectDeserializer();
+		SelectDeserializer sd = new SelectDeserializer(engineClassLoader);
 		return sd.deserialize(invertedSelectQuery, null, invertedResultSet, null, invertedResultSetNeeded, null);
 
 	}
