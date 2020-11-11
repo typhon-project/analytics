@@ -1,6 +1,7 @@
 package ac.york.typhon.analytics.commons.deserialization;
 
-import org.apache.flink.api.common.functions.MapFunction;
+import org.apache.flink.api.common.functions.RichMapFunction;
+import org.apache.flink.configuration.Configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -11,13 +12,18 @@ import engineering.swat.typhonql.ast.ASTConversionException;
 import engineering.swat.typhonql.ast.Request;
 import engineering.swat.typhonql.ast.TyphonQLASTParser;
 
-public class InvertedSelectMapper implements MapFunction<Event, Event> {
+public class InvertedSelectMapper extends RichMapFunction<Event, Event> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4511017031461532594L;
 
+	ClassLoader engineClassLoader;
+	
+	@Override
+	public void open(Configuration parameters) throws Exception {
+		super.open(parameters);
+		engineClassLoader = getRuntimeContext().getUserCodeClassLoader();
+	}
+		
 	@Override
 	public Event map(Event event) throws Exception {
 
@@ -41,7 +47,7 @@ public class InvertedSelectMapper implements MapFunction<Event, Event> {
 					System.err.println("cannot create request:");
 					e1.printStackTrace();
 				}
-				Utilities util = new Utilities();
+				Utilities util = new Utilities(engineClassLoader);
 				String invertedQuery = util.createInvertedSelect(request);
 				if(Utilities.debug)
 					System.out.println(invertedQuery);

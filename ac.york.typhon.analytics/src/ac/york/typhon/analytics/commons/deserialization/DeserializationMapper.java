@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.apache.flink.api.common.functions.FlatMapFunction;
+import org.apache.flink.api.common.functions.RichFlatMapFunction;
+import org.apache.flink.configuration.Configuration;
 import org.apache.flink.util.Collector;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,13 +30,18 @@ import engineering.swat.typhonql.ast.Result;
 import engineering.swat.typhonql.ast.Statement;
 import engineering.swat.typhonql.ast.TyphonQLASTParser;
 
-public class DeserializationMapper implements FlatMapFunction<Event, Event> {
+public class DeserializationMapper extends RichFlatMapFunction<Event, Event> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8388259253683396770L;
 
+	ClassLoader engineClassLoader;
+	
+	@Override
+	public void open(Configuration parameters) throws Exception {
+		super.open(parameters);
+		engineClassLoader = getRuntimeContext().getUserCodeClassLoader();
+	}
+	
 	@Override
 	public void flatMap(Event event, Collector<Event> out) throws Exception {
 
@@ -111,7 +117,7 @@ public class DeserializationMapper implements FlatMapFunction<Event, Event> {
 					}
 
 					if (request.hasStm() && request.getStm().isInsert()) {
-						InsertDeserializer id = new InsertDeserializer();
+						InsertDeserializer id = new InsertDeserializer(engineClassLoader);
 						List<Entity> insertedEntities = id.deserialize(jsonquery, (JSONQuery) null, rs, null,
 								resultSetNeeded, null);
 						// System.out.println(insertedEntities);
@@ -121,7 +127,7 @@ public class DeserializationMapper implements FlatMapFunction<Event, Event> {
 						c.setClause(clause);
 						postEvent.addCommand(c);
 					} else if (request.hasStm() && request.getStm().isDelete()) {
-						DeleteDeserializer dd = new DeleteDeserializer();
+						DeleteDeserializer dd = new DeleteDeserializer(engineClassLoader);
 						List<Entity> deletedEntities = dd.deserialize(jsonquery, invertedQuery, rs, invertedResultSet,
 								resultSetNeeded, invertedResultSetNeeded);
 						// System.out.println(deletedEntities);
@@ -131,7 +137,7 @@ public class DeserializationMapper implements FlatMapFunction<Event, Event> {
 						c.setClause(clause);
 						postEvent.addCommand(c);
 					} else if (request.hasStm() && request.getStm().isUpdate()) {
-						UpdateDeserializer up = new UpdateDeserializer();
+						UpdateDeserializer up = new UpdateDeserializer(engineClassLoader);
 						List<Entity> updatedEntities = up.deserialize(jsonquery, invertedQuery, rs, invertedResultSet,
 								resultSetNeeded, invertedResultSetNeeded);
 						// System.out.println(updatedEntities);
@@ -142,7 +148,7 @@ public class DeserializationMapper implements FlatMapFunction<Event, Event> {
 						postEvent.addCommand(c);
 					} else {
 						// It is a Select.
-						SelectDeserializer sd = new SelectDeserializer();
+						SelectDeserializer sd = new SelectDeserializer(engineClassLoader);
 						List<Entity> selectedEntities = sd.deserialize(jsonquery, null, rs, null, resultSetNeeded,
 								null);
 						// System.out.println(">>"+selectedEntities);

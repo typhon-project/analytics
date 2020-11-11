@@ -3,10 +3,7 @@ package ac.york.typhon.analytics.commons.deserialization;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
-import ac.york.typhon.analytics.commons.datatypes.Point;
 import ac.york.typhon.analytics.commons.datatypes.events.Entity;
 import ac.york.typhon.analytics.commons.datatypes.events.JSONQuery;
 import engineering.swat.typhonql.ast.ASTConversionException;
@@ -14,20 +11,19 @@ import engineering.swat.typhonql.ast.Expr;
 import engineering.swat.typhonql.ast.KeyVal;
 import engineering.swat.typhonql.ast.Obj;
 import engineering.swat.typhonql.ast.Request;
-import engineering.swat.typhonql.ast.Segment;
 import engineering.swat.typhonql.ast.TyphonQLASTParser;
-import engineering.swat.typhonql.ast.XY;
 
 public class InsertDeserializer implements Deserializer {
 
-	// public ArrayList<String> UUIDs = new ArrayList<String>();
+	ClassLoader engineClassLoader;
+
+	public InsertDeserializer(ClassLoader engineClassLoader) {
+		this.engineClassLoader = engineClassLoader;
+	}
 
 	@Override
 	public ArrayList<Entity> deserialize(JSONQuery query, JSONQuery invertedSelectQuery, String resultSet,
 			String invertedResultSet, Boolean resultSetNeeded, Boolean invertedResultSetNeeded) throws Exception {
-
-		Utilities util = new Utilities();
-
 		ArrayList<Entity> insertedEntities = new ArrayList<Entity>();
 		insertedEntities = parseQuery(query, resultSet, resultSetNeeded);
 		return insertedEntities;
@@ -51,7 +47,7 @@ public class InsertDeserializer implements Deserializer {
 			Class<?> objClass = null;
 			for (String ep : Entity.ENTITYPACKAGES)
 				try {
-					objClass = Class.forName(ep + "." + objType);
+					objClass = engineClassLoader.loadClass(ep + "." + objType); //Class.forName(ep + "." + objType);
 					break;
 				} catch (Exception e) {
 				}

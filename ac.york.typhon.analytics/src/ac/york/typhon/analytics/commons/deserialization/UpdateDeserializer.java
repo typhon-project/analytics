@@ -14,8 +14,12 @@ import engineering.swat.typhonql.ast.TyphonQLASTParser;
 
 public class UpdateDeserializer implements Deserializer {
 
-	// public ArrayList<String> UUIDs = new ArrayList<String>();
+	ClassLoader engineClassLoader;
 
+	public UpdateDeserializer(ClassLoader engineClassLoader) {
+		this.engineClassLoader = engineClassLoader;
+	}
+	
 	@Override
 	public List<Entity> deserialize(JSONQuery query, JSONQuery invertedSelectQuery, String resultSet,
 			String invertedResultSet, Boolean resultSetNeeded, Boolean invertedResultSetNeeded) throws Exception {
@@ -29,7 +33,7 @@ public class UpdateDeserializer implements Deserializer {
 			System.out.println(invertedResultSetNeeded);
 		}
 		
-		SelectDeserializer sd = new SelectDeserializer();
+		SelectDeserializer sd = new SelectDeserializer(engineClassLoader);
 		List<Entity> originalEntities = sd.deserialize(invertedSelectQuery, (JSONQuery)null, invertedResultSet, null,
 				invertedResultSetNeeded, null);
 
@@ -67,7 +71,7 @@ public class UpdateDeserializer implements Deserializer {
 		Class<?> objClass = null;
 		for (String ep : Entity.ENTITYPACKAGES)
 			try {
-				objClass = Class.forName(ep + "." + objType);
+				objClass = engineClassLoader.loadClass(ep + "." + objType); //Class.forName(ep + "." + objType);
 				break;
 			} catch (Exception e) {
 			}

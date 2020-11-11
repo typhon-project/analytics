@@ -27,7 +27,7 @@ public class Deserilizer {
 	@Test
 	public void testInvertedSelectUpdate() {
 		String query = "update Address a where a.@id == #3c904a88-f416-461d-849c-390dffae5fb4 set { street: \"street 420\" }";
-		Utilities utils = new Utilities();
+		Utilities utils = new Utilities(ClassLoader.getSystemClassLoader());
 		Request request = null;
 		try {
 			request = TyphonQLASTParser.parseTyphonQLRequest((query).toCharArray());
@@ -48,7 +48,7 @@ public class Deserilizer {
 	@Test
 	public void testInvertedSelectDelete() {
 		String query = "delete Category c where c.@id == #92763cf5-cc23-4dbc-af4d-e98d2004c84e";
-		Utilities utils = new Utilities();
+		Utilities utils = new Utilities(ClassLoader.getSystemClassLoader());
 		Request request = null;
 		try {
 			request = TyphonQLASTParser.parseTyphonQLRequest((query).toCharArray());
@@ -74,7 +74,7 @@ public class Deserilizer {
 				+ "    \"a.street\",\n" + "    \"a.country\"\n" + "  ],\n" + "  \"values\": [\n" + "    [\n"
 				+ "      \"b49d44dc-e2b8-456c-a832-3d0acc2e7ff4\",\n" + "      \"a1\",\n" + "      \"street 1\",\n"
 				+ "      \"country 1\"\n" + "    ]\n" + "  ]\n" + "}";
-		SelectDeserializer sd = new SelectDeserializer();
+		SelectDeserializer sd = new SelectDeserializer(ClassLoader.getSystemClassLoader());
 		Address address = null;
 		try {
 			address = (Address) sd.deserialize(query, null, resultSet, null, true, null).get(0);
@@ -97,7 +97,7 @@ public class Deserilizer {
 				+ "      \"35fe9ab6-24f0-492c-98fb-feae87ca324c\",\n" + "      \"a1\",\n" + "      \"street 1\",\n"
 				+ "      \"country 1\"\n" + "    ],\n" + "    [\n" + "      \"50a29db2-061a-4015-8d10-f65991d72d5b\",\n"
 				+ "      \"a2\",\n" + "      \"street 2\",\n" + "      \"country 2\"\n" + "    ]\n" + "  ]\n" + "}";
-		SelectDeserializer sd = new SelectDeserializer();
+		SelectDeserializer sd = new SelectDeserializer(ClassLoader.getSystemClassLoader());
 		Address address1 = null;
 		Address address2 = null;
 		try {
@@ -128,7 +128,7 @@ public class Deserilizer {
 		JSONQuery query = new ObjectMapper().readValue(q, JSONQuery.class);
 		String resultSet = "{\n" + "  \"affectedEntities\": -1,\n" + "  \"createdUuids\": {\n"
 				+ "    \"uuid\": \"b49d44dc-e2b8-456c-a832-3d0acc2e7ff4\"\n" + "  }\n" + "}";
-		InsertDeserializer id = new InsertDeserializer();
+		InsertDeserializer id = new InsertDeserializer(ClassLoader.getSystemClassLoader());
 		Address address = null;
 		try {
 			address = (Address) id.deserialize(query, null, resultSet, null, true, null).get(0);
