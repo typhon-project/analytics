@@ -15,6 +15,7 @@ public class DeleteCommand extends DMLCommand {
 		return deletedEntities;
 	}
 
+	
 	public void setDeletedEntities(List<Entity> deletedEntities) {
 		this.deletedEntities = deletedEntities;
 	}
