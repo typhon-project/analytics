@@ -1,4 +1,4 @@
-FROM flink:1.10
+FROM flink:1.10.0
 WORKDIR /opt/flink/lib
 
 RUN mkdir /opt/flink/usrlib
