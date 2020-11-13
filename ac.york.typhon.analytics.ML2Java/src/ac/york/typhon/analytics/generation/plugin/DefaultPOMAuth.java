@@ -35,6 +35,9 @@ public class DefaultPOMAuth {
 				"			<resources>\r\n" +
 				"				<resource>\r\n" +
 				"					<directory>resources</directory>\r\n" +
+				"					<includes>\r\n" +
+				"						<include>typhonAnalyticsConfig.remote.properties</include>\r\n" +
+				"					</includes>\r\n" +
 				"				</resource>\r\n" +
 				"			</resources>\r\n" +
 				"		<plugins>\r\n" + 
@@ -84,6 +87,35 @@ public class DefaultPOMAuth {
 				"						<goals>\r\n" +
 				"							<goal>single</goal>\r\n" +
 				"						</goals>\r\n" +
+				"					</execution>\r\n" +
+				"				</executions>\r\n" +
+				"			</plugin>\r\n" +
+				"			<plugin>\r\n" +
+				"				<groupId>org.apache.maven.plugins</groupId>\r\n" +
+				"				<artifactId>maven-antrun-plugin</artifactId>\r\n" +
+				"				<version>1.6</version>\r\n" +
+				"				<executions>\r\n" +
+				"					<execution>\r\n" +
+				"						<id>repack</id>\r\n" +
+				"						<phase>package</phase>\r\n" +
+				"						<goals>\r\n" +
+				"							<goal>run</goal>\r\n" +
+				"						</goals>\r\n" +
+				"						<configuration>\r\n" +
+				"							<target>\r\n" +
+				"								<unzip\r\n" +
+				"									src=\"${project.build.directory}/${artifactId}-${version}-jar-with-dependencies.jar\"\r\n" +
+				"									dest=\"${project.build.directory}/tmp\" />\r\n" +
+				"								<copy\r\n" +
+				"									file=\"${project.build.directory}/tmp/typhonAnalyticsConfig.remote.properties\"\r\n" +
+				"									tofile=\"${project.build.directory}/tmp/typhonAnalyticsConfig.properties\" />\r\n" +
+				"								<delete\r\n" +
+				"									file=\"${project.build.directory}/tmp/typhonAnalyticsConfig.remote.properties\" />\r\n" +
+				"								<zip basedir=\"${project.build.directory}/tmp\"\r\n" +
+				"									destfile=\"${project.build.directory}/${artifactId}-${version}-jar-with-dependencies.jar\" />\r\n" +
+				"								<delete dir=\"${project.build.directory}/tmp\" />\r\n" +
+				"							</target>\r\n" +
+				"						</configuration>\r\n" +
 				"					</execution>\r\n" +
 				"				</executions>\r\n" +
 				"			</plugin>\r\n" +

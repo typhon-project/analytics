@@ -207,6 +207,20 @@ public class UpdateProjectHandlerExecutor implements IRunnableWithProgress {
 				UtilityMethods.refresh(theIProject);
 				System.out.println("properties file updated.");
 			}
+			
+			File remotePropertiesFile = new File(theIProjectPath + "/resources/typhonAnalyticsConfig.remote.properties");
+			if (!remotePropertiesFile.exists()) {
+				File dirs = new File(theIProjectPath + "/resources/");
+				remotePropertiesFile.createNewFile();
+				// System.out.println(pomfile.getAbsolutePath());
+				FileWriter fw2 = new FileWriter(remotePropertiesFile);
+				fw2.write(DefaultAnalyticsProperties.remoteContents());
+				fw2.close();
+
+				UtilityMethods.refresh(theIProject);
+				System.out.println("properties file updated.");
+			}
+
 
 			
 			//
