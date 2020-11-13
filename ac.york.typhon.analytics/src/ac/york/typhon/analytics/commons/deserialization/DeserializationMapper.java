@@ -98,7 +98,7 @@ public class DeserializationMapper extends RichFlatMapFunction<Event, Event> {
 
 					String iq = postEvent.getPreEvent().getInvertedQuery();
 					JSONQuery invertedQuery = null;
-					if (iq != null)
+					if (iq != null && iq.length()>0)
 						invertedQuery = new ObjectMapper().readValue(iq, JSONQuery.class);
 
 					String invertedResultSet = postEvent.getInvertedQueryResultSet();

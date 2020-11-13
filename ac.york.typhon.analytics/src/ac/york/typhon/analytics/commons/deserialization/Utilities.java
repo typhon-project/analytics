@@ -6,8 +6,6 @@ import java.lang.reflect.ParameterizedType;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -28,12 +26,6 @@ import engineering.swat.typhonql.ast.XY;
 
 public class Utilities {
 
-	ClassLoader engineClassLoader;
-
-	public Utilities(ClassLoader engineClassLoader) {
-		this.engineClassLoader = engineClassLoader;
-	}
-
 	public static boolean debug = false;
 	
 	public String createInvertedSelect(Request request) throws Exception {
@@ -42,29 +34,14 @@ public class Utilities {
 			Statement stm = request.getStm();
 			String eid = stm.getBinding().getEntity().getString();
 			String vid = stm.getBinding().getVar().getString();
-
-			Class<?> objClass = null;
-			for (String ep : Entity.ENTITYPACKAGES)
-				try {
-					objClass = engineClassLoader.loadClass(ep + "." + eid); //Class.forName(ep + "." + eid);
-					break;
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-			Entity entity = (Entity) objClass.newInstance();
-			Field[] allFields = objClass.getDeclaredFields();
-			ArrayList<String> selectFieldsWithVids = new ArrayList<String>();
-			for (Field field : allFields) {
-				selectFieldsWithVids.add(vid + "." + field.getName());
-			}
-			String select = vid + ".@id, " + String.join(", ", selectFieldsWithVids);
+			String select = vid + ".@id, " + vid;
 			dmlCommand += "from " + eid + " " + vid + " select " + select + " ";
 
 			if (stm.hasWhere()) {
 				Where where = stm.getWhere();
 				dmlCommand += where.yieldTree();
 			}
+			dmlCommand = "{ \"query\" : \"" + dmlCommand + "\" }";
 		}
 		return dmlCommand;
 	}

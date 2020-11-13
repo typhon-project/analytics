@@ -17,13 +17,13 @@ public class InvertedSelectMapper extends RichMapFunction<Event, Event> {
 	private static final long serialVersionUID = 4511017031461532594L;
 
 	ClassLoader engineClassLoader;
-	
+
 	@Override
 	public void open(Configuration parameters) throws Exception {
 		super.open(parameters);
 		engineClassLoader = getRuntimeContext().getUserCodeClassLoader();
 	}
-		
+
 	@Override
 	public Event map(Event event) throws Exception {
 
@@ -43,15 +43,17 @@ public class InvertedSelectMapper extends RichMapFunction<Event, Event> {
 				Request request = null;
 				try {
 					request = TyphonQLASTParser.parseTyphonQLRequest((query).toCharArray());
-				} catch (ASTConversionException e1) {
-					System.err.println("cannot create request:");
+				} catch (Exception e1) {
+					System.err.println("cannot parse query into an inverted query request:");
 					e1.printStackTrace();
 				}
-				Utilities util = new Utilities(engineClassLoader);
-				String invertedQuery = util.createInvertedSelect(request);
-				if(Utilities.debug)
-					System.out.println(invertedQuery);
-				((PreEvent) event).setInvertedQuery(invertedQuery);
+				if (request != null) {
+					Utilities util = new Utilities();
+					String invertedQuery = util.createInvertedSelect(request);
+					if (Utilities.debug)
+						System.out.println(invertedQuery);
+					((PreEvent) event).setInvertedQuery(invertedQuery);
+				}
 			}
 
 		}
