@@ -87,10 +87,15 @@ Requires running a Typhon Kubernetes cluster. To launch a Kubernetes minikube, r
 
 Once all components of the Typhon Kubernetes cluster are up and running, setup port-forwarding in separate CLI windows/tabs:
 `kubectl port-forward deployment/flink-jobmanager 8081:30539 --namespace typhon`
+
 `kubectl port-forward deployment/polystore-ui-deployment 4200:30075 --namespace typhon`
+
 `kubectl port-forward deployment/typhon-polystore-service-deployment 8080:30061 --namespace typhon`
+
 `kubectl port-forward deployment/strimzi-cluster-operator 9092:9092 --namespace kafka`
+
 `kubectl port-forward typhon-cluster-zookeeper-0 2181:2181 --namespace typhon`
+
 `kubectl port-forward deployment/flink-jobmanager 8081:8081 --namespace typhon`
 
 Next, reset the databases by submitting a HTTP GET request to `http://localhost:8080/api/resetdatabases` using basic authentication user `admin` and password `admin1@`. Then, wait for the reply message `true` before continuing. 
