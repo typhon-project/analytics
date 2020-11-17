@@ -1,0 +1,34 @@
+import webshop.xmi
+import DocumentDatabase.tdl
+import RelationalDatabase.tdl
+import dbTypes.tdl
+containertype Docker
+clustertype Kubernetes
+platformtype localhost
+platform platformName : localhost {
+	cluster clusterName : Kubernetes {
+		application Polystore {
+			container documentdatabase : Docker {
+				deploys DocumentDatabase
+				uri = documentdatabase:27017 ;
+				volumes {
+					volumeName = documentdatabasevolume ;
+					mountPath = /data/db ;
+					volumeType = persistentVolumeClaim ;
+				}
+			}
+			container relationaldatabase : Docker {
+				deploys RelationalDatabase
+				uri = relationaldatabase:3306 ;
+				volumes {
+					volumeName = relationaldatabasevolume ;
+					mountPath = /var/lib/mysql ;
+					volumeType = persistentVolumeClaim ;
+				}
+			}
+			volumes {
+				documentdatabasevolume relationaldatabasevolume
+			}
+		}
+	}
+}

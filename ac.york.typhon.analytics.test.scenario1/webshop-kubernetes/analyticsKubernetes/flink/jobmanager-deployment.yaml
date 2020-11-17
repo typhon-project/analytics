@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flink-jobmanager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flink
+      component: jobmanager
+  template:
+    metadata:
+      labels:
+        app: flink
+        component: jobmanager
+    spec:
+      containers:
+      - name: jobmanager
+        image: universityofyork/typhon-analytics:latest
+        workingDir: /opt/flink
+        command: ["/bin/bash", "-c", "$FLINK_HOME/bin/jobmanager.sh start;\
+          while :;
+          do
+            if [[ -f $(find log -name '*jobmanager*.log' -print -quit) ]];
+              then tail -f -n +1 log/*jobmanager*.log;
+            fi;
+          done"]
+        ports:
+        - containerPort: 6123
+          name: rpc
+        - containerPort: 6124
+          name: blob
+        - containerPort: 8081
+          name: ui
+        livenessProbe:
+          tcpSocket:
+            port: 6123
+          initialDelaySeconds: 30
+          periodSeconds: 60
+        volumeMounts:
+        - name: workdir
+          mountPath: /opt/flink/usrlib
+        - name: flink-config-volume
+          mountPath: /opt/flink/conf
+        securityContext:
+          runAsUser: 9999  # refers to user _flink_ from official flink image, change if necessary
+      initContainers:
+      - name: load-jar
+        image: busybox
+        command:
+        - wget
+        - "-O"
+        - "/work-dir/ac.york.typhon.analytics-jar-with-dependencies.jar"
+        - http://archiva.clmsuk.com:8090/repository/internal/typhon/ac.york.typhon.analytics/0.0.1-SNAPSHOT/ac.york.typhon.analytics-0.0.1-20201113.122526-22-jar-with-dependencies.jar
+        volumeMounts:
+        - name: workdir
+          mountPath: "/work-dir"
+      volumes:
+      - name: workdir
+        emptyDir: {}
+      - name: flink-config-volume
+        configMap:
+          name: flink-config
+          items:
+          - key: flink-conf.yaml
+            path: flink-conf.yaml
+          - key: log4j.properties
+            path: log4j.properties

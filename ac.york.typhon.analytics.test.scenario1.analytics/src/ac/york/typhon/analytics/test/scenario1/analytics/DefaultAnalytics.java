@@ -9,7 +9,9 @@ public class DefaultAnalytics implements IAnalyzer {
 
 	public void analyze(DataStream<Event> eventsStream) throws Exception {
 
+		System.out.println("before eventsStream.print()");
 		eventsStream.print();
+		System.out.println("after eventsStream.print()");
 
 	}
 
