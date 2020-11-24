@@ -143,7 +143,20 @@ public class UpdateProjectHandlerExecutorAuth implements IRunnableWithProgress {
 				fw2.close();
 
 				UtilityMethods.refresh(theIProject);
-				System.out.println("properties file updated.");
+				System.out.println("Remote properties file updated.");
+			}
+			
+			File remoteK8sPropertiesFile = new File(theIProjectPath + "/resources/typhonAnalyticsConfig.remote.k8s.properties");
+			if (!remoteK8sPropertiesFile.exists()) {
+				File dirs = new File(theIProjectPath + "/resources/");
+				remoteK8sPropertiesFile.createNewFile();
+				// System.out.println(pomfile.getAbsolutePath());
+				FileWriter fw2 = new FileWriter(remoteK8sPropertiesFile);
+				fw2.write(DefaultAnalyticsProperties.remoteK8sContents());
+				fw2.close();
+
+				UtilityMethods.refresh(theIProject);
+				System.out.println("Remote K8s properties file updated.");
 			}
 
 		} catch (Exception ex) {
