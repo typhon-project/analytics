@@ -35,13 +35,42 @@ public class DeserializationMapper extends RichFlatMapFunction<Event, Event> {
 	private static final long serialVersionUID = -8388259253683396770L;
 
 	ClassLoader engineClassLoader;
-	
+
 	@Override
 	public void open(Configuration parameters) throws Exception {
 		super.open(parameters);
 		engineClassLoader = getRuntimeContext().getUserCodeClassLoader();
 	}
-	
+
+	public static String resolveQuery(JSONQuery jsonquery, int i) {
+		String query = jsonquery.getQuery();
+
+		for (int j = 0; j < jsonquery.getParameterNames().length; j++) {
+			String name = jsonquery.getParameterNames()[j];
+			String value = ((List) jsonquery.getBoundRows()[i]).get(j).toString();
+			// XXX converting json value to ql value -- WIP
+			value = value.replace("POLYGON", "#polygon").replace("POINT", "#point");
+			// XXX converting datetime ie: 2020-10-26T16:00:05.100Z
+			// $2020-10-26T16:00:05Z$
+			if (Pattern.matches("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.*", value)) {
+				if (value.contains("."))
+					value = value.substring(0, value.indexOf(".")) + "Z";
+				value = "$" + value + "$";
+			}
+			if (Pattern.matches("\\d{4}-\\d{2}-\\d{2}", value)) {
+				value = "$" + value + "$";
+			}
+			// XXX add back quotes for strings
+			if (jsonquery.getParameterTypes()[j].equals("string"))
+				value = "\"" + value + "\"";
+			if (jsonquery.getParameterTypes()[j].equals("uuid"))
+				value = "#" + value;
+
+			query = query.replace("??" + name, value);
+		}
+		return query;
+	}
+
 	@Override
 	public void flatMap(Event event, Collector<Event> out) throws Exception {
 
@@ -64,33 +93,7 @@ public class DeserializationMapper extends RichFlatMapFunction<Event, Event> {
 					//
 					if (jsonquery.getBoundRows() != null) {
 
-						String query = jsonquery.getQuery();
-
-						for (int j = 0; j < jsonquery.getParameterNames().length; j++) {
-							String name = jsonquery.getParameterNames()[j];
-							String value = ((List) jsonquery.getBoundRows()[i]).get(j).toString();
-							// XXX converting json value to ql value -- WIP
-							value = value.replace("POLYGON", "#polygon").replace("POINT", "#point");
-							// XXX converting datetime ie: 2020-10-26T16:00:05.100Z
-							// $2020-10-26T16:00:05Z$
-							if (Pattern.matches("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.*", value)) {
-								if (value.contains("."))
-									value = value.substring(0, value.indexOf(".")) + "Z";
-								value = "$" + value + "$";
-							}
-							if (Pattern.matches("\\d{4}-\\d{2}-\\d{2}", value)) {
-								value = "$" + value + "$";
-							}					
-							// XXX add back quotes for strings
-							if (jsonquery.getParameterTypes()[j].equals("string"))
-								value = "\"" + value + "\"";
-							if (jsonquery.getParameterTypes()[j].equals("uuid"))
-								value = "#" + value;
-
-							query = query.replace("??" + name, value);
-						}
-
-						jsonquery.setResolvedQuery(query);
+						jsonquery.setResolvedQuery(resolveQuery(jsonquery, i));
 						//
 					}
 					//
@@ -98,7 +101,7 @@ public class DeserializationMapper extends RichFlatMapFunction<Event, Event> {
 
 					String iq = postEvent.getPreEvent().getInvertedQuery();
 					JSONQuery invertedQuery = null;
-					if (iq != null && iq.length()>0)
+					if (iq != null && iq.length() > 0)
 						invertedQuery = new ObjectMapper().readValue(iq, JSONQuery.class);
 
 					String invertedResultSet = postEvent.getInvertedQueryResultSet();

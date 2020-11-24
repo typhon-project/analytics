@@ -15,6 +15,7 @@ import ac.york.typhon.analytics.commons.datatypes.Point;
 import ac.york.typhon.analytics.commons.datatypes.Polygon;
 import ac.york.typhon.analytics.commons.datatypes.events.Entity;
 import engineering.swat.typhonql.ast.Expr;
+import engineering.swat.typhonql.ast.Obj;
 import engineering.swat.typhonql.ast.PlaceHolderOrUUID;
 import engineering.swat.typhonql.ast.Request;
 import engineering.swat.typhonql.ast.Segment;
@@ -27,7 +28,7 @@ import engineering.swat.typhonql.ast.XY;
 public class Utilities {
 
 	public static boolean debug = false;
-	
+
 	public String createInvertedSelect(Request request) throws Exception {
 		String dmlCommand = "";
 		if (request.hasStm() && (request.getStm() instanceof Update || request.getStm() instanceof Delete)) {
@@ -84,9 +85,26 @@ public class Utilities {
 			value = Integer.parseInt(expr.getIntValue().getString());
 		else if (expr.hasObjValue()) {
 			value = expr.getObjValue();
-			// TODO unsupported by ql so far
-			System.out.println(expr.getObjValue().yieldTree());
-			throw new UnsupportedOperationException("Deserializer does not support ObjValue");
+			if (Utilities.debug)
+				System.out.println(value);
+			// System.out.println(expr.getObjValue().yieldTree());
+			// throw new UnsupportedOperationException("Deserializer does not support
+			// ObjValue");
+
+			Obj objValue = (Obj) value;
+			// TODO any way to get any more info on this?
+			System.out.println(objValue.yieldTree());
+
+			//
+
+			Entity proxy = (Entity) field.getType().newInstance();
+			proxy.setProxy(true);
+			// proxy.setUUID(valueString);
+
+			//
+
+			value = proxy;
+
 		} else if (expr.hasPointValue()) {
 			engineering.swat.typhonql.ast.Point point = expr.getPointValue();
 			XY co = point.getCoordinate();
@@ -126,18 +144,28 @@ public class Utilities {
 		} else if (expr.hasUuidValue()) {
 
 			String valueString = expr.getUuidValue().getString();
-			if(Utilities.debug)
+			if (Utilities.debug)
 				System.out.println(valueString);
 
+			// multi-valued references given as a single uuid...
+			if (field.getType().newInstance() instanceof Iterable) {
+				ArrayList<Entity> proxies = new ArrayList<Entity>();
+				Entity proxy = (Entity) ((Class<?>) ((ParameterizedType) field.getGenericType())
+						.getActualTypeArguments()[0]).newInstance();
+				proxy.setProxy(true);
+				proxy.setUUID(valueString);
+				proxies.add(proxy);
+				value = proxies;
+			}
+			//
+			else {
+				Entity proxy = (Entity) field.getType().newInstance();
+				proxy.setProxy(true);
+				proxy.setUUID(valueString);
+				value = proxy;
+			}
 			//
 
-			Entity proxy = (Entity) field.getType().newInstance();
-			proxy.setProxy(true);
-			proxy.setUUID(valueString);
-
-			//
-
-			value = proxy;
 		} else if (expr.hasRefs()) {
 			// multi valued refs
 			List<PlaceHolderOrUUID> refIds = expr.getRefs();
