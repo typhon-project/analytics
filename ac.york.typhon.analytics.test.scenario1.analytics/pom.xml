@@ -32,6 +32,7 @@
 				<directory>resources</directory>
 				<includes>
 					<include>typhonAnalyticsConfig.remote.properties</include>
+					<include>typhonAnalyticsConfig.remote.k8s.properties</include>
 				</includes>
 			</resource>
 		</resources>
@@ -103,17 +104,31 @@
 								<!-- note that here we reference previously declared dependency -->
 								<unzip
 									src="${project.build.directory}/${artifactId}-${version}-jar-with-dependencies.jar"
-									dest="${project.build.directory}/tmp" />
+									dest="${project.build.directory}/tmpDocker" />
+								<unzip
+									src="${project.build.directory}/${artifactId}-${version}-jar-with-dependencies.jar"
+									dest="${project.build.directory}/tmpK8s" />
 								<!-- now do what you need to any of unpacked files under target/tmp/ -->
 								<copy
-									file="${project.build.directory}/tmp/typhonAnalyticsConfig.remote.properties"
-									tofile="${project.build.directory}/tmp/typhonAnalyticsConfig.properties" />
+									file="${project.build.directory}/tmpDocker/typhonAnalyticsConfig.remote.properties"
+									tofile="${project.build.directory}/tmpDocker/typhonAnalyticsConfig.properties" />
 								<delete
-									file="${project.build.directory}/tmp/typhonAnalyticsConfig.remote.properties" />
-								<zip basedir="${project.build.directory}/tmp"
-									destfile="${project.build.directory}/${artifactId}-${version}-jar-with-dependencies.jar" />
-								<!-- now the modified jar is available -->
-								<delete dir="${project.build.directory}/tmp" />
+									file="${project.build.directory}/tmpDocker/typhonAnalyticsConfig.remote.properties" />
+								<delete
+									file="${project.build.directory}/tmpDocker/typhonAnalyticsConfig.remote.k8s.properties" />
+								<zip basedir="${project.build.directory}/tmpDocker"
+									destfile="${project.build.directory}/${artifactId}-${version}-jar-with-dependencies-Docker.jar" />
+								<copy
+									file="${project.build.directory}/tmpK8s/typhonAnalyticsConfig.remote.k8s.properties"
+									tofile="${project.build.directory}/tmpK8s/typhonAnalyticsConfig.properties" />
+								<delete
+									file="${project.build.directory}/tmpK8s/typhonAnalyticsConfig.remote.properties" />
+								<delete
+									file="${project.build.directory}/tmpK8s/typhonAnalyticsConfig.remote.k8s.properties" />
+								<zip basedir="${project.build.directory}/tmpK8s"
+									destfile="${project.build.directory}/${artifactId}-${version}-jar-with-dependencies-k8s.jar" />
+								<delete dir="${project.build.directory}/tmpDocker" />
+								<delete dir="${project.build.directory}/tmpK8s" />
 							</target>
 						</configuration>
 					</execution>

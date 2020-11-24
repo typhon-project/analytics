@@ -13,9 +13,10 @@ spec:
     spec:
       containers:
         - name: typhon-polystore-service-container
-          image: clms/typhon-polystore-api:latest
+          image: clms/typhon-polystore-api:dev
           ports:
-            - containerPort: 8080 
+            - containerPort: 8080
+          imagePullPolicy: Always
           
 ---
 kind: Service
@@ -103,3 +104,30 @@ spec:
   selector:
     app: typhonql-server-pod
 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-all-deployment
+spec:
+  selector:
+    matchLabels:
+      app: auth-all-pod
+  template:
+    metadata:
+      labels:
+        app: auth-all-pod
+    spec:
+      containers:
+        - name: auth-all-container
+          image: zolotas4/typhon-analytics-auth-all-k8s:latest
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: auth-all
+spec:
+  ports:
+    - port: 7533
+      targetPort: 7533
+  selector:
+    app: auth-all-pod

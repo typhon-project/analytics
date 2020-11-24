@@ -27,7 +27,7 @@ services:
     volumes:
       - ./models/:/docker-entrypoint-initdb.d
   typhon-polystore-service:
-    image: clms/typhon-polystore-api:latest
+    image: clms/typhon-polystore-api:dev
     ports:
       - target: 8080
         published: 8080
