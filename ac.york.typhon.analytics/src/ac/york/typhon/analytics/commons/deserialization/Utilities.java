@@ -81,9 +81,12 @@ public class Utilities {
 //			SimpleDateFormat sdf = new SimpleDateFormat();
 //			Date date = sdf.parse(value.toString());
 //			value = date;
-		} else if (expr.hasIntValue())
-			value = Integer.parseInt(expr.getIntValue().getString());
-		else if (expr.hasObjValue()) {
+		} else if (expr.hasIntValue()) {
+			if(field.getType().getName().equals("java.lang.Long"))
+				value = Long.parseLong(expr.getIntValue().getString());
+			else
+				value = Integer.parseInt(expr.getIntValue().getString());
+		}else if (expr.hasObjValue()) {
 			value = expr.getObjValue();
 			if (Utilities.debug)
 				System.out.println(value);
@@ -129,7 +132,7 @@ public class Utilities {
 			value = p;
 
 		} else if (expr.hasRealValue())
-			value = Double.parseDouble(expr.getRealValue().getString());
+			value = Float.parseFloat(expr.getRealValue().getString());
 		else if (expr.hasStrValue()) {
 			String svalue = expr.getStrValue().getString();
 			// remove initial and trailing quotes as they are kept from the new json parsing
@@ -202,7 +205,7 @@ public class Utilities {
 		return false;
 	}
 
-	public static Object getExprValue(String value) {
+	public static Object getExprValue(String value, Class<?> fieldTypeClass) throws Exception {
 		Object rvalue = value;
 		// TODO: converts the json values into objects where possible
 		if (value.startsWith("TODO CUSTOM")) {
@@ -216,8 +219,10 @@ public class Utilities {
 			// System.out.println(expr.getObjValue().yieldTree());
 			throw new UnsupportedOperationException("Deserializer does not support ObjValue");
 		} else if (isDateOrDateTime(value)) {
+			//
 			// return as is for date and datetime
-		} else if (value.startsWith("POINT (")) {
+		} else if (fieldTypeClass.getName().equals("ac.york.typhon.analytics.commons.datatypes.Point")
+				&& value.startsWith("POINT (")) {
 			int i = value.indexOf("POINT (") + 7;
 			int j = value.lastIndexOf(" ");
 			int k = value.indexOf(")");
@@ -227,7 +232,8 @@ public class Utilities {
 			Point p = new Point(Double.parseDouble(x), Double.parseDouble(y));
 			// System.out.println(">POINT: " + p);
 			rvalue = p;
-		} else if (value.startsWith("POLYGON (")) {
+		} else if (fieldTypeClass.getName().equals("ac.york.typhon.analytics.commons.datatypes.Polygon")
+				&& value.startsWith("POLYGON (")) {
 			// System.out.println(">polygon found: " + value);
 
 			int i = value.indexOf("POLYGON (") + 9;
@@ -260,6 +266,12 @@ public class Utilities {
 
 			rvalue = p;
 
+		} else if (fieldTypeClass.getName().equals("java.lang.Long")) {
+			rvalue = Long.parseLong(value);
+		} else if (fieldTypeClass.getName().equals("java.lang.Integer")) {
+			rvalue = Integer.parseInt(value);
+		} else if (fieldTypeClass.getName().equals("java.lang.Float")) {
+			rvalue = Float.parseFloat(value);
 		}
 		//
 
@@ -280,5 +292,5 @@ public class Utilities {
 
 		return value;
 	}
-
+	
 }

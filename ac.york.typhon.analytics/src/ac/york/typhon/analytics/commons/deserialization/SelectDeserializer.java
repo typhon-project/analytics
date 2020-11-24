@@ -248,7 +248,7 @@ public class SelectDeserializer implements Deserializer {
 						proxy.setUUID(valueString);
 						value = proxy;
 					} else
-						value = Utilities.getExprValue((String) value);
+						value = Utilities.getExprValue((String) value, fieldTypeClass);
 
 				}
 

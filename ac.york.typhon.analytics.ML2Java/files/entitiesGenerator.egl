@@ -13,8 +13,8 @@ var types = new Map();
 types.put("StringType", "String");
 types.put("IntType", "Integer");
 types.put("BoolType", "Boolean");
-types.put("FloatType", "Double");
-types.put("BigintType", "Integer");
+types.put("FloatType", "Float");
+types.put("BigintType", "Long");
 
 types.put("FreetextType", "String");
 types.put("TextType", "String");
