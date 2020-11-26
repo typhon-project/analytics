@@ -5,10 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jsqlparser.expression.Expression;
-import net.sf.jsqlparser.expression.operators.relational.ExpressionList;
-import net.sf.jsqlparser.statement.insert.Insert;
-
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import ac.york.typhon.analytics.commons.datatypes.events.Entity;

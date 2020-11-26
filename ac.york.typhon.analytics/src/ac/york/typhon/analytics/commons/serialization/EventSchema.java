@@ -2,8 +2,6 @@ package ac.york.typhon.analytics.commons.serialization;
 
 import java.util.Map;
 
-import org.apache.flink.api.common.typeinfo.TypeInformation;
-import org.apache.flink.api.java.typeutils.TypeExtractor;
 import org.apache.flink.streaming.connectors.kafka.KafkaDeserializationSchema;
 import org.apache.flink.streaming.connectors.kafka.KafkaSerializationSchema;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -15,17 +13,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleAbstractTypeResolver;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.gson.Gson;
 
 import ac.york.typhon.analytics.commons.datatypes.events.Event;
-import net.sf.jsqlparser.statement.Statement;
-import net.sf.jsqlparser.statement.delete.Delete;
-import net.sf.jsqlparser.statement.insert.Insert;
-import net.sf.jsqlparser.statement.select.Select;
-import net.sf.jsqlparser.statement.update.Update;
+
+import org.apache.flink.api.common.typeinfo.TypeInformation;
+
+import org.apache.flink.api.java.typeutils.TypeExtractor;
 
 public class EventSchema implements KafkaDeserializationSchema<Event>, Deserializer,
 		KafkaSerializationSchema<Event>, Serializer {
@@ -45,11 +41,6 @@ public class EventSchema implements KafkaDeserializationSchema<Event>, Deseriali
 		
 		SimpleModule module = new SimpleModule("StatementMappingModule", Version.unknownVersion());
 
-		SimpleAbstractTypeResolver resolver = new SimpleAbstractTypeResolver();
-		resolver.addMapping(Statement.class, Insert.class);
-		resolver.addMapping(Statement.class, Select.class);
-		resolver.addMapping(Statement.class, Update.class);
-		resolver.addMapping(Statement.class, Delete.class);
 //		resolver.addMapping(MultiPartName.class, Database.class);
 		
 //		
@@ -65,9 +56,6 @@ public class EventSchema implements KafkaDeserializationSchema<Event>, Deseriali
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-	    
-
-		module.setAbstractTypes(resolver);
 
 		objectMapper.registerModule(module);
 		objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
