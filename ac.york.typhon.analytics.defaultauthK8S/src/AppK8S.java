@@ -18,22 +18,21 @@ import engineering.swat.typhonql.ast.ASTConversionException;
 import engineering.swat.typhonql.ast.Request;
 import engineering.swat.typhonql.ast.TyphonQLASTParser;
 
-public class App {
+public class AppK8S {
 
 	final static boolean INVERTED = false;
 
 	public static void main(String[] args) {
 
 		Properties consProps = new Properties();
-		// Change both IPs to kafka:9092 for docker deployment (before exporting to push to Docker-hub)
-		consProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092");
+		consProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "typhon-cluster-kafka-external-bootstrap.typhon:9094");
 		consProps.put(ConsumerConfig.GROUP_ID_CONFIG, IKafkaConstants.GROUP_ID_CONFIG);
 		consProps.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
 		consProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class.getName());
 		consProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, EventSchema.class.getName());
 
 		Properties prodProps = new Properties();
-		prodProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092");
+		prodProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "typhon-cluster-kafka-external-bootstrap.typhon:9094");
 		prodProps.put(ProducerConfig.CLIENT_ID_CONFIG, IKafkaConstants.CLIENT_ID);
 		prodProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, LongSerializer.class.getName());
 		prodProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, EventSchema.class.getName());

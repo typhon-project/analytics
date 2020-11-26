@@ -53,22 +53,35 @@ public class PreEventAuthorizer {
 		while (not (currentTask.next == null)) {
 			previousTask = currentTask;
 			currentTask = currentTask.next; 
-			if (currentTask.asStream) {%]
+			if (currentTask.asStream) {
+				if (not previousTask.asStream)	{%]
 				SingleOutputStreamOperator<Event> [%=currentTask.name.ftlc()%]ResponsibleOrNotResponsibleSplitStream = [%=currentTask.name.ftlc()%].run([%=previousTask.name.ftlc()%]RejectedOrApprovedSplitStream.getSideOutput([%=previousTask.name.ftlc()%]NotResponsibleOrApprovedTag), [%=currentTask.name.ftlc()%]);
 				DataStream<Event> [%=currentTask.name.ftlc()%]ResponsibleStream = [%=currentTask.name.ftlc()%]ResponsibleOrNotResponsibleSplitStream.getSideOutput([%=currentTask.name.ftlc()%]ResponsibleTag);
 				DataStream<Event> [%=currentTask.name.ftlc()%]RejectedAndApprovedStream = [%=currentTask.name.ftlc()%].shouldIRejectAsStream([%=currentTask.name.ftlc()%]ResponsibleStream);
 				SingleOutputStreamOperator<Event> [%=currentTask.name.ftlc()%]RejectedOrApprovedSplitStream = [%=currentTask.name.ftlc()%].moveToRejected([%=currentTask.name.ftlc()%]RejectedAndApprovedStream,[%=currentTask.name.ftlc()%]);
-		[%
-			} else { %]
+		[%		} else { %]
+				SingleOutputStreamOperator<Event> [%=currentTask.name.ftlc()%]ResponsibleOrNotResponsibleSplitStream = [%=currentTask.name.ftlc()%].run([%=previousTask.name.ftlc()%]RejectedOrApprovedSplitStream.getSideOutput([%=previousTask.name.ftlc()%]NotResponsibleOrApprovedTag).union([%=previousTask.name.ftlc()%]ResponsibleOrNotResponsibleSplitStream.getSideOutput([%=previousTask.name.ftlc()%]NotResponsibleOrApprovedTag)), [%=currentTask.name.ftlc()%]);
+				DataStream<Event> [%=currentTask.name.ftlc()%]ResponsibleStream = [%=currentTask.name.ftlc()%]ResponsibleOrNotResponsibleSplitStream.getSideOutput([%=currentTask.name.ftlc()%]ResponsibleTag);
+				DataStream<Event> [%=currentTask.name.ftlc()%]RejectedAndApprovedStream = [%=currentTask.name.ftlc()%].shouldIRejectAsStream([%=currentTask.name.ftlc()%]ResponsibleStream);
+				SingleOutputStreamOperator<Event> [%=currentTask.name.ftlc()%]RejectedOrApprovedSplitStream = [%=currentTask.name.ftlc()%].moveToRejected([%=currentTask.name.ftlc()%]RejectedAndApprovedStream,[%=currentTask.name.ftlc()%]);
+				[%
+				}
+			} else { 
+				if (not previousTask.asStream) {%]
 				SingleOutputStreamOperator<Event> [%=currentTask.name.ftlc()%]RejectedOrApprovedSplitStream = [%=currentTask.name.ftlc()%].run([%=previousTask.name.ftlc()%]RejectedOrApprovedSplitStream.getSideOutput([%=previousTask.name.ftlc()%]NotResponsibleOrApprovedTag), [%=currentTask.name.ftlc()%]);
-		[%	
+		[%		} else { %]
+				SingleOutputStreamOperator<Event> [%=currentTask.name.ftlc()%]RejectedOrApprovedSplitStream = [%=currentTask.name.ftlc()%].run([%=previousTask.name.ftlc()%]RejectedOrApprovedSplitStream.getSideOutput([%=previousTask.name.ftlc()%]NotResponsibleOrApprovedTag).union([%=previousTask.name.ftlc()%]ResponsibleOrNotResponsibleSplitStream.getSideOutput([%=previousTask.name.ftlc()%]NotResponsibleOrApprovedTag)), [%=currentTask.name.ftlc()%]);
+				[%
+				}
 			}
 		}
-		%]
-		
+		if (not currentTask.asStream) {	%]
 		DataStream<Event> finalStream = [%=currentTask.name.ftlc()%]RejectedOrApprovedSplitStream.getSideOutput([%=currentTask.name.ftlc()%]NotResponsibleOrApprovedTag);
-
-		[% 
+		[%
+		} else { %]
+		DataStream<Event> finalStream = [%=currentTask.name.ftlc()%]RejectedOrApprovedSplitStream.getSideOutput([%=currentTask.name.ftlc()%]NotResponsibleOrApprovedTag).union([%=currentTask.name.ftlc()%]ResponsibleOrNotResponsibleSplitStream.getSideOutput([%=currentTask.name.ftlc()%]NotResponsibleOrApprovedTag));
+		[%
+		} 
 		var finalRejectedStream = "";
 		var  first = true;
 		for (task in chain.tasks) { 
