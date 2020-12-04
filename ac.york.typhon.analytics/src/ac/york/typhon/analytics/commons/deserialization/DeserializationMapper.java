@@ -209,7 +209,8 @@ public class DeserializationMapper extends RichFlatMapFunction<Event, Event> {
 					entityName = o.getEntity().yieldTree();
 
 					for (KeyVal k : o.getKeyVals())
-						fields.add(k.getKey().yieldTree());
+						if (k.hasKey())
+							fields.add(k.getKey().yieldTree());
 					ret.put(entityName, fields);
 				}
 			}

@@ -57,7 +57,7 @@ public class App {
 						} catch (ASTConversionException e1) {
 							e1.printStackTrace();
 						}
-						Utilities util = new Utilities(ClassLoader.getSystemClassLoader());
+						Utilities util = new Utilities();
 						String invertedQuery = "";
 						try {
 							invertedQuery = util.createInvertedSelect(request);
