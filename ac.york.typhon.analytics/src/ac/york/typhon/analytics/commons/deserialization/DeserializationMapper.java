@@ -77,6 +77,14 @@ public class DeserializationMapper extends RichFlatMapFunction<Event, Event> {
 		if (event instanceof PostEvent && !(event instanceof DeserializedPostEvent)) {
 
 			String originalquery = ((PostEvent) event).getPreEvent().getQuery();
+
+			//System.out.println(originalquery);
+			// DEPRECATED: queries sent as non-json objects
+			if (!originalquery.trim().startsWith("{")) {
+				originalquery = "{\"query\" : " + new ObjectMapper().writeValueAsString(originalquery) + "}";
+				//System.out.println(originalquery);
+			}
+
 			JSONQuery jsonquery = new ObjectMapper().readValue(originalquery, JSONQuery.class);
 
 			int count = jsonquery.getBoundRows() == null ? 1 : jsonquery.getBoundRows().length;

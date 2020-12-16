@@ -15,6 +15,8 @@ import ac.york.typhon.analytics.commons.datatypes.Point;
 import ac.york.typhon.analytics.commons.datatypes.Polygon;
 import ac.york.typhon.analytics.commons.datatypes.events.Entity;
 import engineering.swat.typhonql.ast.Expr;
+import engineering.swat.typhonql.ast.Expr.Int;
+import engineering.swat.typhonql.ast.Expr.Real;
 import engineering.swat.typhonql.ast.Obj;
 import engineering.swat.typhonql.ast.PlaceHolderOrUUID;
 import engineering.swat.typhonql.ast.Request;
@@ -82,11 +84,11 @@ public class Utilities {
 //			Date date = sdf.parse(value.toString());
 //			value = date;
 		} else if (expr.hasIntValue()) {
-			if(field.getType().getName().equals("java.lang.Long"))
+			if (field.getType().getName().equals("java.lang.Long"))
 				value = Long.parseLong(expr.getIntValue().getString());
 			else
 				value = Integer.parseInt(expr.getIntValue().getString());
-		}else if (expr.hasObjValue()) {
+		} else if (expr.hasObjValue()) {
 			value = expr.getObjValue();
 			if (Utilities.debug)
 				System.out.println(value);
@@ -133,7 +135,20 @@ public class Utilities {
 
 		} else if (expr.hasRealValue())
 			value = Float.parseFloat(expr.getRealValue().getString());
-		else if (expr.hasStrValue()) {
+		else if (expr.isNeg()) {
+			Expr neg = expr.getArg();
+			if (neg instanceof Int) {
+				if (field.getType().getName().equals("java.lang.Long"))
+					value = Long.parseLong("-" + neg.yieldTree());
+				else
+					value = Integer.parseInt("-" + neg.yieldTree());
+			} else if (neg instanceof Real)
+				value = Float.parseFloat("-" + neg.yieldTree());
+			else {
+				throw new UnsupportedOperationException(
+						"Deserializer does not support negative values that are not Int or Real");
+			}
+		} else if (expr.hasStrValue()) {
 			String svalue = expr.getStrValue().getString();
 			// remove initial and trailing quotes as they are kept from the new json parsing
 			if (svalue.startsWith("\""))
@@ -292,5 +307,5 @@ public class Utilities {
 
 		return value;
 	}
-	
+
 }
