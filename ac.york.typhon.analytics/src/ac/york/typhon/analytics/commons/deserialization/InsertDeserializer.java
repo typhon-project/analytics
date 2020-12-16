@@ -33,8 +33,8 @@ public class InsertDeserializer implements Deserializer {
 		ArrayList<Entity> insertedEntities = new ArrayList<Entity>();
 		Request request = null;
 		try {
-			//System.out.println(query.getQuery());
-			//System.out.println(query.getResolvedQuery());
+			// System.out.println(query.getQuery());
+			// System.out.println(query.getResolvedQuery());
 			request = TyphonQLASTParser.parseTyphonQLRequest(
 					(query.getResolvedQuery() != null ? query.getResolvedQuery() : query.getQuery()).toCharArray());
 		} catch (ASTConversionException e) {
@@ -47,7 +47,7 @@ public class InsertDeserializer implements Deserializer {
 			Class<?> objClass = null;
 			for (String ep : Entity.ENTITYPACKAGES)
 				try {
-					objClass = engineClassLoader.loadClass(ep + "." + objType); //Class.forName(ep + "." + objType);
+					objClass = engineClassLoader.loadClass(ep + "." + objType); // Class.forName(ep + "." + objType);
 					break;
 				} catch (Exception e) {
 				}
@@ -55,28 +55,37 @@ public class InsertDeserializer implements Deserializer {
 			Entity entity = (Entity) objClass.newInstance();
 			ArrayList<KeyVal> keyVals = (ArrayList<KeyVal>) request.getStm().getObjs().get(0).getKeyVals();
 			for (KeyVal kv : keyVals) {
-				Field field = objClass.getDeclaredField(kv.getKey().yieldTree());
-				field.setAccessible(true);
-				Class<?> fieldTypeClass = field.getType();
-				Method setter = objClass.getMethod("set" + kv.getKey().yieldTree().substring(0, 1).toUpperCase()
-						+ kv.getKey().yieldTree().substring(1), fieldTypeClass);
 
-				Expr expr = kv.getValue();
-				
-				Object value = Utilities.getExprValue(expr, field);
-				
-				//System.out.println(query.getResolvedQuery());
-				
-				//System.out.println(expr + " ::: " + field.getName()+ " ::: " + entity.getClass());
-				// System.out.println(value.getClass());
-				//
-				value = Utilities.listToSingleProxy(value, fieldTypeClass);
-				//
-				if(Utilities.debug)
-					System.out.println("invoking: " + entity + " | " + value + " ("	+ (value != null ? value.getClass() : "(null value)") + ")");
-				//
-				setter.invoke(entity, value);
+				// set uuid if it is manually set
+				if (!kv.hasKey())
+					entity.setUUID(kv.getValue().yieldTree());
+				// for all other fields
+				else {
 
+					Field field = objClass.getDeclaredField(kv.getKey().yieldTree());
+					field.setAccessible(true);
+					Class<?> fieldTypeClass = field.getType();
+					Method setter = objClass.getMethod("set" + kv.getKey().yieldTree().substring(0, 1).toUpperCase()
+							+ kv.getKey().yieldTree().substring(1), fieldTypeClass);
+
+					Expr expr = kv.getValue();
+
+					Object value = Utilities.getExprValue(expr, field);
+
+					// System.out.println(query.getResolvedQuery());
+
+					// System.out.println(expr + " ::: " + field.getName()+ " ::: " +
+					// entity.getClass());
+					// System.out.println(value.getClass());
+					//
+					value = Utilities.listToSingleProxy(value, fieldTypeClass);
+					//
+					if (Utilities.debug)
+						System.out.println("invoking: " + entity + " | " + value + " ("
+								+ (value != null ? value.getClass() : "(null value)") + ")");
+					//
+					setter.invoke(entity, value);
+				}
 			}
 
 			if (resultSetNeeded) {
