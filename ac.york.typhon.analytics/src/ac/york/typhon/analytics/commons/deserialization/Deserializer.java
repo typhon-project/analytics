@@ -8,6 +8,6 @@ import ac.york.typhon.analytics.commons.datatypes.events.JSONQuery;
 public interface Deserializer {
 
 	public List<Entity> deserialize(JSONQuery query, JSONQuery invertedSelectQuery, String resultSet,
-			String invertedResultSet, Boolean resultSetNeeded, Boolean invertedResultSetNeeded) throws Exception;
+			String invertedResultSet, Boolean resultSetNeeded, Boolean invertedResultSetNeeded, int index) throws Exception;
 
 }

@@ -37,7 +37,7 @@ public class Deserilizer {
 		String resultSet = "[\r\n" + "  \"e4e9b05a-6277-4295-8557-5f1463418783\"\r\n" + "]";
 
 		InsertDeserializer id = new InsertDeserializer(ClassLoader.getSystemClassLoader());
-		List<Entity> ret = id.deserialize(jsonquery, null, resultSet, null, true, true);
+		List<Entity> ret = id.deserialize(jsonquery, null, resultSet, null, true, true, 0);
 		System.out.println(ret);
 
 		String result = ret.toString();
@@ -62,7 +62,7 @@ public class Deserilizer {
 			jsonquery = new ObjectMapper().readValue(query, JSONQuery.class);
 			jsonquery.setResolvedQuery(DeserializationMapper.resolveQuery(jsonquery, i));
 			InsertDeserializer id = new InsertDeserializer(ClassLoader.getSystemClassLoader());
-			List<Entity> ret = id.deserialize(jsonquery, null, resultSet, null, true, true);
+			List<Entity> ret = id.deserialize(jsonquery, null, resultSet, null, true, true, 0);
 			result += ret;
 		}
 		System.out.println(result);
@@ -70,13 +70,10 @@ public class Deserilizer {
 		assertEquals(expected, result);
 	}
 
-	//FIXME needs fix of containments in SQL
+	// FIXME needs fix of containments in SQL
 	@Test
 	public void testSelect() throws Exception {
-		String query = "{\r\n" + 
-				"		\"query\" : \"from Datatypes x select x.@id, x\"\r\n" + 
-				"}\r\n" + 
-				"";
+		String query = "{\r\n" + "		\"query\" : \"from Datatypes x select x.@id, x\"\r\n" + "}\r\n" + "";
 		JSONQuery jsonquery = new ObjectMapper().readValue(query, JSONQuery.class);
 		Request request = TyphonQLASTParser.parseTyphonQLRequest((jsonquery.getQuery()).toCharArray());
 
@@ -85,12 +82,10 @@ public class Deserilizer {
 		assertEquals(expected, result);
 	}
 
-	//FIXME needs fix of containments in SQL
+	// FIXME needs fix of containments in SQL
 	@Test
 	public void testUpdate() throws Exception {
-		String query = "{\r\n" + 
-				"\"query\" : \"update Datatypes x set { i: 12 }\"\r\n" + 
-				"}";
+		String query = "{\r\n" + "\"query\" : \"update Datatypes x set { i: 12 }\"\r\n" + "}";
 		JSONQuery jsonquery = new ObjectMapper().readValue(query, JSONQuery.class);
 		Request request = TyphonQLASTParser.parseTyphonQLRequest((jsonquery.getQuery()).toCharArray());
 
@@ -98,19 +93,17 @@ public class Deserilizer {
 		String isq = "{ \"query\" : \"from Datatypes a select a.@id, a\" }";
 		JSONQuery isjq = new ObjectMapper().readValue(isq, JSONQuery.class);
 		String irs = "";
-		List<Entity> ret = ud.deserialize(jsonquery, isjq, null, irs, true, true);
+		List<Entity> ret = ud.deserialize(jsonquery, isjq, null, irs, true, true, 0);
 		System.out.println(ret);
 		String result = "";
 		String expected = "?";
 		assertEquals(expected, result);
 	}
 
-	//FIXME needs fix of containments in SQL
+	// FIXME needs fix of containments in SQL
 	@Test
 	public void testDelete() throws Exception {
-		String query = "{\r\n" + 
-				"\"query\" : \"delete Datatypes x\"\r\n" + 
-				"}";
+		String query = "{\r\n" + "\"query\" : \"delete Datatypes x\"\r\n" + "}";
 		JSONQuery jsonquery = new ObjectMapper().readValue(query, JSONQuery.class);
 		Request request = TyphonQLASTParser.parseTyphonQLRequest((jsonquery.getQuery()).toCharArray());
 
@@ -147,7 +140,7 @@ public class Deserilizer {
 		assertEquals(expectedInvertedSelect, invertedSelect);
 	}
 
-	//TODO deprecated by testSelect
+	// TODO deprecated by testSelect
 	@Test
 	public void testDeserilisedSelectResultSetSingle() throws Exception {
 		String q = "{\"query\" : \"from Address a select a.@id, a.id, a.street, a.country where a.@id == #b49d44dc-e2b8-456c-a832-3d0acc2e7ff4\"}";
@@ -158,7 +151,7 @@ public class Deserilizer {
 				+ "      \"country 1\"\n" + "    ]\n" + "  ]\n" + "}";
 		SelectDeserializer sd = new SelectDeserializer(ClassLoader.getSystemClassLoader());
 		Address address = null;
-		address = (Address) sd.deserialize(query, null, resultSet, null, true, null).get(0);
+		address = (Address) sd.deserialize(query, null, resultSet, null, true, null, 0).get(0);
 		assertEquals("b49d44dc-e2b8-456c-a832-3d0acc2e7ff4", address.getUUID());
 		assertEquals("a1", address.getId());
 		assertEquals("street 1", address.getStreet());
@@ -178,8 +171,8 @@ public class Deserilizer {
 		SelectDeserializer sd = new SelectDeserializer(ClassLoader.getSystemClassLoader());
 		Address address1 = null;
 		Address address2 = null;
-		address1 = (Address) sd.deserialize(query, null, resultSet, null, true, null).get(0);
-		address2 = (Address) sd.deserialize(query, null, resultSet, null, true, null).get(1);
+		address1 = (Address) sd.deserialize(query, null, resultSet, null, true, null, 0).get(0);
+		address2 = (Address) sd.deserialize(query, null, resultSet, null, true, null, 0).get(1);
 		assertEquals("35fe9ab6-24f0-492c-98fb-feae87ca324c", address1.getUUID());
 		assertEquals("a1", address1.getId());
 		assertEquals("street 1", address1.getStreet());
@@ -190,7 +183,7 @@ public class Deserilizer {
 		assertEquals("country 2", address2.getCountry());
 	}
 
-	//deprecated by testInsertSimple
+	// deprecated by testInsertSimple
 	@Test
 	public void testDeserilisedInsertParsingSingle() throws Exception {
 		String q = "{" + "\"query\" : "
@@ -200,7 +193,7 @@ public class Deserilizer {
 				+ "    \"uuid\": \"b49d44dc-e2b8-456c-a832-3d0acc2e7ff4\"\n" + "  }\n" + "}";
 		InsertDeserializer id = new InsertDeserializer(ClassLoader.getSystemClassLoader());
 		Address address = null;
-		address = (Address) id.deserialize(query, null, resultSet, null, true, null).get(0);
+		address = (Address) id.deserialize(query, null, resultSet, null, true, null, 0).get(0);
 		System.out.println(address);
 		assertEquals("b49d44dc-e2b8-456c-a832-3d0acc2e7ff4", address.getUUID());
 		assertEquals("a1", address.getId());

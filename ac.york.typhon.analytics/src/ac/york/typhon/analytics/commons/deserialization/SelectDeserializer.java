@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.omg.CORBA.portable.CustomValue;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,10 +32,10 @@ public class SelectDeserializer implements Deserializer {
 	public SelectDeserializer(ClassLoader engineClassLoader) {
 		this.engineClassLoader = engineClassLoader;
 	}
-	
+
 	@Override
 	public List<Entity> deserialize(JSONQuery query, JSONQuery invertedSelectQuery, String resultSet,
-			String invertedResultSet, Boolean resultSetNeeded, Boolean invertedResultSetNeeded) throws Exception {
+			String invertedResultSet, Boolean resultSetNeeded, Boolean invertedResultSetNeeded, int index) throws Exception {
 
 		if (resultSetNeeded) {
 
@@ -50,50 +52,81 @@ public class SelectDeserializer implements Deserializer {
 				HashMap<String, String> bindingsCache = new HashMap<String, String>();
 				for (Binding b : bindings) {
 					String entityName = b.getEntity().yieldTree();
-				String VId = "";
-				if (b.hasVar()) {
-					VId = b.getVar().yieldTree();
+					String VId = "";
+					if (b.hasVar()) {
+						VId = b.getVar().yieldTree();
+					}
+					if (VId.length() > 0)
+						bindingsCache.put(VId, entityName);
 				}
-				if(VId.length()>0)
-					bindingsCache.put(VId, entityName);
-				}
-				
-					if (returnedValues != null)
-						for (ArrayList<Object> values : returnedValues) {
-							
-							//
-							for (int i = 0; i < columnNames.size(); i++) {
 
-								String[] split = columnNames.get(i).split("\\.");
-								// System.out.println(Arrays.toString(split));
-								String feildVId = split[0];
-								String fieldNameWithoutVId = split[1];
+				// keep a cache of any possible custom datatype objects needed
+				HashMap<String, Object> customDataTypes = new HashMap<String, Object>();
 
-								// current field is of the entity being iterated upon
-								if (bindingsCache.containsKey(feildVId)) {
+				if (returnedValues != null)
+					for (ArrayList<Object> values : returnedValues) {
 
-									Class<?> objClass = null;
-									for (String ep : Entity.ENTITYPACKAGES)
-										try {
-											objClass = engineClassLoader.loadClass(ep + "." + bindingsCache.get(feildVId)); //Class.forName(ep + "." + bindingsCache.get(feildVId));
-											break;
-										} catch (Exception e) {
-										}
+						//
+						for (int i = 0; i < columnNames.size(); i++) {
+
+							String[] split = columnNames.get(i).split("\\.");
+							// System.out.println(Arrays.toString(split));
+							String feildVId = split[0];
+							String fieldNameWithoutVId = split[1];
+
+							// current field is of the entity being iterated upon
+							if (bindingsCache.containsKey(feildVId)) {
+
+								Class<?> objClass = null;
+								for (String ep : Entity.ENTITYPACKAGES)
+									try {
+										objClass = engineClassLoader.loadClass(ep + "." + bindingsCache.get(feildVId)); // Class.forName(ep
+										break;
+									} catch (Exception e) {
+									}
+
+								// for custom datatypes assume they are in the form of
+								// customdatatypename$customdatatypeattributename
+								if (fieldNameWithoutVId.contains("$")) {
+									String[] customdatatype = fieldNameWithoutVId.split("\\$");
+									String customreferencename = customdatatype[0];
+									String customfield = customdatatype[1];
+									Class<?> customtype = objClass.getDeclaredField(customreferencename).getType();
+
+									if (!customDataTypes.containsKey(customreferencename)) {
+										Object cobject = customtype.newInstance();
+										customDataTypes.put(customreferencename, cobject);
+									}
+									//
+									Object customobject = customDataTypes.get(customreferencename);
+
+									//
+									Field currentfield = customtype.getDeclaredField(customfield);
+									currentfield.setAccessible(true);
+
+									Class<?> currentfieldTypeClass = currentfield.getType();
+									String parsedField = customfield.substring(0, 1).toUpperCase()
+											+ customfield.substring(1);
+									Method setter = customtype.getMethod("set" + parsedField, currentfieldTypeClass);
+									Object value = values.get(i);
+									setter.invoke(customobject, Utilities.getExprValue((String) value, currentfieldTypeClass));
+
+								}
+
+								else {
 
 									Field field;
 									if (fieldNameWithoutVId.contains("@id")) {
 										fieldNameWithoutVId = "UUID";
 										field = objClass.getSuperclass().getDeclaredField(fieldNameWithoutVId);
-									} else {
-										// System.out.println("<"+fieldNameWithoutVId);
-										field = objClass.getDeclaredField(fieldNameWithoutVId);
 									}
 
+									// System.out.println("<"+fieldNameWithoutVId);
+									else
+										field = objClass.getDeclaredField(fieldNameWithoutVId);
+
 									field.setAccessible(true);
-									Class<?> fieldTypeClass = field.getType();
-									String parsedField = fieldNameWithoutVId.substring(0, 1).toUpperCase()
-											+ fieldNameWithoutVId.substring(1);
-									Method setter = objClass.getMethod("set" + parsedField, fieldTypeClass);
+
 									// System.out.println("trying to invoke: " + entity + " " + values.get(i));
 									Object value = values.get(i);
 
@@ -114,9 +147,15 @@ public class SelectDeserializer implements Deserializer {
 
 								}
 							}
+						}
 
-							//
+						//
 
+					}
+
+				for (String referencename : customDataTypes.keySet()) {
+					Object customvalue = customDataTypes.get(referencename);
+					slots.add(new Slot(customvalue.getClass().getName(), referencename, customvalue));
 				}
 
 				return Collections.singletonList(new View(slots));
@@ -162,7 +201,7 @@ public class SelectDeserializer implements Deserializer {
 
 	public Entity createEntity(ArrayList<String> columnNames, ArrayList<Object> values, String entityType, String VId)
 			throws Exception {
-		
+
 		Class<?> objClass = null;
 		for (String ep : Entity.ENTITYPACKAGES)
 			try {
@@ -170,98 +209,137 @@ public class SelectDeserializer implements Deserializer {
 				break;
 			} catch (Exception e) {
 			}
-		
+
 		Entity entity = (Entity) objClass.newInstance();
 
+		// keep a cache of any possible custom datatype objects needed
+		HashMap<String, Object> customDataTypes = new HashMap<String, Object>();
+		
 		for (int i = 0; i < columnNames.size(); i++) {
 
 			String vidWithDot = VId + "\\.";
 			String[] split = columnNames.get(i).split(vidWithDot);
 			// System.out.println(Arrays.toString(split));
 			String fieldNameWithoutVId = split[1];
+			
+			// for custom datatypes assume they are in the form of
+			// customdatatypename$customdatatypeattributename
+			if (fieldNameWithoutVId.contains("$")) {
+				String[] customdatatype = fieldNameWithoutVId.split("\\$");
+				String customreferencename = customdatatype[0];
+				String customfield = customdatatype[1];
+				Class<?> customtype = objClass.getDeclaredField(customreferencename).getType();
 
-			Field field;
-			if (fieldNameWithoutVId.contains("@id")) {
-				fieldNameWithoutVId = "UUID";
-				field = objClass.getSuperclass().getDeclaredField(fieldNameWithoutVId);
-			} else {
-				// System.out.println("<"+fieldNameWithoutVId);
-				field = objClass.getDeclaredField(fieldNameWithoutVId);
+				if (!customDataTypes.containsKey(customreferencename)) {
+					Object cobject = customtype.newInstance();
+					customDataTypes.put(customreferencename, cobject);
+				}
+				//
+				Object customobject = customDataTypes.get(customreferencename);
+
+				String parsedField = customreferencename.substring(0, 1).toUpperCase() + customreferencename.substring(1);
+				Method setter = objClass.getMethod("set" + parsedField, customtype);
+				setter.invoke(entity, customobject);
+				
+				//
+				Field currentfield = customtype.getDeclaredField(customfield);
+				currentfield.setAccessible(true);
+
+				Class<?> currentfieldTypeClass = currentfield.getType();
+				parsedField = customfield.substring(0, 1).toUpperCase() + customfield.substring(1);
+				setter = customtype.getMethod("set" + parsedField, currentfieldTypeClass);
+				Object value = values.get(i);
+				setter.invoke(customobject, Utilities.getExprValue((String) value, currentfieldTypeClass));
+
 			}
 
-			field.setAccessible(true);
-			Class<?> fieldTypeClass = field.getType();
-			String parsedField = fieldNameWithoutVId.substring(0, 1).toUpperCase() + fieldNameWithoutVId.substring(1);
-			Method setter = objClass.getMethod("set" + parsedField, fieldTypeClass);
+			else {
 
-			// System.out.println("trying to invoke: " + entity + " " + values.get(i));
+				Field field;
+				if (fieldNameWithoutVId.contains("@id")) {
+					fieldNameWithoutVId = "UUID";
+					field = objClass.getSuperclass().getDeclaredField(fieldNameWithoutVId);
+				} else {
+					// System.out.println("<"+fieldNameWithoutVId);
+					field = objClass.getDeclaredField(fieldNameWithoutVId);
+				}
 
-			Object value = values.get(i);
+				field.setAccessible(true);
+				Class<?> fieldTypeClass = field.getType();
+				String parsedField = fieldNameWithoutVId.substring(0, 1).toUpperCase()
+						+ fieldNameWithoutVId.substring(1);
+				Method setter = objClass.getMethod("set" + parsedField, fieldTypeClass);
 
-			// System.out.println("reference found: " + parsedField + " " + value);
-			if (!fieldNameWithoutVId.equals("UUID")) {
+				// System.out.println("trying to invoke: " + entity + " " + values.get(i));
 
-				String valueString = null;
+				Object value = values.get(i);
 
-				if (value != null)
-					valueString = value.toString();
+				// System.out.println("reference found: " + parsedField + " " + value);
+				if (!fieldNameWithoutVId.equals("UUID")) {
 
-				if (value instanceof ArrayList) {
+					String valueString = null;
 
-					if (valueString.startsWith("[") && valueString.endsWith("]")) {
+					if (value != null)
+						valueString = value.toString();
 
-						valueString = valueString.replace("[", "").replace("]", "").replace(" ", "");
+					if (value instanceof ArrayList) {
 
-						String[] possibleProxies = null;
+						if (valueString.startsWith("[") && valueString.endsWith("]")) {
 
-						try {
-							possibleProxies = valueString.split(",");
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
+							valueString = valueString.replace("[", "").replace("]", "").replace(" ", "");
 
-						if (possibleProxies == null) {
-							possibleProxies = new String[1];
-							possibleProxies[0] = valueString;
-						}
+							String[] possibleProxies = null;
 
-						LinkedList<Entity> proxies = new LinkedList<Entity>();
-						for (String p : possibleProxies) {
-							if (p.matches("([a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12})")) {
-								//
-								Entity proxy = (Entity) field.getType().newInstance();
-								proxy.setProxy(true);
-								proxy.setUUID(p);
-								proxies.add(proxy);
-								value = proxies;
+							try {
+								possibleProxies = valueString.split(",");
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+
+							if (possibleProxies == null) {
+								possibleProxies = new String[1];
+								possibleProxies[0] = valueString;
+							}
+
+							LinkedList<Entity> proxies = new LinkedList<Entity>();
+							for (String p : possibleProxies) {
+								if (p.matches("([a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12})")) {
+									//
+									Entity proxy = (Entity) field.getType().newInstance();
+									proxy.setProxy(true);
+									proxy.setUUID(p);
+									proxies.add(proxy);
+									value = proxies;
+								}
 							}
 						}
 					}
+
+					if (value instanceof String) {
+
+						if (valueString.matches("([a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12})")) {
+							//
+							Entity proxy = (Entity) field.getType().newInstance();
+							proxy.setProxy(true);
+							proxy.setUUID(valueString);
+							value = proxy;
+						} else
+							value = Utilities.getExprValue((String) value, fieldTypeClass);
+
+					}
+
 				}
 
-				if (value instanceof String) {
+				value = Utilities.listToSingleProxy(value, fieldTypeClass);
 
-					if (valueString.matches("([a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12})")) {
-						//
-						Entity proxy = (Entity) field.getType().newInstance();
-						proxy.setProxy(true);
-						proxy.setUUID(valueString);
-						value = proxy;
-					} else
-						value = Utilities.getExprValue((String) value, fieldTypeClass);
+				if (Utilities.debug)
+					System.out.println("invoking: " + entity + " | " + value + " ("
+							+ (value != null ? value.getClass() : "(null value)") + ")");
 
-				}
-
+				setter.invoke(entity, value);
 			}
-
-			value = Utilities.listToSingleProxy(value, fieldTypeClass);
-
-			if(Utilities.debug)
-				System.out.println("invoking: " + entity + " | " + value + " ("	+ (value != null ? value.getClass() : "(null value)") + ")");
-
-			setter.invoke(entity, value);
-
 		}
+
 		return entity;
 	}
 

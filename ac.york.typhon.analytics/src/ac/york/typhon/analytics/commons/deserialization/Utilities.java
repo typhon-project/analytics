@@ -1,22 +1,21 @@
 package ac.york.typhon.analytics.commons.deserialization;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import ac.york.typhon.analytics.commons.datatypes.Point;
 import ac.york.typhon.analytics.commons.datatypes.Polygon;
 import ac.york.typhon.analytics.commons.datatypes.events.Entity;
+import engineering.swat.typhonql.ast.Custom;
 import engineering.swat.typhonql.ast.Expr;
 import engineering.swat.typhonql.ast.Expr.Int;
 import engineering.swat.typhonql.ast.Expr.Real;
+import engineering.swat.typhonql.ast.KeyVal;
 import engineering.swat.typhonql.ast.Obj;
 import engineering.swat.typhonql.ast.PlaceHolderOrUUID;
 import engineering.swat.typhonql.ast.Request;
@@ -49,32 +48,56 @@ public class Utilities {
 		return dmlCommand;
 	}
 
-	public static String getUUID(String resultSet) throws IOException {
-		// TODO: This might be a list if bulk inserts are possible
-		String UUID = "";
-		ObjectMapper objectMapper = new ObjectMapper();
-		JsonNode root = objectMapper.readTree(resultSet);
-
-		UUID = null;
-		try {
-			UUID = root.path("createdUuids").path("uuid").asText();
-		} catch (Exception e) {
-			// this call did not have createdUuids set!
-		}
-		return UUID;
-	}
-
-	public static Object getExprValue(Expr expr, Field field) throws Exception {
+	public static Object getExprValue(Expr expr, Field field, ClassLoader engineClassLoader) throws Exception {
 		Object value = null;
 		if (expr.hasBlobPointerValue()) {
 			value = expr.getBlobPointerValue().getString();
 		} else if (expr.hasBoolValue())
 			value = Boolean.parseBoolean(expr.getBoolValue().yieldTree());
 		else if (expr.hasCustomValue()) {
-			value = expr.getCustomValue();
-			// TODO need to somehow get custom types defined in ml
-			System.out.println(expr.getCustomValue().yieldTree());
-			throw new UnsupportedOperationException("Deserializer does not support CustomValue");
+
+			Custom custom = expr.getCustomValue();
+
+			Object ce = field.getType().newInstance();
+			value = ce;
+
+			String objType = custom.getTyp().yieldTree();
+			if (Utilities.debug)
+				System.out.println("objtype: " + objType);
+
+			Class<?> objClass = null;
+			for (String ep : Entity.ENTITYPACKAGES)
+				try {
+					objClass = engineClassLoader.loadClass(ep + "." + objType); // Class.forName(ep + "." + objType);
+					break;
+				} catch (Exception e) {
+				}
+
+			if (custom.hasKeyVals()) {
+
+				for (KeyVal kv : custom.getKeyVals()) {
+
+					Field f = objClass.getDeclaredField(kv.getKey().yieldTree());
+					if (Utilities.debug)
+						System.out.println("f: " + f);
+					f.setAccessible(true);
+					Class<?> fieldTypeClass = f.getType();
+					Method setter = objClass.getMethod("set" + kv.getKey().yieldTree().substring(0, 1).toUpperCase()
+							+ kv.getKey().yieldTree().substring(1), fieldTypeClass);
+
+					Expr expr2 = kv.getValue();
+
+					Object value2 = Utilities.getExprValue(expr2, f, engineClassLoader);
+
+					if (Utilities.debug)
+						System.out.println("invoking2: " + ce + " | " + value2 + " ("
+								+ (value2 != null ? value2.getClass() : "(null value)") + ")");
+					//
+					setter.invoke(ce, value2);
+
+				}
+
+			}
 		} else if (expr.hasDtValue()) {
 			if (expr.getDtValue().hasDate())
 				value = expr.getDtValue().getDate().getString();
@@ -98,17 +121,56 @@ public class Utilities {
 
 			Obj objValue = (Obj) value;
 			// TODO any way to get any more info on this?
-			System.out.println(objValue.yieldTree());
+			System.out.println("OBJVALUE: " + objValue.yieldTree());
 
 			//
 
-			Entity proxy = (Entity) field.getType().newInstance();
-			proxy.setProxy(true);
-			// proxy.setUUID(valueString);
+			Entity objentity;
 
-			//
+			if (field.getType().newInstance() instanceof Iterable) {
+				objentity = (Entity) ((Class<?>) ((ParameterizedType) field.getGenericType())
+						.getActualTypeArguments()[0]).newInstance();
+				ArrayList<Entity> objs = new ArrayList<Entity>();
+				objs.add(objentity);
+				value = objs;
+			} else {
+				objentity = (Entity) field.getType().newInstance();
+				value = objentity;
+			}
+		
+			for (KeyVal kv : objValue.getKeyVals()) {
 
-			value = proxy;
+				// set uuid if it is manually set
+				if (!kv.hasKey())
+					objentity.setUUID(kv.getValue().yieldTree());
+				// for all other fields
+				else {
+					
+					Field field2 = objentity.getClass().getDeclaredField(kv.getKey().yieldTree());
+					field2.setAccessible(true);
+					Class<?> fieldTypeClass = field2.getType();
+					Method setter = objentity.getClass().getMethod("set" + kv.getKey().yieldTree().substring(0, 1).toUpperCase()
+							+ kv.getKey().yieldTree().substring(1), fieldTypeClass);
+
+					Expr expr2 = kv.getValue();
+
+					Object value2 = Utilities.getExprValue(expr2, field2, engineClassLoader);
+
+					// System.out.println(query.getResolvedQuery());
+
+					// System.out.println(expr + " ::: " + field.getName()+ " ::: " +
+					// entity.getClass());
+					// System.out.println(value.getClass());
+					//
+					value2 = Utilities.listToSingleProxy(value2, fieldTypeClass);
+					//
+					if (Utilities.debug)
+						System.out.println("invoking: " + objentity + " | " + value2 + " ("
+								+ (value2 != null ? value2.getClass() : "(null value)") + ")");
+					//
+					setter.invoke(objentity, value2);
+				}
+			}
 
 		} else if (expr.hasPointValue()) {
 			engineering.swat.typhonql.ast.Point point = expr.getPointValue();
