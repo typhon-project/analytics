@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import ac.york.typhon.analytics.commons.datatypes.*;
-import ac.york.typhon.analytics.commons.datatypes.events.Entity;
-import org.apache.flink.api.java.functions.KeySelector;
 
-public class [%=customDataType.name.firstToUpperCase().println%] extends Entity{
+public class [%=customDataType.name.println%] implements Cloneable{
 [%
 var types = new Map();
 types.put("StringType", "String");
@@ -60,13 +58,9 @@ for (anAttribute in customDataType.elements) {
 			}
 		}
 	%]	
-		result = [%=result%] + " previousvalue: " + getPreviousValue() + " uuid: " + getUUID() + ")";
+		result = [%=result%] + ")";
 		return result;
 	}
-	
-	public static KeySelector<[%=customDataType.name.firstToUpperCase()%], String> getKeySelector(String keyName) {
-		
-		return new [%=customDataType.name.firstToUpperCase()%]KeySelector(keyName);
-	}
+
 }
 

@@ -11,7 +11,7 @@ rule CustomDataType2Class
   
   template : "customDataTypeGenerator.egl"
   
-  target : path + "/src-gen/ac/york/typhon/analytics/commons/datatypes/" + customDataType.name.firstToUpperCase() + ".java" 
+  target : path + "/src-gen/ac/york/typhon/analytics/commons/datatypes/" + customDataType.name + ".java" 
 }
 
 rule Entity2KeySelector 
@@ -20,12 +20,4 @@ rule Entity2KeySelector
   template : "entitiesKeySelectorGenerator.egl"
   
   target : path + "/src-gen/ac/york/typhon/analytics/commons/datatypes/" + entity.name + "KeySelector.java" 
-}
-
-rule CustomDataType2KeySelector 
-  transform customDataType : TML!CustomDataType {
-  
-  template : "customDataTypeKeySelectorGenerator.egl"
-  
-  target : path + "/src-gen/ac/york/typhon/analytics/commons/datatypes/" + customDataType.name.firstToUpperCase() + "KeySelector.java" 
 }

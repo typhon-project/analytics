@@ -33,23 +33,24 @@ types.put("PolygonType", "Polygon");
 
 for (anAttribute in entity.attributes) { 
 	if (anAttribute.isTypeOf(CustomAttribute)) { %]
-	private [%=anAttribute.type.name.firstToUpperCase()%] [%=anAttribute.name%];
+	private [%=anAttribute.type.name%] [%=anAttribute.name%];
 	[%} else {%]
 	private [%=types.get(anAttribute.type.type.name.println)%] [%=anAttribute.name%];
 	[%
 	}
 	if (anAttribute.isTypeOf(CustomAttribute)) { %]
-	public [%=anAttribute.type.name.firstToUpperCase()%] get[%=anAttribute.name.firstToUpperCase()%]() {
+	public [%=anAttribute.type.name%] get[%=anAttribute.name.firstToUpperCase()%]() {
 		return this.[%=anAttribute.name%];
 	} [%
 	} else { %]
 	public [%=types.get(anAttribute.type.type.name)%] get[%=anAttribute.name.firstToUpperCase()%]() {
 		return this.[%=anAttribute.name%];
 	}
+	
 	[%
 	}
 	if (anAttribute.isTypeOf(CustomAttribute)) { %]
-	public void set[%=anAttribute.name.firstToUpperCase()%]([%=anAttribute.type.name.firstToUpperCase()%] [%=anAttribute.name%]) {
+	public void set[%=anAttribute.name.firstToUpperCase()%]([%=anAttribute.type.name%] [%=anAttribute.name%]) {
 		this.[%=anAttribute.name%] = [%=anAttribute.name%];
 	} [%
 	} else { %]
