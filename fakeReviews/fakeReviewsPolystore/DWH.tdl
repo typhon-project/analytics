@@ -1,0 +1,6 @@
+database DWH : MariaDB {
+	credentials {
+		username = root ;
+		password = choosePassword ;
+	}
+}

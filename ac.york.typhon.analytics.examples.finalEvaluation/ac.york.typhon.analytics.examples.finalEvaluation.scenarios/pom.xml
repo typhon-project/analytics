@@ -1,0 +1,137 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>typhon</groupId>
+	<artifactId>example</artifactId>
+	<version>0.0.1</version>
+	<name>example name</name>
+
+	<repositories>
+		<repository>
+			<id>internal</id>
+			<url>http://archiva.clmsuk.com:8090/repository/internal/</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>typhon</groupId>
+			<artifactId>ac.york.typhon.analytics</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+		
+	</dependencies>
+
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+			<resources>
+				<resource>
+					<directory>resources</directory>
+					<includes>
+						<include>typhonAnalyticsConfig.remote.properties</include>
+						<include>typhonAnalyticsConfig.remote.k8s.properties</include>
+					</includes>
+				</resource>
+			</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src-gen</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<generatedSourcesDirectory>src-gen</generatedSourcesDirectory>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<!-- Change the following to point to the main class -->
+							<mainClass>DefaultAnalyticsRunner</mainClass>
+						</manifest>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<id>repack</id>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<unzip
+									src="${project.build.directory}/${artifactId}-${version}-jar-with-dependencies.jar"
+									dest="${project.build.directory}/tmpDocker" />
+								<unzip
+									src="${project.build.directory}/${artifactId}-${version}-jar-with-dependencies.jar"
+									dest="${project.build.directory}/tmpK8s" />
+								<copy
+									file="${project.build.directory}/tmpDocker/typhonAnalyticsConfig.remote.properties"
+									tofile="${project.build.directory}/tmpDocker/typhonAnalyticsConfig.properties" />
+								<delete
+									file="${project.build.directory}/tmpDocker/typhonAnalyticsConfig.remote.properties" />
+								<delete
+									file="${project.build.directory}/tmpDocker/typhonAnalyticsConfig.remote.k8s.properties" />
+								<zip basedir="${project.build.directory}/tmpDocker"
+									destfile="${project.build.directory}/${artifactId}-${version}-jar-with-dependencies-Docker.jar" />
+								<copy
+									file="${project.build.directory}/tmpK8s/typhonAnalyticsConfig.remote.k8s.properties"
+									tofile="${project.build.directory}/tmpK8s/typhonAnalyticsConfig.properties" />
+								<delete
+									file="${project.build.directory}/tmpK8s/typhonAnalyticsConfig.remote.properties" />
+								<delete
+									file="${project.build.directory}/tmpK8s/typhonAnalyticsConfig.remote.k8s.properties" />
+								<zip basedir="${project.build.directory}/tmpK8s"
+									destfile="${project.build.directory}/${artifactId}-${version}-jar-with-dependencies-K8s.jar" />
+								<delete dir="${project.build.directory}/tmpDocker" />
+								<delete dir="${project.build.directory}/tmpK8s" />
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

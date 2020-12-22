@@ -1,0 +1,6 @@
+database Social : Mongo {
+	credentials {
+		username = chooseUsername ;
+		password = choosePassword ;
+	}
+}

@@ -1,0 +1,33 @@
+entity User {
+	name: string[255]
+}
+
+entity Product {
+	name: string[255]
+}
+
+entity Review {
+	rating: float
+	user -> User[1]
+	product -> Product[1] 
+}
+
+relationaldb DWH {
+	tables {
+		table {	
+			Users : User
+		}
+		table {
+			Products: Product
+		}
+	}
+}
+
+graphdb Reviews {
+	edges {
+		edge Review {
+			from user
+			to product
+		}
+	}
+}

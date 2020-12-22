@@ -1,0 +1,72 @@
+package ac.york.typhon.analytics.commons.datatypes;
+
+import java.util.ArrayList;
+import java.util.Date;
+
+import ac.york.typhon.analytics.commons.datatypes.*;
+import ac.york.typhon.analytics.commons.datatypes.events.Entity;
+import org.apache.flink.api.java.functions.KeySelector;
+
+public class [%=customDataType.name.firstToUpperCase().println%] extends Entity{
+[%
+var types = new Map();
+types.put("StringType", "String");
+types.put("IntType", "Integer");
+types.put("BoolType", "Boolean");
+types.put("FloatType", "Float");
+types.put("BigintType", "Long");
+
+types.put("FreetextType", "String");
+types.put("TextType", "String");
+
+types.put("BlobType","String");
+
+//the ql ast should be updated to use their datetime objects instead in the future
+types.put("DateType", "String");
+//the ql ast should be updated to use their datetime objects instead in the future
+types.put("DatetimeType", "String");
+
+types.put("PointType", "Point");
+types.put("PolygonType", "Polygon");
+
+//TODO for cursom types we would need to somehow find out their names
+
+for (anAttribute in customDataType.elements) { 
+	%]
+	private [%=types.get(anAttribute.type.type.name.println)%] [%=anAttribute.name%];
+	
+	public [%=types.get(anAttribute.type.type.name)%] get[%=anAttribute.name.firstToUpperCase()%]() {
+		return this.[%=anAttribute.name%];
+	}
+	
+	public void set[%=anAttribute.name.firstToUpperCase()%]([%=types.get(anAttribute.type.type.name)%] [%=anAttribute.name%]) {
+		this.[%=anAttribute.name%] = [%=anAttribute.name%];
+	}
+[%
+}
+%]
+
+	public String toString() { 
+		String result = "";
+		[%
+		var result = "\""+customDataType.name+"(\"";
+		if(not customDataType.elements.isEmpty()){
+			result = result + " + ";
+		}
+		for (anAttribute in customDataType.elements) { 
+			result = result + "\" " + anAttribute.name + ": \" + " + anAttribute.name;
+			if(hasMore) {
+				result = result + " + ";
+			}
+		}
+	%]	
+		result = [%=result%] + " previousvalue: " + getPreviousValue() + " uuid: " + getUUID() + ")";
+		return result;
+	}
+	
+	public static KeySelector<[%=customDataType.name.firstToUpperCase()%], String> getKeySelector(String keyName) {
+		
+		return new [%=customDataType.name.firstToUpperCase()%]KeySelector(keyName);
+	}
+}
+
