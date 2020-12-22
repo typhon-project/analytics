@@ -6,10 +6,26 @@ rule Entity2Class
   target : path + "/src-gen/ac/york/typhon/analytics/commons/datatypes/" + entity.name + ".java" 
 }
 
+rule CustomDataType2Class 
+  transform customDataType : TML!CustomDataType {
+  
+  template : "customDataTypeGenerator.egl"
+  
+  target : path + "/src-gen/ac/york/typhon/analytics/commons/datatypes/" + customDataType.name.firstToUpperCase() + ".java" 
+}
+
 rule Entity2KeySelector 
   transform entity : TML!Entity {
   
   template : "entitiesKeySelectorGenerator.egl"
   
   target : path + "/src-gen/ac/york/typhon/analytics/commons/datatypes/" + entity.name + "KeySelector.java" 
+}
+
+rule CustomDataType2KeySelector 
+  transform customDataType : TML!CustomDataType {
+  
+  template : "customDataTypeKeySelectorGenerator.egl"
+  
+  target : path + "/src-gen/ac/york/typhon/analytics/commons/datatypes/" + customDataType.name.firstToUpperCase() + "KeySelector.java" 
 }
