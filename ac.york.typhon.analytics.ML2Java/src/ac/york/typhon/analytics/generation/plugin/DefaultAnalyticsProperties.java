@@ -20,11 +20,11 @@ public class DefaultAnalyticsProperties {
 				"topic.event.post.event.schema.class=ac.york.typhon.analytics.commons.datatypes.events.PostEvent\r\n" + 
 				"\r\n" + 
 				"# authorization event topic\r\n" + 
-				"topic.event.authorization.group.id=auth_event_group\r\n" + 
-				"topic.event.authorization.bootstrap.servers=localhost:29092\r\n" + 
-				"topic.event.authorization.zookeeper.connect=localhost:2181\r\n" + 
-				"topic.event.authorization.auto.offset.reset=earliest\r\n" + 
-				"topic.event.authorization.event.schema.class=ac.york.typhon.analytics.commons.datatypes.events.PreEvent";
+				"topic.event.auth.group.id=auth_event_group\r\n" + 
+				"topic.event.auth.bootstrap.servers=localhost:29092\r\n" + 
+				"topic.event.auth.zookeeper.connect=localhost:2181\r\n" + 
+				"topic.event.auth.auto.offset.reset=earliest\r\n" + 
+				"topic.event.auth.event.schema.class=ac.york.typhon.analytics.commons.datatypes.events.PreEvent";
 	}
 	
 	public static String remoteContents() {
@@ -45,11 +45,11 @@ public class DefaultAnalyticsProperties {
 				"topic.event.post.event.schema.class=ac.york.typhon.analytics.commons.datatypes.events.PostEvent\r\n" + 
 				"\r\n" + 
 				"# authorization event topic\r\n" + 
-				"topic.event.authorization.group.id=auth_event_group\r\n" + 
-				"topic.event.authorization.bootstrap.servers=kafka:9092\r\n" + 
-				"topic.event.authorization.zookeeper.connect=kafka:2181\r\n" + 
-				"topic.event.authorization.auto.offset.reset=earliest\r\n" + 
-				"topic.event.authorization.event.schema.class=ac.york.typhon.analytics.commons.datatypes.events.PreEvent";
+				"topic.event.auth.group.id=auth_event_group\r\n" + 
+				"topic.event.auth.bootstrap.servers=kafka:9092\r\n" + 
+				"topic.event.auth.zookeeper.connect=kafka:2181\r\n" + 
+				"topic.event.auth.auto.offset.reset=earliest\r\n" + 
+				"topic.event.auth.event.schema.class=ac.york.typhon.analytics.commons.datatypes.events.PreEvent";
 	}
 	
 	public static String remoteK8sContents() {
@@ -70,11 +70,11 @@ public class DefaultAnalyticsProperties {
 				"topic.event.post.event.schema.class=ac.york.typhon.analytics.commons.datatypes.events.PostEvent\r\n" + 
 				"\r\n" + 
 				"# authorization event topic\r\n" + 
-				"topic.event.authorization.group.id=auth_event_group\r\n" + 
-				"topic.event.authorization.bootstrap.servers=typhon-cluster-kafka-bootstrap:9092\r\n" + 
-				"topic.event.authorization.zookeeper.connect=typhon-cluster-zookeeper-client.typhon:2181\r\n" + 
-				"topic.event.authorization.auto.offset.reset=earliest\r\n" + 
-				"topic.event.authorization.event.schema.class=ac.york.typhon.analytics.commons.datatypes.events.PreEvent";
+				"topic.event.auth.group.id=auth_event_group\r\n" + 
+				"topic.event.auth.bootstrap.servers=typhon-cluster-kafka-bootstrap:9092\r\n" + 
+				"topic.event.auth.zookeeper.connect=typhon-cluster-zookeeper-client.typhon:2181\r\n" + 
+				"topic.event.auth.auto.offset.reset=earliest\r\n" + 
+				"topic.event.auth.event.schema.class=ac.york.typhon.analytics.commons.datatypes.events.PreEvent";
 	}
 	
 	

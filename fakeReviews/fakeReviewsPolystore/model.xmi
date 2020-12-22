@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ASCII"?>
+<typhonml:Model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:typhonml="http://org.typhon.dsls.typhonml.sirius">
+  <entities name="User">
+    <attributes xsi:type="typhonml:Attribute" name="name">
+      <type xsi:type="typhonml:StringType" maxSize="255"/>
+    </attributes>
+  </entities>
+  <entities name="Product">
+    <attributes xsi:type="typhonml:Attribute" name="name">
+      <type xsi:type="typhonml:StringType" maxSize="255"/>
+    </attributes>
+  </entities>
+  <entities name="Review">
+    <attributes xsi:type="typhonml:Attribute" name="rating">
+      <type xsi:type="typhonml:IntType"/>
+    </attributes>
+    <relations name="user" type="//@entities.0" cardinality="one"/>
+    <relations name="product" type="//@entities.1" cardinality="one"/>
+  </entities>
+  <databases xsi:type="typhonml:RelationalDB" name="DWH">
+    <tables name="Users" entity="//@entities.0"/>
+    <tables name="Products" entity="//@entities.1"/>
+  </databases>
+  <databases xsi:type="typhonml:GraphDB" name="Reviews">
+    <edges from="//@entities.2/@relations.0" to="//@entities.2/@relations.1" entity="//@entities.2"/>
+  </databases>
+</typhonml:Model>

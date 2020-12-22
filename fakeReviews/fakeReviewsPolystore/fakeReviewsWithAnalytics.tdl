@@ -1,0 +1,34 @@
+import model.xmi
+import Reviews.tdl
+import DWH.tdl
+import dbTypes.tdl
+containertype Docker
+clustertype DockerCompose
+platformtype localhost
+platform platformName : localhost {
+	cluster clusterName : DockerCompose {
+		application Polystore {
+			container reviews : Docker {
+				deploys Reviews
+				uri = reviews:7687 ;
+				volumes {
+					volumeName = reviewsvolume ;
+					mountPath = /data ;
+					volumeType = volume ;
+				}
+			}
+			container dwh : Docker {
+				deploys DWH
+				uri = dwh:3306 ;
+				volumes {
+					volumeName = dwhvolume ;
+					mountPath = /var/lib/mysql ;
+					volumeType = volume ;
+				}
+			}
+			volumes {
+				reviewsvolume dwhvolume
+			}
+		}
+	}
+}
