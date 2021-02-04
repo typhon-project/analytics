@@ -1,4 +1,4 @@
-package ac.york.typhon.analytics.examples.finalEvaluation.demo;
+package finalreview.auth;
 
 import java.util.Base64;
 import java.util.Collections;

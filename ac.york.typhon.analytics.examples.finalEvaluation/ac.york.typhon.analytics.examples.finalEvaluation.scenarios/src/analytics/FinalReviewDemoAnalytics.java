@@ -35,6 +35,7 @@ public class FinalReviewDemoAnalytics implements IAnalyzer {
 
 			@Override
 			public DeserializedPostEvent map(Event value) throws Exception {
+				//System.err.println(value.getClass());
 				return (DeserializedPostEvent) value;
 			}
 		}).filter(new RichFilterFunction<DeserializedPostEvent>() {
@@ -50,19 +51,32 @@ public class FinalReviewDemoAnalytics implements IAnalyzer {
 
 			@Override
 			public boolean filter(DeserializedPostEvent event) throws Exception {
+
 				String query = event.getPreEvent().getQuery().toLowerCase();
 
 				if (query.contains("insert review")) {
 					//
 					query = event.getPreEvent().getQuery().substring(query.indexOf("{\"query\":\"") + 10,
 							query.lastIndexOf("\"}"));
-					FinalReviewDemoAnalyticsRunner.ui.logmodel.addRow(new Object[] { query });
-					JScrollPane logscroll = FinalReviewDemoAnalyticsRunner.ui.log;
-					Thread.sleep(10);
-					logscroll.getVerticalScrollBar().setValue(logscroll.getVerticalScrollBar().getMaximum());
-					// table.scrollRectToVisible(table.getCellRect(table.getRowCount()-1, 0, true));
-					//
-					return true;
+
+					if (event.getPreEvent().isAuthenticated()) {
+
+						FinalReviewDemoAnalyticsRunner.ui.logmodel.addRow(new Object[] { query });
+						JScrollPane logscroll = FinalReviewDemoAnalyticsRunner.ui.log;
+						Thread.sleep(10);
+						logscroll.getVerticalScrollBar().setValue(logscroll.getVerticalScrollBar().getMaximum());
+						// table.scrollRectToVisible(table.getCellRect(table.getRowCount()-1, 0, true));
+						//
+						return true;
+					} else {
+
+						FinalReviewDemoAnalyticsRunner.ui.rlogmodel.addRow(new Object[] { query });
+						JScrollPane rlogscroll = FinalReviewDemoAnalyticsRunner.ui.rlog;
+						Thread.sleep(10);
+						rlogscroll.getVerticalScrollBar().setValue(rlogscroll.getVerticalScrollBar().getMaximum());
+
+						return false;
+					}
 				} else if (query.contains("insert customer")) {
 
 					try {
@@ -152,7 +166,8 @@ public class FinalReviewDemoAnalytics implements IAnalyzer {
 								if (!commonreviews.isEmpty()) {
 
 									count = ((CommonReviews) commonreviews.get(0)).getCount();
-									//
+									// XXX i know there is enormous code replication and it should be consolidated
+									// into a method
 									System.err.println("count was: " + count);
 									if (common.get(reviewc.getAuthor().getUUID()) == null)
 										common.put(reviewc.getAuthor().getUUID(),

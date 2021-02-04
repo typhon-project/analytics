@@ -14,11 +14,9 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
@@ -277,8 +275,17 @@ public class DemoUI {
 		System.out.println(c + " : " + p);
 		System.out.println("author: #" + customers.get(customernames.indexOf(c)) + ", product: #"
 				+ products.get(productnames.indexOf(p)));
-		System.out.println(pu.queryPolyStoreRaw("insert Review {author: #" + customers.get(customernames.indexOf(c))
-				+ ", product: #" + products.get(productnames.indexOf(p)) + "}", true, true, false, null, null, null));
+
+		String ret = pu.queryPolyStoreRaw("insert Review {author: #" + customers.get(customernames.indexOf(c))
+				+ ", product: #" + products.get(productnames.indexOf(p)) + "}", true, true, false, null, null, null);
+
+		if (ret.contains("insert Review")) {
+			System.out.println("adding to rejected:");
+			System.out.println(ret);
+			rlogmodel.addRow(new Object[] { ret });
+			Thread.sleep(10);
+			rlog.getVerticalScrollBar().setValue(rlog.getVerticalScrollBar().getMaximum());
+		}
 
 	}
 
@@ -289,9 +296,18 @@ public class DemoUI {
 
 		System.out.println(a + " : " + p);
 		System.out.println("author: #" + customers.get(a) + ", product: #" + products.get(p));
-		System.out.println(pu.queryPolyStoreRaw(
+
+		String ret = pu.queryPolyStoreRaw(
 				"insert Review {author: #" + customers.get(a) + ", product: #" + products.get(p) + "}", true, true,
-				false, null, null, null));
+				false, null, null, null);
+
+		if (ret.contains("insert Review")) {
+			System.out.println("adding to rejected:");
+			System.out.println(ret);
+			rlogmodel.addRow(new Object[] { ret });
+			Thread.sleep(10);
+			rlog.getVerticalScrollBar().setValue(rlog.getVerticalScrollBar().getMaximum());
+		}
 
 	}
 

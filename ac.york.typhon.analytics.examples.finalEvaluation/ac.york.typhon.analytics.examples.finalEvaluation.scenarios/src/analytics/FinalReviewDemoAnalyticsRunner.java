@@ -14,21 +14,10 @@ public class FinalReviewDemoAnalyticsRunner {
 
 		ui.createUI();
 
+		// specific kafka id so we only see new messages every time we re-load the demo
+		// so no need to keep clearing the kafka queues
 		AnalyticsJobBuilder.build(da, AnalyticTopicType.POST, "1234567891");
 
-//		Node n = graph.addNode("Customer1");
-//		n.setAttribute("ui.label", "Customer1");
-//		n = graph.addNode("B");
-//		n.setAttribute("ui.label", "B");
-//		n = graph.addNode("C");
-//		n.setAttribute("ui.label", "C");
-//		Edge e = graph.addEdge("AB", "Customer1", "B");
-//		e.setAttribute("ui.label", "AB");
-//		e = graph.addEdge("BC", "B", "C");
-//		e.setAttribute("ui.label", "BC");
-//		e = graph.addEdge("CA", "C", "Customer1");
-//		e.setAttribute("ui.label", "CA");
-		
 	}
 
 }
