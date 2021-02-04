@@ -23,13 +23,15 @@ public class InsertDeserializer implements Deserializer {
 
 	@Override
 	public ArrayList<Entity> deserialize(JSONQuery query, JSONQuery invertedSelectQuery, String resultSet,
-			String invertedResultSet, Boolean resultSetNeeded, Boolean invertedResultSetNeeded) throws Exception {
+			String invertedResultSet, Boolean resultSetNeeded, Boolean invertedResultSetNeeded, int index)
+			throws Exception {
 		ArrayList<Entity> insertedEntities = new ArrayList<Entity>();
-		insertedEntities = parseQuery(query, resultSet, resultSetNeeded);
+		insertedEntities = parseQuery(query, resultSet, resultSetNeeded, index);
 		return insertedEntities;
 	}
 
-	public ArrayList<Entity> parseQuery(JSONQuery query, String resultSet, boolean resultSetNeeded) throws Exception {
+	public ArrayList<Entity> parseQuery(JSONQuery query, String resultSet, boolean resultSetNeeded, int index)
+			throws Exception {
 		ArrayList<Entity> insertedEntities = new ArrayList<Entity>();
 		Request request = null;
 		try {
@@ -70,7 +72,7 @@ public class InsertDeserializer implements Deserializer {
 
 					Expr expr = kv.getValue();
 
-					Object value = Utilities.getExprValue(expr, field);
+					Object value = Utilities.getExprValue(expr, field, engineClassLoader);
 
 					// System.out.println(query.getResolvedQuery());
 
@@ -89,15 +91,19 @@ public class InsertDeserializer implements Deserializer {
 			}
 
 			if (resultSetNeeded) {
-				// FIXME: Find how UUID are given in bulk inserts, if they end up being
-				// supported by QL. This is not working for more than one insert.
-				String insertedUUID = Utilities.getUUID(resultSet);
+				String insertedUUID = getUUID(resultSet, index);
 				entity.setUUID(insertedUUID);
 			}
 
 			insertedEntities.add(entity);
 		}
 		return insertedEntities;
+	}
+
+	private String getUUID(String resultSet, int index) {
+		resultSet = resultSet.replaceAll("\\s+","");
+		String[] uuids = resultSet.replace("[", "").replace("]", "").split(",");
+		return uuids[index].replace("\"", "");
 	}
 
 }

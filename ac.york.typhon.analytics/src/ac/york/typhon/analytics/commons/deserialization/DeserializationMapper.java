@@ -130,7 +130,7 @@ public class DeserializationMapper extends RichFlatMapFunction<Event, Event> {
 					if (request.hasStm() && request.getStm().isInsert()) {
 						InsertDeserializer id = new InsertDeserializer(engineClassLoader);
 						List<Entity> insertedEntities = id.deserialize(jsonquery, (JSONQuery) null, rs, null,
-								resultSetNeeded, null);
+								resultSetNeeded, null, i);
 						// System.out.println(insertedEntities);
 						InsertCommand c = new InsertCommand();
 						c.setAffected(discoverAffected(request));
@@ -140,7 +140,7 @@ public class DeserializationMapper extends RichFlatMapFunction<Event, Event> {
 					} else if (request.hasStm() && request.getStm().isDelete()) {
 						DeleteDeserializer dd = new DeleteDeserializer(engineClassLoader);
 						List<Entity> deletedEntities = dd.deserialize(jsonquery, invertedQuery, rs, invertedResultSet,
-								resultSetNeeded, invertedResultSetNeeded);
+								resultSetNeeded, invertedResultSetNeeded, i);
 						// System.out.println(deletedEntities);
 						DeleteCommand c = new DeleteCommand();
 						c.setAffected(discoverAffected(request));
@@ -150,7 +150,7 @@ public class DeserializationMapper extends RichFlatMapFunction<Event, Event> {
 					} else if (request.hasStm() && request.getStm().isUpdate()) {
 						UpdateDeserializer up = new UpdateDeserializer(engineClassLoader);
 						List<Entity> updatedEntities = up.deserialize(jsonquery, invertedQuery, rs, invertedResultSet,
-								resultSetNeeded, invertedResultSetNeeded);
+								resultSetNeeded, invertedResultSetNeeded, i);
 						// System.out.println(updatedEntities);
 						UpdateCommand c = new UpdateCommand();
 						c.setAffected(discoverAffected(request));
@@ -161,7 +161,7 @@ public class DeserializationMapper extends RichFlatMapFunction<Event, Event> {
 						// It is a Select.
 						SelectDeserializer sd = new SelectDeserializer(engineClassLoader);
 						List<Entity> selectedEntities = sd.deserialize(jsonquery, null, rs, null, resultSetNeeded,
-								null);
+								null, i);
 						// System.out.println(">>"+selectedEntities);
 						SelectCommand c = new SelectCommand();
 						c.setAffected(discoverAffected(request));

@@ -5,8 +5,6 @@ import java.util.List;
 
 import ac.york.typhon.analytics.commons.datatypes.events.Entity;
 import ac.york.typhon.analytics.commons.datatypes.events.JSONQuery;
-import engineering.swat.typhonql.ast.Request;
-import engineering.swat.typhonql.ast.TyphonQLASTParser;
 
 public class DeleteDeserializer implements Deserializer {
 
@@ -20,12 +18,12 @@ public class DeleteDeserializer implements Deserializer {
 	
 	@Override
 	public List<Entity> deserialize(JSONQuery query, JSONQuery invertedSelectQuery, String resultSet,
-			String invertedResultSet, Boolean resultSetNeeded, Boolean invertedResultSetNeeded) throws Exception {
+			String invertedResultSet, Boolean resultSetNeeded, Boolean invertedResultSetNeeded, int index) throws Exception {
 
 		//Request request = TyphonQLASTParser.parseTyphonQLRequest((query.getQuery()).toCharArray());
 
 		SelectDeserializer sd = new SelectDeserializer(engineClassLoader);
-		return sd.deserialize(invertedSelectQuery, null, invertedResultSet, null, invertedResultSetNeeded, null);
+		return sd.deserialize(invertedSelectQuery, null, invertedResultSet, null, invertedResultSetNeeded, null, index);
 
 	}
 

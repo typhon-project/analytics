@@ -22,7 +22,7 @@ public class UpdateDeserializer implements Deserializer {
 	
 	@Override
 	public List<Entity> deserialize(JSONQuery query, JSONQuery invertedSelectQuery, String resultSet,
-			String invertedResultSet, Boolean resultSetNeeded, Boolean invertedResultSetNeeded) throws Exception {
+			String invertedResultSet, Boolean resultSetNeeded, Boolean invertedResultSetNeeded, int index) throws Exception {
 
 		if(Utilities.debug) {
 			System.out.println(query);
@@ -35,7 +35,7 @@ public class UpdateDeserializer implements Deserializer {
 		
 		SelectDeserializer sd = new SelectDeserializer(engineClassLoader);
 		List<Entity> originalEntities = sd.deserialize(invertedSelectQuery, (JSONQuery)null, invertedResultSet, null,
-				invertedResultSetNeeded, null);
+				invertedResultSetNeeded, null, index);
 
 		Entity updatedEntity = parseQuery(query.getQuery());
 
@@ -85,7 +85,7 @@ public class UpdateDeserializer implements Deserializer {
 			Method setter = objClass.getMethod("set" + kv.getKey().yieldTree().substring(0, 1).toUpperCase()
 					+ kv.getKey().yieldTree().substring(1), fieldTypeClass);
 
-			Object value = Utilities.getExprValue(kv.getValue(), field);
+			Object value = Utilities.getExprValue(kv.getValue(), field, engineClassLoader);
 
 			value = Utilities.listToSingleProxy(value, fieldTypeClass);
 
