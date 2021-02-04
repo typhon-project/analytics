@@ -12,6 +12,7 @@ public class Review extends Entity{
 	public String getContent() {
 		return this.content;
 	}
+	
 	public void setContent(String content) {
 		this.content = content;
 	}
@@ -25,11 +26,21 @@ public class Review extends Entity{
 	public void setProduct(Product product) {
 		this.product = product;
 	}
+	
+	private Customer author;
+	
+	public Customer getAuthor() {
+		return this.author;
+	}
+	
+	public void setAuthor(Customer author) {
+		this.author = author;
+	}
 
 	public String toString() { 
 		String result = "";
 	
-		result = "Review(" + " content: " + content + " product: " + product + " previousvalue: " + getPreviousValue() + " uuid: " + getUUID() + ")";
+		result = "Review(" + " content: " + content + " product: " + product + " author: " + author + " previousvalue: " + getPreviousValue() + " uuid: " + getUUID() + ")";
 		return result;
 	}
 	

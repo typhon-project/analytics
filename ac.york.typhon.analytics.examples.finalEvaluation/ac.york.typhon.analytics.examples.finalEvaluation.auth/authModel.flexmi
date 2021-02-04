@@ -1,0 +1,4 @@
+<?nsuri authDSL?>
+<chain package="finalreview.auth">
+	<task name="EnableResultSet"/>
+</chain>

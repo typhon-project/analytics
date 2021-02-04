@@ -1,0 +1,44 @@
+import model.xmi
+import CommonReviewsDB.tdl
+import ECommerce.tdl
+import Social.tdl
+import dbTypes.tdl
+containertype Docker
+clustertype DockerCompose
+platformtype localhost
+platform platformName : localhost {
+	cluster clusterName : DockerCompose {
+		application Polystore {
+			container commonreviewsdb : Docker {
+				deploys CommonReviewsDB
+				uri = commonreviewsdb:7687 ;
+				volumes {
+					volumeName = commonreviewsdbvolume ;
+					mountPath = /data ;
+					volumeType = volume ;
+				}
+			}
+			container ecommerce : Docker {
+				deploys ECommerce
+				uri = ecommerce:3306 ;
+				volumes {
+					volumeName = ecommercevolume ;
+					mountPath = /var/lib/mysql ;
+					volumeType = volume ;
+				}
+			}
+			container social : Docker {
+				deploys Social
+				uri = social:27017 ;
+				volumes {
+					volumeName = socialvolume ;
+					mountPath = /data/db ;
+					volumeType = volume ;
+				}
+			}
+			volumes {
+				commonreviewsdbvolume ecommercevolume socialvolume
+			}
+		}
+	}
+}

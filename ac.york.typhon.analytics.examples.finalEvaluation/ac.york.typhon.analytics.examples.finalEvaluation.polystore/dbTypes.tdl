@@ -1,3 +1,6 @@
+dbtype Neo4j {
+	default image = neo4j:latest;
+}
 dbtype MariaDB {
 	default image = mariadb:latest;
 }

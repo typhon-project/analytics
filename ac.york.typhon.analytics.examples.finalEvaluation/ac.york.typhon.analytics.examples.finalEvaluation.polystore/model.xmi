@@ -12,6 +12,8 @@
     </attributes>
     <attributes xsi:type="typhonml:CustomAttribute" name="address" type="//@customDataTypes.0"/>
     <relations name="orders" type="//@entities.2" cardinality="zero_many" opposite="//@entities.2/@relations.1"/>
+    <relations name="COMMONREVIEWSSOURCE" type="//@entities.4" cardinality="one" opposite="//@entities.4/@relations.0" isContainment="true"/>
+    <relations name="COMMONREVIEWSTARGET" type="//@entities.4" cardinality="one" opposite="//@entities.4/@relations.1" isContainment="true"/>
   </entities>
   <entities name="Product">
     <attributes xsi:type="typhonml:Attribute" name="name">
@@ -35,6 +37,14 @@
       <type xsi:type="typhonml:TextType"/>
     </attributes>
     <relations name="product" type="//@entities.1" cardinality="one" opposite="//@entities.1/@relations.1"/>
+    <relations name="author" type="//@entities.0"/>
+  </entities>
+  <entities name="CommonReviews">
+    <attributes xsi:type="typhonml:Attribute" name="count">
+      <type xsi:type="typhonml:IntType"/>
+    </attributes>
+    <relations name="source" type="//@entities.0" cardinality="one"/>
+    <relations name="target" type="//@entities.0" cardinality="one"/>
   </entities>
   <databases xsi:type="typhonml:RelationalDB" name="ECommerce">
     <tables name="OrderTbl" entity="//@entities.2"/>
@@ -45,6 +55,9 @@
   </databases>
   <databases xsi:type="typhonml:DocumentDB" name="Social">
     <collections name="Reviews" entity="//@entities.3"/>
+  </databases>
+  <databases xsi:type="typhonml:GraphDB" name="CommonReviewsDB">
+    <edges from="//@entities.4/@relations.0" to="//@entities.4/@relations.1" entity="//@entities.4"/>
   </databases>
   <customDataTypes name="address">
     <elements xsi:type="typhonml:SimpleDataType" name="street">

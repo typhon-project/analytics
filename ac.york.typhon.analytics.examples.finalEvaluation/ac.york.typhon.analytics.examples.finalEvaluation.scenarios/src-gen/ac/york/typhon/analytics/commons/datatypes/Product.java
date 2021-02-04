@@ -12,6 +12,7 @@ public class Product extends Entity{
 	public String getName() {
 		return this.name;
 	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -19,6 +20,7 @@ public class Product extends Entity{
 	public String getDescription() {
 		return this.description;
 	}
+	
 	public void setDescription(String description) {
 		this.description = description;
 	}

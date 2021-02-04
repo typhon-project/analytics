@@ -12,6 +12,7 @@ public class Order extends Entity{
 	public String getCreated() {
 		return this.created;
 	}
+	
 	public void setCreated(String created) {
 		this.created = created;
 	}

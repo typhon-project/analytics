@@ -12,6 +12,7 @@ public class Customer extends Entity{
 	public String getName() {
 		return this.name;
 	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -19,6 +20,7 @@ public class Customer extends Entity{
 	public Integer getAge() {
 		return this.age;
 	}
+	
 	public void setAge(Integer age) {
 		this.age = age;
 	}
@@ -26,13 +28,14 @@ public class Customer extends Entity{
 	public String getPayment() {
 		return this.payment;
 	}
+	
 	public void setPayment(String payment) {
 		this.payment = payment;
 	}
-	private Address address;
-	public Address getAddress() {
+	private address address;
+	public address getAddress() {
 		return this.address;
-	} 	public void setAddress(Address address) {
+	} 	public void setAddress(address address) {
 		this.address = address;
 	} 	
 	private ArrayList<Order> orders;
@@ -44,11 +47,31 @@ public class Customer extends Entity{
 	public void setOrders(ArrayList<Order> orders) {
 		this.orders = orders;
 	}
+	
+	private CommonReviews COMMONREVIEWSSOURCE;
+	
+	public CommonReviews getCOMMONREVIEWSSOURCE() {
+		return this.COMMONREVIEWSSOURCE;
+	}
+	
+	public void setCOMMONREVIEWSSOURCE(CommonReviews COMMONREVIEWSSOURCE) {
+		this.COMMONREVIEWSSOURCE = COMMONREVIEWSSOURCE;
+	}
+	
+	private CommonReviews COMMONREVIEWSTARGET;
+	
+	public CommonReviews getCOMMONREVIEWSTARGET() {
+		return this.COMMONREVIEWSTARGET;
+	}
+	
+	public void setCOMMONREVIEWSTARGET(CommonReviews COMMONREVIEWSTARGET) {
+		this.COMMONREVIEWSTARGET = COMMONREVIEWSTARGET;
+	}
 
 	public String toString() { 
 		String result = "";
 	
-		result = "Customer(" + " name: " + name + " age: " + age + " payment: " + payment + " address: " + address + " orders: " + orders + " previousvalue: " + getPreviousValue() + " uuid: " + getUUID() + ")";
+		result = "Customer(" + " name: " + name + " age: " + age + " payment: " + payment + " address: " + address + " orders: " + orders + " COMMONREVIEWSSOURCE: " + COMMONREVIEWSSOURCE + " COMMONREVIEWSTARGET: " + COMMONREVIEWSTARGET + " previousvalue: " + getPreviousValue() + " uuid: " + getUUID() + ")";
 		return result;
 	}
 	
