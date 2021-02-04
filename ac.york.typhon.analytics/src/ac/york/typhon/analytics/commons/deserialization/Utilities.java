@@ -137,7 +137,7 @@ public class Utilities {
 				objentity = (Entity) field.getType().newInstance();
 				value = objentity;
 			}
-		
+
 			for (KeyVal kv : objValue.getKeyVals()) {
 
 				// set uuid if it is manually set
@@ -145,12 +145,13 @@ public class Utilities {
 					objentity.setUUID(kv.getValue().yieldTree());
 				// for all other fields
 				else {
-					
+
 					Field field2 = objentity.getClass().getDeclaredField(kv.getKey().yieldTree());
 					field2.setAccessible(true);
 					Class<?> fieldTypeClass = field2.getType();
-					Method setter = objentity.getClass().getMethod("set" + kv.getKey().yieldTree().substring(0, 1).toUpperCase()
-							+ kv.getKey().yieldTree().substring(1), fieldTypeClass);
+					Method setter = objentity.getClass()
+							.getMethod("set" + kv.getKey().yieldTree().substring(0, 1).toUpperCase()
+									+ kv.getKey().yieldTree().substring(1), fieldTypeClass);
 
 					Expr expr2 = kv.getValue();
 
@@ -224,6 +225,13 @@ public class Utilities {
 		} else if (expr.hasUuidValue()) {
 
 			String valueString = expr.getUuidValue().getString();
+			//
+			// System.err.println(valueString);
+			// remove the # as normally such values do not include it
+			if (valueString.startsWith("#"))
+				valueString = valueString.substring(1);
+			//
+
 			if (Utilities.debug)
 				System.out.println(valueString);
 

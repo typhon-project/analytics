@@ -3,6 +3,7 @@ package ac.york.typhon.analytics.commons.deserialization;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -35,7 +36,8 @@ public class SelectDeserializer implements Deserializer {
 
 	@Override
 	public List<Entity> deserialize(JSONQuery query, JSONQuery invertedSelectQuery, String resultSet,
-			String invertedResultSet, Boolean resultSetNeeded, Boolean invertedResultSetNeeded, int index) throws Exception {
+			String invertedResultSet, Boolean resultSetNeeded, Boolean invertedResultSetNeeded, int index)
+			throws Exception {
 
 		if (resultSetNeeded) {
 
@@ -109,7 +111,8 @@ public class SelectDeserializer implements Deserializer {
 											+ customfield.substring(1);
 									Method setter = customtype.getMethod("set" + parsedField, currentfieldTypeClass);
 									Object value = values.get(i);
-									setter.invoke(customobject, Utilities.getExprValue((String) value, currentfieldTypeClass));
+									setter.invoke(customobject,
+											Utilities.getExprValue((String) value, currentfieldTypeClass));
 
 								}
 
@@ -182,7 +185,7 @@ public class SelectDeserializer implements Deserializer {
 			}
 
 		}
-		// no result set asked to be returned so select is unab le to return any
+		// no result set asked to be returned so select is unable to return any
 		// entities
 		return new LinkedList<Entity>();
 	}
@@ -214,14 +217,14 @@ public class SelectDeserializer implements Deserializer {
 
 		// keep a cache of any possible custom datatype objects needed
 		HashMap<String, Object> customDataTypes = new HashMap<String, Object>();
-		
+
 		for (int i = 0; i < columnNames.size(); i++) {
 
 			String vidWithDot = VId + "\\.";
 			String[] split = columnNames.get(i).split(vidWithDot);
 			// System.out.println(Arrays.toString(split));
 			String fieldNameWithoutVId = split[1];
-			
+
 			// for custom datatypes assume they are in the form of
 			// customdatatypename$customdatatypeattributename
 			if (fieldNameWithoutVId.contains("$")) {
@@ -237,10 +240,11 @@ public class SelectDeserializer implements Deserializer {
 				//
 				Object customobject = customDataTypes.get(customreferencename);
 
-				String parsedField = customreferencename.substring(0, 1).toUpperCase() + customreferencename.substring(1);
+				String parsedField = customreferencename.substring(0, 1).toUpperCase()
+						+ customreferencename.substring(1);
 				Method setter = objClass.getMethod("set" + parsedField, customtype);
 				setter.invoke(entity, customobject);
-				
+
 				//
 				Field currentfield = customtype.getDeclaredField(customfield);
 				currentfield.setAccessible(true);
@@ -319,10 +323,33 @@ public class SelectDeserializer implements Deserializer {
 
 						if (valueString.matches("([a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12})")) {
 							//
-							Entity proxy = (Entity) field.getType().newInstance();
+							// check for lists giving back single values instead
+							Class<?> collectiontype = null;
+							if (field.getType().newInstance() instanceof Iterable<?>) {
+								for (String ep : Entity.ENTITYPACKAGES)
+									try {
+										collectiontype = engineClassLoader.loadClass(
+												ep + "." + ((Class) ((ParameterizedType) field.getGenericType())
+														.getActualTypeArguments()[0]).getSimpleName());
+										break;
+									} catch (Exception e) {
+									}
+							}
+							//
+							Entity proxy;
+							if (collectiontype == null)
+								proxy = (Entity) field.getType().newInstance();
+							else
+								proxy = (Entity) collectiontype.newInstance();
 							proxy.setProxy(true);
 							proxy.setUUID(valueString);
 							value = proxy;
+							if (collectiontype != null) {
+								ArrayList<Entity> ret = new ArrayList<Entity>();
+								ret.add((Entity) value);
+								value = ret;
+							}
+
 						} else
 							value = Utilities.getExprValue((String) value, fieldTypeClass);
 
