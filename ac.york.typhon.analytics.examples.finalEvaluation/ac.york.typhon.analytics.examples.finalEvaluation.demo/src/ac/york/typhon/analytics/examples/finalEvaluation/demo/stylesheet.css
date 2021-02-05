@@ -1,0 +1,25 @@
+graph {
+	fill-color: white;
+	padding: 60px;
+}
+
+node {
+	size: 50px, 50px;
+	text-size: 14;
+	shape: rounded-box;
+	fill-color: #CCCCCC;
+	
+}
+
+node#A {
+	fill-color: blue;
+}
+
+node:clicked {
+	fill-color: red;
+}
+
+edge {
+	text-size:14;
+	text-offset: -20,-20;
+}

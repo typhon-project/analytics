@@ -2,7 +2,8 @@ package ac.york.typhon.analytics.examples.finalEvaluation.demo;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Font;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
+import javax.swing.UIManager;
+import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableModel;
 
 import org.graphstream.graph.Graph;
@@ -26,8 +29,6 @@ import org.graphstream.ui.swing_viewer.SwingViewer;
 import org.graphstream.ui.view.View;
 
 public class DemoUI {
-
-	public static final String path = "C:/Users/kb634/Desktop/eclipse2019-typhon/workspace";
 
 	public JFrame root;
 
@@ -45,12 +46,19 @@ public class DemoUI {
 	JComboBox<String> productmenu = new JComboBox<>();
 
 	public void createUI() {
-
-		root = new JFrame("Typhon Review Demo -- Analytics Component");// creating instance of JFrame
+		
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {}
+		
+		root = new JFrame("TYPHON Final Review Demo :: Polystore Analytics");// creating instance of JFrame
 		root.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridLayout gl = new GridLayout(1, 2);
 		root.setLayout(gl);
-		root.setSize(1900, 1000);
+		root.setSize(1300, 800);
+
+	    // center the jframe on screen
+	    root.setLocationRelativeTo(null);
 		root.setVisible(true);
 
 		// col 1
@@ -62,63 +70,24 @@ public class DemoUI {
 		// left panel
 
 		JPanel demobuttonspanel = new JPanel();
-		demobuttonspanel.setLayout(new GridLayout(3, 2));
+		demobuttonspanel.setLayout(new FlowLayout());
 		leftpanel.add(demobuttonspanel, BorderLayout.NORTH);
 
-		JLabel customerlabel = new JLabel("Select Customer:");
-		customerlabel.setFont(new Font("Arial", Font.PLAIN, 20));
+		JLabel customerlabel = new JLabel("Customer:");
 		demobuttonspanel.add(customerlabel);
 
-		JLabel productlabel = new JLabel("Select Product:");
-		productlabel.setFont(new Font("Arial", Font.PLAIN, 20));
-		demobuttonspanel.add(productlabel);
-
 		customermenu = new JComboBox<>();
-		customermenu.setFont(new Font("Arial", Font.PLAIN, 20));
 		customermenu.setEditable(false);
 		demobuttonspanel.add(customermenu);
+		
+		JLabel productlabel = new JLabel("Product:");
+		demobuttonspanel.add(productlabel);
 
 		productmenu = new JComboBox<>();
-		productmenu.setFont(new Font("Arial", Font.PLAIN, 20));
 		productmenu.setEditable(false);
 		demobuttonspanel.add(productmenu);
 
-		JButton addreview = new JButton("Send Random Review");
-		addreview.setFont(new Font("Arial", Font.PLAIN, 30));
-		// b.setBounds(130,100,100, 40);
-		addreview.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					System.out.println("sending review ...");
-					new SwingWorker<Void, Void>() {
-						@Override
-						protected Void doInBackground() throws Exception {
-
-							try {
-								addReview();
-							} catch (Exception e) {
-								System.err.println("ERROR IN CLICKING ADD REVIEW BUTTON INNER:");
-								e.printStackTrace();
-							}
-							return null;
-
-						}
-
-					}.execute();
-
-				} catch (Exception e1) {
-					System.err.println("ERROR IN CLICKING ADD RANDOM REVIEW BUTTON:");
-					e1.printStackTrace();
-				}
-			}
-		});
-		demobuttonspanel.add(addreview);
-
-		addreview = new JButton("Send Specific Review");
-		addreview.setFont(new Font("Arial", Font.PLAIN, 30));
-		// b.setBounds(130,100,100, 40);
+		JButton addreview = new JButton("Send Review");
 		addreview.addActionListener(new ActionListener() {
 
 			@Override
@@ -152,21 +121,19 @@ public class DemoUI {
 
 		//
 
-		logtable = new JTable(new DefaultTableModel(new Object[] { "REVIEW QUERY LOG" }, 0)) {
+		logtable = new JTable(new DefaultTableModel(new Object[] { "Accepted Queries" }, 0)) {
 			private static final long serialVersionUID = 1L;
 
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			};
 		};
+		logtable.setRowHeight(logtable.getRowHeight() + 6);
 		logmodel = (DefaultTableModel) logtable.getModel();
 		log = new JScrollPane(logtable);
-		logtable.setRowHeight(logtable.getRowHeight() + 5);
-		logtable.setFont(new Font("Arial", Font.PLAIN, 15));
-		// b.setBounds(130,100,100, 40);
 		leftpanel.add(log, BorderLayout.CENTER);
 
-		rlogtable = new JTable(new DefaultTableModel(new Object[] { "REJECTED REVIEW QUERY LOG" }, 0)) {
+		rlogtable = new JTable(new DefaultTableModel(new Object[] { "Rejected Queries" }, 0)) {
 			private static final long serialVersionUID = 1L;
 
 			public boolean isCellEditable(int row, int column) {
@@ -174,10 +141,8 @@ public class DemoUI {
 			};
 		};
 		rlogmodel = (DefaultTableModel) rlogtable.getModel();
+		logtable.setRowHeight(logtable.getRowHeight() + 6);
 		rlog = new JScrollPane(rlogtable);
-		rlogtable.setRowHeight(rlogtable.getRowHeight() + 5);
-		rlogtable.setFont(new Font("Arial", Font.PLAIN, 15));
-		// b.setBounds(130,100,100, 40);
 		leftpanel.add(rlog, BorderLayout.SOUTH);
 
 // col 2 
@@ -187,12 +152,16 @@ public class DemoUI {
 
 		SwingViewer viewer = new SwingViewer(graph, SwingViewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
 		viewer.enableAutoLayout();
-
+		
 		graph.setAttribute("ui.stylesheet",
-				"url('file:///" + path + "/ac.york.typhon.analytics.examples.finalEvaluation.demo/stylesheet.css')");
+				"url('" + DemoUI.class.getResource("stylesheet.css") + "')");
 
 		View view = viewer.addDefaultView(false); // false indicates "no JFrame".
-		root.add((Component) view);
+		JPanel viewPanel = new JPanel();
+		viewPanel.setLayout(new BorderLayout());
+		viewPanel.add((Component) view);
+		viewPanel.setBorder(new EtchedBorder());
+		root.add(viewPanel);
 
 		//
 
