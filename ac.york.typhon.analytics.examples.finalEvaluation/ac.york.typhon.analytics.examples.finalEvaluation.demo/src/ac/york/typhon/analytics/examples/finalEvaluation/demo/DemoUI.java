@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.UIManager;
@@ -53,8 +54,8 @@ public class DemoUI {
 		
 		root = new JFrame("TYPHON Final Review Demo :: Polystore Analytics");// creating instance of JFrame
 		root.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		GridLayout gl = new GridLayout(1, 2);
-		root.setLayout(gl);
+		//GridLayout gl = new GridLayout(1, 2);
+		root.setLayout(new BorderLayout());
 		root.setSize(1300, 800);
 
 	    // center the jframe on screen
@@ -65,7 +66,7 @@ public class DemoUI {
 
 		JPanel leftpanel = new JPanel();
 		leftpanel.setLayout(new BorderLayout());
-		root.add(leftpanel);
+		//root.add(leftpanel);
 
 		// left panel
 
@@ -141,7 +142,7 @@ public class DemoUI {
 			};
 		};
 		rlogmodel = (DefaultTableModel) rlogtable.getModel();
-		logtable.setRowHeight(logtable.getRowHeight() + 6);
+		rlogtable.setRowHeight(logtable.getRowHeight() + 6);
 		rlog = new JScrollPane(rlogtable);
 		leftpanel.add(rlog, BorderLayout.SOUTH);
 
@@ -160,9 +161,12 @@ public class DemoUI {
 		JPanel viewPanel = new JPanel();
 		viewPanel.setLayout(new BorderLayout());
 		viewPanel.add((Component) view);
-		viewPanel.setBorder(new EtchedBorder());
-		root.add(viewPanel);
-
+		//viewPanel.setBorder(new EtchedBorder());
+		//root.add(viewPanel);
+		
+		JSplitPane horizontalSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftpanel, viewPanel);
+		horizontalSplitPane.setDividerLocation(900);
+		root.add(horizontalSplitPane, BorderLayout.CENTER);
 		//
 
 		root.revalidate();
